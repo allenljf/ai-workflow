@@ -32,3 +32,12 @@ def test_failed_and_304_keep_previous_records():
     unchanged=merge_fetch(fail,FetchResult('test','not_modified'),datetime(2026,10,10,tzinfo=timezone.utc))
     assert unchanged.events==first.events
     assert unchanged.health['test'].last_success=='2026-10-10T00:00:00+00:00'
+
+def test_reverted_content_becomes_current_again():
+    s=Snapshot()
+    for day,title in [(8,'A'),(9,'B'),(10,'A')]:
+        s=merge_fetch(s,FetchResult('test','updated',[item(title=title)]),datetime(2026,10,day,tzinfo=timezone.utc))
+    assert len(s.revisions)==2
+    current=next(r for r in s.revisions if r.id==s.events[0].item_revision_ids[0])
+    assert current.title=='A'
+    assert current.fetched_at=='2026-10-10T00:00:00+00:00'

@@ -22,7 +22,9 @@ def load(checkout: Path,repo: str) -> str:
     if head!='NONE':
         git(checkout,'fetch','--depth=1','origin','refs/heads/'+BRANCH)
         git(checkout,'checkout','-B',BRANCH,'FETCH_HEAD')
-        load_snapshot(checkout/'snapshot.json')
+        path=checkout/'snapshot.json'
+        if not path.is_file() or path.is_symlink():raise ValueError('Existing state branch missing safe snapshot')
+        load_snapshot(path)
     return head
 
 def persist(checkout: Path,expected: str) -> str:

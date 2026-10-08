@@ -35,7 +35,7 @@ wizard 不自行發布網站、不 dispatch workflow，也不建立 repo。它�
 
 一般專案 Pages：SITE_URL=`https://owner.github.io`，SITE_BASE=`/repo/`。SITE_URL 可包含專案路徑，但 canonical 行為以 Astro 當時版本為準；建議使用 origin 與獨立 base，以免重複。
 
-使用自訂網域時，SITE_URL 是完整 HTTPS origin，SITE_BASE=`/`；仍需自行設定網域與 Pages 的 DNS／custom domain。內部登入網站不適用此公開 Pages wizard。
+使用自訂網域時，SITE_URL 是完整 HTTPS origin，SITE_BASE=`/`；仍需自行設定網域與 Pages 的 DNS／custom domain；後續發布會保留已由 Pages 寫入 export repo 的有效 CNAME。內部登入網站不適用此公開 Pages wizard。
 
 ## 排程、補跑與故障
 

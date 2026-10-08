@@ -2,7 +2,7 @@
 
 日期：2026-10-08。base：`e2058b7`；分支：`codex/knowledge-radar-mvp`。
 
-本機實作與驗收完成，整體審查進行中。遠端Actions、Pages、YouTube live API尚未設定／驗證；沒有付費模型呼叫或對共享遠端push。
+本機實作與驗收完成；獨立整體審查提出三項 Important，均完成重現測試與單次修正驗證。遠端Actions、Pages、YouTube live API尚未設定／驗證；沒有付費模型呼叫或對共享遠端push。
 
 ## 任務證據與設計裁定
 
@@ -30,8 +30,35 @@ Final: minor (deferred): Astro/Starlight emits a 404 dynamic/static route preced
 Task K6: complete — RED missing CLI/state/publisher; GREEN 36 tests, actionlint clean, live collect 145 events twice with no duplicate revisions; source failures preserve state. Remote Actions not run; publication remains disabled.
 Ruling: checkout v6 moves credentials out of local config; use gh credential helper with short-lived GH_TOKEN environment and persist-credentials:false — avoids relying on checkout internals.
 
-Task K7: complete — RED missing wizard; GREEN 40 tests, bash -n clean. Five-stage repeatable wizard; --check/cancel no writes, secrets via stdin only, custom-domain root supported. Live setup intentionally not run. shellcheck unavailable locally.
+Task K7: complete — RED missing wizard; GREEN 40 tests, bash -n clean. Five-stage repeatable wizard; --check/cancel no writes, secrets via stdin only, custom-domain root supported. Live setup intentionally not run. shellcheck subsequently installed and passed, excluding SC2034 for the unchanged wizard-template RED styling variable only.
 
 ## 使用方式
 
 見根目錄README與setup-github.md。工作在Codex managed worktree，原始repo的其他公司文件仍未追蹤且未修改。
+
+## 整體審查與最終驗證
+
+審查範圍：e2058b7..376b723。使用 Sol 6.1 新上下文審查。初始 verdict 為 changes requested；三個 Important 全數修正，依執行技能不進行第二次審查，以下為作者的測試驗證，並非聲稱 reviewer 重新核准。
+
+Final: fixed A→B→A content reversion retaining B — test_reverted_content_becomes_current_again RED→GREEN, suite 43/43. Historical revisions remain deduplicated; current event membership and last observation select A.
+Final: fixed missing snapshot in existing pipeline-state branch silently resetting history — test_existing_branch_missing_snapshot_is_not_empty_initialization RED→GREEN, suite 43/43. Existing branch must contain a regular non-symlink valid snapshot; only an absent branch permits initialization.
+Final: fixed daily publication deleting managed CNAME — test_managed_custom_domain_survives_daily_publication RED→GREEN, suite 43/43. Preserve validated DNS hostname from managed export repository; reject unsafe CNAME before publication.
+Final: Ruling: paid AI/enrichment/budget governance — deferred to A1–A5 as agreed; K never calls a model — cost if wrong: this MVP provides raw signals without AI synthesis or paid-call safeguards.
+Final: Ruling: versioned workflow bundles and arbitrary attachments — deferred to W1–W4; current download contains approved Markdown only — cost if wrong: no installable skill bundle until W is delivered.
+Final: Ruling: authenticated hosting/SSO — public static Pages only; no private material exported — cost if wrong: internal-only access needs a different deployment architecture.
+Final: Ruling: release-feed coverage — ten configured GitHub release sources, not complete author articles or social posts — cost if wrong: useful updates may be missed until sources expand.
+Final: Ruling: live Actions/Pages/DNS/YouTube permissions — unconfigured and unverified externally; local wizard and fixtures only — cost if wrong: account permissions, DNS, quotas and schedule reliability may fail at provisioning.
+Final: minor (deferred): date/search/download/private-index checks are manual end-to-end evidence, not added to repeatable browser CI coverage; automated suite currently covers navigation, escaping, stale state, topic filtering and mobile layout.
+
+Final verification after fixes:
+- Python 3.12: pytest 43/43; pip check clean.
+- Browser smoke: 4/4 at / and 4/4 at /ai-workflow/.
+- Astro check: 0 errors / warnings / hints. Root and subpath static builds: five pages. npm audit: 0 vulnerabilities.
+- actionlint v1.7.12 clean; bash -n clean; shellcheck v0.11.0 clean with only SC2034 excluded for template library's unused RED variable. Template library not modified.
+- Live state: 145 events and 145 historical revisions, collected twice with same counts; no paid model invocation.
+- Final live site manual checks: 145 cards; 14-day filter 29 visible equals 29 expected; public search “來源” returns 1 result; private sentinel search returns 0; approved index.md download HTTP200; entire dist including binary search index excludes temporary PRIVATE_QA_K7_4d919fe2 sentinel. Temporary private fixture removed after validation.
+- No live wizard, shared remote push, repository creation or Pages deployment performed. Source and export account settings remain user configuration work.
+
+Previously recorded rulings retain these costs if wrong: manual K-number ledger requires manual bookkeeping; documentation-only baseline means original untracked company docs remain outside worktree; no attachments limits guide assets; static-preview tests do not exercise dev-daemon behavior; dependency overrides may need revisiting on upgrades; gh credential helper requires available authenticated gh in CI. Source approval metadata travels in snapshots to prevent guessed visibility; export still verifies explicit current approval.
+
+官方 CNAME requirement: [GitHub Pages custom domain troubleshooting](https://docs.github.com/en/pages/configuring-a-custom-domain-for-your-github-pages-site/troubleshooting-custom-domains-and-github-pages). Domain must still be set in Pages and DNS; preserving CNAME alone does not configure them.

@@ -14,6 +14,18 @@ def validate_dist(dist: Path):
         if p.is_symlink() or any(part.startswith('.') for part in rel.parts):raise ValueError('Unsafe static path')
         if p.is_file() and p.suffix not in ALLOWED:raise ValueError('Unexpected static asset')
 
+def read_custom_domain(checkout: Path):
+    path=checkout/'CNAME'
+    if not path.exists() and not path.is_symlink():return None
+    if not path.is_file() or path.is_symlink():raise ValueError('Unsafe custom domain file')
+    domain=path.read_text().strip()
+    labels=domain.split('.')
+    if len(domain)>253 or len(labels)<2 or not re.fullmatch(r'[A-Za-z]{2,63}',labels[-1]):
+        raise ValueError('Invalid custom domain')
+    if any(not re.fullmatch(r'[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?',label) for label in labels):
+        raise ValueError('Invalid custom domain')
+    return domain+'\n'
+
 def publish(dist: Path,repo: str,checkout: Path) -> str:
     validate_dist(dist)
     if checkout.exists():raise ValueError('Publish checkout must be new')
@@ -22,11 +34,13 @@ def publish(dist: Path,repo: str,checkout: Path) -> str:
     if head:
         git(checkout,'fetch','--depth=1','origin','main');git(checkout,'checkout','-B','main','FETCH_HEAD')
         if not (checkout/'.radar-site').is_file():raise ValueError('Target is not a managed radar export repository')
+    custom_domain=read_custom_domain(checkout)
     for p in checkout.iterdir():
         if p.name=='.git':continue
         if p.is_dir() and not p.is_symlink():shutil.rmtree(p)
         else:p.unlink()
     shutil.copytree(dist,checkout,dirs_exist_ok=True)
+    if custom_domain is not None:(checkout/'CNAME').write_text(custom_domain)
     (checkout/'.nojekyll').touch();(checkout/'.radar-site').write_text('Managed static export; no private source files.\n')
     git(checkout,'config','user.name','workflow-radar[bot]');git(checkout,'config','user.email','workflow-radar@users.noreply.github.com')
     git(checkout,'add','--all')

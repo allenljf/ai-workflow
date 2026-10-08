@@ -21,11 +21,12 @@ def merge_fetch(snapshot: Snapshot, result: FetchResult, now: datetime) -> Snaps
         title=plain_text(raw.get('title','Untitled'));excerpt=plain_text(raw.get('excerpt',''))[:600]
         content=digest([url,title,excerpt,raw.get('updated_at'),raw.get('version')])
         rid=digest([result.source_id,external,content])
-        if any(r.id==rid for r in snap.revisions): continue
+        existing=next((r for r in snap.revisions if r.id==rid),None)
         prior=next((r for r in snap.revisions if r.source_id==result.source_id and (r.external_id==external or r.canonical_url==url)),None)
-        revision=ItemRevision(rid,result.source_id,external,url,title,
+        revision=existing or ItemRevision(rid,result.source_id,external,url,title,
             prior.published_at if prior else raw.get('published_at'),raw.get('updated_at'),time,content,excerpt,
             'public' if health.public_metadata else 'private',raw.get('entity'),raw.get('version'))
+        revision.fetched_at=time
         event_id=digest(['release',revision.entity,revision.version]) if revision.entity and revision.version else digest(['url',url])
         event=next((e for e in snap.events if e.id==event_id),None)
         if event is None:
@@ -34,5 +35,5 @@ def merge_fetch(snapshot: Snapshot, result: FetchResult, now: datetime) -> Snaps
         # Keep history in revisions, only current revisions in each event.
         old_ids={r.id for r in snap.revisions if r.source_id==result.source_id and (r.external_id==external or r.canonical_url==url)}
         event.item_revision_ids=[r for r in event.item_revision_ids if r not in old_ids]+[rid]
-        snap.revisions.append(revision)
+        if existing is None: snap.revisions.append(revision)
     return snap
