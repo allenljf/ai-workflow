@@ -1,1 +1,121 @@
-sources: []
+sources:
+- id: obra-superpowers
+  type: github
+  url: https://api.github.com/repos/obra/superpowers/releases?per_page=20
+  trust_tier: B
+  topics:
+  - workflow
+  enabled: true
+  public_metadata: true
+  options:
+    repo: obra/superpowers
+    verified_at: '2026-10-08'
+    provenance: https://github.com/obra/superpowers/releases
+- id: mattpocock-skills
+  type: github
+  url: https://api.github.com/repos/mattpocock/skills/releases?per_page=20
+  trust_tier: B
+  topics:
+  - workflow
+  enabled: true
+  public_metadata: true
+  options:
+    repo: mattpocock/skills
+    verified_at: '2026-10-08'
+    provenance: https://github.com/mattpocock/skills/releases
+- id: github-spec-kit
+  type: github
+  url: https://api.github.com/repos/github/spec-kit/releases?per_page=20
+  trust_tier: A
+  topics:
+  - workflow
+  enabled: true
+  public_metadata: true
+  options:
+    repo: github/spec-kit
+    verified_at: '2026-10-08'
+    provenance: https://github.com/github/spec-kit/releases
+- id: fission-ai-openspec
+  type: github
+  url: https://api.github.com/repos/Fission-AI/OpenSpec/releases?per_page=20
+  trust_tier: B
+  topics:
+  - workflow
+  enabled: true
+  public_metadata: true
+  options:
+    repo: Fission-AI/OpenSpec
+    verified_at: '2026-10-08'
+    provenance: https://github.com/Fission-AI/OpenSpec/releases
+- id: bmad-code-org-bmad-method
+  type: github
+  url: https://api.github.com/repos/bmad-code-org/BMAD-METHOD/releases?per_page=20
+  trust_tier: B
+  topics:
+  - workflow
+  enabled: true
+  public_metadata: true
+  options:
+    repo: bmad-code-org/BMAD-METHOD
+    verified_at: '2026-10-08'
+    provenance: https://github.com/bmad-code-org/BMAD-METHOD/releases
+- id: langchain-ai-langgraph
+  type: github
+  url: https://api.github.com/repos/langchain-ai/langgraph/releases?per_page=20
+  trust_tier: B
+  topics:
+  - workflow
+  enabled: true
+  public_metadata: true
+  options:
+    repo: langchain-ai/langgraph
+    verified_at: '2026-10-08'
+    provenance: https://github.com/langchain-ai/langgraph/releases
+- id: anthropics-claude-code
+  type: github
+  url: https://api.github.com/repos/anthropics/claude-code/releases?per_page=20
+  trust_tier: A
+  topics:
+  - workflow
+  enabled: true
+  public_metadata: true
+  options:
+    repo: anthropics/claude-code
+    verified_at: '2026-10-08'
+    provenance: https://github.com/anthropics/claude-code/releases
+- id: anthropics-skills
+  type: github
+  url: https://api.github.com/repos/anthropics/skills/releases?per_page=20
+  trust_tier: A
+  topics:
+  - workflow
+  enabled: true
+  public_metadata: true
+  options:
+    repo: anthropics/skills
+    verified_at: '2026-10-08'
+    provenance: https://github.com/anthropics/skills/releases
+- id: android-nowinandroid
+  type: github
+  url: https://api.github.com/repos/android/nowinandroid/releases?per_page=20
+  trust_tier: A
+  topics:
+  - android
+  enabled: true
+  public_metadata: true
+  options:
+    repo: android/nowinandroid
+    verified_at: '2026-10-08'
+    provenance: https://github.com/android/nowinandroid/releases
+- id: mobile-dev-inc-maestro
+  type: github
+  url: https://api.github.com/repos/mobile-dev-inc/maestro/releases?per_page=20
+  trust_tier: B
+  topics:
+  - android
+  enabled: true
+  public_metadata: true
+  options:
+    repo: mobile-dev-inc/maestro
+    verified_at: '2026-10-08'
+    provenance: https://github.com/mobile-dev-inc/maestro/releases
