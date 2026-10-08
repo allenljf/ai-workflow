@@ -24,12 +24,13 @@ def request_body(request):
     return {'model':request.model,'messages':[{'role':'system','content':system},{'role':'user','content':json.dumps({'untrusted_sources':request.event_inputs},ensure_ascii=False)}],
         'thinking':{'type':'disabled'},'reasoning_effort':'none','max_tokens':request.max_output_tokens,
         'response_format':{'type':'json_object'},'stream':False}
-def build_request(events,snapshot,policy):
+def build_request(events,snapshot,policy,seen_revision_keys=None):
     from .gate import valid_policy
-    inputs=[]
+    inputs=[];seen_revision_keys=seen_revision_keys or set()
     req=EnrichRequest('',policy.model,PROMPT_VERSION,SCHEMA_VERSION,inputs,policy.max_output_tokens,asdict(policy),policy.input_token_ceiling)
     for e in events[:30]:
         for r in public_revisions(e,snapshot):
+            if (r.id,r.content_hash) in seen_revision_keys:continue
             if len(inputs)>=40:break
             value={'event_id':e.id,'source_id':r.id,'feed_source_id':r.source_id,'content_hash':r.content_hash,'title':r.title[:300],'excerpt':r.excerpt[:600],'url':r.canonical_url,'kind':'youtube' if 'youtube.com' in r.canonical_url or 'youtu.be' in r.canonical_url else 'text'}
             inputs.append(value)

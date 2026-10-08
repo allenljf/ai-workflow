@@ -50,7 +50,10 @@ def execute(args,config,now,provider=None,persist=None):
                 b.status='failed';b.diagnostic='Evidence/schema rejected; private result retained';persist(state)
             return
         path=output/('digest-'+b.id+'.md')
-        if not dry:path=write_draft(validated,output,completed_at=b.completed_at)
+        if path.is_symlink():raise ValueError('Symlink draft refused')
+        if not dry and not path.exists():path=write_draft(validated,output,completed_at=b.completed_at)
+        # Existing files are human review material; immutable provider result stays in state.
+
         report['drafts'].append({'batch_id':b.id,'path':str(path),'exists':path.exists()})
     # A paid run and recovery both use the same CAS writer. Token is read only for a new call.
     if not dry and persist is None:persist=durable_checkpoint(root,state_dir,args.expected_sha)
@@ -61,7 +64,7 @@ def execute(args,config,now,provider=None,persist=None):
     if not selected:
         report['reason']='pending_review' if report['drafts'] else 'no_new_data'
         return report
-    request=build_request(selected,snapshot,policy)
+    request=build_request(selected,snapshot,policy,seen_revision_keys=seen)
     decision=decide_run(state,now,enabled,sorted({i['event_id'] for i in request.event_inputs}),policy,input_hash=request.batch_id)
     report.update(reason=decision.reason,reserved_usd=decision.reserved_usd,batch_id=request.batch_id,event_count=len({i['event_id'] for i in request.event_inputs}),revision_count=len(request.event_inputs))
     if dry or not decision.allowed:return report

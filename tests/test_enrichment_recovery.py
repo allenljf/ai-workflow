@@ -67,3 +67,21 @@ def test_result_and_ledger_are_cas_persisted(tmp_path):
     final=tmp_path/'final';m.load(final,str(remote))
     run_batch(request(),load_state(final),p,lambda s:None,NOW)
     assert p.calls==1
+@pytest.mark.parametrize('missing',['schema_version','next_ai_due_at','monthly_ledger','batches'])
+def test_existing_state_required_fields_not_defaulted(tmp_path,missing):
+    value=EnrichmentState().to_dict();value.pop(missing)
+    (tmp_path/'enrichment-state.json').write_text(json.dumps(value))
+    with pytest.raises(ValueError):load_state(tmp_path)
+def test_inconsistent_settled_ledger_refused(tmp_path):
+    s=EnrichmentState();run_batch(request(),s,FixtureProvider(),lambda s:save_state(tmp_path,s),NOW)
+    value=json.loads((tmp_path/'enrichment-state.json').read_text());value['monthly_ledger']={}
+    (tmp_path/'enrichment-state.json').write_text(json.dumps(value))
+    with pytest.raises(ValueError):load_state(tmp_path)
+def test_cross_month_completion_counts_in_both_uncertain_billing_months():
+    from radar.enrich.budget import committed_budget
+    s=EnrichmentState()
+    start=datetime(2026,10,31,23,59,59,tzinfo=timezone.utc);end=datetime(2026,11,1,tzinfo=timezone.utc)
+    run_batch(request(),s,FixtureProvider(),lambda s:None,start,clock=lambda:end)
+    assert s.monthly_ledger['2026-10']['actual_usd']=='0.000066'
+    assert s.monthly_ledger['2026-11']['actual_usd']=='0.000066'
+    assert str(committed_budget(s,end))=='0.000066'

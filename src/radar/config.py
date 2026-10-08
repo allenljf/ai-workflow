@@ -32,6 +32,7 @@ def load_config(root: Path) -> RadarConfig:
     if len({s.id for s in sources})!=len(sources): raise ValueError('Duplicate source ids')
     publication=PublicationConfig(**read('publication.yaml'))
     config=RadarConfig(sources=sources,publication=publication,**read('pipeline.yaml'))
+    if type(config.ai_enabled) is not bool:raise ValueError('ai_enabled must be boolean')
     if config.max_items_per_source<=0 or config.request_timeout_seconds<=0: raise ValueError('Positive limits required')
     if type(config.max_events_per_batch) is not int or not 1<=config.max_events_per_batch<=30 or config.interval_days!=14:raise ValueError('Invalid enrichment limits')
     from .enrich.models import money

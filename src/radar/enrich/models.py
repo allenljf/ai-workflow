@@ -1,6 +1,8 @@
-from dataclasses import dataclass,field,asdict
-from datetime import datetime,timezone
+from dataclasses import dataclass,field,asdict,fields
+from datetime import datetime,timezone,timedelta
 from decimal import Decimal
+import re,json,jsonschema
+from importlib.resources import files
 
 def utc(value):
     d=datetime.fromisoformat(value.replace('Z','+00:00')) if isinstance(value,str) else value
@@ -33,6 +35,7 @@ class Batch:
     result_hash: str | None=None
     review_pr_url: str | None=None
     reservation_month: str | None=None
+    charged_month: str | None=None
     result: dict | None=None
     request: dict | None=None
     completed_at: str | None=None
@@ -50,17 +53,35 @@ class EnrichmentState:
     def to_dict(self):return asdict(self)
     @classmethod
     def from_dict(cls,v):
+        try:jsonschema.validate(v,json.loads(files('radar.enrich').joinpath('enrichment-state.schema.json').read_text()))
+        except jsonschema.ValidationError:raise ValueError('Invalid persisted state schema') from None
+        required={f.name for f in fields(cls)}
+        if not isinstance(v,dict) or set(v)!=required:raise ValueError('Required persisted state fields missing or unknown')
         obj=cls(**(v|{'batches':{k:Batch(**b) for k,b in v.get('batches',{}).items()}}))
         if obj.schema_version!=1 or obj.interval_days!=14:raise ValueError('Unsupported state version/interval')
         money(obj.max_batch_usd);money(obj.max_monthly_usd)
         if obj.next_ai_due_at:utc(obj.next_ai_due_at)
         statuses={'reserved','calling','succeeded','ambiguous','failed','pending_review','reviewed','rejected'}
+        expected={};latest_completed=None
         for k,b in obj.batches.items():
             if k!=b.id or b.status not in statuses:raise ValueError('Invalid batch')
             money(b.reserved_usd)
-            if b.actual_usd is not None:money(b.actual_usd)
-            if b.completed_at:utc(b.completed_at)
+            if b.actual_usd is not None:
+                amount=money(b.actual_usd)
+                if b.reservation_month is None or b.completed_at is None:raise ValueError('Settled charge provenance required')
+                for month in {b.reservation_month,b.charged_month or b.reservation_month}:
+                    datetime.strptime(month,'%Y-%m')
+                    expected[month]=expected.get(month,Decimal(0))+amount
+            if b.completed_at:
+                completed=utc(b.completed_at)
+                latest_completed=max(latest_completed,completed) if latest_completed else completed
+
         for month,entry in obj.monthly_ledger.items():
-            if len(month)!=7:raise ValueError('Invalid ledger month')
-            money(entry['actual_usd'])
+            if not re.fullmatch(r'[0-9]{4}-[0-9]{2}',month):raise ValueError('Invalid ledger month')
+            datetime.strptime(month,'%Y-%m')
+            if set(entry)!={'actual_usd'}:raise ValueError('Invalid ledger entry')
+            if money(entry['actual_usd'])!=expected.pop(month,Decimal(0)):raise ValueError('Ledger does not match settled batches')
+        if expected:raise ValueError('Missing settled charges')
+        if latest_completed and (obj.next_ai_due_at is None or utc(obj.next_ai_due_at)<latest_completed+timedelta(days=obj.interval_days)):raise ValueError('Due date forgets completed batch')
+
         return obj

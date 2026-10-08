@@ -34,7 +34,9 @@ state branch: pipeline-state。
 
 付費前必須在state checkout中先完成CAS push兩個checkpoint（reserved、calling）。本機普通 .build/live 只可dry-run；沒有durable Git checkout會拒絕付費。
 
-timeout、未知usage、process kill的calling/reserved狀態不自動重送。請先到provider查帳，確認是否收費／有無結果，再人工修復與核對台帳，勿直接刪batch重跑。第一版没有自動retry或一鍵清帳，防止誤釋放預留。跨月未確認預留仍占新月預算。
+timeout、未知usage、process kill的calling/reserved狀態不自動重送。請先到provider查帳，確認是否收費／有無結果，再人工修復與核對台帳，勿直接刪batch重跑。第一版没有自動retry或一鍵清帳，防止誤釋放預留。跨月未確認預留仍占新月預算。請求若跨UTC月份完成，該批actual保守計入開始與完成兩個月份，避免未查核供應商結算邊界而低估新月費用。
+
+現有台帳缺必填欄位、費用不等於已結算批次或遺忘due時會拒絕恢復，不能當成新狀態。
 
 若只缺草稿或PR，用已存結果恢復；不再次呼叫模型。格式／引用驗證失敗保留private payload與sanitized診斷，需人工處理。
 
@@ -45,7 +47,7 @@ timeout、未知usage、process kill的calling/reserved狀態不自動重送。�
 enrich.yml手動執行預設allow_paid=false，只做dry-run；啟用付費需另將allow_paid=true。Secret僅paid job中的provider step可讀，PR checks只用fixtures。
 [GitHub官方触發規則](https://docs.github.com/en/actions/how-tos/write-workflows/choose-when-workflows-run/trigger-a-workflow)：workflow_dispatch可由GITHUB_TOKEN觸發；該token建立的PR檢查可能需要人類approve workflows to run。
 
-固定digest/<batch_id> branch與單一PR，不覆寫人類修改；closed記rejected、merged記reviewed，兩者都不重新付費。無權建PR時保留result，之後重試PR本身；台帳裡的review_pr_url與PR狀態在review協調步驟更新。
+固定digest/<batch_id> branch與單一PR，不覆寫人類修改；closed記rejected、merged記reviewed，兩者都不重新付費。無權建PR時保留result，之後重試PR本身；人工改過的草稿會保留，PR協調不覆寫修改；台帳裡的review_pr_url與PR狀態在review協調步驟更新。
 
 單純merge content/drafts下的private草稿不會發布。要公開需：
 1. 核對原文引用、推論、Android適用性及案例等級。

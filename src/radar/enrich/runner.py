@@ -27,15 +27,16 @@ def run_batch(request,state,provider,persist,now,clock=None):
         return batch
     batch.result=result.payload;batch.result_hash=digest(result.payload)
     batch.usage={'input_tokens':result.input_tokens,'output_tokens':result.output_tokens,'reasoning_tokens':result.reasoning_tokens,'request_id':result.request_id}
+    completed=utc(clock() if clock else now)
     try:
         inp=result.input_tokens;out=result.output_tokens;reason=result.reasoning_tokens
         if any(type(n) is not int or n<0 for n in (inp,out,reason)) or inp>request.input_upper_bound or out>request.max_output_tokens or reason!=0:raise ValueError('Unknown or unsupported usage')
         actual=(Decimal(inp)*money(policy.input_usd_per_million)+Decimal(out)*money(policy.output_usd_per_million))/Decimal(1000000)
-        settle(state,batch,actual)
+        settle(state,batch,actual,completed_at=completed)
     except (ValueError,TypeError,ArithmeticError):
         batch.status='ambiguous';batch.diagnostic='Usage unknown/outside cap; reservation retained';persist(state)
         return batch
-    batch.status='succeeded';batch.completed_at=utc(clock() if clock else now).isoformat()
+    batch.status='succeeded';batch.completed_at=completed.isoformat()
     complete_at(state,batch.completed_at)
     persist(state) # payload + cost + next due are atomic in the same Git commit.
     batch.status='pending_review';persist(state)

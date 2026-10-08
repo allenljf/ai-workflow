@@ -1,4 +1,5 @@
 from copy import deepcopy
+import pytest
 from radar.models import Snapshot,Event,ItemRevision,SourceHealth
 from radar.enrich.select import select_events
 from radar.enrich.prompt import build_request,request_body
@@ -37,3 +38,15 @@ def test_total_revision_and_byte_bound():
     req=build_request(s.events,s,policy())
     assert 1<=len(req.event_inputs)<=40
     assert len(__import__('json').dumps(request_body(req),ensure_ascii=False).encode())<=50000
+@pytest.mark.parametrize("excerpt_size",[0,800])
+def test_bounded_overflow_eventually_consumed_without_duplicates(excerpt_size):
+    s=snapshot(60);s.events=[Event('merged',None,None,[r.id for r in s.revisions])]
+    for r in s.revisions:r.excerpt='字'*excerpt_size
+    seen=set()
+    for _ in range(10):
+        req=build_request(s.events,s,policy(),seen_revision_keys=seen)
+        pairs={(i['source_id'],i['content_hash']) for i in req.event_inputs}
+        assert pairs and not pairs&seen
+        seen|=pairs
+        if len(seen)==60:break
+    assert len(seen)==60

@@ -62,3 +62,7 @@ Final verification after fixes:
 Previously recorded rulings retain these costs if wrong: manual K-number ledger requires manual bookkeeping; documentation-only baseline means original untracked company docs remain outside worktree; no attachments limits guide assets; static-preview tests do not exercise dev-daemon behavior; dependency overrides may need revisiting on upgrades; gh credential helper requires available authenticated gh in CI. Source approval metadata travels in snapshots to prevent guessed visibility; export still verifies explicit current approval.
 
 官方 CNAME requirement: [GitHub Pages custom domain troubleshooting](https://docs.github.com/en/pages/configuring-a-custom-domain-for-your-github-pages-site/troubleshooting-custom-domains-and-github-pages). Domain must still be set in Pages and DNS; preserving CNAME alone does not configure them.
+
+## 後續 A 階段
+
+A1–A5 本機交付完成，見 [雙週整理執行紀錄](enrichment-execution-log.md)。目前未啟用付費或建立遠端PR。
