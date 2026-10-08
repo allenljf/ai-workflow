@@ -15,11 +15,11 @@ def valid_policy(p,now):
             and money(p.input_usd_per_million)>0 and money(p.output_usd_per_million)>0
             and utc(p.checked_at)<=utc(now)<utc(p.expires_at)<=utc(p.checked_at)+timedelta(days=14))
     except (ValueError,TypeError,ArithmeticError):return False
-def decide_run(state,now,enabled,eligible_event_ids,policy):
+def decide_run(state,now,enabled,eligible_event_ids,policy,input_hash=None):
     now=utc(now)
     if not enabled:return GateDecision(False,'disabled')
     if not eligible_event_ids:return GateDecision(False,'no_new_data')
-    if any(sorted(b.event_ids)==sorted(eligible_event_ids) and b.status in {'reserved','calling','ambiguous','succeeded','pending_review','reviewed','rejected'} for b in state.batches.values()):
+    if any((b.input_hash==input_hash if input_hash else sorted(b.event_ids)==sorted(eligible_event_ids)) and b.status in {'reserved','calling','ambiguous','succeeded','pending_review','reviewed','rejected'} for b in state.batches.values()):
         return GateDecision(False,'pending_review')
     if state.next_ai_due_at and now<utc(state.next_ai_due_at):return GateDecision(False,'not_due')
     if not valid_policy(policy,now):return GateDecision(False,'invalid_price')

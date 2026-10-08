@@ -1,0 +1,63 @@
+name: Fortnightly enrichment
+on:
+  workflow_dispatch:
+    inputs:
+      allow_paid:
+        description: Explicitly allow a paid request when AI_ENABLED and all gates pass
+        type: boolean
+        default: false
+permissions:
+  contents: read
+concurrency:
+  group: pipeline-state
+  cancel-in-progress: false
+env:
+  AI_ENABLED: ${{ vars.AI_ENABLED || 'false' }}
+  AI_PRICE_POLICY: ${{ vars.AI_PRICE_POLICY }}
+  AI_MAX_BATCH_USD: ${{ vars.AI_MAX_BATCH_USD || '0.50' }}
+  AI_MAX_MONTHLY_USD: ${{ vars.AI_MAX_MONTHLY_USD || '2' }}
+jobs:
+  dry-run:
+    if: inputs.allow_paid != true || vars.AI_ENABLED != 'true'
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -r requirements-dev.lock
+      - run: python -m pip install --no-deps -e .
+      - run: |
+          gh auth setup-git
+          python scripts/state-sync.py load --checkout .build/state-git
+          python -m radar.cli enrich --config config --state-dir .build/state-git --dry-run
+  paid:
+    if: inputs.allow_paid == true && vars.AI_ENABLED == 'true'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -r requirements-dev.lock
+      - run: python -m pip install --no-deps -e .
+      - run: |
+          gh auth setup-git
+          python scripts/state-sync.py load --checkout .build/state-git
+      - name: Bounded paid run or saved-result recovery
+        env:
+          DEEPSEEK_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}
+        run: python -m radar.cli enrich --config config --state-dir .build/state-git --allow-paid > .build/enrich-report.json
+      - name: Create or reconcile private review PRs
+        run: python scripts/enrichment-actions.py review --state-dir .build/state-git --report .build/enrich-report.json

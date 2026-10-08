@@ -10,15 +10,20 @@ from .pipeline import collect
 from .export import export_public
 from .adapters.manual import read_manual_links
 
-def main(argv: list[str] | None=None, client: httpx.Client | None=None) -> int:
+def main(argv: list[str] | None=None, client: httpx.Client | None=None, *, now=None, enrichment_provider=None, enrichment_persist=None) -> int:
     parser=argparse.ArgumentParser(description='Knowledge radar: no model calls')
     sub=parser.add_subparsers(dest='command',required=True)
     for name in ('collect','validate','export'):
         cmd=sub.add_parser(name);cmd.add_argument('--config',type=Path,default=Path('config'))
         cmd.add_argument('--state',type=Path,required=True)
         if name=='export': cmd.add_argument('--output',type=Path,required=True)
+    enrich=sub.add_parser('enrich');enrich.add_argument('--config',type=Path,default=Path('config'));enrich.add_argument('--state-dir',type=Path,required=True);enrich.add_argument('--dry-run',action='store_true');enrich.add_argument('--allow-paid',action='store_true');enrich.add_argument('--expected-sha')
     args=parser.parse_args(argv)
     try:
+        if args.command=='enrich':
+            from .enrich.command import execute
+            report=execute(args,load_config(args.config),now or datetime.now(timezone.utc),enrichment_provider,enrichment_persist)
+            print(json.dumps(report,ensure_ascii=False));return 0
         snapshot=load_snapshot(args.state)
         if args.command=='validate':
             validate_snapshot(snapshot.to_dict());print('State validated');return 0

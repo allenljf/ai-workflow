@@ -1,0 +1,13 @@
+{
+  "demo": true,
+  "provider": "fixture only",
+  "mode": "dry-run",
+  "model_calls": 0,
+  "reason": "ready",
+  "reserved_usd": "0.3217728",
+  "input_upper_bound": 1048576,
+  "max_output_tokens": 6000,
+  "event_count": 1,
+  "max_batch_usd": "0.50",
+  "max_monthly_usd": "2"
+}

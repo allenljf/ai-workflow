@@ -1,6 +1,6 @@
 # AI Workflow Radar
 
-每天收集 AI 開發與 Android 工程的原始更新，去重後生成靜態網站。每日不呼叫模型；AI 雙週整理與工作流技能包屬於後續 A／W 階段。
+每天收集 AI 開發與 Android 工程的原始更新，去重後生成靜態網站。每日不呼叫模型；AI 雙週整理可產生私有審閱草稿，預設停用；工作流技能包屬於後續 W 階段。
 
 ## 本機啟動
 
@@ -49,6 +49,10 @@ bash scripts/setup/github.sh
 ```
 
 公開發布預設停用。原始repo應保留私有；獨立匯出repo只包含靜態輸出，沒有原始docs/history。此階段沒有自動push、部署或使用付費AI。
+
+## 雙週 AI 整理
+
+設定與恢復見 [AI設定指南](docs/platform-design/setup-ai.md)。先用 enrich --dry-run 看gate與預算；真實付費需要 --allow-paid、AI_ENABLED=true及durable Git checkpoint。
 
 ## 内容與來源
 
