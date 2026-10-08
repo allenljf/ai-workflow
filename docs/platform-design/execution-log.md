@@ -66,3 +66,7 @@ Previously recorded rulings retain these costs if wrong: manual K-number ledger 
 ## 後續 A 階段
 
 A1–A5 本機交付完成，見 [雙週整理執行紀錄](enrichment-execution-log.md)。目前未啟用付費或建立遠端PR。
+
+## 後續 W 階段
+
+W1–W4本機交付與審查修正完成，見 [工作流執行紀錄](workflow-execution-log.md)。版本保持candidate，Android實測待binding；雲端設定見 [帳號時序](cloud-account-timing.md)。

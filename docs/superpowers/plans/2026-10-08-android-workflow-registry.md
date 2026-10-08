@@ -42,10 +42,10 @@ W2定義 `TaskContract(id,spec_hash,base_sha,depends_on,read_paths,write_paths,r
 
 **Interfaces:** `load_manifest(path: Path) -> WorkflowManifest`；`build_bundle(manifest: WorkflowManifest, root: Path, out: Path) -> BundleReport`；report包含zip_path、sha256、included_files、errors。
 
-- [ ] Step 1：測unknown license／redistribution_allowed=false拒絕嵌入上游內容；missing referenced script拒絕；path traversal/symlink拒絕；同內容重打包hash一致。
-- [ ] Step 2：`python -m pytest tests/test_workflow_bundle.py -q`，確認 FAIL。
-- [ ] Step 3：核對上游repo、授權、完整ref，固定一個版本；未確認授權時manifest只提供官方安裝連結，bundle僅含自有adapter與授權允許項目。ZIP固定排序、時間metadata、相對路徑；含manifest、來源／授權、安装、移除、相容性與hash。不得把本機plugin cache全部複製進repo。
-- [ ] Step 4：同測試 PASS；人工比較上游所需references/scripts與bundle清單；不運行未知上游script以「測一下」。精確 commit `feat: register pinned workflows and reproducible bundles`。
+- [x] Step 1：測unknown license／redistribution_allowed=false拒絕嵌入上游內容；missing referenced script拒絕；path traversal/symlink拒絕；同內容重打包hash一致。
+- [x] Step 2：`python -m pytest tests/test_workflow_bundle.py -q`，確認 FAIL。
+- [x] Step 3：核對上游repo、授權、完整ref，固定一個版本；未確認授權時manifest只提供官方安裝連結，bundle僅含自有adapter與授權允許項目。ZIP固定排序、時間metadata、相對路徑；含manifest、來源／授權、安装、移除、相容性與hash。不得把本機plugin cache全部複製進repo。
+- [x] Step 4：同測試 PASS；人工比較上游所需references/scripts與bundle清單；不運行未知上游script以「測一下」。精確 commit `feat: register pinned workflows and reproducible bundles`。
 
 ## Task W2: Android/company profile 與任務依賴驗證
 
@@ -53,11 +53,11 @@ W2定義 `TaskContract(id,spec_hash,base_sha,depends_on,read_paths,write_paths,r
 
 **Interfaces:** `resolve_profile(upstream: dict, android: dict, company: dict, project: dict) -> ResolvedProfile`；`ready_tasks(records: list[TaskRecord], integrated_sha: str, available_resources: set[str]) -> list[str]`。明確枚舉規則欄位，來源與例外註記不得被merge丟失。
 
-- [ ] Step 1：測 upstream.di=hilt、company.di=koin_annotations，resolved.di==koin_annotations；project明確例外優先且附reason；未聲明覆寫的矛盾規範返回diagnostic；cycle拒絕；ready_for_review依賴不解鎖；accepted但未integrated不解鎖；write path祖先重疊／同emulator lock不同任務不能同批；最多2ready。
-- [ ] Step 2：指定兩個pytest檔先 FAIL。
-- [ ] Step 3：精讀既有guide與decision，把原則引用到profile而非複製數十頁。公司profile private。薄skill輸入TaskContract、輸出patch＋evidence＋handoff；要求依賴先整合、有限重試max3、失敗blocked、checkpoint恢復、支付／登入／發布人類確認。不替換上游自身的plan/execute流程。
-- [ ] Step 4：同測試 PASS；按 writing-for-agents及writing-skills skill實作時驗證skill能被目標harness讀取。此repo没有Android source，mock dry-run只能標為契約測試。Sol審查precedence與依賴語意。
-- [ ] Step 5：精確 commit `feat: add Android profiles and task acceptance contracts`。
+- [x] Step 1：測 upstream.di=hilt、company.di=koin_annotations，resolved.di==koin_annotations；project明確例外優先且附reason；未聲明覆寫的矛盾規範返回diagnostic；cycle拒絕；ready_for_review依賴不解鎖；accepted但未integrated不解鎖；write path祖先重疊／同emulator lock不同任務不能同批；最多2ready。
+- [x] Step 2：指定兩個pytest檔先 FAIL。
+- [x] Step 3：精讀既有guide與decision，把原則引用到profile而非複製數十頁。公司profile private。薄skill輸入TaskContract、輸出patch＋evidence＋handoff；要求依賴先整合、有限重試max3、失敗blocked、checkpoint恢復、支付／登入／發布人類確認。不替換上游自身的plan/execute流程。
+- [x] Step 4：同測試 PASS；按 writing-for-agents及writing-skills skill實作時驗證skill能被目標harness讀取。此repo没有Android source，mock dry-run只能標為契約測試。Sol審查precedence與依賴語意。
+- [x] Step 5：精確 commit `feat: add Android profiles and task acceptance contracts`。
 
 ## Task W3: 評測證據與採納決策
 
@@ -65,11 +65,11 @@ W2定義 `TaskContract(id,spec_hash,base_sha,depends_on,read_paths,write_paths,r
 
 **Interfaces:** `validate_evidence(run: EvaluationRun, expected_head: str, acceptance_ids: set[str]) -> EvidenceVerdict`；`compare_runs(baseline: list[EvaluationRun], candidate: list[EvaluationRun]) -> ComparisonReport`。EvaluationRun含 task_id、spec_hash、base/head_sha、model/harness版本、commands/exitcodes、executed/failed/skipped、acceptance_results、cost/human_minutes/duration、artifact_refs、provenance；缺實測數據為null，不能補0。
 
-- [ ] Step 1：測executed=0拒絕；failed>0拒絕；expected_head與run.head不符拒絕；missing acceptance不complete；相同spec/base/env的run才可配對比較；mock fixture provenance=synthetic不得晉升evaluated。
-- [ ] Step 2：`python -m pytest tests/test_evaluation_evidence.py -q`，確認 FAIL。
-- [ ] Step 3：寫8個代表行為的任務目標、acceptance與風險，沒有實際repo時保留待binding，不能猜package/Gradle module命令。runbook說明baseline／upstream／company-profile三組、固定base、holdout及immutable驗收；只對文件／schemafixture跑測試。
-- [ ] Step 4：實作Gradle JUnit XML evidence輸入（有Maestro報告則adapter，無相容格式就人工提供明確結果不自造成功）；真實runner前要求target repo+SHA+命令+環境binding。命令作argument array且profile來源需核准，不執行文章給的任意指令。
-- [ ] Step 5：同測試 PASS；提供synthetic comparison示例、缺失資料清單。若有真實測試repo，才實際跑代表任務並另記證據；本輪無repo則實測部分blocked。Sol審查品質門檻，精確 commit `feat: evaluate workflow changes from execution evidence`。
+- [x] Step 1：測executed=0拒絕；failed>0拒絕；expected_head與run.head不符拒絕；missing acceptance不complete；相同spec/base/env的run才可配對比較；mock fixture provenance=synthetic不得晉升evaluated。
+- [x] Step 2：`python -m pytest tests/test_evaluation_evidence.py -q`，確認 FAIL。
+- [x] Step 3：寫8個代表行為的任務目標、acceptance與風險，沒有實際repo時保留待binding，不能猜package/Gradle module命令。runbook說明baseline／upstream／company-profile三組、固定base、holdout及immutable驗收；只對文件／schemafixture跑測試。
+- [x] Step 4：實作Gradle JUnit XML evidence輸入（有Maestro報告則adapter，無相容格式就人工提供明確結果不自造成功）；真實runner前要求target repo+SHA+命令+環境binding。命令作argument array且profile來源需核准，不執行文章給的任意指令。
+- [x] Step 5：同測試 PASS；提供synthetic comparison示例、缺失資料清單。若有真實測試repo，才實際跑代表任務並另記證據；本輪無repo則實測部分blocked。Sol審查品質門檻，精確 commit `feat: evaluate workflow changes from execution evidence`。
 
 ## Task W4: 網站使用指南、下載與版本採納
 
@@ -77,12 +77,14 @@ W2定義 `TaskContract(id,spec_hash,base_sha,depends_on,read_paths,write_paths,r
 
 **Interfaces:** `transition(manifest: WorkflowManifest, target: str, evidence: list[EvaluationRun], review: AdoptionReview) -> WorkflowManifest`；AdoptionReview含owner、decision_at、reason、profile_scope、rollback_version。candidate→evaluated要有效實測，trial→approved要人類決策；deprecated可保留歷史下載並明顯標示。
 
-- [ ] Step 1：測候選版本沒有效run無法evaluated；mock不得company-approved；private profile與internal case排除export；bundle manifest/hash正確；deprecated顯示替代與風險；revision更新不改過去版本的評測。
-- [ ] Step 2：`python -m pytest tests/test_adoption.py tests/test_export.py -q`，確認 FAIL。
-- [ ] Step 3：實作catalog卡片、版本、harness/profile相容性、下載與安裝/移除說明、流程圖；案例明確標示證據等級。新自有指南用synthetic示範但非成功案例；第三方不自動再散布。W3沒有實測時狀態保持candidate，介面仍可展示。
-- [ ] Step 4：pytest PASS、site check/build/smoke PASS；確認搜尋與ZIP都沒有company profile。發布指南review與公司採納review分開；public guide approved不代表company-approved。
-- [ ] Step 5：精確 commit `feat: publish traceable workflow guides and adoption status`。
+- [x] Step 1：測候選版本沒有效run無法evaluated；mock不得company-approved；private profile與internal case排除export；bundle manifest/hash正確；deprecated顯示替代與風險；revision更新不改過去版本的評測。
+- [x] Step 2：`python -m pytest tests/test_adoption.py tests/test_export.py -q`，確認 FAIL。
+- [x] Step 3：實作catalog卡片、版本、harness/profile相容性、下載與安裝/移除說明、流程圖；案例明確標示證據等級。新自有指南用synthetic示範但非成功案例；第三方不自動再散布。W3沒有實測時狀態保持candidate，介面仍可展示。
+- [x] Step 4：pytest PASS、site check/build/smoke PASS；確認搜尋與ZIP都沒有company profile。發布指南review與公司採納review分開；public guide approved不代表company-approved。
+- [x] Step 5：精確 commit `feat: publish traceable workflow guides and adoption status`。
 
 ## Completion / Handoff
 
 可交付registry、完整自有bundle、profile契約、評測工具與指南。不具備Android測試repo时不得宣稱此工作流提升品質／效率；交付需列「契約工具已驗證／Android實測待接」。後續按雙週資訊→候選→代表任務→trial→採納，不自動追每個新release更新公司規範。
+
+本機交付與審查修正完成；驗證與裁定見 [W執行紀錄](../../platform-design/workflow-execution-log.md)。Android真實評測仍待repo/SHA/環境binding，所有發布版本為candidate。
