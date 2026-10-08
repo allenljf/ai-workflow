@@ -19,3 +19,8 @@ Ruling：新adapter manifest ref指開發基線9a4763c，ZIP本身及hash標識�
 ## F3
 
 RED browser3fail（新增FDE路由不存在、FDE包被舊UI誤標Android）→GREEN root7/7、Pages子路徑7/7。Astro check0errors/0warnings/10既有hints；完整pytest151/151（F4測試寫入前）。新增MD/ZIP實際HTTP下載、12節點、390pxoverflow與惡意titleescaping驗證。
+
+## F4
+
+RED缺RAG模組4fail、CLI1fail→GREEN8/8，完整159/159（F5測試加入前）。真SQLite版本化FTS、跨tenant/舊版本/偽造引用/無證據、embedding profile與本機HTTP非法輸出/連線失敗驗證；rag-demo實際執行，dataset hash與fixture evidence明列。
+Ruling：小資料embedding檢索以明確set_embedding/search_embeddings接口提供，索引身份由已驗證model/digest傳入；不自動拉取模型。真Ollama性能未測。SQLite FTS unicode tokenizer不提供完整中文斷詞，指南列限制。

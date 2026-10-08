@@ -28,3 +28,7 @@ checked_at: '2026-10-08'
 ## 來源與下一步
 
 [第一方依據](https://www.anthropic.com/engineering/contextual-retrieval)（查核 2026-10-08）。[完整路線](roadmap.md)。
+
+## 可執行範例
+
+依[開始使用](getting-started.md)安裝 `fde-local-labs`。`RagStore.ingest` 寫入不可覆寫的 tenant/id/version；`query` 只取該租戶最新版本，生成後驗證引用集合。`set_embedding`／`search_embeddings` 提供小資料 cosine 對照，需 model/digest/dimension 一致。純本機 baseline 的 FTS5 不提供完整中文斷詞；企業中文資料需獨立召回評測。

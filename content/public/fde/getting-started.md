@@ -16,3 +16,14 @@ checked_at: '2026-10-08'
 ## 使用與更新
 
 Python負責資料/worker，Java Spring Boot作企業API對照；依既有團隊選擇。詳細[來源與更新方法](sources.md)。模型結果必須有當前版本報告，合成fixture不是AI品質證據。
+
+## 已提供的 Python RAG lab
+
+在 repo 本機開發環境執行：
+
+```bash
+.venv312/bin/python -m pip install -e examples/fde/python
+.venv312/bin/python -m fde_lab.cli rag-demo --state-dir .build/fde-labs/rag
+```
+
+合成報告寫入 `rag-report.json`，包含 dataset hash、授權引用、無證據拒答與 fixture context/RAG 對照。此對照只驗證契約，不衡量真模型品質。Runtime DB 在忽略的 `.build/`；目前技能 ZIP 0.1.0 是路由包，不含 labs，程式從本 repo 執行。
