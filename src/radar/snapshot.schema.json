@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "revisions",
+    "events",
+    "health",
+    "inbox"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": 1
+    },
+    "revisions": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "events": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "health": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object"
+      }
+    },
+    "inbox": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    }
+  }
+}

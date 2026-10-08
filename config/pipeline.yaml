@@ -1,0 +1,4 @@
+ai_enabled: false
+interval_days: 14
+max_items_per_source: 100
+request_timeout_seconds: 20
