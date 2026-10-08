@@ -1,0 +1,46 @@
+id: fde-solution-adapter
+version: 0.3.0
+domain: fde
+upstream_url: https://github.com/allenljf/ai-workflow
+upstream_ref: f847bafd83c6769e6d886f7e407d3c9ac8d95260
+license: MIT
+redistribution_allowed: false
+supported_harnesses:
+- codex
+- claude-code
+profile_ids:
+- fde-general
+bundle_files:
+- bundles/fde/README-0.3.md
+- bundles/fde/LICENSE.md
+- profiles/fde/general.yaml
+- skills/fde-solution/SKILL.md
+- skills/fde-solution/references/ai-boundaries.md
+- skills/fde-solution/references/delivery-contract.md
+- skills/fde-knowledge-review/SKILL.md
+- skills/fde-knowledge-review/references/update-contract.md
+- bundles/fde/labs-0.3/fde_lab/__init__.py
+- bundles/fde/labs-0.3/fde_lab/cli.py
+- bundles/fde/labs-0.3/fde_lab/data.py
+- bundles/fde/labs-0.3/fde_lab/jobs.py
+- bundles/fde/labs-0.3/fde_lab/providers.py
+- bundles/fde/labs-0.3/fde_lab/rag.py
+- bundles/fde/labs-0.3/fixtures/dataset.jsonl
+- bundles/fde/labs-0.3/fixtures/documents.json
+- bundles/fde/labs-0.3/fixtures/jobs.json
+- bundles/fde/labs-0.3/pyproject.toml
+visibility: public
+review_state: approved
+adoption_state: candidate
+evaluation_ids: []
+asset_approvals:
+  bundles/fde/labs-0.3/fde_lab/__init__.py: a6f74f7ac5f520cbca43a3a37b548cb4d8e5d36ecee8894cc6c4dc87a7ae4548
+  bundles/fde/labs-0.3/fde_lab/cli.py: fe400105a1cd44aced8697b9ac540a8016abfd3b488c621e8413284ee969d76e
+  bundles/fde/labs-0.3/fde_lab/data.py: a1bc149a32638c6fb643c455363522e61e8e40d17df35b658e1cfe81187d6c46
+  bundles/fde/labs-0.3/fde_lab/jobs.py: 43eca40a2c1d1c48bc44685a958fdd0f47f9d16e05f73b62795a73688072989b
+  bundles/fde/labs-0.3/fde_lab/providers.py: e4bc00f578b4f732a79173ff25ce275b195164bef59127bb5b32f7d80c5ae7b7
+  bundles/fde/labs-0.3/fde_lab/rag.py: c6b7b762efb406ff38484a79fe2a11f53df26e95e0d48544551b4dfb5c71622d
+  bundles/fde/labs-0.3/fixtures/dataset.jsonl: b72c80d7a10e2ca4ea9083f843ad61b6554a4114c5fd5af23ec060a569d47d40
+  bundles/fde/labs-0.3/fixtures/documents.json: 65d74573aafeacfe3acbf8b40f6d25f3017d29280fcf1b774a1f188e8e65e102
+  bundles/fde/labs-0.3/fixtures/jobs.json: dc109f597190795f1aa77d8ba1c096a13894cd889b88f75f9acca5191ad88935
+  bundles/fde/labs-0.3/pyproject.toml: e3afdff3f1fcedae176ce2408c987954147e43c15242f511d091970b0c175a74

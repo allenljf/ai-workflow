@@ -12,8 +12,8 @@ class BundleReport:
     errors: list[str]
 OWN_ROOTS=('bundles/android-task/','skills/android-task/','profiles/android/')
 FDE_ROOTS=('bundles/fde/','skills/fde-solution/','skills/fde-knowledge-review/','profiles/fde/')
-FDE_ASSETS=('examples/fde/python/fde_lab/','examples/fde/python/fixtures/','bundles/fde/labs-0.2/fde_lab/','bundles/fde/labs-0.2/fixtures/')
-FDE_ASSET_FILES={'examples/fde/python/pyproject.toml','examples/fde/python/fixtures/dataset.jsonl','bundles/fde/labs-0.2/pyproject.toml','bundles/fde/labs-0.2/fixtures/dataset.jsonl'}
+FDE_ASSETS=('examples/fde/python/fde_lab/','examples/fde/python/fixtures/','bundles/fde/labs-0.2/fde_lab/','bundles/fde/labs-0.2/fixtures/','bundles/fde/labs-0.3/fde_lab/','bundles/fde/labs-0.3/fixtures/')
+FDE_ASSET_FILES={'examples/fde/python/pyproject.toml','examples/fde/python/fixtures/dataset.jsonl','bundles/fde/labs-0.2/pyproject.toml','bundles/fde/labs-0.2/fixtures/dataset.jsonl','bundles/fde/labs-0.3/pyproject.toml','bundles/fde/labs-0.3/fixtures/dataset.jsonl'}
 def build_bundle(manifest,root,out):
     validate_manifest(manifest.to_dict())
     root=Path(root).resolve();out=Path(out)

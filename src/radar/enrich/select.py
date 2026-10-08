@@ -11,6 +11,10 @@ def select_events(snapshot,done_ids,limit=20):
     from .topics import domains
     buckets={domain:[e for e in ordered if domain in domains(e,snapshot)] for domain in ('android','fde')}
     if not all(buckets.values()):return ordered[:limit]
+    if limit<2:
+        shared=[e for e in ordered if domains(e,snapshot)=={'android','fde'}]
+        if shared:return shared[:1]
+        raise ValueError('Mixed domains require at least two events per batch')
     chosen=[];seen=set()
     while any(buckets.values()) and len(chosen)<limit:
         for bucket in buckets.values():

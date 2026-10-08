@@ -65,3 +65,19 @@ Wizard缺檔RED5→GREEN5；追加實際有效GCP refs取消/保存測試，macO
 完整含真PostgreSQLpytest214/214；Maven4/4；Astro0errors/0warnings/10既有hints；root與Pages各7/7，setup MD HTTP200、390px無overflow、惡意title不執行。三套CLI實際跑，runtime合成；4份已發布ZIP literal SHA不變；live export恢復285原始events、無private draft/state進manifest。
 Ruling: wizard不收集DB/password或API token值，api-db給secret/env指引，GitHub/provider路由既有wizard的隱藏stdin與原付費gate；成本是本機服務仍需人自行注入憑證，避免複製秘密到setup-state。
 本機container health200/業務401；雲端IAM/WIF/遠端DB/實際模型/ANN品質/企業負載未驗證，不稱部署ready。後續完整分支fresh Sol review與一次重要問題修正記在下方。
+
+## 最終全分支審查與一次修正
+
+fresh Sol reviewer完成4a91054..f847baf，只讀；無Critical、5Important、1Minor。作者核對程式並寫6個主要回歸，RED6fail/31pass→GREEN37/37；共享event limit1例外追加RED→GREEN。真Postgres新增同取消checkpoint契約PASS；缺0.3包RED→GREEN6/6；公開0.2 deprecated警示browser RED→GREEN，root/Pages各7/7、Astro0error/0warning/10hints。
+Final: fixed embedding profile race/dimension corruption — concurrent_initial_embedding_profiles_cannot_mix及corrupt_stored_vector_dimension_fails_closed RED→GREEN。
+Final: fixed cancellation conceals unresolved other external call — cancel_progress_checkpoint_preserves_unresolved_other_call RED→GREEN，SQLite與Postgres同契約。
+Final: fixed changed completion bypasses input duplicate gate — repeated_prompt_with_changed_answer_cannot_enter_holdout RED→GREEN。
+Final: fixed validation after holdout — validation_group_must_not_extend_into_holdout_time RED→GREEN。
+Final: fixed one-slot mixed-domain starvation — mixed_domain_one_event_limit_refused_instead_of_starving RED→GREEN，one_shared_event_can_cover_both_domains_in_one_slot亦RED→GREEN。
+Final: Ruling: input相似度用正規化/token包含度保守heuristic — 不付費/不拉模型，避免completion影響input分組 — 成本是誤拒與語義改寫漏檢，需lineage人工驗證。
+Final: Ruling: 兩域若無共享event且limit1則拒絕，不建立第二付費batch — 無持久rotating state時無法保證覆蓋 — 成本是自訂配置至少2，預設20可用。
+Final: Ruling: 不改歷史0.2，state overlay deprecated並指向0.3 — 新修正ZIP固定SHA fbef48c08d2b53a91df6a770c647faefd85360f494d43e6f4b3fe275a4edb8ea — 成本是維持多快照，歷史缺陷仍可追溯下載但不推薦使用。
+Final: Ruling: adoption全站candidate舊assert限縮Android，新增FDEdeprecated/替代版本/原因assert — 多domain不必相同採納狀態 — 成本是每domain需明確coverage。
+Final: minor (deferred): FDE首頁末段Java/wizard仍有「後續階段」舊措辭，功能與setup連結已可用，下次内容整理校正。
+審查7項Declined to judge逐項裁定與成本、版本修正證據完整保存在fde-final-review.md；不宣稱真模型/訓練/付費外部對帳/雲端/企業負載/Java企業DB或市場採納已驗證。
+最終修正後完整pytest（真本機PostgreSQLopt-in）223/223；修正版Docker重建/health200。Java4/4未受Python修正影響；root/Pages7/7；shellcheck/bash/actionlint與public export hashes/paths確認。各plan步驟標完成，測試containers清理，保留命名worktree與本機預覽供後續整合。所有逐項Ruling及成本也整理在fde-final-review.md。

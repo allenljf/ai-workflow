@@ -32,3 +32,5 @@ TRL conversational/prompt-completion 格式、tokenizer/chat template、loss sco
 ## 已提供訓練準備
 
 [資料 CLI](analysis.md)只產生格式、hash與dry-run配置，不載入weights、不執行trainer。先查看品質、lineage、held-out group與資料授權；真正訓練再固定model/tokenizer/chat template、LoRA設定與獨立eval。合成教學資料沒有企業泛化效果證據。
+
+資料準備的 near-duplicate gate 依正規化 input 與 token 包含度（至少兩 token、>=0.9）判定，不因 completion 改變而視為新問題；這是保守啟發式，仍需人工檢查語義改寫與資料來源 lineage。重複／相似 input 拒絕輸出，需先清理或重新設計群組/context。validation 最晚樣本必須早於 holdout 最早樣本，群組時間範圍重疊時拒絕。

@@ -50,7 +50,9 @@ def test_public_export_pinned_bundle_hash_and_private_exclusion(tmp_path):
     out=tmp_path/'.build/export'
     export_public(Snapshot(),tmp_path,out,PublicationConfig())
     catalog=json.loads((out/'workflows.json').read_text())
-    assert len([r for r in catalog if r['domain']=='android'])==2 and all(r['adoption_state']=='candidate' for r in catalog)
+    assert len([r for r in catalog if r['domain']=='android'])==2 and all(r['adoption_state']=='candidate' for r in catalog if r['domain']=='android')
+    deprecated=next(r for r in catalog if r['domain']=='fde' and r['version']=='0.2.0')
+    assert deprecated['adoption_state']=='deprecated' and deprecated['replacement_version']=='0.3.0' and deprecated['deprecation_reason']
     for row in catalog:
         package=out/row['download_path'];assert hashlib.sha256(package.read_bytes()).hexdigest()==row['sha256']
         with zipfile.ZipFile(package) as z:

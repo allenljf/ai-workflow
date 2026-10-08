@@ -36,11 +36,11 @@
 
 **Interfaces:** Consumes reviewed MD 與 source URLs；produces `load_skills(root: Path) -> list[dict]` 與 `fde.json`（schema_version=1, checked_at, skills）。每節點欄位：id/title/level/prerequisite_ids/guide_path/source_refs/checked_at/practice_ids/evidence_level/visibility/review_state/skill_bundle_ids。guide_path 為 `fde/<name>.md`。
 
-- [ ] Step 1: 寫 `test_fde_export_contains_reachable_approved_guides`，驗證 exported `fde.json` 有 12 節點，所有 guide_path 在 manifest，來源 HTTPS，依賴 id 存在；寫 `test_cycle_missing_dependency_private_guide_rejected` 分別引入 cycle、missing id、private MD 並 assert ValueError；寫 `test_fde_export_failure_preserves_previous` 驗證錯誤不替換舊 export。
-- [ ] Step 2: `.venv312/bin/python -m pytest tests/test_fde_catalog.py -q`；Expected: 新索引缺失／功能未實作而失敗。
-- [ ] Step 3: 實作 load_skills：唯一 id、日期、HTTPS、有限 enum、public review、依賴 DAG、指南在 approved export。export 在 stage 生成 fde.json、加入 manifest；prepare 只拷 manifest 允許的 fde.json。寫上述 12 節點指南與參考 12 週路線，沿用研究來源，Mermaid＋文字流程並列。
-- [ ] Step 4: 同一測試＋`.venv312/bin/python -m pytest -q`；Expected: 全部 PASS。人工檢查 prose：來源／限制／使用方法／練習／驗收齊全。
-- [ ] Step 5: 僅 stage 本 task 檔案；commit `feat: add reviewed FDE learning catalog`；記 execution ledger。
+- [x] Step 1: 寫 `test_fde_export_contains_reachable_approved_guides`，驗證 exported `fde.json` 有 12 節點，所有 guide_path 在 manifest，來源 HTTPS，依賴 id 存在；寫 `test_cycle_missing_dependency_private_guide_rejected` 分別引入 cycle、missing id、private MD 並 assert ValueError；寫 `test_fde_export_failure_preserves_previous` 驗證錯誤不替換舊 export。
+- [x] Step 2: `.venv312/bin/python -m pytest tests/test_fde_catalog.py -q`；Expected: 新索引缺失／功能未實作而失敗。
+- [x] Step 3: 實作 load_skills：唯一 id、日期、HTTPS、有限 enum、public review、依賴 DAG、指南在 approved export。export 在 stage 生成 fde.json、加入 manifest；prepare 只拷 manifest 允許的 fde.json。寫上述 12 節點指南與參考 12 週路線，沿用研究來源，Mermaid＋文字流程並列。
+- [x] Step 4: 同一測試＋`.venv312/bin/python -m pytest -q`；Expected: 全部 PASS。人工檢查 prose：來源／限制／使用方法／練習／驗收齊全。
+- [x] Step 5: 僅 stage 本 task 檔案；commit `feat: add reviewed FDE learning catalog`；記 execution ledger。
 
 ### Task 2 / F2: Domain policy 與兩個薄技能包
 
@@ -48,11 +48,11 @@
 
 **Interfaces:** Consumes F1 sources；produces WorkflowManifest 可選 `domain: android|fde`、可選 `asset_approvals: dict[path, sha256]`；兩者缺省時 to_dict 必須省略，保持舊 serialization。catalog rows 增加 domain（舊 manifest 以 android 呈現），profile roots 依 domain 決定。
 
-- [ ] Step 1: 寫 `test_legacy_zip_hashes_unchanged` 比對 Global Constraints 兩個 literal SHA；`test_fde_bundle_references_and_domain_isolation` 解包取得兩個 SKILL/references，未知 root/private profile assert ValueError；`test_asset_hash_and_approval_required` 對 FDE 允許的 lab code/JSON 修改 hash、移除 approval 均拒絕。
-- [ ] Step 2: `.venv312/bin/python -m pytest tests/test_fde_bundle.py -q`；Expected: FDE domain/包不存在而失敗。
-- [ ] Step 3: 定义明列 FDE roots：skills/fde-solution、skills/fde-knowledge-review、profiles/fde、bundles/fde；lab assets 僅額外明列 `examples/fde/python/` 自有 source/fixture，禁止 runtime/weights/secret，副檔名限定 .py/.json/.csv。非 MD/YAML 資產用 approval hash，不解讀可執行檔 frontmatter。用 skill-creator／writing-skills／writing-for-agents 編寫兩個路由，官方 upstream 另安裝。由原始 repo 已提交 ref 建立 candidate 0.1.0，產生 immutable lock。
-- [ ] Step 4: 同一測試、既有 bundle/export/adoption 測試＋全 pytest；Expected: PASS、兩個舊 ZIP hash unchanged；skill 以需求探索／注入指令／缺證據／更新提案情境驗證，記結果。
-- [ ] Step 5: 僅 stage 此 task 檔案；commit `feat: publish isolated FDE skill adapter`；記 ledger。
+- [x] Step 1: 寫 `test_legacy_zip_hashes_unchanged` 比對 Global Constraints 兩個 literal SHA；`test_fde_bundle_references_and_domain_isolation` 解包取得兩個 SKILL/references，未知 root/private profile assert ValueError；`test_asset_hash_and_approval_required` 對 FDE 允許的 lab code/JSON 修改 hash、移除 approval 均拒絕。
+- [x] Step 2: `.venv312/bin/python -m pytest tests/test_fde_bundle.py -q`；Expected: FDE domain/包不存在而失敗。
+- [x] Step 3: 定义明列 FDE roots：skills/fde-solution、skills/fde-knowledge-review、profiles/fde、bundles/fde；lab assets 僅額外明列 `examples/fde/python/` 自有 source/fixture，禁止 runtime/weights/secret，副檔名限定 .py/.json/.csv。非 MD/YAML 資產用 approval hash，不解讀可執行檔 frontmatter。用 skill-creator／writing-skills／writing-for-agents 編寫兩個路由，官方 upstream 另安裝。由原始 repo 已提交 ref 建立 candidate 0.1.0，產生 immutable lock。
+- [x] Step 4: 同一測試、既有 bundle/export/adoption 測試＋全 pytest；Expected: PASS、兩個舊 ZIP hash unchanged；skill 以需求探索／注入指令／缺證據／更新提案情境驗證，記結果。
+- [x] Step 5: 僅 stage 此 task 檔案；commit `feat: publish isolated FDE skill adapter`；記 ledger。
 
 ### Task 3 / F3: FDE 主頁與路線／下載 UI
 
@@ -60,8 +60,8 @@
 
 **Interfaces:** Consumes F1 fde.json、F2 workflow rows；produces `/fde/`、`/fde/updates/`，guides 使用既有 Starlight `guides/fde/`、downloads 用 href 的 BASE_URL。FDE updates 初始 raw＋尚無核准精選，F8 才接 domain 時間資訊。
 
-- [ ] Step 1: 新增 Playwright `FDE roadmap and verified downloads`：/fde/ 顯示技能及前置依賴、點入指南、取 MD 與 ZIP 200/PK；`FDE mobile and untrusted text`：390px 無 overflow、惡意 title 無 script。保留原 Android card 與下載 assertions。
-- [ ] Step 2: build reviewed export 後執行 `npm run test:smoke`；Expected: FDE route 尚無內容而失敗。
-- [ ] Step 3: 實作可讀技能樹、12 週參考路線、流程图與可選語言／local profile；導航新增 FDE。Android/FDE workflow 卡片按 domain 呈現，候選 wording 依 domain；不把所有包稱 Android。來源／證據與下載資訊可見。
-- [ ] Step 4: Astro check/build、Playwright root 與 `/ai-workflow/` 各跑一次＋全 pytest；Expected: 無新增 error/warning、所有 browser PASS、MD/ZIP 正確、無 private sentinels。測試後恢復 live export。
-- [ ] Step 5: commit `feat: add FDE roadmap and skill downloads`；ledger F1–F3 完成。下一份本機 labs 計劃依賴此輸出；不在此時做分支終審或合併。
+- [x] Step 1: 新增 Playwright `FDE roadmap and verified downloads`：/fde/ 顯示技能及前置依賴、點入指南、取 MD 與 ZIP 200/PK；`FDE mobile and untrusted text`：390px 無 overflow、惡意 title 無 script。保留原 Android card 與下載 assertions。
+- [x] Step 2: build reviewed export 後執行 `npm run test:smoke`；Expected: FDE route 尚無內容而失敗。
+- [x] Step 3: 實作可讀技能樹、12 週參考路線、流程图與可選語言／local profile；導航新增 FDE。Android/FDE workflow 卡片按 domain 呈現，候選 wording 依 domain；不把所有包稱 Android。來源／證據與下載資訊可見。
+- [x] Step 4: Astro check/build、Playwright root 與 `/ai-workflow/` 各跑一次＋全 pytest；Expected: 無新增 error/warning、所有 browser PASS、MD/ZIP 正確、無 private sentinels。測試後恢復 live export。
+- [x] Step 5: commit `feat: add FDE roadmap and skill downloads`；ledger F1–F3 完成。下一份本機 labs 計劃依賴此輸出；不在此時做分支終審或合併。

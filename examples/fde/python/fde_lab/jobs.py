@@ -99,7 +99,9 @@ class JobStore:
             data=dict(row);data['cancel_requested']=0
             self._receipt(db,data,step,receipt,now,'0',False)
             db.execute("UPDATE external_calls SET status='confirmed' WHERE job_id=? AND step=?",(job_id,step))
-            if row['cancel_requested']:db.execute("UPDATE jobs SET status='cancelled',owner=NULL WHERE id=?",(job_id,))
+            if row['cancel_requested']:
+                unresolved=db.execute("SELECT 1 FROM external_calls WHERE job_id=? AND status='started'",(job_id,)).fetchone()
+                db.execute('UPDATE jobs SET status=?,owner=NULL WHERE id=?',('ambiguous' if unresolved else 'cancelled',job_id))
     def finish(self,job_id,owner,lease_version,now):
         with self._database() as db:
             db.execute('BEGIN IMMEDIATE');row=self._owned(db,job_id,owner,lease_version,now)

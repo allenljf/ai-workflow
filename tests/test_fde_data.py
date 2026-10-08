@@ -36,3 +36,15 @@ def test_training_dry_run_has_no_network_or_weights(tmp_path):
     assert manifest['training']['dry_run'] is True
     assert not list(tmp_path.rglob('*.safetensors'))
     assert manifest['evidence_level']=='synthetic-contract'
+
+def test_repeated_prompt_with_changed_answer_cannot_enter_holdout(tmp_path):
+ from fde_lab.data import prepare_dataset
+ rows=[dict(id='a',group_id='a',timestamp='2026-01-01T00:00:00Z',prompt='order one',completion='train answer'),dict(id='b',group_id='b',timestamp='2026-02-01T00:00:00Z',prompt='unrelated weather',completion='val answer'),dict(id='c',group_id='c',timestamp='2026-03-01T00:00:00Z',prompt='ORDER ONE!',completion='different answer')]
+ with pytest.raises(ValueError):prepare_dataset(rows,tmp_path/'out','2026-01-15T00:00:00Z')
+ rows[2]['prompt']='order one please'
+ with pytest.raises(ValueError):prepare_dataset(rows,tmp_path/'out','2026-01-15T00:00:00Z')
+
+def test_validation_group_must_not_extend_into_holdout_time(tmp_path):
+ from fde_lab.data import prepare_dataset
+ rows=[dict(id='a',group_id='a',timestamp='2026-01-01T00:00:00Z',prompt='training query',completion='x'),dict(id='b',group_id='b',timestamp='2026-02-01T00:00:00Z',prompt='early validation',completion='y'),dict(id='c',group_id='b',timestamp='2026-04-01T00:00:00Z',prompt='late validation',completion='z'),dict(id='d',group_id='d',timestamp='2026-03-01T00:00:00Z',prompt='independent holdout',completion='h')]
+ with pytest.raises(ValueError):prepare_dataset(rows,tmp_path/'out','2026-01-15T00:00:00Z')

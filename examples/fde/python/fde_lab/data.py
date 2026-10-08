@@ -17,7 +17,7 @@ def sha(value):return hashlib.sha256(value.encode()).hexdigest()
 
 def analyze_dataset(rows: list[dict]) -> dict:
     if not isinstance(rows,list) or not rows:raise ValueError('Dataset must be a nonempty list')
-    issues=[];ids=set();texts=set();missing={k:0 for k in sorted(FIELDS)}
+    issues=[];ids=set();texts=set();prompts=[];missing={k:0 for k in sorted(FIELDS)}
     for index,row in enumerate(rows):
         if not isinstance(row,dict) or set(row)!=FIELDS:issues.append({'row':index,'kind':'schema'})
         if not isinstance(row,dict):continue
@@ -30,6 +30,12 @@ def analyze_dataset(rows: list[dict]) -> dict:
         text=sha(normalized(row['prompt'])+'\n'+normalized(row['completion']))
         if row['id'] in ids:issues.append({'row':index,'kind':'duplicate_id'})
         if text in texts:issues.append({'row':index,'kind':'normalized_duplicate'})
+        prompt=normalized(row['prompt']);tokens=set(prompt.split())
+        for previous in prompts:
+            prior_tokens=set(previous.split());small=min(len(tokens),len(prior_tokens))
+            if prompt==previous or small>=2 and len(tokens & prior_tokens)/small>=.9:
+                issues.append({'row':index,'kind':'input_near_duplicate'});break
+        prompts.append(prompt)
         ids.add(row['id']);texts.add(text)
     return {'row_count':len(rows),'missingness':missing,'issues':issues}
 
@@ -48,6 +54,7 @@ def prepare_dataset(rows,output: Path,cutoff: str) -> dict:
     if not train or len(future)<2:raise ValueError('Need training data and two independent future groups')
     middle=max(1,len(future)//2)
     splits={'train':train,'validation':[r for _,_,values in future[:middle] for r in values],'holdout':[r for _,_,values in future[middle:] for r in values]}
+    if max(instant(r['timestamp']) for r in splits['validation'])>=min(instant(r['timestamp']) for r in splits['holdout']):raise ValueError('Validation group crosses holdout time boundary')
     for key in splits:splits[key].sort(key=lambda r:(instant(r['timestamp']),r['group_id'],r['id']))
     all_rows=sorted(rows,key=lambda r:r['id'])
     manifest={'schema_version':1,'evidence_level':'synthetic-contract','dataset_sha256':sha(serialized(all_rows)),'cutoff':boundary.isoformat(),'counts':{k:len(v) for k,v in splits.items()},'split_sha256':{k:sha(serialized(v)) for k,v in splits.items()},'quality':quality,'lineage':{k:sorted({r['group_id'] for r in v}) for k,v in splits.items()},'training':{'dry_run':True,'format':'conversational','method_candidate':'SFT/LoRA; budget/hardware/license/evaluation needed','network_calls':0,'model_downloads':0}}

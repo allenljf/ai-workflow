@@ -105,3 +105,12 @@ def test_jobs_demo_report_survives_real_process_exit(tmp_path):
     report=json.loads((tmp_path/'jobs-report.json').read_text())
     assert report['crash_exit_code']==7 and report['effect_count']==1
     assert report['status']=='succeeded' and report['evidence_level']=='synthetic-contract'
+
+def test_cancel_progress_checkpoint_preserves_unresolved_other_call(tmp_path):
+ store=Store()(tmp_path/'db');job=submit(store);running=store.claim('old',100,5)
+ store.begin_external_step(job['id'],'old',running['lease_version'],'charge',101)
+ store.cancel('one',job['id'])
+ store.checkpoint(job['id'],'old',running['lease_version'],'progress',{'phase':'waiting'},102)
+ assert store.get('one',job['id'])['status']=='ambiguous'
+ assert store.claim('new',200) is None
+ assert store.receipts('one',job['id'])=={'progress':{'phase':'waiting'}}

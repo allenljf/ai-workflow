@@ -70,3 +70,11 @@ def test_topics_only_from_actual_bounded_revisions():
  request=build_request(s.events,s,policy())
  assert all(i['feed_source_id']!='s59' for i in request.event_inputs)
  assert request.topic_map=={'merged':['android']}
+
+def test_mixed_domain_one_event_limit_refused_instead_of_starving():
+ with pytest.raises(ValueError,match='at least two'):select_events(mixed(),set(),1)
+ assert len(select_events(snapshot(2),set(),1))==1
+
+def test_one_shared_event_can_cover_both_domains_in_one_slot():
+ s=snapshot(1);s.health['s0'].topics=['android','fde']
+ assert [e.id for e in select_events(s,set(),1)]==['e00']

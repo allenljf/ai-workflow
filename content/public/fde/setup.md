@@ -26,6 +26,8 @@ GCP Console → Project selector 選專案；Cloud Run/Artifact Registry 查 reg
 
 ## 本機範例與下載
 
-repo 的 `examples/fde/python` 可安裝為獨立 lab，FDE 0.2.0 ZIP 包含三套不需 token 的固定 Python 快照；API/PostgreSQL/部署整合在 repo 活躍 examples。Java `examples/fde/spring-api` 以 `mvn verify` 驗證。runtime 放 `.build`，公司資料、模型 weights 與秘密不進公開下載。
+repo 的 `examples/fde/python` 可安裝為獨立 lab，FDE 0.3.0 ZIP 包含三套不需 token 的固定 Python 快照；API/PostgreSQL/部署整合在 repo 活躍 examples。Java `examples/fde/spring-api` 以 `mvn verify` 驗證。runtime 放 `.build`，公司資料、模型 weights 與秘密不進公開下載。
 
 [能力路線](roadmap.md)、[更新政策](update-policy.md)、[API 契約](api.md)、[雲端指南](cloud.md)。查核 2026-10-08：[Cloud Run Secrets](https://docs.cloud.google.com/run/docs/configuring/services/secrets)、[WIF](https://docs.cloud.google.com/iam/docs/workload-identity-federation-with-deployment-pipelines)。
+
+0.2.0 labs 已停用，歷史 ZIP 原 bytes 留存追溯；請使用 0.3.0 修正版。

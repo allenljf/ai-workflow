@@ -35,7 +35,7 @@ def test_postgres_tenant_policies_and_idempotency_constraints(stores):
   with pytest.raises(psycopg.errors.InsufficientPrivilege):c.execute("INSERT INTO jobs(id,tenant,key) VALUES('forged','one','x')")
 
 @pytest.mark.parametrize('case',[
- 'test_expired_worker_cannot_checkpoint_after_takeover','test_duplicate_payload_conflict_and_tenant_isolation','test_ambiguous_timeout_does_not_retry','test_attempt_budget_deadline_cancel_stop_work','test_transient_backoff_and_safe_checkpoint_cancel','test_cancelled_crashed_worker_settles_at_lease_expiry','test_inflight_external_call_becomes_ambiguous_after_crash','test_heartbeat_keeps_ownership_and_completed_external_receipt_resumes'])
+ 'test_cancel_progress_checkpoint_preserves_unresolved_other_call','test_expired_worker_cannot_checkpoint_after_takeover','test_duplicate_payload_conflict_and_tenant_isolation','test_ambiguous_timeout_does_not_retry','test_attempt_budget_deadline_cancel_stop_work','test_transient_backoff_and_safe_checkpoint_cancel','test_cancelled_crashed_worker_settles_at_lease_expiry','test_inflight_external_call_becomes_ambiguous_after_crash','test_heartbeat_keeps_ownership_and_completed_external_receipt_resumes'])
 def test_same_job_contract_on_postgres(stores,tmp_path,monkeypatch,case):
  import test_fde_jobs as contracts
  jobs,_,_,_=stores

@@ -16,3 +16,5 @@ AI 輸出先存 private draft，人工確認引用、日期、案例證據與限
 next_due 屬私人財務狀態，公開頁不推估；頁上 AI 設定反映 checked-in 設定，Actions override 仍以該次 gate/帳本為準。calling 後結果不確定保留 ambiguous 與 reservation，不能自動重扣費。舊 saved request/prompt 保持原付款身份，恢復 draft 不呼叫模型。
 
 查核 2026-10-08：[GitHub 官方排程限制](https://docs.github.com/en/actions/reference/workflows-and-actions/events-that-trigger-workflows)、[Spring AI releases](https://github.com/spring-projects/spring-ai/releases)、[Temporal SDK releases](https://github.com/temporalio/sdk-python/releases)、[pgvector releases](https://github.com/pgvector/pgvector/releases)、[Qdrant releases](https://github.com/qdrant/qdrant/releases)、[Ollama releases](https://github.com/ollama/ollama/releases)、[vLLM releases](https://github.com/vllm-project/vllm/releases)、[Pydantic AI releases](https://github.com/pydantic/pydantic-ai/releases)、[TRL releases](https://github.com/huggingface/trl/releases)。[能力路線](roadmap.md)。
+
+兩領域同時有候選時，max_events_per_batch 至少要 2；設 1 會明確拒絕整理而不扣費。單一跨領域事件本身涵蓋兩領域時仍可用一筆；單領域也可用單筆批次，不以固定第一桶造成另一領域飢餓。

@@ -81,3 +81,5 @@ bash scripts/setup/github.sh
 本機 labs：`python -m pip install -e examples/fde/python` 後用 `python -m fde_lab.cli rag-demo --state-dir .build/fde-labs/rag`、`jobs-demo --state-dir .build/fde-labs/jobs`、`dataset-demo --state-dir .build/fde-labs/data`。全是合成 fixture，不宣稱模型品質或企業成功案例。API/worker 與 PostgreSQL 參考見 [部署 runbook](examples/fde/deploy/README.md)；Java 對照見 [Spring Boot](examples/fde/spring-api/README.md)。PostgreSQL 測試只在明確提供 `FDE_TEST_POSTGRES_DSN` 的獨立測試 DB 執行，會建立/刪除測試 schema，不使用正式 DB。
 
 最後用 `bash scripts/setup/fde.sh --check` 唯讀驗證；互動入口 `bash scripts/setup/fde.sh` 分 local/github/provider/api-db/gcp/health。GCP 階段只保存非敏感 refs 並列出 dry-run 命令，尚未建立雲端資源；真正部署、模型品質、效能與客戶驗收仍需另完成。[執行證據與設計判斷](docs/platform-design/fde-execution-log.md)。
+
+FDE labs 修正版為 0.3.0；0.2.0 已停用但保留原 ZIP/hash。修正 embedding profile 並行、取消與未決外部呼叫、input近重複及validation/holdout時間邊界。跨領域批次至少2筆，低於此值拒絕整理，不會增加付費。

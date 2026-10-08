@@ -1,0 +1,4 @@
+{"id":"1","group_id":"company-a","timestamp":"2026-01-01T00:00:00Z","prompt":"Summarize order one","completion":"Synthetic order one requires receipt."}
+{"id":"2","group_id":"company-b","timestamp":"2026-01-02T00:00:00Z","prompt":"Summarize order two","completion":"Synthetic order two requires approval."}
+{"id":"3","group_id":"company-c","timestamp":"2026-02-01T00:00:00Z","prompt":"Summarize order three","completion":"Synthetic order three is cancelled."}
+{"id":"4","group_id":"company-d","timestamp":"2026-03-01T00:00:00Z","prompt":"Summarize order four","completion":"Synthetic order four is complete."}

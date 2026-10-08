@@ -32,6 +32,8 @@ class RagStore:
             db.execute('CREATE TABLE IF NOT EXISTS documents(tenant TEXT,id TEXT,version INTEGER,text TEXT,source_url TEXT,PRIMARY KEY(tenant,id,version))')
             db.execute('CREATE VIRTUAL TABLE IF NOT EXISTS document_fts USING fts5(text,tenant UNINDEXED,id UNINDEXED,version UNINDEXED)')
             db.execute('CREATE TABLE IF NOT EXISTS embedding_profile(model TEXT,digest TEXT,dimensions INTEGER)')
+            if db.execute('SELECT COUNT(*) FROM embedding_profile').fetchone()[0]>1:raise ValueError('Multiple embedding profiles; rebuild a separate index')
+            db.execute('CREATE UNIQUE INDEX IF NOT EXISTS embedding_singleton ON embedding_profile((1))')
             db.execute('CREATE TABLE IF NOT EXISTS embeddings(tenant TEXT,id TEXT,version INTEGER,vector TEXT,PRIMARY KEY(tenant,id,version))')
     def ingest(self,documents: list[dict]) -> dict:
         for d in documents:
@@ -63,6 +65,7 @@ class RagStore:
         if not all(isinstance(v,str) and v for v in (model,digest)):raise ValueError('Embedding identity required')
         profile=(model,digest,len(values))
         with database(self.path) as db:
+            db.execute('BEGIN IMMEDIATE')
             if not db.execute('SELECT 1 FROM documents WHERE tenant=? AND id=? AND version=?',(tenant,doc_id,version)).fetchone():raise ValueError('Unknown document')
             old=db.execute('SELECT * FROM embedding_profile').fetchone()
             if old and tuple(old)!=profile:raise ValueError('Embedding profile mismatch; rebuild a separate index')
@@ -77,6 +80,8 @@ class RagStore:
             rows=db.execute('SELECT d.*,e.vector FROM embeddings e JOIN documents d USING(tenant,id,version) WHERE d.tenant=? AND d.version=(SELECT MAX(x.version) FROM documents x WHERE x.tenant=d.tenant AND x.id=d.id)',(tenant,)).fetchall()
         scored=[]
         for row in rows:
-            item=dict(row);candidate=json.loads(item.pop('vector'));score=sum(a*b for a,b in zip(values,candidate))/(math.sqrt(sum(a*a for a in values))*math.sqrt(sum(a*a for a in candidate)))
+            item=dict(row);candidate=vector(json.loads(item.pop('vector')))
+            if len(candidate)!=len(values):raise ValueError('Stored embedding dimension mismatch; rebuild index')
+            score=sum(a*b for a,b in zip(values,candidate))/(math.sqrt(sum(a*a for a in values))*math.sqrt(sum(a*a for a in candidate)))
             scored.append((score,item))
         return [d for _,d in sorted(scored,key=lambda r:(-r[0],r[1]['id']))[:limit]]

@@ -61,3 +61,27 @@ def test_code_asset_is_not_parsed_as_markdown(tmp_path):
     p=tmp_path/'examples/fde/python/fde_lab/sample.py';p.parent.mkdir(parents=True);p.write_text('message = "[notes](not-a-markdown-link)"\n')
     name=str(p.relative_to(tmp_path));m=fde_manifest(tmp_path,[name],asset_approvals={name:hashlib.sha256(p.read_bytes()).hexdigest()})
     assert build_bundle(m,tmp_path,tmp_path/'.build/zip').included_files
+
+def test_corrected_lab_release_preserves_old_bytes_and_runs_regressions(tmp_path):
+ m=load_manifest(ROOT/'registry/workflows/fde-solution-adapter-0.3.0.yaml')
+ result=build_bundle(m,ROOT,tmp_path)
+ for name in ('rag','jobs','data'):
+  assert (ROOT/f'bundles/fde/labs-0.3/fde_lab/{name}.py').read_bytes()==(ROOT/f'examples/fde/python/fde_lab/{name}.py').read_bytes()
+ with zipfile.ZipFile(result.zip_path) as z:z.extractall(tmp_path/'corrected')
+ import os,subprocess,sys
+ env=os.environ|{'PYTHONPATH':str(tmp_path/'corrected/bundles/fde/labs-0.3')}
+ script="""from pathlib import Path
+from fde_lab.jobs import JobStore
+from fde_lab.data import prepare_dataset
+s=JobStore(Path('jobs.db'));j=s.submit('one','one',{},100,1000);r=s.claim('old',100,5)
+s.begin_external_step(j['id'],'old',r['lease_version'],'charge',101);s.cancel('one',j['id']);s.checkpoint(j['id'],'old',r['lease_version'],'progress',{},102)
+assert s.get('one',j['id'])['status']=='ambiguous'
+rows=[dict(id=str(i),group_id=str(i),timestamp=t,prompt=p,completion=a) for i,(t,p,a) in enumerate([('2026-01-01T00:00:00Z','order one','a'),('2026-02-01T00:00:00Z','weather','b'),('2026-03-01T00:00:00Z','order one please','c')])]
+try:prepare_dataset(rows,Path('dataset'),'2026-01-15T00:00:00Z')
+except ValueError:pass
+else:raise AssertionError('duplicate question accepted')
+"""
+ run=subprocess.run([sys.executable,'-c',script],env=env,cwd=tmp_path,capture_output=True,text=True)
+ assert run.returncode==0,run.stderr
+ for version,sha in [('0.1.0','d062458da74f421bbe294ebbf1f49b8908f2f087f1bde8ed910673dee1a65ff9'),('0.2.0','52f8054cd485b1a8e2136df1288c9bc01cd07cf480f656b4a6a187e260c755b6')]:
+  assert build_bundle(load_manifest(ROOT/f'registry/workflows/fde-solution-adapter-{version}.yaml'),ROOT,tmp_path).sha256==sha

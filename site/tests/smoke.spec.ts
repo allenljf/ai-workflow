@@ -45,6 +45,9 @@ test('FDE roadmap and verified downloads',async({page})=>{
  await expect(page.getByRole('heading',{name:'AI 應用工程師的交付路線',exact:true})).toBeVisible();
  await expect(page.locator('.fde-skill')).toHaveCount(12);
  await expect(page.getByText('前置：模型、工具與 context',{exact:true}).first()).toBeVisible();
+ await expect(page.getByText('已停用 / 請用修正版 0.3.0',{exact:true})).toBeVisible();
+ const corrected=page.getByRole('link',{name:'下載 FDE 技能 ZIP 0.3.0',exact:true});
+ expect((await page.request.get((await corrected.getAttribute('href'))!)).ok()).toBe(true);
  const md=page.getByRole('link',{name:'下載學習路線 MD',exact:true});
  expect((await page.request.get((await md.getAttribute('href'))!)).ok()).toBe(true);
  const zip=page.getByRole('link',{name:'下載 FDE 技能 ZIP 0.1.0',exact:true});

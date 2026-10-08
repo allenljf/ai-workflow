@@ -74,3 +74,39 @@ def test_rag_demo_report_is_fixture_evidence(tmp_path):
     assert report['acceptance']['tenant_isolation'] is True
     assert report['acceptance']['unknown_refused'] is True
     assert report['comparison']['model_quality_claim'] is False
+
+def test_concurrent_initial_embedding_profiles_cannot_mix(tmp_path,monkeypatch):
+ from concurrent.futures import ThreadPoolExecutor
+ from contextlib import contextmanager
+ import threading,time
+ from fde_lab import rag
+ store=rag.RagStore(tmp_path/'race.db');store.ingest(docs())
+ actual=rag.database
+ class Cursor:
+  def __init__(self,c):self.c=c
+  def fetchone(self):
+   row=self.c.fetchone()
+   if row is None:time.sleep(.05) # Widen the initial read/write race without deadlocking a correct transaction.
+   return row
+ class Connection:
+  def __init__(self,c):self.c=c
+  def execute(self,sql,*args):
+   cursor=self.c.execute(sql,*args)
+   return Cursor(cursor) if sql=='SELECT * FROM embedding_profile' else cursor
+ @contextmanager
+ def delayed(path):
+  with actual(path) as db:yield Connection(db)
+ monkeypatch.setattr(rag,'database',delayed);start=threading.Barrier(2)
+ def insert(params):
+  start.wait()
+  try:store.set_embedding(*params);return 'accepted'
+  except ValueError:return 'rejected'
+ with ThreadPoolExecutor(2) as pool:
+  outcomes=list(pool.map(insert,[('one','manual',2,'a','a',[1.,0.]),('two','private',1,'b','b',[1.,0.,0.])]))
+ assert sorted(outcomes)==['accepted','rejected']
+
+def test_corrupt_stored_vector_dimension_fails_closed(tmp_path):
+ import sqlite3
+ Store,_,_=components();path=tmp_path/'rag.db';store=Store(path);store.ingest(docs());store.set_embedding('one','manual',2,'a','a',[1.,0.])
+ with sqlite3.connect(path) as db:db.execute("UPDATE embeddings SET vector='[1,0,0]'")
+ with pytest.raises(ValueError):store.search_embeddings('one',[1.,0.],'a','a')

@@ -1,0 +1,5 @@
+[
+  {"id":"refund-policy","version":1,"tenant":"demo-one","text":"refund obsolete policy","source_url":"https://example.com/demo/old"},
+  {"id":"refund-policy","version":2,"tenant":"demo-one","text":"refund current policy: require order receipt","source_url":"https://example.com/demo/current"},
+  {"id":"private-policy","version":1,"tenant":"demo-two","text":"refund confidential other tenant policy","source_url":"https://example.com/demo/private"}
+]
