@@ -1,0 +1,111 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "version",
+    "upstream_url",
+    "upstream_ref",
+    "license",
+    "redistribution_allowed",
+    "supported_harnesses",
+    "profile_ids",
+    "bundle_files",
+    "visibility",
+    "review_state",
+    "adoption_state",
+    "evaluation_ids"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^[a-z][a-z0-9-]*$"
+    },
+    "version": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+    },
+    "upstream_url": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^https://"
+    },
+    "upstream_ref": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^[a-f0-9]{40}$"
+    },
+    "license": {
+      "type": "string",
+      "minLength": 1
+    },
+    "redistribution_allowed": {
+      "type": "boolean"
+    },
+    "supported_harnesses": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string"
+      }
+    },
+    "profile_ids": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string"
+      }
+    },
+    "bundle_files": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string"
+      }
+    },
+    "evaluation_ids": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string"
+      }
+    },
+    "visibility": {
+      "enum": [
+        "public",
+        "private"
+      ]
+    },
+    "review_state": {
+      "enum": [
+        "draft",
+        "approved"
+      ]
+    },
+    "adoption_state": {
+      "enum": [
+        "discovered",
+        "candidate",
+        "evaluated",
+        "trial",
+        "approved",
+        "deprecated"
+      ]
+    },
+    "replacement_version": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "deprecation_reason": {
+      "type": [
+        "string",
+        "null"
+      ]
+    }
+  }
+}

@@ -1,0 +1,18 @@
+id: superpowers-android-adapter
+version: 0.1.0
+upstream_url: https://github.com/obra/superpowers
+upstream_ref: 8ca22dba9a94f28898bbce59f2537ff4d87c747d
+license: MIT
+redistribution_allowed: false
+supported_harnesses:
+- codex
+- claude-code
+profile_ids:
+- android-baseline
+bundle_files:
+- bundles/android-task/README.md
+- bundles/android-task/LICENSE.md
+visibility: public
+review_state: approved
+adoption_state: candidate
+evaluation_ids: []
