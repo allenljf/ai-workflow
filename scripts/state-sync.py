@@ -3,6 +3,7 @@
 import argparse,json,subprocess,sys
 from pathlib import Path
 from radar.store import load_snapshot
+from radar.enrich.store import load_state
 BRANCH='pipeline-state'
 
 def git(path: Path,*args: str,check=True):
@@ -25,6 +26,7 @@ def load(checkout: Path,repo: str) -> str:
         path=checkout/'snapshot.json'
         if not path.is_file() or path.is_symlink():raise ValueError('Existing state branch missing safe snapshot')
         load_snapshot(path)
+        load_state(checkout)
     return head
 
 def persist(checkout: Path,expected: str) -> str:
@@ -36,9 +38,13 @@ def persist(checkout: Path,expected: str) -> str:
     path=checkout/'snapshot.json'
     if not path.is_file() or path.is_symlink():raise ValueError('Missing safe snapshot')
     load_snapshot(path)
+    load_state(checkout)
     git(checkout,'config','user.name','workflow-radar[bot]')
     git(checkout,'config','user.email','workflow-radar@users.noreply.github.com')
-    git(checkout,'add','--','snapshot.json')
+    paths=['snapshot.json']
+    if (checkout/'enrichment-state.json').exists():paths.append('enrichment-state.json')
+    if (checkout/'batches').exists():paths.append('batches')
+    git(checkout,'add','--',*paths)
     changed=git(checkout,'diff','--cached','--quiet',check=False).returncode
     if not changed and expected!='NONE':return expected
     git(checkout,'commit','-m','data: update knowledge radar snapshot')
