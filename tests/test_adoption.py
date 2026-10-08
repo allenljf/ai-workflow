@@ -60,7 +60,7 @@ def test_public_export_pinned_bundle_hash_and_private_exclusion(tmp_path):
     assert not (out/'docs/cases/internal.md').exists()
 
 def test_alias_revision_does_not_rewrite_historical_bundle(tmp_path):
-    for directory in ['registry','profiles','skills','bundles']:shutil.copytree(ROOT/directory,tmp_path/directory)
+    for directory in ['registry','profiles','skills','bundles','content/public']:shutil.copytree(ROOT/directory,tmp_path/directory)
     import yaml
     alias=tmp_path/'registry/workflows/superpowers.yaml';data=yaml.safe_load(alias.read_text());data['adoption_state']='deprecated';data['replacement_version']='0.1.0';data['deprecation_reason']='Contract example replacement';alias.write_text(yaml.safe_dump(data))
     out=tmp_path/'.build/export';export_public(Snapshot(),tmp_path,out,PublicationConfig())
@@ -69,7 +69,7 @@ def test_alias_revision_does_not_rewrite_historical_bundle(tmp_path):
     with zipfile.ZipFile(out/row['download_path']) as z:assert yaml.safe_load(z.read('manifest.yaml'))['adoption_state']=='candidate'
 
 def test_historical_package_cannot_change_on_fresh_export(tmp_path):
-    for directory in ['registry','profiles','skills','bundles']:shutil.copytree(ROOT/directory,tmp_path/directory)
+    for directory in ['registry','profiles','skills','bundles','content/public']:shutil.copytree(ROOT/directory,tmp_path/directory)
     first=tmp_path/'.build/export'
     export_public(Snapshot(),tmp_path,first,PublicationConfig())
     old=(first/'workflows.json').read_bytes()
@@ -80,7 +80,7 @@ def test_historical_package_cannot_change_on_fresh_export(tmp_path):
 def test_catalog_retains_subset_adoption_scope(tmp_path):
     from dataclasses import asdict
     import yaml
-    for directory in ['registry','profiles','skills','bundles']:shutil.copytree(ROOT/directory,tmp_path/directory)
+    for directory in ['registry','profiles','skills','bundles','content/public']:shutil.copytree(ROOT/directory,tmp_path/directory)
     alias=tmp_path/'registry/workflows/superpowers.yaml';d=yaml.safe_load(alias.read_text());d.update(adoption_state='approved',evaluation_ids=['run-1']);alias.write_text(yaml.safe_dump(d))
     record=tmp_path/'registry/adoptions/superpowers-android-adapter-0.2.0.json';record.parent.mkdir();record.write_text(json.dumps({'review':asdict(review()),'runs':[asdict(run())]}))
     out=tmp_path/'.build/export';export_public(Snapshot(),tmp_path,out,PublicationConfig())

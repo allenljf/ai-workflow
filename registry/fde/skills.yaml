@@ -1,0 +1,197 @@
+schema_version: 1
+skills:
+- id: enterprise-discovery
+  title: 需求探索與企業交付
+  level: foundation
+  prerequisite_ids: []
+  guide_path: fde/enterprise-discovery.md
+  source_refs:
+  - https://openai.com/careers/forward-deployed-engineer-uae-abu-dhabi-uae/
+  checked_at: '2026-10-08'
+  practice_ids:
+  - practice-enterprise-discovery
+  evidence_level: primary-research
+  visibility: public
+  review_state: approved
+  skill_bundle_ids:
+  - fde-solution-adapter
+- id: api
+  title: API 與後端契約
+  level: foundation
+  prerequisite_ids:
+  - enterprise-discovery
+  guide_path: fde/api.md
+  source_refs:
+  - https://docs.spring.io/spring-ai/reference/api/retrieval-augmented-generation.html
+  checked_at: '2026-10-08'
+  practice_ids:
+  - practice-api
+  evidence_level: primary-research
+  visibility: public
+  review_state: approved
+  skill_bundle_ids:
+  - fde-solution-adapter
+- id: data
+  title: 資料與資料庫
+  level: foundation
+  prerequisite_ids:
+  - api
+  guide_path: fde/data.md
+  source_refs:
+  - https://www.postgresql.org/docs/current/ddl-rowsecurity.html
+  checked_at: '2026-10-08'
+  practice_ids:
+  - practice-data
+  evidence_level: primary-research
+  visibility: public
+  review_state: approved
+  skill_bundle_ids:
+  - fde-solution-adapter
+- id: models
+  title: 模型、工具與 context
+  level: intermediate
+  prerequisite_ids:
+  - api
+  - data
+  guide_path: fde/models.md
+  source_refs:
+  - https://docs.ollama.com/capabilities/structured-outputs
+  checked_at: '2026-10-08'
+  practice_ids:
+  - practice-models
+  evidence_level: primary-research
+  visibility: public
+  review_state: approved
+  skill_bundle_ids:
+  - fde-solution-adapter
+- id: rag
+  title: 現代 RAG 與長 context
+  level: intermediate
+  prerequisite_ids:
+  - models
+  guide_path: fde/rag.md
+  source_refs:
+  - https://www.anthropic.com/engineering/contextual-retrieval
+  checked_at: '2026-10-08'
+  practice_ids:
+  - practice-rag
+  evidence_level: primary-research
+  visibility: public
+  review_state: approved
+  skill_bundle_ids:
+  - fde-solution-adapter
+- id: local
+  title: Local 模型與服務化
+  level: intermediate
+  prerequisite_ids:
+  - models
+  guide_path: fde/local.md
+  source_refs:
+  - https://docs.ollama.com/api/embed
+  checked_at: '2026-10-08'
+  practice_ids:
+  - practice-local
+  evidence_level: primary-research
+  visibility: public
+  review_state: approved
+  skill_bundle_ids:
+  - fde-solution-adapter
+- id: eval
+  title: 評測與可觀測性
+  level: intermediate
+  prerequisite_ids:
+  - rag
+  guide_path: fde/eval.md
+  source_refs:
+  - https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents
+  checked_at: '2026-10-08'
+  practice_ids:
+  - practice-eval
+  evidence_level: primary-research
+  visibility: public
+  review_state: approved
+  skill_bundle_ids:
+  - fde-solution-adapter
+- id: durable
+  title: 長任務與故障恢復
+  level: intermediate
+  prerequisite_ids:
+  - data
+  - eval
+  guide_path: fde/durable.md
+  source_refs:
+  - https://docs.temporal.io/ai
+  checked_at: '2026-10-08'
+  practice_ids:
+  - practice-durable
+  evidence_level: primary-research
+  visibility: public
+  review_state: approved
+  skill_bundle_ids:
+  - fde-solution-adapter
+- id: cloud
+  title: 雲端、部署與排程
+  level: advanced
+  prerequisite_ids:
+  - durable
+  guide_path: fde/cloud.md
+  source_refs:
+  - https://docs.cloud.google.com/run/docs/jobs-retries
+  checked_at: '2026-10-08'
+  practice_ids:
+  - practice-cloud
+  evidence_level: primary-research
+  visibility: public
+  review_state: approved
+  skill_bundle_ids:
+  - fde-solution-adapter
+- id: analysis
+  title: 資料分析與品質
+  level: intermediate
+  prerequisite_ids:
+  - data
+  guide_path: fde/analysis.md
+  source_refs:
+  - https://scikit-learn.org/1.9/common_pitfalls.html
+  checked_at: '2026-10-08'
+  practice_ids:
+  - practice-analysis
+  evidence_level: primary-research
+  visibility: public
+  review_state: approved
+  skill_bundle_ids:
+  - fde-solution-adapter
+- id: training
+  title: SFT／LoRA 與訓練準備
+  level: advanced
+  prerequisite_ids:
+  - analysis
+  - eval
+  guide_path: fde/training.md
+  source_refs:
+  - https://huggingface.co/docs/trl/en/sft_trainer
+  checked_at: '2026-10-08'
+  practice_ids:
+  - practice-training
+  evidence_level: primary-research
+  visibility: public
+  review_state: approved
+  skill_bundle_ids:
+  - fde-solution-adapter
+- id: handover
+  title: 上線、交接與持續改善
+  level: advanced
+  prerequisite_ids:
+  - cloud
+  - analysis
+  guide_path: fde/handover.md
+  source_refs:
+  - https://openai.com/careers/forward-deployed-engineer-uae-abu-dhabi-uae/
+  checked_at: '2026-10-08'
+  practice_ids:
+  - practice-handover
+  evidence_level: primary-research
+  visibility: public
+  review_state: approved
+  skill_bundle_ids:
+  - fde-solution-adapter

@@ -100,8 +100,12 @@ def export_public(snapshot: Snapshot, content_root: Path, output: Path, publicat
         (stage/'digests.json').write_text(json.dumps(digests,ensure_ascii=False,indent=2)+'\n')
         from .workflows.catalog import export_catalog
         workflows=export_catalog(root,stage)
+        from .fde.catalog import load_skills
+        skills=load_skills(root)
+        if any('docs/'+n['guide_path'] not in ['docs/'+p for p in copied] for n in skills):raise ValueError('FDE guide outside approved export')
+        (stage/'fde.json').write_text(json.dumps({'schema_version':1,'checked_at':max((n['checked_at'] for n in skills),default=None),'skills':skills},ensure_ascii=False,indent=2)+'\n')
         (stage/'workflows.json').write_text(json.dumps(workflows,ensure_ascii=False,indent=2)+'\n')
-        (stage/'manifest.json').write_text(json.dumps({'schema_version':1,'files':['radar.json','digests.json','workflows.json']+['docs/'+p for p in copied]+[r['download_path'] for r in workflows]},ensure_ascii=False,indent=2)+'\n')
+        (stage/'manifest.json').write_text(json.dumps({'schema_version':1,'files':['radar.json','digests.json','workflows.json','fde.json']+['docs/'+p for p in copied]+[r['download_path'] for r in workflows]},ensure_ascii=False,indent=2)+'\n')
         if output.exists():
             backup=output.parent/(output.name+'.previous')
             if backup.exists():raise ValueError('Previous export recovery required')
