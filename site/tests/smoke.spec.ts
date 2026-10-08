@@ -26,3 +26,8 @@ test('untrusted titles, stale sources, and topic filter',async({page})=>{
  await page.goto('sources/');
  await expect(page.getByText('延遲／待確認',{exact:true})).toBeVisible();
 });
+test('digest page awaits human approval',async({page})=>{
+ await page.goto('digests/');
+ await expect(page.getByRole('heading',{name:'雙週精選',exact:true})).toBeVisible();
+ await expect(page.getByText('尚無人工核准的精選')).toBeVisible();
+});

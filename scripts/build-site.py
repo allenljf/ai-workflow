@@ -22,6 +22,7 @@ def prepare(export: Path, site: Path):
             for dest in (docs/'guides'/relative, downloads/relative):
                 dest.parent.mkdir(parents=True,exist_ok=True);shutil.copyfile(export/name,dest)
     shutil.copyfile(export/'radar.json',generated/'radar.json')
+    shutil.copyfile(export/'digests.json',generated/'digests.json')
     (generated/'guides.json').write_text(json.dumps([n.removeprefix('docs/') for n in manifest['files'] if n.startswith('docs/')]))
     print('Prepared reviewed site inputs')
 

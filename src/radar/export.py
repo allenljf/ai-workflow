@@ -82,14 +82,23 @@ def export_public(snapshot: Snapshot, content_root: Path, output: Path, publicat
     stage=Path(tempfile.mkdtemp(prefix='.export-',dir=output.parent));backup=None
     try:
         (stage/'docs').mkdir()
-        copied=[]
+        copied=[];digests=[]
         for p in selected:
             text=p.read_text();check_links(text,p,approved)
             relative=p.relative_to(root/'content/public')
+            meta=read_frontmatter(text)
+            if meta.get('kind')=='digest':
+                from .enrich.metadata import digest_metadata
+                digests.append(digest_metadata(meta,str(relative)))
             target=stage/'docs'/relative;target.parent.mkdir(parents=True,exist_ok=True);target.write_text(text)
             copied.append(str(relative))
-        (stage/'radar.json').write_text(json.dumps(public_radar(snapshot),ensure_ascii=False,indent=2)+'\n')
-        (stage/'manifest.json').write_text(json.dumps({'schema_version':1,'files':['radar.json']+['docs/'+p for p in copied]},ensure_ascii=False,indent=2)+'\n')
+        radar=public_radar(snapshot)
+        if digests:
+            radar['last_enriched_at']=max(d['enriched_at'] for d in digests)
+            radar['last_reviewed_at']=max(d['reviewed_at'] for d in digests)
+        (stage/'radar.json').write_text(json.dumps(radar,ensure_ascii=False,indent=2)+'\n')
+        (stage/'digests.json').write_text(json.dumps(digests,ensure_ascii=False,indent=2)+'\n')
+        (stage/'manifest.json').write_text(json.dumps({'schema_version':1,'files':['radar.json','digests.json']+['docs/'+p for p in copied]},ensure_ascii=False,indent=2)+'\n')
         if output.exists():
             backup=output.parent/(output.name+'.previous')
             if backup.exists():raise ValueError('Previous export recovery required')
