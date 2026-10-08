@@ -15,6 +15,9 @@ class RadarConfig:
     sources: list[Source]=field(default_factory=list)
     interval_days: int=14
     ai_enabled: bool=False
+    max_events_per_batch: int=20
+    max_batch_usd: str='0.50'
+    max_monthly_usd: str='2'
     max_items_per_source: int=100
     request_timeout_seconds: int=20
     publication: PublicationConfig=field(default_factory=PublicationConfig)
@@ -30,4 +33,7 @@ def load_config(root: Path) -> RadarConfig:
     publication=PublicationConfig(**read('publication.yaml'))
     config=RadarConfig(sources=sources,publication=publication,**read('pipeline.yaml'))
     if config.max_items_per_source<=0 or config.request_timeout_seconds<=0: raise ValueError('Positive limits required')
+    if type(config.max_events_per_batch) is not int or not 1<=config.max_events_per_batch<=30 or config.interval_days!=14:raise ValueError('Invalid enrichment limits')
+    from .enrich.models import money
+    money(config.max_batch_usd);money(config.max_monthly_usd)
     return config

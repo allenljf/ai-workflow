@@ -1,0 +1,9 @@
+model: deepseek-flash
+input_usd_per_million: '0.30'
+output_usd_per_million: '1.20'
+checked_at: '2026-10-08T00:00:00+00:00'
+expires_at: '2026-10-22T00:00:00+00:00'
+max_output_tokens: 6000
+caps_verified: true
+input_token_ceiling: 1048576
+policy_version: deepseek-nonthinking-2026-10-08
