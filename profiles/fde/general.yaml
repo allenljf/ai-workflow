@@ -1,0 +1,13 @@
+id: fde-general
+visibility: public
+review_state: approved
+rules:
+  architecture: enterprise-api-worker-data
+  test_evidence: current-artifacts-with-acceptance-and-hashes
+  max_parallel: 2
+  max_attempts: 3
+  sensitive_actions: explicit-task-scope
+overrides: {}
+sources:
+- https://docs.temporal.io/ai
+- https://docs.cloud.google.com/run/docs/jobs-retries

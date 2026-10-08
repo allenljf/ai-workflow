@@ -1,4 +1,4 @@
-from dataclasses import dataclass,asdict
+from dataclasses import dataclass,asdict,field
 from pathlib import Path
 from importlib.resources import files
 import json,yaml,jsonschema
@@ -19,7 +19,13 @@ class WorkflowManifest:
     evaluation_ids: list[str]
     replacement_version: str | None=None
     deprecation_reason: str | None=None
-    def to_dict(self):return asdict(self)
+    domain: str | None=None
+    asset_approvals: dict[str,str]=field(default_factory=dict)
+    def to_dict(self):
+        data=asdict(self)
+        if self.domain is None:data.pop('domain')
+        if not self.asset_approvals:data.pop('asset_approvals')
+        return data
 def validate_manifest(value):
     try:jsonschema.validate(value,json.loads(files('radar.workflows').joinpath('workflow-manifest.schema.json').read_text()))
     except jsonschema.ValidationError:raise ValueError('Invalid workflow manifest') from None

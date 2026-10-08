@@ -1,0 +1,25 @@
+id: fde-solution-adapter
+version: 0.1.0
+domain: fde
+upstream_url: https://github.com/allenljf/ai-workflow
+upstream_ref: 9a4763c694704a76121d44147f6d28893e9f43dd
+license: MIT
+redistribution_allowed: false
+supported_harnesses:
+- codex
+- claude-code
+profile_ids:
+- fde-general
+bundle_files:
+- bundles/fde/README.md
+- bundles/fde/LICENSE.md
+- profiles/fde/general.yaml
+- skills/fde-solution/SKILL.md
+- skills/fde-solution/references/ai-boundaries.md
+- skills/fde-solution/references/delivery-contract.md
+- skills/fde-knowledge-review/SKILL.md
+- skills/fde-knowledge-review/references/update-contract.md
+visibility: public
+review_state: approved
+adoption_state: candidate
+evaluation_ids: []

@@ -29,9 +29,9 @@ def export_catalog(root,stage):
         if key in overlays:raise ValueError('Duplicate workflow alias')
         overlays[key]=m
     public_profiles={}
-    profile_root=root/'profiles/android'
+    profile_root=root/'profiles'
     if profile_root.is_symlink():raise ValueError('Unsafe profile directory')
-    for p in profile_root.glob('*.yaml'):
+    for p in sorted(profile_root.glob('android/*.yaml'))+sorted(profile_root.glob('fde/*.yaml')):
         if p.is_symlink():raise ValueError('Unsafe profile')
         d=yaml.safe_load(p.read_text())
         if d.get('visibility')=='public' and d.get('review_state')=='approved':public_profiles[d['id']]=p
@@ -39,6 +39,8 @@ def export_catalog(root,stage):
     for key,original in sorted(histories.items()):
         m=overlays.get(key,original)
         if not set(m.profile_ids)<=set(public_profiles):continue
+        domain=m.domain or 'android'
+        if any(p.parent.name!=domain for key,p in public_profiles.items() if key in m.profile_ids):raise ValueError('Profile outside workflow domain')
         adoption_scope=[]
         if m.adoption_state in {'evaluated','trial','approved'}:
             review_path=root/'registry/adoptions'/f'{m.id}-{m.version}.json'
@@ -51,5 +53,5 @@ def export_catalog(root,stage):
         if m.adoption_state=='deprecated' and (not m.deprecation_reason or not m.replacement_version or (m.id,m.replacement_version) not in histories or m.replacement_version==m.version):raise ValueError('Unbound deprecation replacement/reason')
         if not (root/'registry/bundle-locks'/f'{m.id}-{m.version}.json').is_file():raise ValueError('Immutable bundle lock required for public export')
         report=build_bundle(original,root,stage/'bundles')
-        rows.append({'id':m.id,'version':m.version,'upstream_url':m.upstream_url,'upstream_ref':m.upstream_ref,'license':m.license,'supported_harnesses':m.supported_harnesses,'profile_ids':m.profile_ids,'adoption_profile_scope':adoption_scope,'adoption_state':m.adoption_state,'evaluation_ids':m.evaluation_ids,'replacement_version':m.replacement_version,'deprecation_reason':m.deprecation_reason,'download_path':'bundles/'+report.zip_path.name,'sha256':report.sha256,'included_files':report.included_files})
+        rows.append({'domain':domain,'id':m.id,'version':m.version,'upstream_url':m.upstream_url,'upstream_ref':m.upstream_ref,'license':m.license,'supported_harnesses':m.supported_harnesses,'profile_ids':m.profile_ids,'adoption_profile_scope':adoption_scope,'adoption_state':m.adoption_state,'evaluation_ids':m.evaluation_ids,'replacement_version':m.replacement_version,'deprecation_reason':m.deprecation_reason,'download_path':'bundles/'+report.zip_path.name,'sha256':report.sha256,'included_files':report.included_files})
     return rows

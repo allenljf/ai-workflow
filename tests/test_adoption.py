@@ -50,12 +50,12 @@ def test_public_export_pinned_bundle_hash_and_private_exclusion(tmp_path):
     out=tmp_path/'.build/export'
     export_public(Snapshot(),tmp_path,out,PublicationConfig())
     catalog=json.loads((out/'workflows.json').read_text())
-    assert len(catalog)==2 and all(r['adoption_state']=='candidate' for r in catalog)
+    assert len([r for r in catalog if r['domain']=='android'])==2 and all(r['adoption_state']=='candidate' for r in catalog)
     for row in catalog:
         package=out/row['download_path'];assert hashlib.sha256(package.read_bytes()).hexdigest()==row['sha256']
         with zipfile.ZipFile(package) as z:
             assert not any('company' in n for n in z.namelist())
-            assert json.loads(json.dumps(row))['upstream_ref']==manifest().upstream_ref
+            if row['domain']=='android':assert json.loads(json.dumps(row))['upstream_ref']==manifest().upstream_ref
             assert 'PRIVATE_PROFILE_SENTINEL' not in ''.join(z.read(n).decode() for n in z.namelist())
     assert not (out/'docs/cases/internal.md').exists()
 
