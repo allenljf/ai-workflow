@@ -39,3 +39,9 @@ def test_skill_approval_can_use_standard_skill_metadata(tmp_path):
     manifest=load_manifest(root/'registry/workflows/superpowers.yaml')
     report=build_bundle(manifest,root,tmp_path)
     assert 'skills/android-task/SKILL.md' in report.included_files
+
+@pytest.mark.parametrize('target',['../../profiles/company/profile.yaml','scripts/missing.py'])
+def test_reference_definition_must_be_in_public_bundle(tmp_path,target):
+    m=manifest(tmp_path);p=tmp_path/'bundles/android-task/README.md'
+    p.write_text(p.read_text()+f'\n[Required reference][dependency]\n\n[dependency]: {target}\n')
+    with pytest.raises(ValueError,match='Missing bundled reference'):build_bundle(m,tmp_path,tmp_path/'.build/zip')

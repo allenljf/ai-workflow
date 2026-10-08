@@ -4,11 +4,16 @@ import hashlib,json,shutil,zipfile
 import pytest
 from radar.workflows.registry import load_manifest
 from radar.workflows.adoption import AdoptionReview,transition
-from test_evaluation_evidence import run
+from test_evaluation_evidence import run,FIXTURE_XML
 from radar.export import export_public
 from radar.config import PublicationConfig
 from radar.models import Snapshot
 ROOT=Path(__file__).parents[1]
+
+@pytest.fixture(autouse=True)
+def archived_report(tmp_path,monkeypatch):
+    monkeypatch.chdir(tmp_path)
+    (tmp_path/'report.xml').write_text(FIXTURE_XML)
 
 def review(r=None,**kw):
     r=r or run()
@@ -62,3 +67,23 @@ def test_alias_revision_does_not_rewrite_historical_bundle(tmp_path):
     row=next(r for r in json.loads((out/'workflows.json').read_text()) if r['version']=='0.2.0')
     assert row['adoption_state']=='deprecated' and row['deprecation_reason']
     with zipfile.ZipFile(out/row['download_path']) as z:assert yaml.safe_load(z.read('manifest.yaml'))['adoption_state']=='candidate'
+
+def test_historical_package_cannot_change_on_fresh_export(tmp_path):
+    for directory in ['registry','profiles','skills','bundles']:shutil.copytree(ROOT/directory,tmp_path/directory)
+    first=tmp_path/'.build/export'
+    export_public(Snapshot(),tmp_path,first,PublicationConfig())
+    old=(first/'workflows.json').read_bytes()
+    license=tmp_path/'bundles/android-task/LICENSE.md';license.write_text(license.read_text()+'\nUnversioned edit\n')
+    with pytest.raises(ValueError,match='Immutable'):export_public(Snapshot(),tmp_path,first,PublicationConfig())
+    assert (first/'workflows.json').read_bytes()==old
+
+def test_catalog_retains_subset_adoption_scope(tmp_path):
+    from dataclasses import asdict
+    import yaml
+    for directory in ['registry','profiles','skills','bundles']:shutil.copytree(ROOT/directory,tmp_path/directory)
+    alias=tmp_path/'registry/workflows/superpowers.yaml';d=yaml.safe_load(alias.read_text());d.update(adoption_state='approved',evaluation_ids=['run-1']);alias.write_text(yaml.safe_dump(d))
+    record=tmp_path/'registry/adoptions/superpowers-android-adapter-0.2.0.json';record.parent.mkdir();record.write_text(json.dumps({'review':asdict(review()),'runs':[asdict(run())]}))
+    out=tmp_path/'.build/export';export_public(Snapshot(),tmp_path,out,PublicationConfig())
+    row=next(r for r in json.loads((out/'workflows.json').read_text()) if r['version']=='0.2.0')
+    assert row['adoption_profile_scope']==['android-baseline']
+    assert row['profile_ids']==['android-baseline','android-verification']

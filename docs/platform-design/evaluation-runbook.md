@@ -25,3 +25,9 @@ Synthetic 示例：baseline duration10、candidate6 → delta−4；兩組 cost=
 ## 待補資料
 
 Android repo與版本、八個任務的專案路徑/命令、真實環境與資源鎖、實驗規格hash、模型/工具版本、報告、acceptance觀察、實測成本/人工時間、公司profile核准人、試用範圍與rollback版本。這些具備前，candidate 不升 evaluated。每兩週資訊更新只產生候選；先實測再 trial，由人類決定 approved。
+
+## 採納 attestation 與保存
+
+真實 evidence 的 artifact_refs 必須指向保存的 regular file 並符合 SHA-256；存在 JUnit XML 時，executed/failed/skipped 必須與實際case一致。私有 CI export 必須能存取封存的證據檔；失效或被修改的證據阻止採納／發布，不補造資料。手動非JUnit觀察仍需實際artifact與reviewer決策。
+
+候選升級由 `transition` 逐步決策。保存 `registry/adoptions/<id>-<version>.json`，包含 review（owner/decision_at/reason/profile_scope/rollback_version/actor_type=human/evaluation_contracts）與完整 runs。每個 run 的 evaluation_contracts 必須由固定任務規格提供 spec_hash/base_sha/head_sha/environment/acceptance_ids，而非回抄成功結果。最後的workflow alias保存adoption_state及evaluation_ids，歷史版本manifest保持原樣。repo審查是人類決策的信任來源，metadata本身不是密碼學人類身分驗證。公開catalog只顯示公開profile核准範圍，與所有相容profile分開；公司採納scope保留私有。

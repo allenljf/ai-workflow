@@ -1,7 +1,7 @@
 """Version-bound evidence, with synthetic provenance kept visible."""
 from dataclasses import dataclass,asdict
 from importlib.resources import files
-import json,jsonschema
+import json,jsonschema,hashlib
 from pathlib import Path
 import xml.etree.ElementTree as ET
 
@@ -46,6 +46,15 @@ def validate_evidence(run,expected_head,acceptance_ids):
     if not acceptance_ids or any(run.acceptance_results.get(id) is not True for id in acceptance_ids):reasons.append('missing/failed acceptance')
     if not run.artifact_refs:reasons.append('missing artifacts')
     if not run.environment:reasons.append('missing environment')
+    if run.provenance=='real':
+        xml_paths=[]
+        try:
+            for ref in run.artifact_refs:
+                path=Path(ref['path'])
+                if path.is_symlink() or not path.is_file() or hashlib.sha256(path.read_bytes()).hexdigest()!=ref['sha256']:raise ValueError('Missing/changed artifact')
+                if path.suffix=='.xml':xml_paths.append(path)
+            if xml_paths and read_junit(xml_paths)!=dict(executed=run.executed,failed=run.failed,skipped=run.skipped):raise ValueError('Report observations differ')
+        except (OSError,ValueError):reasons.append('unverified artifact integrity/observations')
     return EvidenceVerdict(not reasons,not reasons and run.provenance=='real',reasons)
 
 def read_junit(paths):

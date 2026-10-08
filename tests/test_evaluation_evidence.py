@@ -1,10 +1,12 @@
 from dataclasses import replace
+import hashlib
+FIXTURE_XML='<testsuite><testcase/><testcase/><testcase><skipped/></testcase></testsuite>'
 import pytest
 from radar.workflows.evidence import EvaluationRun,validate_evidence,read_junit
 from radar.workflows.evaluate import compare_runs,RunnerBinding,validate_binding
 
 def run(**kw):
-    d=dict(id='run-1',workflow_id='superpowers-android-adapter',workflow_version='0.2.0',task_id='retry',spec_hash='a'*64,base_sha='b'*40,head_sha='c'*40,model_version='model-pinned',harness_version='harness-pinned',environment={'jdk':'17','sdk':'35','profile':'android-baseline'},commands=[{'argv':['./gradlew','test'],'exit_code':0}],executed=2,failed=0,skipped=1,acceptance_results={'retry':True},cost=None,human_minutes=None,duration=None,artifact_refs=[{'path':'report.xml','sha256':'d'*64}],provenance='real')
+    d=dict(id='run-1',workflow_id='superpowers-android-adapter',workflow_version='0.2.0',task_id='retry',spec_hash='a'*64,base_sha='b'*40,head_sha='c'*40,model_version='model-pinned',harness_version='harness-pinned',environment={'jdk':'17','sdk':'35','profile':'android-baseline'},commands=[{'argv':['./gradlew','test'],'exit_code':0}],executed=2,failed=0,skipped=1,acceptance_results={'retry':True},cost=None,human_minutes=None,duration=None,artifact_refs=[{'path':'report.xml','sha256':hashlib.sha256(FIXTURE_XML.encode()).hexdigest()}],provenance='real')
     d.update(kw);return EvaluationRun(**d)
 
 @pytest.mark.parametrize('kw',[{'executed':0},{'failed':1},{'head_sha':'d'*40},{'acceptance_results':{}},{'commands':[{'argv':['./gradlew','test'],'exit_code':1}]}])
@@ -51,3 +53,17 @@ def test_bound_runner_collects_fresh_reports_and_rejects_stale(tmp_path):
     assert run_bound(b,['report.xml'],tmp_path/'private2')['executed']==1
     b.commands=[[sys.executable,'-c','pass']];b.profile_review['commands']=b.commands
     with pytest.raises(ValueError,match='stale'):run_bound(b,['report.xml'],tmp_path/'private3')
+
+def test_real_evidence_requires_existing_matching_report(tmp_path):
+    import hashlib
+    p=tmp_path/'report.xml'
+    xml='<testsuite><testcase/><testcase/><testcase><skipped/></testcase></testsuite>'
+    digest=hashlib.sha256(xml.encode()).hexdigest()
+    r=run(artifact_refs=[{'path':str(p),'sha256':digest}])
+    assert not validate_evidence(r,r.head_sha,{'retry'}).eligible_for_adoption
+    p.write_text(xml)
+    assert validate_evidence(r,r.head_sha,{'retry'}).eligible_for_adoption
+    p.write_text(xml.replace('<skipped/>','<failure/>'))
+    assert not validate_evidence(r,r.head_sha,{'retry'}).eligible_for_adoption
+    changed=replace(r,artifact_refs=[{'path':str(p),'sha256':hashlib.sha256(p.read_bytes()).hexdigest()}])
+    assert not validate_evidence(changed,changed.head_sha,{'retry'}).eligible_for_adoption

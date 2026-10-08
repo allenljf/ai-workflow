@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 from pathlib import Path,PurePosixPath
 from urllib.parse import urlsplit,unquote
-import hashlib,io,re,zipfile,yaml
+import hashlib,io,re,zipfile,yaml,json
 from .registry import validate_manifest
 from ..export import read_frontmatter
 @dataclass
@@ -32,8 +32,10 @@ def build_bundle(manifest,root,out):
             meta=yaml.safe_load(text) if source.suffix=='.yaml' else read_frontmatter(text)
             if isinstance(meta,dict) and source.name=='SKILL.md':meta=meta.get('metadata',{})
             if not isinstance(meta,dict) or meta.get('visibility')!='public' or meta.get('review_state')!='approved':raise ValueError('File lacks public review approval')
-        for link in re.findall(r'!?\[[^\]]*\]\(([^\s)]+)',text):
-            u=urlsplit(link)
+        links=re.findall(r'!?\[[^\]]*\]\(([^\s)]+)',text)
+        links+=re.findall(r'^\s*\[[^\]]+\]:\s*(\S+)',text,re.M)
+        for link in links:
+            link=link.strip('<>');u=urlsplit(link)
             if u.scheme:
                 if u.scheme!='https':raise ValueError('Unsafe bundle link')
                 continue
@@ -49,6 +51,12 @@ def build_bundle(manifest,root,out):
         for name,value in sorted(payload.items()):
             info=zipfile.ZipInfo(name,date_time=(1980,1,1,0,0,0));info.compress_type=zipfile.ZIP_DEFLATED;info.external_attr=0o100644<<16;info.create_system=3
             z.writestr(info,value)
+    data=buf.getvalue()
+    lock=root/'registry/bundle-locks'/f'{manifest.id}-{manifest.version}.json'
+    if any(p.is_symlink() for p in [lock,*lock.parents] if p.is_relative_to(root)):raise ValueError('Unsafe bundle lock')
+    if lock.exists():
+        record=json.loads(lock.read_text())
+        if record.get('id')!=manifest.id or record.get('version')!=manifest.version or record.get('sha256')!=hashlib.sha256(data).hexdigest():raise ValueError('Immutable bundle lock differs; create a new version with retained historical sources')
     if out.is_symlink():raise ValueError('Unsafe bundle output')
     out.mkdir(parents=True,exist_ok=True)
     target=out/(manifest.id+'-'+manifest.version+'.zip')
