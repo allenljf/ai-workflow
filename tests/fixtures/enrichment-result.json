@@ -1,0 +1,28 @@
+{
+  "stories": [
+    {
+      "event_id": "e00",
+      "why": "合成示範，供測試引用流程。",
+      "usage": "先在測試專案觀察。",
+      "limitations": "未進行 Android 實測。",
+      "case_evidence": "unknown",
+      "source_ids": [
+        "r0"
+      ],
+      "claim_evidence": [
+        {
+          "claim": "來源標題提供更新訊號",
+          "kind": "source",
+          "source_id": "r0",
+          "quote": "公開更新"
+        },
+        {
+          "claim": "可能適合小規模試用",
+          "kind": "inference",
+          "source_id": "r0",
+          "quote": ""
+        }
+      ]
+    }
+  ]
+}
