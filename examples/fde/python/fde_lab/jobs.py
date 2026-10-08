@@ -25,7 +25,7 @@ def encoded(payload):
 class JobStore:
     def __init__(self,path):
         self.path=Path(path);self.path.parent.mkdir(parents=True,exist_ok=True)
-        with database(self.path) as db:
+        with self._database() as db:
             version=db.execute('PRAGMA user_version').fetchone()[0]
             if version not in (0,1):raise ValueError('Unsupported jobs schema version')
             db.execute('''CREATE TABLE IF NOT EXISTS jobs(id TEXT PRIMARY KEY,tenant TEXT,key TEXT,payload TEXT,status TEXT,owner TEXT,lease_until REAL,lease_version INTEGER,attempts INTEGER,max_attempts INTEGER,deadline REAL,next_run REAL,cancel_requested INTEGER,cost TEXT,max_cost TEXT,step TEXT, UNIQUE(tenant,key))''')
@@ -33,30 +33,34 @@ class JobStore:
             db.execute('CREATE TABLE IF NOT EXISTS local_effects(job_id TEXT,step TEXT,payload TEXT,PRIMARY KEY(job_id,step))')
             db.execute('CREATE TABLE IF NOT EXISTS external_calls(job_id TEXT,step TEXT,status TEXT,PRIMARY KEY(job_id,step))')
             db.execute('PRAGMA user_version=1')
-    def submit(self,tenant,key,payload,now,deadline,max_attempts=3,max_cost_usd='0'):
+    def _database(self):
+        return database(self.path)
+    def submit(self,*args,**kwargs):
+        return self.submit_with_status(*args,**kwargs)[0]
+    def submit_with_status(self,tenant,key,payload,now,deadline,max_attempts=3,max_cost_usd='0'):
         timestamp(now);timestamp(deadline);money(max_cost_usd)
         if not isinstance(tenant,str) or not tenant or not isinstance(key,str) or not key or len(key)>200 or not isinstance(payload,dict) or type(max_attempts) is not int or not 1<=max_attempts<=10 or deadline<=now:raise ValueError('Invalid job contract')
         text=encoded(payload)
-        with database(self.path) as db:
+        with self._database() as db:
             db.execute('BEGIN IMMEDIATE')
             old=db.execute('SELECT * FROM jobs WHERE tenant=? AND key=?',(tenant,key)).fetchone()
             if old:
                 if old['payload']!=text:raise ValueError('Idempotency payload conflict')
-                return self._row(old)
+                return self._row(old),False
             id=str(uuid.uuid4())
             db.execute('INSERT INTO jobs VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',(id,tenant,key,text,'queued',None,0,0,0,max_attempts,deadline,now,0,'0',max_cost_usd,None))
-            return self._row(db.execute('SELECT * FROM jobs WHERE id=?',(id,)).fetchone())
+            return self._row(db.execute('SELECT * FROM jobs WHERE id=?',(id,)).fetchone()),True
     @staticmethod
     def _row(row):
         d=dict(row);d['payload']=json.loads(d['payload']);return d
     def get(self,tenant,job_id):
-        with database(self.path) as db:row=db.execute('SELECT * FROM jobs WHERE tenant=? AND id=?',(tenant,job_id)).fetchone()
+        with self._database() as db:row=db.execute('SELECT * FROM jobs WHERE tenant=? AND id=?',(tenant,job_id)).fetchone()
         if not row:raise KeyError('Job not found')
         return self._row(row)
     def claim(self,owner,now,lease_seconds=30):
         timestamp(now)
         if not isinstance(owner,str) or not owner or type(lease_seconds) is not int or not 1<=lease_seconds<=300:raise ValueError('Invalid lease')
-        with database(self.path) as db:
+        with self._database() as db:
             db.execute('BEGIN IMMEDIATE')
             db.execute("UPDATE jobs SET status='ambiguous',owner=NULL WHERE status='running' AND (lease_until<=? OR deadline<=?) AND EXISTS (SELECT 1 FROM external_calls e WHERE e.job_id=jobs.id AND e.status='started')",(now,now))
             db.execute("UPDATE jobs SET status='cancelled',owner=NULL WHERE status='running' AND cancel_requested=1 AND (lease_until<=? OR deadline<=?)",(now,now))
@@ -85,11 +89,11 @@ class JobStore:
         db.execute('UPDATE jobs SET step=?,cost=? WHERE id=?',(step,str(total),row['id']))
         return receipt
     def apply_local_step(self,job_id,owner,lease_version,step,receipt,now,cost_usd='0'):
-        with database(self.path) as db:
+        with self._database() as db:
             db.execute('BEGIN IMMEDIATE');row=self._owned(db,job_id,owner,lease_version,now)
             return self._receipt(db,row,step,receipt,now,cost_usd,True)
     def checkpoint(self,job_id,owner,lease_version,step,receipt,now):
-        with database(self.path) as db:
+        with self._database() as db:
             db.execute('BEGIN IMMEDIATE');row=self._owned(db,job_id,owner,lease_version,now)
             # A completed remote receipt must be retained even if cancellation arrived during the call.
             data=dict(row);data['cancel_requested']=0
@@ -97,13 +101,13 @@ class JobStore:
             db.execute("UPDATE external_calls SET status='confirmed' WHERE job_id=? AND step=?",(job_id,step))
             if row['cancel_requested']:db.execute("UPDATE jobs SET status='cancelled',owner=NULL WHERE id=?",(job_id,))
     def finish(self,job_id,owner,lease_version,now):
-        with database(self.path) as db:
+        with self._database() as db:
             db.execute('BEGIN IMMEDIATE');row=self._owned(db,job_id,owner,lease_version,now)
             if db.execute("SELECT 1 FROM external_calls WHERE job_id=? AND status='started'",(job_id,)).fetchone():raise ValueError('Unresolved external call')
             db.execute('UPDATE jobs SET status=?,owner=NULL WHERE id=?',('cancelled' if row['cancel_requested'] else 'succeeded',job_id))
     def fail(self,job_id,owner,lease_version,now,kind):
         if kind not in {'transient','permanent','ambiguous'}:raise ValueError('Invalid failure class')
-        with database(self.path) as db:
+        with self._database() as db:
             db.execute('BEGIN IMMEDIATE');row=self._owned(db,job_id,owner,lease_version,now)
             status='ambiguous' if kind=='ambiguous' else 'retry_wait' if kind=='transient' and row['attempts']<row['max_attempts'] else 'failed'
             if db.execute("SELECT 1 FROM external_calls WHERE job_id=? AND status='started'",(job_id,)).fetchone():status='ambiguous'
@@ -111,7 +115,7 @@ class JobStore:
             db.execute('UPDATE jobs SET status=?,owner=NULL,next_run=? WHERE id=?',(status,now+min(60,2**row['attempts']),job_id))
     def begin_external_step(self,job_id,owner,lease_version,step,now,cost_usd='0'):
         if not isinstance(step,str) or not step or len(step)>100:raise ValueError('Invalid external step')
-        with database(self.path) as db:
+        with self._database() as db:
             db.execute('BEGIN IMMEDIATE');row=self._owned(db,job_id,owner,lease_version,now)
             if row['cancel_requested']:raise ValueError('Cancellation requested')
             if db.execute('SELECT 1 FROM receipts WHERE job_id=? AND step=?',(job_id,step)).fetchone() or db.execute("SELECT 1 FROM external_calls WHERE job_id=? AND status='started'",(job_id,)).fetchone():raise ValueError('External step already completed or unresolved')
@@ -121,11 +125,11 @@ class JobStore:
             db.execute('UPDATE jobs SET cost=? WHERE id=?',(str(total),job_id))
     def heartbeat(self,job_id,owner,lease_version,now,lease_seconds=30):
         if type(lease_seconds) is not int or not 1<=lease_seconds<=300:raise ValueError('Invalid lease')
-        with database(self.path) as db:
+        with self._database() as db:
             db.execute('BEGIN IMMEDIATE');row=self._owned(db,job_id,owner,lease_version,now)
             db.execute('UPDATE jobs SET lease_until=? WHERE id=?',(min(now+lease_seconds,row['deadline']),job_id))
     def cancel(self,tenant,job_id):
-        with database(self.path) as db:
+        with self._database() as db:
             db.execute('BEGIN IMMEDIATE');row=db.execute('SELECT * FROM jobs WHERE tenant=? AND id=?',(tenant,job_id)).fetchone()
             if not row:raise KeyError('Job not found')
             if row['status'] in {'queued','retry_wait'}:db.execute("UPDATE jobs SET status='cancelled',cancel_requested=1 WHERE id=?",(job_id,))
@@ -133,6 +137,6 @@ class JobStore:
         return self.get(tenant,job_id)
     def receipts(self,tenant,job_id):
         self.get(tenant,job_id)
-        with database(self.path) as db:return {r['step']:json.loads(r['payload']) for r in db.execute('SELECT * FROM receipts WHERE job_id=?',(job_id,))}
+        with self._database() as db:return {r['step']:json.loads(r['payload']) for r in db.execute('SELECT * FROM receipts WHERE job_id=?',(job_id,))}
     def effect_count(self,job_id):
-        with database(self.path) as db:return db.execute('SELECT COUNT(*) FROM local_effects WHERE job_id=?',(job_id,)).fetchone()[0]
+        with self._database() as db:return db.execute('SELECT COUNT(*) FROM local_effects WHERE job_id=?',(job_id,)).fetchone()[0]

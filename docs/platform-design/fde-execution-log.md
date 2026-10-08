@@ -49,3 +49,11 @@ RED4→GREEN6新測試；enrichment相關35/35；全pytest183/183。18來源免�
 Ruling：泛用workflow來源仍入原開發桶，LangGraph亦入FDE；跨桶事件去重且多領域request按事件逐輪讀revision，避免第一個大事件填滿40上限。單領域既有排序/付款identity保留；新增topic_map只為可信metadata，不送模型、不改batch hash，舊request省略此欄保持bytes。
 Ruling：公開next_due不從其他領域精選或時間推估，顯示未公開並指向私人全站帳本；AI狀態是checked-in設定而非Actions override。成本是公開頁不能得知精確下次執行時間，避免誤報與暴露私人財務狀態。
 Pre-flight F1/F3→F8：FDE頁讀source側topic與approved digest metadata，人工內容/技能仍經原export allowlist；F8→F9/F10：付款帳本與企業lab DB無共用連線。
+
+## F9
+
+Deployment parser/CLI RED7→GREEN7，Python HTTP缺模組RED→GREEN1（另cancel無body契約RED→GREEN）。Postgres缺adapter RED→GREEN13，owner拒絕RED→GREEN、真併發key/claim及遠端TLS RED→GREEN；最終PostgreSQL16＋API1＋parser7=24/24。Docker daemon29.5.2；本機pull pgvector pg18及Python3.12.12固定digest，container build及health200/業務無token401。全pytest192PASS/16顯式未配置DBskip（opt-in另已實跑）。
+Ruling：Postgres JobStore沿用同一個狀態機，抽出連線seam，以transaction advisory lock對齊SQLite串行一致性；成本是吞吐量有限，升級row locks時需重跑race/lease/effect測試。RLS非owner/不BYPASS、API tenant scope與worker全域權限明列。
+Ruling：雲端image選Python API+worker，Java仍SQLite獨立對照；兩者HTTP契約相同，避免宣稱未實作的Java Postgres。成本是Java企業部署需另整合DB adapter。
+Ruling：Scheduler觸發Cloud Run Jobs run API使用OAuth而非服務OIDC；API對服務呼叫仍需要audience/OIDC。API/worker分離SA和DBsecretrefs，生成步驟只列argv，不建立/push/deploy。成本是人仍需完成IAM/WIF、DB、image與網路前置並驗收。
+Pre-flight F5→F9：連線seam不變租戶/key/lease/receipt狀態契約；F9→F10：同一strict parser做wizard check/dry-run，配置不包含secret值。
