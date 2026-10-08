@@ -1,0 +1,10 @@
+---
+import {date} from '../lib/data';
+import type {RadarEvent} from '../lib/data';
+interface Props {event:RadarEvent}
+const {event}=Astro.props;
+---
+<article class="event-card" data-topic={event.topics.join(',')} data-date={event.published_at || ''}>
+<div class="event-top"><span class="tag">{event.topics.includes('android')?'ANDROID':'WORKFLOW'}</span><span class="muted">{event.published_at?date(event.published_at):'發布時間未知'}</span></div>
+<h3><a href={event.url} target="_blank" rel="noopener noreferrer">{event.entity ? `${event.entity} · ` : ''}{event.title}<span aria-hidden="true"> ↗</span></a></h3>
+<p class="event-note">機器蒐集，未深入整理</p><div class="event-bottom"><span>來源 {event.trust_tier} · {event.sources.length} 個引用</span><details><summary>來源與蒐集時間</summary><p>{date(event.fetched_at)}</p>{event.sources.map(s=><a href={s.url} target="_blank" rel="noopener noreferrer">{s.id} ↗</a>)}</details></div></article>

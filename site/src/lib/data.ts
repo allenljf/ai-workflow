@@ -1,0 +1,7 @@
+import json from '../generated/radar.json';
+export interface RadarEvent {id:string;title:string;url:string;published_at:string|null;fetched_at:string;entity:string|null;version:string|null;sources:{id:string;url:string}[];topics:string[];trust_tier:string;status:string}
+export interface RadarSource {id:string;last_attempt:string|null;last_success:string|null;status:string}
+export interface RadarData {generated_at:string;last_enriched_at:string|null;last_reviewed_at:string|null;events:RadarEvent[];sources:RadarSource[]}
+export const data = json as RadarData;
+export const href=(path='')=>import.meta.env.BASE_URL.replace(/\/?$/,'/')+path;
+export const date=(value:string|null)=>value?new Intl.DateTimeFormat('zh-TW',{timeZone:'Asia/Taipei',dateStyle:'medium',timeStyle:'short'}).format(new Date(value)):'尚無紀錄';

@@ -1,0 +1,5 @@
+---
+import Layout from '../layouts/Layout.astro';
+import {href} from '../lib/data';
+---
+<Layout title="工作流"><section class="page-heading"><p class="eyebrow">VERIFIED PRACTICE</p><h1>工作流與下載</h1><p>現成工作流核心，加上 Android profile；實測後再採用。</p></section><section class="download-card"><span class="tag">第一版 / 知識雷達</span><h2>技能包尚未發布</h2><p>雙週摘要、版本化技能包與 Android 評測將在後續階段加入。目前可閱讀與下載更新原則。</p><a class="button" href={href('guides/')}>閱讀指南 ↗</a><a class="text-link" href={href('downloads/index.md')} download>下載 Markdown ↓</a></section></Layout>

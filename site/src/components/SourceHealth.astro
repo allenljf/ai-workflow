@@ -1,0 +1,8 @@
+---
+import {date} from '../lib/data';
+import type {RadarSource} from '../lib/data';
+interface Props {source:RadarSource}
+const {source}=Astro.props;
+const healthy=['updated','not_modified'].includes(source.status);
+---
+<article class="source-card"><div><span class:list={['dot',{healthy}]}></span><b>{source.id}</b><span class="tag">{healthy?'正常':source.status==='disabled'?'未啟用':'延遲／待確認'}</span></div><dl><dt>最後成功更新</dt><dd>{date(source.last_success)}</dd><dt>最近一次嘗試</dt><dd>{date(source.last_attempt)}</dd></dl>{!healthy&&<p class="muted">保留先前成功資料；本次狀態不代表資料已更新。</p>}</article>

@@ -1,0 +1,6 @@
+---
+import Layout from '../layouts/Layout.astro';
+import SourceHealth from '../components/SourceHealth.astro';
+import {data,date} from '../lib/data';
+---
+<Layout title="來源狀態"><section class="page-heading"><p class="eyebrow">SOURCE HEALTH</p><h1>來源狀態</h1><p>最後成功更新與最後嘗試分開記錄；失敗時保留前次資料。</p><small>網站快照產生時間：{date(data.generated_at)}</small></section><section class="source-list">{data.sources.map(source=><SourceHealth source={source}/>)}{!data.sources.length&&<p class="empty">尚未完成來源蒐集。</p>}</section></Layout>

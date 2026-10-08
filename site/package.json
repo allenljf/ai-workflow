@@ -1,0 +1,25 @@
+{
+  "name": "ai-workflow-radar-site",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev --host 127.0.0.1",
+    "check": "astro check",
+    "build": "astro build",
+    "preview": "astro preview --host 127.0.0.1",
+    "test:smoke": "playwright test"
+  },
+  "dependencies": {
+    "@astrojs/starlight": "0.42.5",
+    "astro": "7.3.7"
+  },
+  "devDependencies": {
+    "@astrojs/check": "0.9.10",
+    "@playwright/test": "1.64.0",
+    "typescript": "6.0.3"
+  },
+  "overrides": {
+    "postcss-selector-parser": "^7.1.6",
+    "postcss-nested": "^7.0.2"
+  }
+}

@@ -17,3 +17,4 @@ site/playwright-report/
 
 .build-deps.log
 .venv312/
+site/public/downloads/
