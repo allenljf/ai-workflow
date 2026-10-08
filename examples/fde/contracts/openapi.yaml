@@ -1,0 +1,95 @@
+openapi: 3.1.0
+info:
+  title: FDE local reference API
+  version: 0.1.0
+servers:
+  - url: http://127.0.0.1:8080
+security:
+  - bearer: []
+paths:
+  /health:
+    get:
+      security: []
+      responses:
+        '200': {description: Process health and configured provider, not readiness or model quality}
+  /jobs:
+    post:
+      parameters:
+        - in: header
+          name: Idempotency-Key
+          required: true
+          schema: {type: string, minLength: 1, maxLength: 200}
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: false
+              required: [operation]
+              properties:
+                operation: {type: string, enum: [import, analyze]}
+      responses:
+        '201': {description: New queued job}
+        '200': {description: Same key and payload, existing job}
+        '400': {description: Invalid schema}
+        '401': {description: Missing or invalid caller identity}
+        '409': {description: Key reused with different payload}
+  /jobs/{id}:
+    parameters:
+      - in: path
+        name: id
+        required: true
+        schema: {type: string}
+    get:
+      responses:
+        '200': {description: Authorized job}
+        '401': {description: Unauthorized}
+        '404': {description: Missing or other tenant job}
+  /jobs/{id}/cancel:
+    parameters:
+      - in: path
+        name: id
+        required: true
+        schema: {type: string}
+    post:
+      responses:
+        '200': {description: Queued job cancelled; running worker must honor cancellation at checkpoint}
+        '401': {description: Unauthorized}
+        '404': {description: Missing or other tenant job}
+  /rag/query:
+    post:
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: false
+              required: [query]
+              properties:
+                query: {type: string, minLength: 1, maxLength: 4000}
+      responses:
+        '200':
+          description: Answer from synthetic tenant policy or insufficient evidence
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [status, answer, citations]
+                properties:
+                  status: {type: string, enum: [answered, insufficient_evidence]}
+                  answer: {type: string}
+                  citations:
+                    type: array
+                    items:
+                      type: object
+                      required: [id, version]
+                      properties:
+                        id: {type: string}
+                        version: {type: integer}
+        '400': {description: Invalid schema or model output}
+        '401': {description: Unauthorized}
+components:
+  securitySchemes:
+    bearer: {type: http, scheme: bearer}

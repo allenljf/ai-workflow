@@ -28,3 +28,5 @@ pilot→production，訂定 support owner、runbook、資料 retention、監控�
 ## 來源與下一步
 
 [第一方依據](https://openai.com/careers/forward-deployed-engineer-uae-abu-dhabi-uae/)（查核 2026-10-08）。[完整路線](roadmap.md)。
+
+Java 範例的交接要包含 OpenAPI、SQLite schema v1 備份與 worker 啟動方式。`/health` 只表示程序可回應；需另外查 DB、授權、worker 與模型 readiness。測試 token 為本機練習，正式 identity mapping、金鑰輪替與部署需另驗收。

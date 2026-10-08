@@ -36,3 +36,9 @@ RED6缺data/CLI→GREEN6；新0.2包缺失RED1→GREEN；程式字串被誤讀Ma
 Ruling：新包lab sources存bundles/fde/labs-0.2固定快照，活躍examples仍可演進而不破壞已發行hash；額外只明列pyproject.toml與dataset.jsonl檔名及hash approval，不擴大任意附件root。代價是維護歷史快照，不修改已發布版本。
 
 F6 完整pytest177/177；資料fixture CLI實際dry-run、同輸入可重現hash，來源快照包解壓後三套CLI均執行。
+
+## F7
+
+HTTP routes RED 3 failures→GREEN；模型引用 validator RED compile缺類別→GREEN。Maven verify 4 tests/0fail/0error；全pytest177/177。JUnit真HTTP/SQLite驗证401、跨tenant404、重複201/200、payload衝突409、取消、無證據與偽造引用拒絕。固定Java21 target / Boot4.1.1 / AI2.0.1 / JDBC3.53.4.0，官方Maven3.9.16 SHA512已驗證。
+Ruling：Spring AI選配提供合成授權policy的生成adapter，完整版本化RAG保留Python；避免將Java fixture誤稱真文件搜尋，代價是企業Java檢索需另接adapter與eval。真Ollama推論未測。API只入列，worker仍由Python啟動。
+Pre-flight F4/F5→F7：HTTP租戶由可信token映射；SQLite jobs v1欄位與Python一致，Java無claim worker，指南明列。

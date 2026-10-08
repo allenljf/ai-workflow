@@ -28,3 +28,7 @@ JSON 合法只證明形狀，還需要授權與業務檢查。 本指南是第�
 ## 來源與下一步
 
 [第一方依據](https://docs.spring.io/spring-ai/reference/api/retrieval-augmented-generation.html)（查核 2026-10-08）。[完整路線](roadmap.md)。
+
+## 可執行 Java 對照
+
+repo 的 `examples/fde/spring-api` 是獨立 Maven 模組，`mvn verify` 後可本機啟動。Java 21–26，固定 Boot 4.1.1 / AI 2.0.1；兩個服務端測試 token 映射 tenant，未配置時只有 health 可用。OpenAPI 放 `examples/fde/contracts/openapi.yaml`。RAG 預設合成 fixture；選配 Spring AI/Ollama 只允許 loopback，真模型品質未測。任務入列後由 Python JobStore worker 處理，不把 API 回 201 當任務完成。
