@@ -1,0 +1,20 @@
+id: koin-injection
+visibility: public
+review_state: approved
+binding_state: pending
+goal: Koin annotations graph verification
+acceptance:
+- id: interface_binding
+  description: interface binding
+- id: missing_binding
+  description: missing binding
+- id: config_check
+  description: config check
+risk: Framework substitution and runtime crashes
+binding:
+  target_repo: null
+  base_sha: null
+  head_sha: null
+  commands: null
+  environment: null
+  profile_review: null

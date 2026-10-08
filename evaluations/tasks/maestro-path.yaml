@@ -1,0 +1,22 @@
+id: maestro-path
+visibility: public
+review_state: approved
+binding_state: pending
+goal: Representative UI journey
+acceptance:
+- id: empty
+  description: empty
+- id: error
+  description: error
+- id: retry
+  description: retry
+- id: successful_path
+  description: successful path
+risk: Emulator/account contention and screenshots without assertions
+binding:
+  target_repo: null
+  base_sha: null
+  head_sha: null
+  commands: null
+  environment: null
+  profile_review: null

@@ -1,0 +1,20 @@
+id: viewmodel-retry
+visibility: public
+review_state: approved
+binding_state: pending
+goal: Retry after repository failure
+acceptance:
+- id: initial_failure
+  description: initial failure
+- id: retry_success
+  description: retry success
+- id: cancel_propagates
+  description: cancel propagates
+risk: Retry loops and cancellation swallowed
+binding:
+  target_repo: null
+  base_sha: null
+  head_sha: null
+  commands: null
+  environment: null
+  profile_review: null

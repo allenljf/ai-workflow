@@ -1,0 +1,20 @@
+id: bug-regression
+visibility: public
+review_state: approved
+binding_state: pending
+goal: Reproduce then repair behavior
+acceptance:
+- id: reproduction_red
+  description: reproduction red
+- id: repair_green
+  description: repair green
+- id: neighbor_failure
+  description: neighbor failure
+risk: Tests mirroring implementation
+binding:
+  target_repo: null
+  base_sha: null
+  head_sha: null
+  commands: null
+  environment: null
+  profile_review: null

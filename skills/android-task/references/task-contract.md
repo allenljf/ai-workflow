@@ -14,3 +14,5 @@ A checkpoint records spec_hash, base_sha, head_sha, attempts_used, elapsed_minut
 TaskRecord stores contract, status, head_sha, integrated_sha, evidence_ids. The readiness gate expects dependencies' integrated_sha to identify the current integration snapshot; the integrator refreshes those attestations after verifying inclusion. This field is not an ancestry guess. `ready_for_review` and `accepted` without integration keep dependents waiting. A blocked task does not change the dependency graph.
 
 Tools and JSON schemas are maintained in the platform repository. Install this document adapter alone into the target harness's skill directory; run validator/dispatcher tools from the reviewed platform checkout, not downloaded article commands.
+
+An attempt starts when the dispatcher launches implementation or a validation command. A preflight blocker consumes no attempt. The wall-clock time budget starts with the first launch and includes subsequent waiting; checkpoints retain that original deadline.

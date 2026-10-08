@@ -1,0 +1,22 @@
+id: network-error
+visibility: public
+review_state: approved
+binding_state: pending
+goal: HTTP and offline error mapping
+acceptance:
+- id: offline
+  description: offline
+- id: http_error
+  description: http error
+- id: malformed_body
+  description: malformed body
+- id: redacted_log
+  description: redacted log
+risk: Sensitive log and DTO leakage
+binding:
+  target_repo: null
+  base_sha: null
+  head_sha: null
+  commands: null
+  environment: null
+  profile_review: null

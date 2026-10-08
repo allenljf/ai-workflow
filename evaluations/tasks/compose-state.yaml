@@ -1,0 +1,24 @@
+id: compose-state
+visibility: public
+review_state: approved
+binding_state: pending
+goal: UI state hoisting and lifecycle collection
+acceptance:
+- id: loading
+  description: loading
+- id: empty
+  description: empty
+- id: content
+  description: content
+- id: error
+  description: error
+- id: configuration_restore
+  description: configuration restore
+risk: State loss and duplicate collectors
+binding:
+  target_repo: null
+  base_sha: null
+  head_sha: null
+  commands: null
+  environment: null
+  profile_review: null
