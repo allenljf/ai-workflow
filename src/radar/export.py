@@ -98,7 +98,10 @@ def export_public(snapshot: Snapshot, content_root: Path, output: Path, publicat
             radar['last_reviewed_at']=max(d['reviewed_at'] for d in digests)
         (stage/'radar.json').write_text(json.dumps(radar,ensure_ascii=False,indent=2)+'\n')
         (stage/'digests.json').write_text(json.dumps(digests,ensure_ascii=False,indent=2)+'\n')
-        (stage/'manifest.json').write_text(json.dumps({'schema_version':1,'files':['radar.json','digests.json']+['docs/'+p for p in copied]},ensure_ascii=False,indent=2)+'\n')
+        from .workflows.catalog import export_catalog
+        workflows=export_catalog(root,stage)
+        (stage/'workflows.json').write_text(json.dumps(workflows,ensure_ascii=False,indent=2)+'\n')
+        (stage/'manifest.json').write_text(json.dumps({'schema_version':1,'files':['radar.json','digests.json','workflows.json']+['docs/'+p for p in copied]+[r['download_path'] for r in workflows]},ensure_ascii=False,indent=2)+'\n')
         if output.exists():
             backup=output.parent/(output.name+'.previous')
             if backup.exists():raise ValueError('Previous export recovery required')

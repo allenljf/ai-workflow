@@ -1,6 +1,6 @@
 # AI Workflow Radar
 
-每天收集 AI 開發與 Android 工程的原始更新，去重後生成靜態網站。每日不呼叫模型；AI 雙週整理可產生私有審閱草稿，預設停用；工作流技能包屬於後續 W 階段。
+每天收集 AI 開發與 Android 工程的原始更新，去重後生成靜態網站。每日不呼叫模型；AI 雙週整理可產生私有審閱草稿，預設停用；已提供版本化 Android 技能包與評測契約，仍為候選版本，Android 實測待接。
 
 ## 本機啟動
 
@@ -58,7 +58,7 @@ bash scripts/setup/github.sh
 
 - `config/sources.yaml`：10個已查核GitHub release來源；也支持RSS/Atom、選配YouTube uploads metadata。
 - `content/inbox/links.json`：手動加入HTTPS連結，只進待審核收件匣，不自動抓陌生網站。
-- `content/public/`：frontmatter同時標 `visibility: public` 和 `review_state: approved` 才匯出；禁止symlink、raw HTML及指向非核准檔案的本機連結。第一版不接受任意附件。
+- `content/public/`：frontmatter同時標 `visibility: public` 和 `review_state: approved` 才匯出；禁止symlink、raw HTML及指向非核准檔案的本機連結。附件只接受 workflow catalog 明列且通過來源／授權／hash驗證的生成ZIP，不匯出任意檔案。
 - `content/private/`、`docs/`：不供公開網站讀取。
 - `pipeline-state`：遠端專用branch存snapshot；本機snapshot位於忽略的`.build/`。不要以artifact/cache替代它。
 
@@ -67,3 +67,9 @@ bash scripts/setup/github.sh
 ## 設計與進度
 
 [架構設計](docs/platform-design/2026-10-08-android-ai-workflow-platform-design.md) · [執行入口](docs/superpowers/plans/2026-10-08-ai-workflow-execution-index.md) · [執行紀錄](docs/platform-design/execution-log.md)
+
+## Android 工作流與雲端設定時序
+
+[雲端帳號時序](docs/platform-design/cloud-account-timing.md) · [評測 runbook](docs/platform-design/evaluation-runbook.md) · [上游與再散布政策](docs/platform-design/upstream-policy.md)
+
+網站 `/workflows/` 提供0.1.0文件包、0.2.0技能包及SHA-256。私有公司profile只在原始repo，未提供公開下載；真實Android報告與採納決策待接，fixture不會升級candidate。

@@ -1,5 +1,34 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import {href} from '../lib/data';
+import catalog from '../generated/workflows.json';
+import TaskFlow from '../components/TaskFlow.astro';
+interface Workflow {id:string;version:string;upstream_url:string;upstream_ref:string;license:string;supported_harnesses:string[];profile_ids:string[];adoption_state:string;evaluation_ids:string[];replacement_version:string|null;deprecation_reason:string|null;download_path:string;sha256:string;included_files:string[]}
+const workflows=(catalog as Workflow[]).toSorted((a,b)=>b.version.localeCompare(a.version,undefined,{numeric:true}));
+const labels:Record<string,string>={discovered:'發現 / 尚待評估',candidate:'候選 / 尚無 Android 實測',evaluated:'已評測 / 尚未公司採納',trial:'限範圍試用',approved:'已採納 / 依核准範圍',deprecated:'已停用 / 保留歷史下載'};
 ---
-<Layout title="工作流"><section class="page-heading"><p class="eyebrow">VERIFIED PRACTICE</p><h1>工作流與下載</h1><p>現成工作流核心，加上 Android profile；實測後再採用。</p></section><section class="download-card"><span class="tag">第一版 / 知識雷達</span><h2>技能包尚未發布</h2><p>雙週摘要、版本化技能包與 Android 評測將在後續階段加入。目前可閱讀與下載更新原則。</p><a class="button" href={href('guides/')}>閱讀指南 ↗</a><a class="text-link" href={href('downloads/index.md')} download>下載 Markdown ↓</a></section></Layout>
+<Layout title="工作流">
+  <section class="page-heading">
+    <p class="eyebrow">VERSIONED PRACTICE</p><h1>工作流與下載</h1>
+    <p>固定上游版本，加入 Android 技能與驗收契約。先收集真實證據，再決定採用。</p>
+    <a class="button" href={href('guides/android/getting-started/')}>開始使用指南</a>
+    <a class="text-link" href={href('downloads/android/getting-started.md')} download>下載安裝指南 MD ↓</a>
+    <p>公開文件已核准不代表公司已採納。目前尚無 Android 實測成功案例。</p>
+  </section>
+  <section class="workflow-grid" aria-label="工作流版本">
+    {workflows.map(w=><article class:list={['download-card','workflow-card',{deprecated:w.adoption_state==='deprecated'}]}>
+      <span class="tag">{labels[w.adoption_state] || w.adoption_state}</span>
+      <h2>{w.id} · {w.version}</h2>
+      <p>{w.version==='0.1.0'?'文件基準包；尚未包含 android-task 技能。':'自有 android-task 技能、references 與通用 Android profiles。上游另行安裝。'}</p>
+      <p>Harness：{w.supported_harnesses.join(' / ')}<br/>Profile：{w.profile_ids.join(' / ')}<br/>授權：自有 adapter MIT；上游 {w.license}，未嵌入第三方內容。</p>
+      {w.adoption_state==='deprecated'&&<p class="deprecation-note">替代版本 {w.replacement_version} · 停用理由：{w.deprecation_reason}。歷史包保留，不建議新任務採用。</p>}
+      <a class="text-link" href={`${w.upstream_url}/tree/${w.upstream_ref}`} target="_blank" rel="noopener noreferrer">查看固定上游 ↗</a>
+      <p class="checksum">上游 ref <code>{w.upstream_ref}</code><br/>ZIP SHA-256 <code>{w.sha256}</code></p>
+      <a class="button" href={href('downloads/'+w.download_path)} download>下載 ZIP {w.version}</a>
+      <details class="bundle-files"><summary>包內檔案與追溯資料</summary><ul>{w.included_files.map(f=><li><code>{f}</code></li>)}</ul><p>ZIP 內 manifest 保留建立時狀態，頁面目錄反映最新採納決策。</p></details>
+    </article>)}
+    {workflows.length===0&&<p class="empty">尚無可公開下載的核准技能包。</p>}
+  </section>
+  <section class="principles"><h2>任務何時可以交接？</h2><TaskFlow/><p>最多兩個實作者；依賴先驗收與整合，共用資源另保留鎖。預算耗盡保存 checkpoint 並標記 blocked。</p><a class="text-link" href={href('guides/android/task-flow/')}>完整流程與 Mermaid 原碼 ↗</a><a class="text-link" href={href('downloads/android/task-flow.md')} download>下載流程 MD ↓</a></section>
+  <section class="download-card"><h2>證據與持續更新</h2><p>每兩週新資訊形成候選。代表與 holdout 任務的真實執行、試用及人類決策，才會更新公司規範。Synthetic fixture 只驗證工具契約。</p><a class="text-link" href={href('guides/workflows/')}>版本採納指南 ↗</a><a class="text-link" href={href('guides/cases/evidence-levels/')}>案例證據等級 ↗</a></section>
+</Layout>

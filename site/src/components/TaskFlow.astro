@@ -1,0 +1,12 @@
+<figure class="task-flow">
+<svg viewBox="0 0 680 370" role="img" aria-labelledby="task-flow-title task-flow-desc">
+  <title id="task-flow-title">Android 任務驗收流程</title>
+  <desc id="task-flow-desc">規格與基線固定後，確認依賴已驗收整合與資源可用。實作後證據完整才待審查、驗收並整合；缺依賴、資源或預算時 blocked 並保存 checkpoint。</desc>
+  <defs><marker id="task-arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8" fill="#667573"/></marker></defs>
+  <g fill="none" stroke="#667573" stroke-width="2" marker-end="url(#task-arrow)"><path d="M180 40 H230"/><path d="M420 40 H460"/><path d="M550 65 V120"/><path d="M460 145 H420"/><path d="M230 145 H180"/><path d="M90 170 V225"/><path d="M180 250 H230"/><path d="M420 250 H460"/><path d="M325 65 V330 H420"/><path d="M325 170 V330"/><path d="M640 40 H660 V330 H640"/><path d="M325 120 V90 H550 V120" stroke-dasharray="4 4"/></g>
+  <g fill="#f7f7f2" stroke="#dce2d9"><rect x="10" y="15" width="170" height="50" rx="6"/><rect x="230" y="15" width="190" height="50" rx="6"/><rect x="460" y="15" width="180" height="50" rx="6"/><rect x="460" y="120" width="180" height="50" rx="6"/><rect x="230" y="120" width="190" height="50" rx="6"/><rect x="10" y="120" width="170" height="50" rx="6"/><rect x="10" y="225" width="170" height="50" rx="6"/><rect x="230" y="225" width="190" height="50" rx="6"/><rect x="460" y="225" width="180" height="50" rx="6"/><rect x="420" y="305" width="220" height="50" rx="6"/></g>
+  <g fill="#1b302f" font-size="15" text-anchor="middle" dominant-baseline="middle"><text x="95" y="40">固定規格與基線</text><text x="325" y="40">依賴已驗收＋整合？</text><text x="550" y="40">資源可用？</text><text x="550" y="145">實作與測試</text><text x="325" y="145">當前 head 證據完整？</text><text x="95" y="145">待審查</text><text x="95" y="250">人類驗收</text><text x="325" y="250">整合與 inclusion</text><text x="550" y="250">解鎖下游</text><text x="530" y="330">blocked ＋ checkpoint</text></g>
+  <g fill="#667573" font-size="12"><text x="430" y="32">是</text><text x="558" y="92">是</text><text x="191" y="136">是</text><text x="331" y="80">否</text><text x="651" y="95">否</text><text x="390" y="84">未完整、仍有預算：重試</text><text x="331" y="197">失敗且預算耗盡</text></g>
+</svg>
+<figcaption>缺資源先等待；證據不完整且仍有預算時，回到實作。</figcaption>
+</figure>
