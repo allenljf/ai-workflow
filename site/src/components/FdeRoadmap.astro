@@ -1,0 +1,4 @@
+---
+const stages=[['01–02','需求、API 與資料','需求契約、身份與資料驗收'],['03–04','模型、RAG 與 context','有引用、權限與拒答的助理'],['05–06','評測與 Local','holdout、成本與延遲'],['07–08','可恢復的長任務','checkpoint、lease、故障演練'],['09–10','雲端與資料分析','部署 dry-run、品質與訓練準備'],['11–12','企業交接','capstone、runbook 與 rollback']];
+---
+<ol class="fde-roadmap" aria-label="參考十二週路線">{stages.map(([weeks,title,outcome])=><li><span>第 {weeks} 週</span><h3>{title}</h3><p>{outcome}</p></li>)}</ol>

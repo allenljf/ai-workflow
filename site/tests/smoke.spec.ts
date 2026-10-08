@@ -40,3 +40,26 @@ test('digest page awaits human approval',async({page})=>{
  await expect(page.getByRole('heading',{name:'雙週精選',exact:true})).toBeVisible();
  await expect(page.getByText('尚無人工核准的精選')).toBeVisible();
 });
+test('FDE roadmap and verified downloads',async({page})=>{
+ await page.goto('fde/');
+ await expect(page.getByRole('heading',{name:'AI 應用工程師的交付路線',exact:true})).toBeVisible();
+ await expect(page.locator('.fde-skill')).toHaveCount(12);
+ await expect(page.getByText('前置：模型、工具與 context',{exact:true}).first()).toBeVisible();
+ const md=page.getByRole('link',{name:'下載學習路線 MD',exact:true});
+ expect((await page.request.get((await md.getAttribute('href'))!)).ok()).toBe(true);
+ const zip=page.getByRole('link',{name:'下載 FDE 技能 ZIP 0.1.0',exact:true});
+ const response=await page.request.get((await zip.getAttribute('href'))!);
+ expect(response.ok()).toBe(true);expect((await response.body()).subarray(0,2).toString()).toBe('PK');
+ await page.getByRole('link',{name:'閱讀 RAG 指南',exact:true}).click();
+ await expect(page.getByRole('heading',{name:'現代 RAG 與長 context',exact:true})).toBeVisible();
+});
+test('FDE mobile and update evidence states',async({page})=>{
+ await page.setViewportSize({width:390,height:844});
+ for(const route of ['fde/','fde/updates/','workflows/']){
+  await page.goto(route);expect(await page.evaluate(()=>document.documentElement.scrollWidth<=window.innerWidth)).toBe(true);
+ }
+ await page.goto('fde/updates/');
+ await expect(page.getByText('尚無人工核准的 FDE 精選',{exact:true})).toBeVisible();
+ await expect(page.getByRole('link',{name:'<script>alert(1)</script>',exact:true})).toBeVisible();
+ expect(await page.locator('.event-card script').count()).toBe(0);
+});

@@ -15,3 +15,7 @@ Ruling：新adapter manifest ref指開發基線9a4763c，ZIP本身及hash標識�
 
 技能行為驗證依writing-skills：baseline無skill代理。交付情境提出tenant/驗收但缺當前report hash、commit/dataset/model版本及independent holdout的完整artifact契約；更新情境提出「獨立FDE預算設定草案」，沒有既有全站帳本約束。
 建立fde-solution後fresh代理完成同交付情境，輸出當前report path/hash、acceptance IDs、commit/dataset/model環境、獨立holdout、prototype與enterprise pilot區別。建立fde-knowledge-review後fresh代理完成更新情境，保留0.2.0原bytes，提新候選版本、共用14天next_due與USD0.50/批/USD2/月、保存calling/ambiguous而不重扣費。兩份quick_validate均PASS。此為reference路由的應用測試，不是企業部署效果或統計可靠性證據。
+
+## F3
+
+RED browser3fail（新增FDE路由不存在、FDE包被舊UI誤標Android）→GREEN root7/7、Pages子路徑7/7。Astro check0errors/0warnings/10既有hints；完整pytest151/151（F4測試寫入前）。新增MD/ZIP實際HTTP下載、12節點、390pxoverflow與惡意titleescaping驗證。

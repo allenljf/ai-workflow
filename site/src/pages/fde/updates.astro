@@ -1,0 +1,7 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import EventCard from '../../components/EventCard.astro';
+import {data,href} from '../../lib/data';
+const events=data.events.filter(e=>e.topics.includes('fde'));
+---
+<Layout title="FDE 更新"><section class="page-heading"><p class="eyebrow">FDE KNOWLEDGE UPDATES</p><h1>FDE 最新知識與雙週更新</h1><p>每日收集原始來源，選配 AI 雙週整理。Android 與 FDE 共用預算，網站閱讀不呼叫模型。</p><a class="text-link" href={href('fde/')}>回到能力路線 ↗</a></section><section class="updates"><h2>核准精選</h2><p class="empty">尚無人工核准的 FDE 精選</p><p>收集、AI 整理與人類驗證分開記錄；來源未分類或僅有片段，不視為 FDE 深入研究。</p><h2>原始更新</h2>{events.length?events.map(event=><EventCard event={event}/>):<p class="empty">尚無 FDE 原始更新；來源接入後顯示。</p>}<a class="text-link" href={href('sources/')}>檢查來源狀態 ↗</a></section></Layout>
