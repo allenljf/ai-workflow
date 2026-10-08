@@ -1,0 +1,38 @@
+name: Checks
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: site/package-lock.json
+      - run: python -m pip install -r requirements-dev.lock
+      - run: python -m pip install --no-deps -e .
+      - run: python -m pytest -q
+      - run: python tests/site_fixture.py
+      - run: python scripts/build-site.py --export .build/smoke-export --site site
+      - run: npm --prefix site ci
+      - run: npm --prefix site run check
+      - run: npm --prefix site exec -- playwright install --with-deps chromium
+      - run: npm --prefix site run build
+      - run: npm --prefix site run test:smoke
+      - run: npm --prefix site run build
+        env:
+          SITE_BASE: /ai-workflow/
+      - run: npm --prefix site run test:smoke
+        env:
+          SITE_BASE: /ai-workflow/
