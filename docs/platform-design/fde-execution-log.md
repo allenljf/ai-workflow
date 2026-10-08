@@ -24,3 +24,8 @@ RED browser3fail（新增FDE路由不存在、FDE包被舊UI誤標Android）→G
 
 RED缺RAG模組4fail、CLI1fail→GREEN8/8，完整159/159（F5測試加入前）。真SQLite版本化FTS、跨tenant/舊版本/偽造引用/無證據、embedding profile與本機HTTP非法輸出/連線失敗驗證；rag-demo實際執行，dataset hash與fixture evidence明列。
 Ruling：小資料embedding檢索以明確set_embedding/search_embeddings接口提供，索引身份由已驗證model/digest傳入；不自動拉取模型。真Ollama性能未測。SQLite FTS unicode tokenizer不提供完整中文斷詞，指南列限制。
+
+## F5
+
+RED6fail缺jobs→GREEN6；追加cancel-crash/inflight/heartbeat RED3→GREEN9；CLI RED1→GREEN10，完整169/169。真子程序exit7後新worker恢復，local effect計數1。持久SQLite lease/version、receipt、attempt/deadline/cost、backoff、取消與ambiguous。
+Ruling：新增begin_external_step（先保留budget與started狀態），因外部call中斷後僅看缺receipt不能安全自動重試；expired未確認call→ambiguous優先於取消/期限。成本是lab模擬ledger，與radar付款帳本完全分離。
