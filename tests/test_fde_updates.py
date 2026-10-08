@@ -61,3 +61,12 @@ def test_fde_digest_metadata_excludes_android_only_and_reports_disabled():
     from radar.enrich.topics import public_update_status
     status=public_update_status(mixed(),[],False)
     assert status['ai_enabled'] is False and status['fde']['enriched_at'] is None and status['next_due_at'] is None
+
+def test_topics_only_from_actual_bounded_revisions():
+ s=snapshot(60)
+ for h in s.health.values():h.topics=['android']
+ s.health['s59'].topics=['fde'];s.revisions[59].id='zz-last'
+ s.events=[Event('merged',None,None,[r.id for r in s.revisions])]
+ request=build_request(s.events,s,policy())
+ assert all(i['feed_source_id']!='s59' for i in request.event_inputs)
+ assert request.topic_map=={'merged':['android']}

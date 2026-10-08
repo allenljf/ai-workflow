@@ -60,6 +60,12 @@ test('FDE mobile and update evidence states',async({page})=>{
  }
  await page.goto('fde/updates/');
  await expect(page.getByText('尚無人工核准的 FDE 精選',{exact:true})).toBeVisible();
+ await expect(page.getByText(/AI 設定：停用/)).toBeVisible();
+ await expect(page.getByText(/next_due：未公開/)).toBeVisible();
+ await page.goto('guides/fde/setup');
+ await expect(page.getByRole('heading',{name:'FDE 本機與選配帳號設定',exact:true})).toBeVisible();
+ const md=await page.request.get('downloads/fde/setup.md');expect(md.ok()).toBe(true);
+ await page.goto('fde/updates/');
  await expect(page.getByRole('link',{name:'<script>alert(1)</script>',exact:true})).toBeVisible();
  expect(await page.locator('.event-card script').count()).toBe(0);
 });

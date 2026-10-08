@@ -32,7 +32,7 @@ def build_request(events,snapshot,policy,seen_revision_keys=None):
     from .gate import valid_policy
     inputs=[];seen_revision_keys=seen_revision_keys or set()
     req=EnrichRequest('',policy.model,PROMPT_VERSION,SCHEMA_VERSION,inputs,policy.max_output_tokens,asdict(policy),policy.input_token_ceiling)
-    from .topics import domains,event_topics
+    from .topics import domains
     selected=events[:30]
     multi=len({d for e in selected for d in domains(e,snapshot)})>1
     groups=[[(e,r) for r in public_revisions(e,snapshot) if (r.id,r.content_hash) not in seen_revision_keys] for e in selected]
@@ -48,7 +48,7 @@ def build_request(events,snapshot,policy,seen_revision_keys=None):
         inputs.append(value)
         if len(json.dumps(request_body(req),ensure_ascii=False).encode())>MAX_BYTES:inputs.pop()
     included={i['event_id'] for i in inputs}
-    req.topic_map={e.id:sorted(set(event_topics(e,snapshot)) & {'android','fde','workflow'}) for e in selected if e.id in included}
+    req.topic_map={event_id:sorted({t for i in inputs if i['event_id']==event_id for t in snapshot.health[i['feed_source_id']].topics} & {'android','fde','workflow'}) for event_id in sorted(included)}
     identity=[sorted((i['source_id'],i['content_hash']) for i in inputs),req.model,req.prompt_version,req.schema_version]
     req.batch_id=digest(identity)
     if not inputs:raise ValueError('No bounded public inputs')

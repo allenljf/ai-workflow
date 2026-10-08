@@ -73,3 +73,11 @@ bash scripts/setup/github.sh
 [雲端帳號時序](docs/platform-design/cloud-account-timing.md) · [評測 runbook](docs/platform-design/evaluation-runbook.md) · [上游與再散布政策](docs/platform-design/upstream-policy.md)
 
 網站 `/workflows/` 提供0.1.0文件包、0.2.0技能包及SHA-256。私有公司profile只在原始repo，未提供公開下載；真實Android報告與採納決策待接，fixture不會升級candidate。
+
+## AI 應用工程師 / FDE
+
+網站 `/fde/` 提供 12 節點能力樹與 12 週路線、企業交付/RAG/可靠任務/資料分析與訓練準備指南，以及有版本/hash 的自有 skills ZIP；`/fde/updates/` 分開顯示免費原始更新和人工核准精選。18 個官方來源每日免費收集；Android/FDE 共用 14 天付款帳本，AI 預設停用、USD 0.50/批與 USD 2/月，不因新增領域另扣一批。
+
+本機 labs：`python -m pip install -e examples/fde/python` 後用 `python -m fde_lab.cli rag-demo --state-dir .build/fde-labs/rag`、`jobs-demo --state-dir .build/fde-labs/jobs`、`dataset-demo --state-dir .build/fde-labs/data`。全是合成 fixture，不宣稱模型品質或企業成功案例。API/worker 與 PostgreSQL 參考見 [部署 runbook](examples/fde/deploy/README.md)；Java 對照見 [Spring Boot](examples/fde/spring-api/README.md)。PostgreSQL 測試只在明確提供 `FDE_TEST_POSTGRES_DSN` 的獨立測試 DB 執行，會建立/刪除測試 schema，不使用正式 DB。
+
+最後用 `bash scripts/setup/fde.sh --check` 唯讀驗證；互動入口 `bash scripts/setup/fde.sh` 分 local/github/provider/api-db/gcp/health。GCP 階段只保存非敏感 refs 並列出 dry-run 命令，尚未建立雲端資源；真正部署、模型品質、效能與客戶驗收仍需另完成。[執行證據與設計判斷](docs/platform-design/fde-execution-log.md)。
