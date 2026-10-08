@@ -12,7 +12,8 @@ class BundleReport:
     errors: list[str]
 OWN_ROOTS=('bundles/android-task/','skills/android-task/','profiles/android/')
 FDE_ROOTS=('bundles/fde/','skills/fde-solution/','skills/fde-knowledge-review/','profiles/fde/')
-FDE_ASSETS=('examples/fde/python/fde_lab/','examples/fde/python/fixtures/')
+FDE_ASSETS=('examples/fde/python/fde_lab/','examples/fde/python/fixtures/','bundles/fde/labs-0.2/fde_lab/','bundles/fde/labs-0.2/fixtures/')
+FDE_ASSET_FILES={'examples/fde/python/pyproject.toml','examples/fde/python/fixtures/dataset.jsonl','bundles/fde/labs-0.2/pyproject.toml','bundles/fde/labs-0.2/fixtures/dataset.jsonl'}
 def build_bundle(manifest,root,out):
     validate_manifest(manifest.to_dict())
     root=Path(root).resolve();out=Path(out)
@@ -25,20 +26,21 @@ def build_bundle(manifest,root,out):
         if upstream:
             if manifest.license not in {'MIT','Apache-2.0','BSD-3-Clause'} or not manifest.redistribution_allowed:raise ValueError('Upstream redistribution not approved')
             if 'upstream/LICENSE' not in manifest.bundle_files:raise ValueError('Upstream license notice missing')
-        elif not name.startswith((FDE_ROOTS+FDE_ASSETS) if manifest.domain=='fde' else OWN_ROOTS):raise ValueError('Private or unknown bundle root')
+        elif not (name.startswith((FDE_ROOTS+FDE_ASSETS) if manifest.domain=='fde' else OWN_ROOTS) or manifest.domain=='fde' and name in FDE_ASSET_FILES):raise ValueError('Private or unknown bundle root')
         source=root/name
         if any(p.is_symlink() for p in [source,*source.parents] if p.is_relative_to(root)) or not source.is_file():raise ValueError('Missing/symlink bundle file')
-        if source.suffix not in {'.md','.yaml','.py','.sh','.json','.csv'} and source.name!='LICENSE':raise ValueError('Unsupported bundle asset')
+        allowed={'.md','.yaml','.py','.sh','.json','.csv','.jsonl','.toml'} if manifest.domain=='fde' else {'.md','.yaml','.py','.sh'}
+        if source.suffix not in allowed and source.name!='LICENSE':raise ValueError('Unsupported bundle asset')
         text=source.read_text()
-        asset=manifest.domain=='fde' and name.startswith(FDE_ASSETS)
+        asset=manifest.domain=='fde' and (name.startswith(FDE_ASSETS) or name in FDE_ASSET_FILES)
         if asset:
-            if source.suffix not in {'.py','.json','.csv'} or '__pycache__' in path.parts or source.name.startswith('.') or manifest.asset_approvals.get(name)!=hashlib.sha256(source.read_bytes()).hexdigest():raise ValueError('Asset lacks exact public approval hash')
+            if (source.suffix not in {'.py','.json','.csv'} and name not in FDE_ASSET_FILES) or '__pycache__' in path.parts or source.name.startswith('.') or manifest.asset_approvals.get(name)!=hashlib.sha256(source.read_bytes()).hexdigest():raise ValueError('Asset lacks exact public approval hash')
         if not upstream and not asset:
             meta=yaml.safe_load(text) if source.suffix=='.yaml' else read_frontmatter(text)
             if isinstance(meta,dict) and source.name=='SKILL.md':meta=meta.get('metadata',{})
             if not isinstance(meta,dict) or meta.get('visibility')!='public' or meta.get('review_state')!='approved':raise ValueError('File lacks public review approval')
-        links=re.findall(r'!?\[[^\]]*\]\(([^\s)]+)',text)
-        links+=re.findall(r'^\s*\[[^\]]+\]:\s*(\S+)',text,re.M)
+        links=[] if asset else re.findall(r'!?\[[^\]]*\]\(([^\s)]+)',text)
+        if not asset:links+=re.findall(r'^\s*\[[^\]]+\]:\s*(\S+)',text,re.M)
         for link in links:
             link=link.strip('<>');u=urlsplit(link)
             if u.scheme:

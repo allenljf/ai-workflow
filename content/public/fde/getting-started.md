@@ -27,3 +27,7 @@ Python負責資料/worker，Java Spring Boot作企業API對照；依既有團隊
 ```
 
 合成報告寫入 `rag-report.json`，包含 dataset hash、授權引用、無證據拒答與 fixture context/RAG 對照。此對照只驗證契約，不衡量真模型品質。Runtime DB 在忽略的 `.build/`；目前技能 ZIP 0.1.0 是路由包，不含 labs，程式從本 repo 執行。
+
+## 0.2.0 下載包的 labs
+
+ZIP 0.2.0 含固定快照 `bundles/fde/labs-0.2`。解壓後用 Python3.12+ 執行 `python -m pip install -e bundles/fde/labs-0.2`；同樣三個 CLI 寫入獨立 runtime。0.1.0 保留原 bytes，兩者均為候選，無企業 pilot。解壓後按包內 README 操作，不從不明文章執行安裝腳本。

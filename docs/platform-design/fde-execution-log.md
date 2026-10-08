@@ -29,3 +29,10 @@ Ruling：小資料embedding檢索以明確set_embedding/search_embeddings接口�
 
 RED6fail缺jobs→GREEN6；追加cancel-crash/inflight/heartbeat RED3→GREEN9；CLI RED1→GREEN10，完整169/169。真子程序exit7後新worker恢復，local effect計數1。持久SQLite lease/version、receipt、attempt/deadline/cost、backoff、取消與ambiguous。
 Ruling：新增begin_external_step（先保留budget與started狀態），因外部call中斷後僅看缺receipt不能安全自動重試；expired未確認call→ambiguous優先於取消/期限。成本是lab模擬ledger，與radar付款帳本完全分離。
+
+## F6
+
+RED6缺data/CLI→GREEN6；新0.2包缺失RED1→GREEN；程式字串被誤讀Markdown link RED1→GREEN（僅MD/reference檢查連結，hash-approved code不當Markdown）。0.2包解壓後實際執行三套CLI。
+Ruling：新包lab sources存bundles/fde/labs-0.2固定快照，活躍examples仍可演進而不破壞已發行hash；額外只明列pyproject.toml與dataset.jsonl檔名及hash approval，不擴大任意附件root。代價是維護歷史快照，不修改已發布版本。
+
+F6 完整pytest177/177；資料fixture CLI實際dry-run、同輸入可重現hash，來源快照包解壓後三套CLI均執行。

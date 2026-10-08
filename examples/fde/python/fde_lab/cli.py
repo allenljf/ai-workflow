@@ -38,9 +38,15 @@ os._exit(7)
     report={'evidence_level':'synthetic-contract','clock':'controlled epoch values; real child process exit','crash_exit_code':exited.returncode,'status':store.get('demo-one',job['id'])['status'],'effect_count':store.effect_count(job['id']),'receipts':store.receipts('demo-one',job['id']),'database':str(database_path),'limitations':['Atomic local effect only; remote calls require begin_external_step and receipt reconciliation.','No model charge, enterprise data or cloud execution.']}
     (output/'jobs-report.json').write_text(json.dumps(report,indent=2)+'\n');return report
 
+def dataset_demo(output: Path):
+    from .data import prepare_dataset
+    fixture=Path(__file__).parents[1]/'fixtures/dataset.jsonl'
+    rows=[json.loads(line) for line in fixture.read_text().splitlines() if line.strip()]
+    return prepare_dataset(rows,output,'2026-01-15T00:00:00Z')
+
 def main():
-    parser=argparse.ArgumentParser();parser.add_argument('command',choices=['rag-demo','jobs-demo']);parser.add_argument('--state-dir',type=Path,default=Path('.build/fde-labs/rag'));args=parser.parse_args()
-    try:print(json.dumps((rag_demo if args.command=='rag-demo' else jobs_demo)(args.state_dir),ensure_ascii=False,indent=2))
+    parser=argparse.ArgumentParser();parser.add_argument('command',choices=['rag-demo','jobs-demo','dataset-demo']);parser.add_argument('--state-dir',type=Path,default=Path('.build/fde-labs/rag'));args=parser.parse_args()
+    try:print(json.dumps({'rag-demo':rag_demo,'jobs-demo':jobs_demo,'dataset-demo':dataset_demo}[args.command](args.state_dir),ensure_ascii=False,indent=2))
     except ValueError as error:parser.exit(2,str(error)+'\n')
 
 if __name__=='__main__':main()

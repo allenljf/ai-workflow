@@ -28,3 +28,7 @@ TRL conversational/prompt-completion 格式、tokenizer/chat template、loss sco
 ## 來源與下一步
 
 [第一方依據](https://huggingface.co/docs/trl/en/sft_trainer)（查核 2026-10-08）。[完整路線](roadmap.md)。
+
+## 已提供訓練準備
+
+[資料 CLI](analysis.md)只產生格式、hash與dry-run配置，不載入weights、不執行trainer。先查看品質、lineage、held-out group與資料授權；真正訓練再固定model/tokenizer/chat template、LoRA設定與獨立eval。合成教學資料沒有企業泛化效果證據。

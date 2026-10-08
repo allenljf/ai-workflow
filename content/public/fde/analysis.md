@@ -28,3 +28,11 @@ checked_at: '2026-10-08'
 ## 來源與下一步
 
 [第一方依據](https://scikit-learn.org/1.9/common_pitfalls.html)（查核 2026-10-08）。[完整路線](roadmap.md)。
+
+## 資料品質與切分 CLI
+
+```bash
+.venv312/bin/python -m fde_lab.cli dataset-demo --state-dir .build/fde-labs/dataset
+```
+
+輸出 `manifest.json`、train/validation/holdout、SFT messages。先拒絕缺欄位／無時區時間／正規化近重複／同group跨時間界線，再切分；早於cutoff的group進train，後續group按時間分成validation與holdout。這是教學策略，不適用所有業務。已有不同資料版本的目錄會拒絕覆寫，改用新版本資料夾。
