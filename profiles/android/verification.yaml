@@ -1,0 +1,10 @@
+id: android-verification
+visibility: public
+review_state: approved
+rules:
+  test_evidence: current-head-executed-acceptance
+  max_parallel: 2
+  max_attempts: 3
+  sensitive_actions: human-decision
+overrides: {}
+sources: []

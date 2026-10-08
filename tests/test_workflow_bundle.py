@@ -31,3 +31,11 @@ def test_reproducible_complete_bundle(tmp_path):
     with zipfile.ZipFile(first.zip_path) as z:
         assert 'manifest.yaml' in z.namelist() and 'SOURCES.md' in z.namelist()
         assert all(not name.startswith('/') and '..' not in name.split('/') for name in z.namelist())
+
+def test_skill_approval_can_use_standard_skill_metadata(tmp_path):
+    import dataclasses
+    from pathlib import Path
+    root=Path(__file__).parents[1]
+    manifest=load_manifest(root/'registry/workflows/superpowers.yaml')
+    report=build_bundle(manifest,root,tmp_path)
+    assert 'skills/android-task/SKILL.md' in report.included_files

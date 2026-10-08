@@ -30,6 +30,7 @@ def build_bundle(manifest,root,out):
         text=source.read_text()
         if not upstream:
             meta=yaml.safe_load(text) if source.suffix=='.yaml' else read_frontmatter(text)
+            if isinstance(meta,dict) and source.name=='SKILL.md':meta=meta.get('metadata',{})
             if not isinstance(meta,dict) or meta.get('visibility')!='public' or meta.get('review_state')!='approved':raise ValueError('File lacks public review approval')
         for link in re.findall(r'!?\[[^\]]*\]\(([^\s)]+)',text):
             u=urlsplit(link)

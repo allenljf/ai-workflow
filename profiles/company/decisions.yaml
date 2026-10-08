@@ -1,0 +1,8 @@
+visibility: private
+review_state: draft
+decisions:
+- field: di
+  value: koin_annotations
+  reason: Company decisions take precedence over generic examples
+  source: docs/dev-guide/91-decisions.md#d-01
+  scope: company

@@ -1,0 +1,12 @@
+id: android-baseline
+visibility: public
+review_state: approved
+rules:
+  di: hilt
+  architecture: ui-domain-data
+  ui_state: immutable-stateflow
+  flow_collection: lifecycle-aware
+  dispatcher: injected
+overrides: {}
+sources:
+- https://developer.android.com/topic/architecture

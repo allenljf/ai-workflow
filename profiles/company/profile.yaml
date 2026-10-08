@@ -1,0 +1,10 @@
+id: company-android
+visibility: private
+review_state: draft
+rules:
+  di: koin_annotations
+overrides:
+  di: Existing company container; annotations and KSP checks required
+sources:
+- docs/dev-guide/03-di.md
+- docs/dev-guide/91-decisions.md#d-01
