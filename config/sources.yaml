@@ -65,6 +65,7 @@ sources:
   trust_tier: B
   topics:
   - workflow
+  - fde
   enabled: true
   public_metadata: true
   options:
@@ -119,3 +120,99 @@ sources:
     repo: mobile-dev-inc/maestro
     verified_at: '2026-10-08'
     provenance: https://github.com/mobile-dev-inc/maestro/releases
+- id: spring-projects-spring-ai
+  type: github
+  url: https://api.github.com/repos/spring-projects/spring-ai/releases?per_page=20
+  trust_tier: A
+  topics:
+  - fde
+  enabled: true
+  public_metadata: true
+  options:
+    repo: spring-projects/spring-ai
+    verified_at: '2026-10-08'
+    provenance: https://github.com/spring-projects/spring-ai/releases
+- id: temporalio-sdk-python
+  type: github
+  url: https://api.github.com/repos/temporalio/sdk-python/releases?per_page=20
+  trust_tier: A
+  topics:
+  - fde
+  enabled: true
+  public_metadata: true
+  options:
+    repo: temporalio/sdk-python
+    verified_at: '2026-10-08'
+    provenance: https://github.com/temporalio/sdk-python/releases
+- id: pgvector-pgvector
+  type: github
+  url: https://api.github.com/repos/pgvector/pgvector/releases?per_page=20
+  trust_tier: A
+  topics:
+  - fde
+  enabled: true
+  public_metadata: true
+  options:
+    repo: pgvector/pgvector
+    verified_at: '2026-10-08'
+    provenance: https://github.com/pgvector/pgvector/releases
+- id: qdrant-qdrant
+  type: github
+  url: https://api.github.com/repos/qdrant/qdrant/releases?per_page=20
+  trust_tier: A
+  topics:
+  - fde
+  enabled: true
+  public_metadata: true
+  options:
+    repo: qdrant/qdrant
+    verified_at: '2026-10-08'
+    provenance: https://github.com/qdrant/qdrant/releases
+- id: ollama-ollama
+  type: github
+  url: https://api.github.com/repos/ollama/ollama/releases?per_page=20
+  trust_tier: A
+  topics:
+  - fde
+  enabled: true
+  public_metadata: true
+  options:
+    repo: ollama/ollama
+    verified_at: '2026-10-08'
+    provenance: https://github.com/ollama/ollama/releases
+- id: vllm-project-vllm
+  type: github
+  url: https://api.github.com/repos/vllm-project/vllm/releases?per_page=20
+  trust_tier: A
+  topics:
+  - fde
+  enabled: true
+  public_metadata: true
+  options:
+    repo: vllm-project/vllm
+    verified_at: '2026-10-08'
+    provenance: https://github.com/vllm-project/vllm/releases
+- id: pydantic-pydantic-ai
+  type: github
+  url: https://api.github.com/repos/pydantic/pydantic-ai/releases?per_page=20
+  trust_tier: A
+  topics:
+  - fde
+  enabled: true
+  public_metadata: true
+  options:
+    repo: pydantic/pydantic-ai
+    verified_at: '2026-10-08'
+    provenance: https://github.com/pydantic/pydantic-ai/releases
+- id: huggingface-trl
+  type: github
+  url: https://api.github.com/repos/huggingface/trl/releases?per_page=20
+  trust_tier: A
+  topics:
+  - fde
+  enabled: true
+  public_metadata: true
+  options:
+    repo: huggingface/trl
+    verified_at: '2026-10-08'
+    provenance: https://github.com/huggingface/trl/releases

@@ -6,4 +6,6 @@ def digest_metadata(meta,path):
     if not re.fullmatch('[a-f0-9]{64}',meta['batch_id']):raise ValueError('Invalid digest batch id')
     enriched=utc(meta['enriched_at']);reviewed=utc(meta['reviewed_at'])
     if reviewed<enriched:raise ValueError('Review predates enrichment')
-    return {k:meta[k] for k in required}|{'path':path,'demo':meta.get('demo',False)}
+    topics=meta.get('topics',['unclassified'])
+    if not isinstance(topics,list) or any(t not in {'android','fde','workflow','unclassified'} for t in topics):raise ValueError('Invalid digest topics')
+    return {k:meta[k] for k in required}|{'path':path,'demo':meta.get('demo',False),'topics':sorted(set(topics)) or ['unclassified']}

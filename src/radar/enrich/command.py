@@ -51,7 +51,7 @@ def execute(args,config,now,provider=None,persist=None):
             return
         path=output/('digest-'+b.id+'.md')
         if path.is_symlink():raise ValueError('Symlink draft refused')
-        if not dry and not path.exists():path=write_draft(validated,output,completed_at=b.completed_at)
+        if not dry and not path.exists():path=write_draft(validated,output,completed_at=b.completed_at,topic_map=validated.request.topic_map)
         # Existing files are human review material; immutable provider result stays in state.
 
         report['drafts'].append({'batch_id':b.id,'path':str(path),'exists':path.exists()})

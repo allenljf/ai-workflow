@@ -53,7 +53,7 @@ def public_radar(snapshot: Snapshot) -> dict:
         h=snapshot.health[latest.source_id]
         events.append({'id':e.id,'title':latest.title,'url':url,'published_at':latest.published_at,
             'fetched_at':latest.fetched_at,'entity':e.entity,'version':e.version,'sources':sources,
-            'topics':h.topics,'trust_tier':h.trust_tier,'status':'unreviewed'})
+            'topics':sorted({t for r in visible for t in snapshot.health[r.source_id].topics}),'trust_tier':h.trust_tier,'status':'unreviewed'})
     health=[{'id':key,'last_attempt':h.last_attempt,'last_success':h.last_success,'status':h.status}
         for key,h in snapshot.health.items() if h.public_metadata]
     return {'schema_version':1,'generated_at':datetime.now(timezone.utc).isoformat(),'last_enriched_at':None,
@@ -96,6 +96,9 @@ def export_public(snapshot: Snapshot, content_root: Path, output: Path, publicat
         if digests:
             radar['last_enriched_at']=max(d['enriched_at'] for d in digests)
             radar['last_reviewed_at']=max(d['reviewed_at'] for d in digests)
+        from .enrich.topics import public_update_status
+        settings=yaml.safe_load((root/'config/pipeline.yaml').read_text()) if (root/'config/pipeline.yaml').is_file() else {}
+        radar['update_status']=public_update_status(snapshot,digests,settings.get('ai_enabled',False))
         (stage/'radar.json').write_text(json.dumps(radar,ensure_ascii=False,indent=2)+'\n')
         (stage/'digests.json').write_text(json.dumps(digests,ensure_ascii=False,indent=2)+'\n')
         from .workflows.catalog import export_catalog

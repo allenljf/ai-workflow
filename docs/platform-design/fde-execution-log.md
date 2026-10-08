@@ -42,3 +42,10 @@ F6 完整pytest177/177；資料fixture CLI實際dry-run、同輸入可重現hash
 HTTP routes RED 3 failures→GREEN；模型引用 validator RED compile缺類別→GREEN。Maven verify 4 tests/0fail/0error；全pytest177/177。JUnit真HTTP/SQLite驗证401、跨tenant404、重複201/200、payload衝突409、取消、無證據與偽造引用拒絕。固定Java21 target / Boot4.1.1 / AI2.0.1 / JDBC3.53.4.0，官方Maven3.9.16 SHA512已驗證。
 Ruling：Spring AI選配提供合成授權policy的生成adapter，完整版本化RAG保留Python；避免將Java fixture誤稱真文件搜尋，代價是企業Java檢索需另接adapter與eval。真Ollama推論未測。API只入列，worker仍由Python啟動。
 Pre-flight F4/F5→F7：HTTP租戶由可信token映射；SQLite jobs v1欄位與Python一致，Java無claim worker，指南明列。
+
+## F8
+
+RED4→GREEN6新測試；enrichment相關35/35；全pytest183/183。18來源免費live收集無失敗，285 revisions/events，pgvector與anthropics-skills無release保持空。root/Pages各7/7，Astro0error/0warning/10既有hints。
+Ruling：泛用workflow來源仍入原開發桶，LangGraph亦入FDE；跨桶事件去重且多領域request按事件逐輪讀revision，避免第一個大事件填滿40上限。單領域既有排序/付款identity保留；新增topic_map只為可信metadata，不送模型、不改batch hash，舊request省略此欄保持bytes。
+Ruling：公開next_due不從其他領域精選或時間推估，顯示未公開並指向私人全站帳本；AI狀態是checked-in設定而非Actions override。成本是公開頁不能得知精確下次執行時間，避免誤報與暴露私人財務狀態。
+Pre-flight F1/F3→F8：FDE頁讀source側topic與approved digest metadata，人工內容/技能仍經原export allowlist；F8→F9/F10：付款帳本與企業lab DB無共用連線。

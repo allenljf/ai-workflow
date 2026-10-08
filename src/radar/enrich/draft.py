@@ -3,7 +3,7 @@ import re,yaml
 from .models import utc
 def escape(value):
     return re.sub(r'([\\\x60*_{}\[\]()#+.!|<>])',r'\\\1',value)
-def write_draft(result,output,completed_at, demo=False):
+def write_draft(result,output,completed_at, demo=False, topic_map=None):
     output=Path(output)
     if output.is_symlink():raise ValueError('Symlink draft root refused')
     output.mkdir(parents=True,exist_ok=True)
@@ -12,6 +12,7 @@ def write_draft(result,output,completed_at, demo=False):
     target=output/('digest-'+batch+'.md')
     if target.is_symlink():raise ValueError('Symlink draft refused')
     meta={'title':'雙週 AI 精選草稿'+('（合成示範）' if demo else ''),'kind':'digest','visibility':'private','review_state':'draft','batch_id':batch,'model':request.model,'prompt_version':request.prompt_version,'schema_version':request.schema_version,'enriched_at':utc(completed_at).isoformat(),'reviewed_at':None,'demo':demo}
+    if topic_map is not None:meta['topics']=sorted({t for story in result.payload['stories'] for t in topic_map.get(story['event_id'],[])})
     lines=['---',yaml.safe_dump(meta,allow_unicode=True,sort_keys=False).rstrip(),'---','',('> 合成示範：fixture provider，不是模型實測或成功案例。' if demo else '> AI 草稿：尚未人工核准，引用吻合不等於事實驗證。'),'']
     sources={i['source_id']:i for i in request.event_inputs}
     for story in result.payload['stories']:

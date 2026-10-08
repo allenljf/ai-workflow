@@ -7,4 +7,14 @@ def select_events(snapshot,done_ids,limit=20):
     def priority(e):
         trust=min({'A':0,'B':1,'C':2}.get(snapshot.health[r.source_id].trust_tier,2) for r in public_revisions(e,snapshot))
         return trust,0 if e.version or e.dedup_reason=='capability' else 1,e.id
-    return sorted(eligible,key=priority)[:limit]
+    ordered=sorted(eligible,key=priority)
+    from .topics import domains
+    buckets={domain:[e for e in ordered if domain in domains(e,snapshot)] for domain in ('android','fde')}
+    if not all(buckets.values()):return ordered[:limit]
+    chosen=[];seen=set()
+    while any(buckets.values()) and len(chosen)<limit:
+        for bucket in buckets.values():
+            while bucket and bucket[0].id in seen:bucket.pop(0)
+            if bucket and len(chosen)<limit:
+                e=bucket.pop(0);chosen.append(e);seen.add(e.id)
+    return chosen
