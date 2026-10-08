@@ -1,10 +1,10 @@
-import os,subprocess,shutil
+import os,subprocess,shutil,sys,shlex
 from pathlib import Path
 SCRIPT=Path('scripts/setup/fde.sh').resolve();ROOT=SCRIPT.parents[2]
 def prepared(tmp_path):
  for name in ['scripts/fde-deployment.py','config/fde-deployment.yaml']:
   p=tmp_path/name;p.parent.mkdir(parents=True,exist_ok=True);shutil.copyfile(ROOT/name,p)
- (tmp_path/'.venv312/bin').mkdir(parents=True);wrapper=tmp_path/'.venv312/bin/python';wrapper.write_text('#!/bin/sh\nexec '+str(ROOT/'.venv312/bin/python')+' "$@"\n');wrapper.chmod(0o755)
+ (tmp_path/'.venv312/bin').mkdir(parents=True);wrapper=tmp_path/'.venv312/bin/python';wrapper.write_text('#!/bin/sh\nexec '+shlex.quote(sys.executable)+' "$@"\n');wrapper.chmod(0o755)
  bin=tmp_path/'fake';bin.mkdir();log=tmp_path/'calls'
  for name in ['gh','gcloud','open','xdg-open']:
   p=bin/name;p.write_text('#!/bin/sh\nprintf "%s\\n" "'+name+' $*" >> "$CALLS"\nexit 1\n');p.chmod(0o755)
