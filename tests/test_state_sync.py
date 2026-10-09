@@ -31,3 +31,13 @@ def test_existing_branch_missing_snapshot_is_not_empty_initialization(tmp_path):
     r=run('load','--checkout',tmp_path/'loaded','--repo',remote)
     assert r.returncode!=0
     assert 'snapshot' in r.stderr.lower()
+
+def test_archives_are_durable_with_active_snapshot(tmp_path):
+    remote=tmp_path/'remote';remote.mkdir();git(remote,'init','--bare')
+    one=tmp_path/'one';assert run('load','--checkout',one,'--repo',remote).returncode==0
+    write_state(one);(one/'archives').mkdir()
+    archived={'schema_version':1,'events':{},'revisions':{}}
+    (one/'archives/2025-01.json').write_text(json.dumps(archived))
+    assert run('persist','--checkout',one,'--expected-sha','NONE').returncode==0
+    two=tmp_path/'two';assert run('load','--checkout',two,'--repo',remote).returncode==0
+    assert json.loads((two/'archives/2025-01.json').read_text())==archived

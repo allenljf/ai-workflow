@@ -272,7 +272,7 @@ save_state false
 
 stage '啟用排程發布'
 say 'workflow 僅把 approved export 部署到本 repo Pages；GITHUB_TOKEN 不需另外建立。來源 workflow 須在 default branch。'
-if confirm '設定完整，允許之後每日收集成功時發布到 GitHub Pages？'; then
+if confirm '設定完整，允許之後每週收集成功時發布到 GitHub Pages？'; then
   set_verified_var PUBLISH_ENABLED true
   save_state true
 else

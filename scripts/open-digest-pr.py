@@ -27,9 +27,16 @@ def open_pr(batch,draft,root):
             command('git','checkout','-B',branch,cwd=checkout)
             target=checkout/'content/drafts'/('digest-'+batch+'.md');target.parent.mkdir(parents=True,exist_ok=True);target.write_text(text)
             command('git','config','user.name','workflow-radar[bot]',cwd=checkout);command('git','config','user.email','workflow-radar@users.noreply.github.com',cwd=checkout)
-            command('git','add','--',str(target.relative_to(checkout)),cwd=checkout);command('git','commit','-m','docs: propose fortnightly digest '+batch[:12],cwd=checkout)
+            landscape=draft.parent/('landscape-'+batch+'.md')
+            paths=[str(target.relative_to(checkout))]
+            if landscape.exists():
+                if landscape.is_symlink():raise ValueError('Unsafe landscape draft')
+                proposal=landscape.read_text();info=read_frontmatter(proposal)
+                if info.get('batch_id')!=batch or info.get('visibility')!='private' or info.get('review_state')!='draft':raise ValueError('Invalid landscape proposal')
+                destination=checkout/'content/drafts'/landscape.name;destination.write_text(proposal);paths.append(str(destination.relative_to(checkout)))
+            command('git','add','--',*paths,cwd=checkout);command('git','commit','-m','docs: propose fortnightly digest '+batch[:12],cwd=checkout)
             command('git','push','origin','HEAD:refs/heads/'+branch,cwd=checkout)
-        body=Path(temp)/'body.md';body.write_text('AI 整理草稿，尚未人工核准。此 repo 是公開作品集，因此此 PR、草稿與審閱內容都會公開可見。請核對引用、推論、案例等級與 Android 適用性。\n\n核准發布到網站需將審閱版本移至 content/public/digests/，設定 visibility: public、review_state: approved 與 reviewed_at。單純 merge 此草稿不會發布網站。\n\nBatch: '+batch+'\n')
+        body=Path(temp)/'body.md';body.write_text('AI 整理草稿，尚未人工核准。此 repo 是公開作品集，因此此 PR、草稿與審閱內容都會公開可見。請核對引用、推論、案例等級與 Android 適用性。\n\n核准發布到網站需將審閱版本移至 content/public/digests/，設定 visibility: public、review_state: approved 與 reviewed_at。單純 merge 此草稿不會發布網站。若附有 landscape 草稿，先核對各章節來源，再執行 scripts/approve-landscape.py --draft content/drafts/landscape-<batch>.md --approve，並將更新的 content/public/knowledge/landscape.md 提交至此 PR；stale baseline 會拒絕覆寫。\n\nBatch: '+batch+'\n')
         url=command('gh','pr','create','--base','main','--head',branch,'--title','docs: 雙週 AI 精選 '+batch[:12],'--body-file',str(body),cwd=root)
         return {'url':url,'state':'OPEN','batch_id':batch}
 if __name__=='__main__':

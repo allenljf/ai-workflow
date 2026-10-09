@@ -5,7 +5,7 @@ review_state: approved
 checked_at: '2026-10-08'
 ---
 
-每日 GitHub Actions 免費收集 release metadata；AI 預設停用，選配啟用後由同一份持久全站帳本控制 14 天 next_due、每批 USD 0.50、每月 USD 2。FDE 不另外開第二個付費批次，同事件多領域只整理一次。每日排程不保證準時：來源限流或排程延遲時查看來源健康狀態。
+每週 GitHub Actions 免費收集 release metadata；AI 預設停用，選配啟用後由同一份持久全站帳本控制 14 天 next_due、每批 USD 0.50、每月 USD 2。FDE 不另外開第二個付費批次，同事件多領域只整理一次。每週排程不保證準時：來源限流或排程延遲時查看來源健康狀態。
 
 候選按來源信任、版本與穩定 id 排序；跨 Android/FDE 輪流選取，同事件不重複。request 仍限制 40 revisions / 50KB，每片段 600 字，多領域時分輪讀取不同事件，避免單一大事件吃滿。這是候選公平性，不代表內容品質或每次各領域一定有新資料。
 

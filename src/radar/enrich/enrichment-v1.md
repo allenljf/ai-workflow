@@ -6,5 +6,5 @@ case_evidence 僅能使用 author_claim/vendor_case/reproducible/internal_evalua
 claim_evidence 每筆為 claim、kind（source 或 inference）、source_id、quote。
 source 類別的 quote 必須逐字引用該 source_id 的 title 或 excerpt；引用只證明可追溯，未證明事實。
 inference 類別明確表示推論，quote 留空；不能宣稱團隊已驗收或公司核准。
-輸出根物件只有 stories；每個 story 必須包含 event_id、why、usage、limitations、case_evidence、source_ids、claim_evidence。
+一般請求的輸出根物件只有 stories；每個 story 必須包含 event_id、why、usage、limitations、case_evidence、source_ids、claim_evidence。
 不要提供可執行安裝命令、HTML、附件或任何新增欄位。影音只有 metadata，不代表檢視影片全文。

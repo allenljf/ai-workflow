@@ -2,6 +2,7 @@ name: Deploy reviewed site to GitHub Pages
 on:
   workflow_call:
 permissions:
+  contents: read
   actions: read
   pages: write
   id-token: write
@@ -20,9 +21,27 @@ jobs:
         with:
           name: radar-site
           path: .build/public-dist
-      - uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9
+      - name: Skip obsolete builds
+        id: freshness
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          built_sha="$(cat .build/public-dist/build-revision.txt)"
+          [[ ${#built_sha} -eq 40 && "$built_sha" != *[!0-9a-f]* ]] || exit 1
+          latest_sha="$(gh api "repos/$GITHUB_REPOSITORY/commits/main" --jq .sha)"
+          [[ ${#latest_sha} -eq 40 && "$latest_sha" != *[!0-9a-f]* ]] || exit 1
+          if [[ "$built_sha" == "$latest_sha" ]]; then
+            echo 'deploy=true' >> "$GITHUB_OUTPUT"
+          else
+            echo 'deploy=false' >> "$GITHUB_OUTPUT"
+            echo 'Skipping obsolete site build; main has newer content.'
+          fi
+      - if: steps.freshness.outputs.deploy == 'true'
+        uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9
         with:
           path: .build/public-dist
       - name: Deploy to GitHub Pages
         id: deployment
+        if: steps.freshness.outputs.deploy == 'true'
         uses: actions/deploy-pages@368f82528645a54fb793d4d04e342629a3f51346

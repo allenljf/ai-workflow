@@ -44,6 +44,18 @@ def persist(checkout: Path,expected: str) -> str:
     paths=['snapshot.json']
     if (checkout/'enrichment-state.json').exists():paths.append('enrichment-state.json')
     if (checkout/'batches').exists():paths.append('batches')
+    discovery=checkout/'knowledge-discovery.json'
+    if discovery.exists():
+        if discovery.is_symlink() or not isinstance(json.loads(discovery.read_text()),dict):raise ValueError('Invalid discovery state')
+        paths.append('knowledge-discovery.json')
+    archives=checkout/'archives'
+    if archives.exists():
+        if archives.is_symlink():raise ValueError('Unsafe archives')
+        for entry in archives.iterdir():
+            if entry.is_symlink() or not entry.is_file() or not __import__('re').fullmatch(r'[0-9]{4}-[0-9]{2}\.json',entry.name):raise ValueError('Invalid archive path')
+            value=json.loads(entry.read_text())
+            if not isinstance(value,dict) or value.get('schema_version')!=1 or not isinstance(value.get('events'),dict) or not isinstance(value.get('revisions'),dict):raise ValueError('Invalid archive state')
+        paths.append('archives')
     git(checkout,'add','--',*paths)
     changed=git(checkout,'diff','--cached','--quiet',check=False).returncode
     if not changed and expected!='NONE':return expected

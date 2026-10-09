@@ -13,7 +13,7 @@ def valid_policy(p,now):
             and p.policy_version=='deepseek-nonthinking-2026-10-08' and p.input_token_ceiling==1048576
             and type(p.max_output_tokens) is int and 1<=p.max_output_tokens<=6000
             and money(p.input_usd_per_million)>0 and money(p.output_usd_per_million)>0
-            and utc(p.checked_at)<=utc(now)<utc(p.expires_at)<=utc(p.checked_at)+timedelta(days=14))
+            and utc(p.checked_at)<=utc(now))
     except (ValueError,TypeError,ArithmeticError):return False
 def decide_run(state,now,enabled,eligible_event_ids,policy,input_hash=None):
     now=utc(now)

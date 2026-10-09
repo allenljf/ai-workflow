@@ -1,0 +1,42 @@
+name: Free fortnightly due check
+on:
+  schedule:
+    - cron: '47 1 * * *'
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: pipeline-state
+  cancel-in-progress: false
+jobs:
+  due:
+    if: vars.AI_ENABLED == 'true'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      actions: write
+    env:
+      GH_TOKEN: ${{ github.token }}
+      AI_ENABLED: ${{ vars.AI_ENABLED || 'false' }}
+      AI_INTERVAL_DAYS: ${{ vars.AI_INTERVAL_DAYS || '14' }}
+      KNOWLEDGE_DISCOVERY_ENABLED: ${{ vars.KNOWLEDGE_DISCOVERY_ENABLED || 'false' }}
+      AI_PRICE_POLICY: ${{ vars.AI_PRICE_POLICY }}
+      AI_MAX_BATCH_USD: ${{ vars.AI_MAX_BATCH_USD || '0.50' }}
+      AI_MAX_MONTHLY_USD: ${{ vars.AI_MAX_MONTHLY_USD || '2' }}
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -r requirements-dev.lock
+      - run: python -m pip install --no-deps -e .
+      - name: Check only; no collection, search or model request
+        run: |
+          gh auth setup-git
+          python scripts/state-sync.py load --checkout .build/state-git
+          if test -f .build/state-git/snapshot.json; then
+            python -m radar.cli enrich --config config --state-dir .build/state-git --dry-run > .build/enrich-due.json
+            python scripts/enrichment-actions.py dispatch --report .build/enrich-due.json
+          fi

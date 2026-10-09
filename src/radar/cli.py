@@ -13,7 +13,7 @@ from .adapters.manual import read_manual_links
 def main(argv: list[str] | None=None, client: httpx.Client | None=None, *, now=None, enrichment_provider=None, enrichment_persist=None) -> int:
     parser=argparse.ArgumentParser(description='Knowledge radar: no model calls')
     sub=parser.add_subparsers(dest='command',required=True)
-    for name in ('collect','validate','export'):
+    for name in ('collect','validate','export','compact'):
         cmd=sub.add_parser(name);cmd.add_argument('--config',type=Path,default=Path('config'))
         cmd.add_argument('--state',type=Path,required=True)
         if name=='export': cmd.add_argument('--output',type=Path,required=True)
@@ -25,11 +25,23 @@ def main(argv: list[str] | None=None, client: httpx.Client | None=None, *, now=N
             report=execute(args,load_config(args.config),now or datetime.now(timezone.utc),enrichment_provider,enrichment_persist)
             print(json.dumps(report,ensure_ascii=False));return 0
         snapshot=load_snapshot(args.state)
+        if args.command=='compact':
+            from .retention import compact,policy
+            retained=compact(snapshot,args.state.parent,now or datetime.now(timezone.utc),policy(args.config)['operational_days'])
+            save_snapshot(args.state,retained)
+            print(json.dumps({'events':len(retained.events),'revisions':len(retained.revisions),'archived_events':len(snapshot.events)-len(retained.events)}));return 0
         if args.command=='validate':
             validate_snapshot(snapshot.to_dict());print('State validated');return 0
         config=load_config(args.config);root=args.config.resolve().parent
         if args.command=='export':
-            report=export_public(snapshot,root,args.output,config.publication)
+            from .enrich.store import load_state
+            financial=load_state(args.state.parent)
+            discovery_path=args.state.parent/'knowledge-discovery.json'
+            if discovery_path.is_symlink():raise ValueError('Unsafe discovery state')
+            discovery=json.loads(discovery_path.read_text()) if discovery_path.exists() else {}
+            import os
+            runtime={'next_due_at':financial.next_ai_due_at,'knowledge':{'enabled':os.environ.get('KNOWLEDGE_DISCOVERY_ENABLED','false')=='true','last_searched_at':discovery.get('last_searched_at'),'next_search_due_at':discovery.get('next_due_at')}}
+            report=export_public(snapshot,root,args.output,config.publication,runtime=runtime)
             print(json.dumps({'copied':len(report.copied_paths),'excluded':len(report.excluded_paths)}));return 0
         with nullcontext(client) if client is not None else httpx.Client() as actual:
             result=collect(config,snapshot,actual,datetime.now(timezone.utc))

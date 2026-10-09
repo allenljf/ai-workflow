@@ -16,7 +16,9 @@
       "const": 1
     },
     "interval_days": {
-      "const": 14
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 365
     },
     "next_ai_due_at": {
       "type": [

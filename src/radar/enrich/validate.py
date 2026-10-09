@@ -37,4 +37,9 @@ def validate_result(payload,request):
             else:
                 if quote:raise ValueError('Inference must not pretend to quote')
                 unverified.append(c)
+    if request.knowledge:
+        if 'landscape_updates' not in payload:raise ValueError('Landscape comparison missing')
+        from ..knowledge.revisions import validate_updates
+        validate_updates(payload['landscape_updates'],request.knowledge,sources)
+    elif payload.get('landscape_updates'):raise ValueError('Landscape baseline missing')
     return ValidatedEnrichment(payload,request,verified,unverified)

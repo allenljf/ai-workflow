@@ -26,6 +26,20 @@ def write_draft(result,output,completed_at, demo=False, topic_map=None):
             lines+=['- ['+escape(source['title'])+']('+source['url']+') · '+sid]
             if source['kind']=='youtube':lines+=['  - 未檢視影片全文；只有影片 metadata。']
         lines+=['']
+    if request.knowledge:
+        changes=result.payload['landscape_updates']
+        lines+=['## 知識總覽修訂提案','', '本輪未提出章節修訂。' if not changes else '以下修改尚未人工查核；完整替代稿同時附在此 PR。','']
+        for change in changes:
+            lines += ['### '+escape(change['section_heading']),'',escape(change['why']),'',escape(change['replacement']),'', '來源：'+', '.join(change['source_ids']),'']
+        lines+=['## 新來源候選（不自動訂閱）','']
+        for source in request.event_inputs:
+            if source.get('feed_source_id')=='knowledge-discovery':
+                lines+=['- ['+escape(source['title'])+']('+source['url']+') · '+source.get('evidence_level','unreviewed')]
+        if changes:
+            from ..knowledge.revisions import proposed_landscape
+            landscape=output/('landscape-'+batch+'.md')
+            if landscape.is_symlink():raise ValueError('Unsafe landscape draft')
+            if not landscape.exists():landscape.write_text(proposed_landscape(request.knowledge,changes,batch,utc(completed_at).isoformat(),sources))
     text='\n'.join(lines)
     if target.exists() and target.read_text()!=text:raise ValueError('Existing draft differs; preserve human edits')
     if not target.exists():target.write_text(text)

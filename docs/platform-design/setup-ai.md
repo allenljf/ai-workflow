@@ -21,14 +21,14 @@ Wizard沿用 [wizard 技能模板](/Users/allen/.agents/skills/wizard/SKILL.md)�
 ## 到期、預算與價目
 
 成功完成時間加14天才到期；無新資料不改到期日。預設每批USD0.50、每月USD2，Decimal字串計費。
-價目最多有效14天，過期仍每日收集，但不再付費；每次重新查核官方價目後可重跑wizard更新AI_PRICE_POLICY。這是刻意保留的人類查核，不會讓AI猜新價格。
+價格設定持續有效，直到你手動修改。需要變更模型、單價或預算時可重跑wizard更新AI_PRICE_POLICY；程式不會自動猜價格。
 
 [Provider查核契約](deepseek-provider-contract.md)記錄非推理模式與官方context ceiling的保守預留。預留不是帳单，usage按最高已核准價格記錄；折扣可能使實際帳單更低。應用層gate不控制別的程式或同帳戶其他token支出。
 
 ## Durable state 與中斷恢復
 
 state branch: pipeline-state。
-- snapshot.json：每日蒐集。
+- snapshot.json：每週蒐集。
 - enrichment-state.json：due、每批預留／usage／狀態、月度台帳。
 - batches/<batch_id>/result.json：模型原結果；hash與台帳同commit保存。此作品集 repo 與 pipeline-state branch 公開，原結果可被任何人讀取。
 
@@ -42,7 +42,7 @@ timeout、未知usage、process kill的calling/reserved狀態不自動重送。�
 
 ## 排程與 PR 審閱
 
-每日collect持久化後免費檢查gate，非同步dispatch enrich.yml；子workflow取得同pipeline-state鎖後重新讀state，不在父鎖內等待。
+每週collect持久化後免費檢查gate，非同步dispatch enrich.yml；子workflow取得同pipeline-state鎖後重新讀state，不在父鎖內等待。
 
 enrich.yml手動執行預設allow_paid=false，只做dry-run；啟用付費需另將allow_paid=true。Secret僅paid job中的provider step可讀，PR checks只用fixtures。AI review PR 位於公開 repo，草稿與審閱意見可被所有人閱讀。
 [GitHub官方触發規則](https://docs.github.com/en/actions/how-tos/write-workflows/choose-when-workflows-run/trigger-a-workflow)：workflow_dispatch可由GITHUB_TOKEN觸發；該token建立的PR檢查可能需要人類approve workflows to run。

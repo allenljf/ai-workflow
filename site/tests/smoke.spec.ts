@@ -72,3 +72,31 @@ test('FDE mobile and update evidence states',async({page})=>{
  await expect(page.getByRole('link',{name:'<script>alert(1)</script>',exact:true})).toBeVisible();
  expect(await page.locator('.event-card script').count()).toBe(0);
 });
+test('knowledge landscape and downloadable research index',async({page})=>{
+ await page.goto('knowledge/');
+ await expect(page.getByRole('heading',{name:'工作流知識總覽',exact:true})).toBeVisible();
+ const download=page.getByRole('link',{name:'下載 Markdown ↗',exact:true});
+ const md=await page.request.get((await download.getAttribute('href'))!);
+ expect(md.ok()).toBe(true);expect(await md.text()).toContain('Task graph');
+ await page.getByRole('link',{name:'閱讀目前知識總覽',exact:true}).click();
+ await expect(page.getByRole('heading',{name:/AI 軟體開發工作流知識總覽/}).first()).toBeVisible();
+ const index=await page.request.get('downloads/knowledge/index.md');expect(index.ok()).toBe(true);
+ await page.setViewportSize({width:390,height:844});await page.goto('knowledge/');
+ expect(await page.evaluate(()=>document.documentElement.scrollWidth<=window.innerWidth)).toBe(true);
+});
+test('operations guide and latest list pagination',async({page})=>{
+ await page.goto('./');
+ await expect(page.getByText('01 / 每週蒐集',{exact:true})).toBeVisible();
+ await page.evaluate(()=>{
+  const list=document.querySelector('.event-list')!;
+  const card=list.querySelector('.event-card')!;
+  for(let i=0;i<28;i++)list.appendChild(card.cloneNode(true));
+ });
+ await page.getByLabel('主題').selectOption('all');
+ await expect(page.locator('.event-list .event-card:visible')).toHaveCount(24);
+ await page.getByRole('button',{name:'下一頁',exact:true}).click();
+ await expect(page.locator('.event-list .event-card:visible')).toHaveCount(6);
+ await page.getByRole('link',{name:'網站排程與更新說明 ↗',exact:true}).click();
+ await expect(page.getByRole('heading',{name:'網站自動排程、頁面用途與更新時機',exact:true})).toBeVisible();
+ await expect(page.getByText('每週一 09:17：collect.yml',{exact:true})).toBeVisible();
+});

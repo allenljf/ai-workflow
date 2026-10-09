@@ -5,11 +5,29 @@ import {data,date,href} from '../lib/data';
 const success=data.sources.map(s=>s.last_success).filter((s):s is string=>s!==null).sort().at(-1)||null;
 ---
 <Layout><section class="hero"><div><p class="eyebrow">A LIVING LIBRARY FOR BETTER DEVELOPMENT</p><h1>知識有更新，<br/><em>工作流有證據。</em></h1><p class="hero-copy">追蹤 AI 開發方法的變化，保留原始來源。<br/>從值得閱讀的更新，走向值得採用的工作流。</p><div class="hero-actions"><a class="button" href="#updates">探索最新更新 <span>↓</span></a><a class="text-link" href={href('guides/')}>了解採用原則 ↗</a></div></div><div class="radar-art" aria-hidden="true"><div class="orbit o1"></div><div class="orbit o2"></div><div class="orbit o3"></div><div class="radar-center">AI<br/><small>WORKFLOW</small></div><span class="satellite s1">HARNESS</span><span class="satellite s2">ANDROID</span><span class="satellite s3">EVIDENCE</span><span class="radar-caption">COLLECT → VERIFY → ADOPT</span></div></section>
-<section class="status-strip" aria-label="更新狀態"><div><span>01 / 每日蒐集</span><b>{date(success)}</b></div><div><span>02 / 雙週整理</span><b>{data.last_enriched_at?date(data.last_enriched_at):'AI 整理尚未啟用'}</b></div><div><span>03 / 工作流採纳</span><b>{data.last_reviewed_at?date(data.last_reviewed_at):'人類驗證另行記錄'}</b></div></section>
-<section id="updates" class="updates"><div class="section-title"><div><p class="eyebrow">THE LATEST SIGNALS</p><h2>值得關注的更新 <small>{data.events.length}</small></h2></div><a class="text-link" href={href('sources/')}>查看來源狀態 ↗</a></div><div class="filters"><label>主題<select id="topic"><option value="all">全部主題</option><option value="workflow">AI 工作流</option><option value="android">Android</option></select></label><label>發布日期<select id="days"><option value="all">所有時間</option><option value="14">近 14 天</option><option value="30">近 30 天</option></select></label><span class="muted">原始來源 · 尚未經過 AI 整理</span></div><div class="event-list">{data.events.map(event=><EventCard event={event}/>)}</div><p id="empty" class="empty" hidden={data.events.length>0}>目前沒有符合條件的更新。來源完成蒐集後會顯示於此。</p></section>
+<section class="status-strip" aria-label="更新狀態"><div><span>01 / 每週蒐集</span><b>{date(success)}</b></div><div><span>02 / 雙週整理</span><b>{data.last_enriched_at?date(data.last_enriched_at):(data.update_status?.ai_enabled?'尚無核准的 AI 精選':'AI 整理尚未啟用')}</b></div><div><span>03 / 工作流採纳</span><b>{data.last_reviewed_at?date(data.last_reviewed_at):'人類驗證另行記錄'}</b></div></section>
+<section id="updates" class="updates"><div class="section-title"><div><p class="eyebrow">THE LATEST SIGNALS</p><h2>值得關注的更新 <small>{data.events.length}</small></h2></div><a class="text-link" href={href('sources/')}>查看來源狀態 ↗</a></div><div class="filters"><label>主題<select id="topic"><option value="all">全部主題</option><option value="workflow">AI 工作流</option><option value="android">Android</option></select></label><label>發布日期<select id="days"><option value="all">所有保留資料（近 90 天）</option><option value="14">近 14 天</option><option value="30">近 30 天</option></select></label><span class="muted">原始來源 · 尚未經過 AI 整理</span></div><div class="event-list">{data.events.map(event=><EventCard event={event}/>)}</div><div class="hero-actions" aria-label="更新列表分頁"><button id="previous" type="button">上一頁</button><span id="page-status" aria-live="polite"></span><button id="next" type="button">下一頁</button></div><p id="empty" class="empty" hidden={data.events.length>0}>目前沒有符合條件的更新。來源完成蒐集後會顯示於此。</p></section>
 <section class="principles"><p class="eyebrow">FROM SIGNAL TO PRACTICE</p><h2>持續更新，也保留判斷。</h2><div><article><span>01</span><h3>追原始來源</h3><p>官方與作者版本優先；熱門程度不代表技術證據。</p></article><article><span>02</span><h3>在 Android 實測</h3><p>固定任務、版本與驗收條件，觀察效率與回歸。</p></article><article><span>03</span><h3>按版本採納</h3><p>保留公司差異、使用說明與回滾路徑。</p></article></div></section>
 <script>
 const topic=document.querySelector<HTMLSelectElement>('#topic');const days=document.querySelector<HTMLSelectElement>('#days');
-function filter(){let visible=0;document.querySelectorAll<HTMLElement>('.event-card').forEach(card=>{const matches=topic?.value==='all'||card.dataset.topic?.split(',').includes(topic?.value||'');const time=Date.parse(card.dataset.date||'');const recent=days?.value==='all'||Number.isFinite(time)&&time>=Date.now()-Number(days?.value)*86400000;card.hidden=!(matches&&recent);if(!card.hidden)visible++;});const empty=document.querySelector<HTMLElement>('#empty');if(empty)empty.hidden=visible>0;}
-topic?.addEventListener('change',filter);days?.addEventListener('change',filter);
+let currentPage=1;const pageSize=24;
+function filter(reset=false){
+ if(reset)currentPage=1;
+ const cards=Array.from(document.querySelectorAll<HTMLElement>('.event-list .event-card'));
+ const matches=cards.filter(card=>{
+  const topicMatch=topic?.value==='all'||card.dataset.topic?.split(',').includes(topic?.value||'');
+  const time=Date.parse(card.dataset.date||'');
+  return topicMatch&&(days?.value==='all'||Number.isFinite(time)&&time>=Date.now()-Number(days?.value)*86400000);
+ });
+ const pages=Math.max(1,Math.ceil(matches.length/pageSize));currentPage=Math.min(Math.max(1,currentPage),pages);
+ const visible=new Set(matches.slice((currentPage-1)*pageSize,currentPage*pageSize));
+ cards.forEach(card=>{card.hidden=!visible.has(card);});
+ const empty=document.querySelector<HTMLElement>('#empty');if(empty)empty.hidden=matches.length>0;
+ const label=document.querySelector<HTMLElement>('#page-status');if(label)label.textContent=`第 ${currentPage} / ${pages} 頁 · ${matches.length} 筆`;
+ const previous=document.querySelector<HTMLButtonElement>('#previous');if(previous)previous.disabled=currentPage===1;
+ const next=document.querySelector<HTMLButtonElement>('#next');if(next)next.disabled=currentPage===pages;
+}
+topic?.addEventListener('change',()=>filter(true));days?.addEventListener('change',()=>filter(true));
+document.querySelector('#previous')?.addEventListener('click',()=>{currentPage--;filter();});
+document.querySelector('#next')?.addEventListener('click',()=>{currentPage++;filter();});filter();
 </script></Layout>

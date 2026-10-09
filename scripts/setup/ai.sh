@@ -220,13 +220,17 @@ say '公開 repo 中的 AI 草稿、審閱 PR、state 與 Git 歷史皆可見。
 if ! confirm '允許配置雙週整理？'; then say '已取消，沒有啟用付費。'; exit 0; fi
 verified_var AI_ENABLED false
 write_env SOURCE_REPO "$SOURCE_REPO"
-open_url 'https://platform.deepseek.com/api_keys'
-step '登入 DeepSeek 平台，建立 API key 並複製；此流程不儲值、不讀取帳戶餘額。'
-ask_secret DEEPSEEK_API_KEY '貼上 API key（隱藏輸入）：'
-[[ -n "$DEEPSEEK_API_KEY" ]] || exit 1
-set_secret DEEPSEEK_API_KEY "$DEEPSEEK_API_KEY"
-unset DEEPSEEK_API_KEY
-[[ "${WRITTEN_SECRET[*]-}" == DEEPSEEK_API_KEY ]] || exit 1
+if gh secret list --json name --jq '.[].name' | grep -Fxq 'DEEPSEEK_API_KEY'; then
+  say '已存在 DEEPSEEK_API_KEY；沿用 GitHub Secret，不要求再次輸入。'
+else
+  open_url 'https://platform.deepseek.com/api_keys'
+  step '登入 DeepSeek 平台，建立 API key 並複製；此流程不儲值、不讀取帳戶餘額。'
+  ask_secret DEEPSEEK_API_KEY '貼上 API key（隱藏輸入）：'
+  [[ -n "$DEEPSEEK_API_KEY" ]] || exit 1
+  set_secret DEEPSEEK_API_KEY "$DEEPSEEK_API_KEY"
+  unset DEEPSEEK_API_KEY
+  [[ "${WRITTEN_SECRET[*]-}" == DEEPSEEK_API_KEY ]] || exit 1
+fi
 
 stage '查核目前模型與最高價格'
 open_url 'https://api-docs.deepseek.com/quick_start/pricing/'
@@ -234,7 +238,7 @@ say '使用 peak、cache miss USD/M；模型行為也需仍符合 repo 中查核
 ask AI_MODEL '模型（deepseek-flash / deepseek-v4-pro）：'
 ask INPUT_PRICE '輸入價格 USD/M：'
 ask OUTPUT_PRICE '輸出價格 USD/M：'
-if ! confirm '已查核官方價格、非推理模式與輸出 cap，並接受14天後過期？'; then exit 0; fi
+if ! confirm '已查核官方價格、非推理模式與輸出 cap，並持續沿用直到手動修改？'; then exit 0; fi
 AI_PRICE_POLICY=$("$PYTHON" - "$AI_MODEL" "$INPUT_PRICE" "$OUTPUT_PRICE" <<'PY'
 import sys,json
 from datetime import datetime,timezone,timedelta
@@ -242,7 +246,7 @@ from dataclasses import asdict
 from radar.enrich.models import PricePolicy
 from radar.enrich.gate import valid_policy
 now=datetime.now(timezone.utc)
-policy=PricePolicy(sys.argv[1],sys.argv[2],sys.argv[3],now.isoformat(),(now+timedelta(days=14)).isoformat())
+policy=PricePolicy(sys.argv[1],sys.argv[2],sys.argv[3],now.isoformat(),None)
 if not valid_policy(policy,now):raise SystemExit('價目或模型不支援')
 print(json.dumps(asdict(policy),separators=(',',':')))
 PY
@@ -250,7 +254,7 @@ PY
 write_env AI_PRICE_POLICY "$AI_PRICE_POLICY"
 
 stage '設定間隔與預算'
-say '間隔固定14天；預算是應用層 gate，不是供應商帳戶硬上限。'
+say '研究間隔預設14天，可在 GitHub Variable AI_INTERVAL_DAYS 修改；預算是應用層 gate。'
 ask AI_MAX_BATCH_USD '每批預算 USD（建議0.50）：'
 ask AI_MAX_MONTHLY_USD '每月預算 USD（建議2）：'
 "$PYTHON" - "$AI_MAX_BATCH_USD" "$AI_MAX_MONTHLY_USD" <<'PY'
@@ -274,7 +278,7 @@ cat .build/ai-dry-run.json
 say '沒有送出 API request；token只存在 GitHub Secret。'
 
 stage '啟用排程與首次付費'
-say '啟用後每日免費收集會檢查到期與預算；設定本身不呼叫模型。'
+say '啟用後每日免費到期檢查與每週收集會檢查預算；設定本身不呼叫模型。'
 if confirm '允許之後符合gate時自動雙週付費整理？'; then
   verified_var AI_ENABLED true
   write_env AI_ENABLED true

@@ -1,0 +1,3 @@
+# Pending/ambiguous evidence and each source's latest item remain in active state.
+operational_days: 180
+display_days: 90

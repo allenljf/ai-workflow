@@ -24,8 +24,16 @@ def test_pending_same_input_no_call():
 def test_budget_counts_ambiguous_reservation():
     s=EnrichmentState(batches={'b':Batch('b','h',['old'],status='ambiguous',reserved_usd='1.90',reservation_month='2026-09')})
     assert decide_run(s,NOW,True,['new'],policy()).reason=='budget_exceeded'
-def test_expired_price_rejected():
-    assert decide_run(EnrichmentState(),NOW,True,['e'],policy(expires_at=NOW.isoformat())).reason=='invalid_price'
+def test_prices_remain_valid_until_manually_changed():
+    later=NOW+timedelta(days=400)
+    assert decide_run(EnrichmentState(),later,True,['e'],policy(expires_at=NOW.isoformat())).allowed
+    assert decide_run(EnrichmentState(),later,True,['e'],policy(expires_at=None)).allowed
+
+def test_custom_interval_roundtrips_and_controls_due():
+    state=EnrichmentState(interval_days=7)
+    complete_at(state,NOW)
+    loaded=EnrichmentState.from_dict(state.to_dict())
+    assert loaded.next_ai_due_at==(NOW+timedelta(days=7)).isoformat()
 @pytest.mark.parametrize('changes',[{'input_usd_per_million':'NaN'},{'output_usd_per_million':'-1'},{'model':'unknown'},{'caps_verified':False},{'checked_at':'2026-10-26T00:00:00+00:00'}])
 def test_invalid_price_rejected(changes):
     assert decide_run(EnrichmentState(),NOW,True,['e'],policy(**changes)).reason=='invalid_price'

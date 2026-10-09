@@ -34,7 +34,7 @@ Wizard 會確認來源 repo 公開、引導你在該 repo 的 Settings → Pages
 
 ## 排程、補跑與故障
 
-- 每日 UTC 01:17／台北 09:17；GitHub 排程可能延遲，只有 default branch 的 workflow 會排程。
+- 每週一 UTC 01:17／台北 09:17；GitHub 排程可能延遲，只有 default branch 的 workflow 會排程。
 - `workflow_dispatch` 可手動補跑；相同事件不新增重複 revision。
 - 單來源失敗保留舊資料；全部來源失敗仍記錄健康、workflow 顯示失敗且不發布。
 - state CAS／push 失敗阻擋發布；重跑會重新讀遠端 state，不要 force push 解決。

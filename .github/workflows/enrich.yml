@@ -13,6 +13,8 @@ concurrency:
   cancel-in-progress: false
 env:
   AI_ENABLED: ${{ vars.AI_ENABLED || 'false' }}
+  AI_INTERVAL_DAYS: ${{ vars.AI_INTERVAL_DAYS || '14' }}
+  KNOWLEDGE_DISCOVERY_ENABLED: ${{ vars.KNOWLEDGE_DISCOVERY_ENABLED || 'false' }}
   AI_PRICE_POLICY: ${{ vars.AI_PRICE_POLICY }}
   AI_MAX_BATCH_USD: ${{ vars.AI_MAX_BATCH_USD || '0.50' }}
   AI_MAX_MONTHLY_USD: ${{ vars.AI_MAX_MONTHLY_USD || '2' }}
@@ -58,6 +60,7 @@ jobs:
       - name: Bounded paid run or saved-result recovery
         env:
           DEEPSEEK_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}
+          TAVILY_API_KEY: ${{ secrets.TAVILY_API_KEY }}
         run: python -m radar.cli enrich --config config --state-dir .build/state-git --allow-paid > .build/enrich-report.json
       - name: Create or reconcile public review PRs
         run: python scripts/enrichment-actions.py review --state-dir .build/state-git --report .build/enrich-report.json

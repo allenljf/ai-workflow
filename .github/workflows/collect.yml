@@ -1,7 +1,7 @@
-name: Daily collection
+name: Weekly collection
 on:
   schedule:
-    - cron: '17 1 * * *'
+    - cron: '17 1 * * 1'
   workflow_dispatch:
 permissions:
   contents: read
@@ -18,6 +18,8 @@ jobs:
       ready: ${{ steps.ready.outputs.ready }}
     env:
       AI_ENABLED: ${{ vars.AI_ENABLED || 'false' }}
+      AI_INTERVAL_DAYS: ${{ vars.AI_INTERVAL_DAYS || '14' }}
+      KNOWLEDGE_DISCOVERY_ENABLED: ${{ vars.KNOWLEDGE_DISCOVERY_ENABLED || 'false' }}
       AI_PRICE_POLICY: ${{ vars.AI_PRICE_POLICY }}
       AI_MAX_BATCH_USD: ${{ vars.AI_MAX_BATCH_USD || '0.50' }}
       AI_MAX_MONTHLY_USD: ${{ vars.AI_MAX_MONTHLY_USD || '2' }}
@@ -49,6 +51,9 @@ jobs:
         run: python -m radar.cli collect --config config --state .build/state-git/snapshot.json
         env:
           YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
+      - name: Archive old data without deleting pending evidence
+        if: steps.load.outcome == 'success'
+        run: python -m radar.cli compact --config config --state .build/state-git/snapshot.json
       - name: Persist even failed-source health
         if: always() && steps.load.outcome == 'success'
         env:
@@ -67,6 +72,7 @@ jobs:
           python scripts/build-site.py --export .build/export --site site
           npm --prefix site ci
           npm --prefix site run build
+          git rev-parse HEAD > site/dist/build-revision.txt
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: steps.collect.outcome == 'success'
         with:
@@ -84,6 +90,7 @@ jobs:
     needs: collect
     if: needs.collect.outputs.ready == 'true' && vars.PUBLISH_ENABLED == 'true'
     permissions:
+      contents: read
       actions: read
       pages: write
       id-token: write

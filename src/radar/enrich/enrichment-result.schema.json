@@ -92,6 +92,47 @@
           }
         }
       }
+    },
+    "landscape_updates": {
+      "type": "array",
+      "maxItems": 5,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "section_heading",
+          "replacement",
+          "why",
+          "source_ids",
+          "quote"
+        ],
+        "properties": {
+          "section_heading": {
+            "type": "string",
+            "maxLength": 180
+          },
+          "replacement": {
+            "type": "string",
+            "maxLength": 10000
+          },
+          "why": {
+            "type": "string",
+            "maxLength": 1500
+          },
+          "source_ids": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 8,
+            "items": {
+              "type": "string"
+            }
+          },
+          "quote": {
+            "type": "string",
+            "maxLength": 500
+          }
+        }
+      }
     }
   }
 }

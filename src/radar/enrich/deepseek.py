@@ -1,7 +1,7 @@
 import json
 import httpx
 from .provider import ProviderResult,ProviderError
-from .prompt import request_body,MAX_BYTES
+from .prompt import request_body,MAX_BYTES,KNOWLEDGE_MAX_BYTES
 from .models import PricePolicy
 from .gate import valid_policy
 from datetime import datetime,timezone
@@ -14,7 +14,7 @@ class DeepSeekProvider:
         if not self.api_key or policy.caps_verified is not True or request.model!=policy.model or request.max_output_tokens!=policy.max_output_tokens or request.input_upper_bound!=policy.input_token_ceiling or policy.policy_version!='deepseek-nonthinking-2026-10-08':
             raise ProviderError('unsupported provider cap')
         body=request_body(request)
-        if len(json.dumps(body,ensure_ascii=False).encode())>MAX_BYTES:raise ProviderError('input limit exceeded')
+        if len(json.dumps(body,ensure_ascii=False).encode())>(KNOWLEDGE_MAX_BYTES if request.knowledge else MAX_BYTES):raise ProviderError('input limit exceeded')
         try:
             with self.client.stream('POST','https://api.deepseek.com/chat/completions',json=body,headers={'Authorization':'Bearer '+self.api_key},timeout=60,follow_redirects=False) as response:
                 response.raise_for_status();raw=bytearray()

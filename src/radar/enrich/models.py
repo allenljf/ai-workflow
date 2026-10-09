@@ -19,7 +19,7 @@ class PricePolicy:
     input_usd_per_million: str
     output_usd_per_million: str
     checked_at: str
-    expires_at: str
+    expires_at: str | None=None  # Legacy metadata; prices remain until manually changed.
     max_output_tokens: int=6000
     caps_verified: bool=True
     input_token_ceiling: int=1048576
@@ -58,7 +58,7 @@ class EnrichmentState:
         required={f.name for f in fields(cls)}
         if not isinstance(v,dict) or set(v)!=required:raise ValueError('Required persisted state fields missing or unknown')
         obj=cls(**(v|{'batches':{k:Batch(**b) for k,b in v.get('batches',{}).items()}}))
-        if obj.schema_version!=1 or obj.interval_days!=14:raise ValueError('Unsupported state version/interval')
+        if obj.schema_version!=1 or type(obj.interval_days) is not int or not 1<=obj.interval_days<=365:raise ValueError('Unsupported state version/interval')
         money(obj.max_batch_usd);money(obj.max_monthly_usd)
         if obj.next_ai_due_at:utc(obj.next_ai_due_at)
         statuses={'reserved','calling','succeeded','ambiguous','failed','pending_review','reviewed','rejected'}
