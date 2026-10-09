@@ -83,6 +83,8 @@ jobs:
   publish:
     needs: collect
     if: needs.collect.outputs.ready == 'true' && vars.PUBLISH_ENABLED == 'true'
+    permissions:
+      actions: read
+      pages: write
+      id-token: write
     uses: ./.github/workflows/publish.yml
-    secrets:
-      PUBLIC_EXPORT_TOKEN: ${{ secrets.PUBLIC_EXPORT_TOKEN }}

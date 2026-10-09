@@ -1,45 +1,28 @@
-name: Publish reviewed static site
+name: Deploy reviewed site to GitHub Pages
 on:
   workflow_call:
-    secrets:
-      PUBLIC_EXPORT_TOKEN:
-        required: false
 permissions:
-  contents: read
+  actions: read
+  pages: write
+  id-token: write
 concurrency:
-  group: public-export
+  group: github-pages
   cancel-in-progress: false
 jobs:
-  publish:
+  deploy:
     if: vars.PUBLISH_ENABLED == 'true'
     runs-on: ubuntu-latest
-    env:
-      GH_TOKEN: ${{ secrets.PUBLIC_EXPORT_TOKEN }}
-      EXPORT_REPO: ${{ vars.PUBLIC_EXPORT_REPO }}
-      SITE_URL: ${{ vars.SITE_URL }}
-      SITE_BASE: ${{ vars.SITE_BASE }}
-      SOURCE_REPO: ${{ github.repository }}
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
     steps:
-      - name: Check explicit publication configuration
-        run: |
-          python - <<'PY'
-          import os,re
-          assert os.environ.get('GH_TOKEN'), 'Export token missing'
-          assert re.fullmatch(r'[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+', os.environ.get('EXPORT_REPO','')), 'Export repository missing'
-          assert os.environ['EXPORT_REPO'].lower() != os.environ['SOURCE_REPO'].lower(), 'Separate export repo required'
-          assert os.environ.get('SITE_URL','').startswith('https://'), 'Public HTTPS site URL required'
-          assert os.environ.get('SITE_BASE','').startswith('/'), 'Base path required'
-          PY
-      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
-        with:
-          persist-credentials: false
-      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
-        with:
-          python-version: '3.12'
       - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
         with:
           name: radar-site
           path: .build/public-dist
-      - run: gh auth setup-git
-      - name: Publish static output to dedicated repository
-        run: python scripts/publish-static.py --dist .build/public-dist --repo "$EXPORT_REPO" --checkout .build/publish-git
+      - uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9
+        with:
+          path: .build/public-dist
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@368f82528645a54fb793d4d04e342629a3f51346

@@ -220,7 +220,7 @@ from pathlib import Path
 values={}
 for line in Path(sys.argv[1]).read_text().splitlines():
     k,_,v=line.partition('='); values[k]=v
-allowed=('SOURCE_REPO','PUBLIC_EXPORT_REPO','SITE_URL','SITE_BASE')
+allowed=('SOURCE_REPO','SITE_URL','SITE_BASE')
 state={k:values[k] for k in allowed if k in values}
 state['publish_enabled']=sys.argv[3]=='true'
 p=Path(sys.argv[2]);fd,tmp=tempfile.mkstemp(dir=p.parent)
@@ -234,26 +234,23 @@ set_verified_var() {
 }
 banner 'GitHub 知識雷達設定'
 
-stage '原始 repo 保持私有'
-say '請填入包含程式與 workflow 的原始 repo；此 wizard 不上傳你的本機文件。'
+stage '公開作品集 repo'
+say '此作品集 repo 與提交歷史會公開；網站只發布核准的靜態 export。'
 ask SOURCE_REPO '原始 repo（owner/repo）：'
 [[ "$SOURCE_REPO" =~ ^[a-zA-Z0-9_.-]+/[a-zA-Z0-9_.-]+$ ]] || exit 2
 export GH_REPO="$SOURCE_REPO"
-[[ "$(gh repo view "$SOURCE_REPO" --json isPrivate --jq .isPrivate)" == 'true' ]] || { warn '原始 repo 不是私有，先處理公開範圍再設定。'; exit 1; }
+[[ "$(gh repo view "$SOURCE_REPO" --json isPrivate --jq .isPrivate)" == 'false' ]] || { warn '作品集來源 repo 必須是公開 repo。'; exit 1; }
 write_env SOURCE_REPO "$SOURCE_REPO"
 save_state false
 
-stage '獨立網站 repo 與網址'
-say '使用獨立、公開、專供靜態輸出的 repo；第一次請建立空 repo，不加 README。'
-open_url 'https://github.com/new'
-ask PUBLIC_EXPORT_REPO '匯出 repo（owner/repo）：'
-[[ "$PUBLIC_EXPORT_REPO" =~ ^[a-zA-Z0-9_.-]+/[a-zA-Z0-9_.-]+$ ]] || exit 2
-[[ "$PUBLIC_EXPORT_REPO" != "$SOURCE_REPO" ]] || { warn '來源與匯出 repo 必須不同。'; exit 1; }
-[[ "$(gh repo view "$PUBLIC_EXPORT_REPO" --json isPrivate --jq .isPrivate)" == 'false' ]] || { warn '本方案需要獨立公開 repo；內部站請另選具授權的 hosting。'; exit 1; }
-ask SITE_URL '網站網址（https://owner.github.io/repo）：'
+stage '同 repo GitHub Pages'
+open_url "https://github.com/$SOURCE_REPO/settings/pages"
+step 'Build and deployment → Source 選 GitHub Actions；Pages 會從本 repo 的 workflow 發布。'
+pause '已設定 Pages 使用 GitHub Actions？'
+ask SITE_URL '網站 origin（https://owner.github.io；不含 repo 路徑）：'
 ask SITE_BASE '子路徑（/repo/；自訂網域用 /）：'
 [[ "$SITE_URL" == https://* && ( "$SITE_BASE" == / || "$SITE_BASE" == /*/ ) ]] || { warn '需要 HTTPS 網址與 / 開頭結尾的子路徑。'; exit 2; }
-for key in PUBLIC_EXPORT_REPO SITE_URL SITE_BASE; do write_env "$key" "${!key}"; done
+for key in SITE_URL SITE_BASE; do write_env "$key" "${!key}"; done
 save_state false
 
 stage '檢視已核准的公開 export'
@@ -262,34 +259,25 @@ stage '檢視已核准的公開 export'
 import json
 for f in json.load(open('.build/export/manifest.json'))['files']:print('  '+f)
 PY
-say '本步只寫 GitHub 變數／Secret；不執行發布，也不推送本機分支。'
-if ! confirm '已檢視網站預覽，是否配置公開發布？'; then
-  save_state false; say '已保存非敏感設定，發布未啟用。'; exit 0
+say '這一步檢視網站將公開顯示的內容；不推送本機分支，也不會立即部署。'
+if ! confirm '已檢視網站預覽，是否配置同 repo GitHub Pages？'; then
+  save_state false; say '已取消設定，沒有啟用發布。'; exit 0
 fi
 set_verified_var PUBLISH_ENABLED false
+for key in SITE_URL SITE_BASE; do
+  write_env "$key" "${!key}"
+  set_verified_var "$key" "${!key}"
+done
+save_state false
 
-stage '只對匯出 repo 的寫入 token'
-open_url 'https://github.com/settings/personal-access-tokens/new'
-step '建立 fine-grained token：只選匯出 repo，Contents 設 Read and write，設定到期日。'
-ask_secret PUBLIC_EXPORT_TOKEN '貼上 token（隱藏輸入；不寫入檔案）：'
-[[ -n "$PUBLIC_EXPORT_TOKEN" ]] || { warn '沒有 token，發布未啟用。'; exit 1; }
-set_secret PUBLIC_EXPORT_TOKEN "$PUBLIC_EXPORT_TOKEN"
-unset PUBLIC_EXPORT_TOKEN
-[[ "${WRITTEN_SECRET[*]-}" == PUBLIC_EXPORT_TOKEN ]] || { warn 'Secret 未寫入，停止設定。'; exit 1; }
-set_verified_var PUBLIC_EXPORT_REPO "$PUBLIC_EXPORT_REPO"
-set_verified_var SITE_URL "$SITE_URL"
-set_verified_var SITE_BASE "$SITE_BASE"
-
-stage '啟用排程發布與 Pages'
-say '第一次收集會產生靜態 main 分支；之後在匯出 repo Settings → Pages 選 Deploy from a branch、main、/(root)。'
-open_url "https://github.com/$PUBLIC_EXPORT_REPO/settings/pages"
-say '此網站公開；原始 repo 保持私有。來源 workflow 須已推送到 default branch 才能排程。'
-if confirm '設定完整，允許之後每日收集成功時發布到匯出 repo？'; then
+stage '啟用排程發布'
+say 'workflow 僅把 approved export 部署到本 repo Pages；GITHUB_TOKEN 不需另外建立。來源 workflow 須在 default branch。'
+if confirm '設定完整，允許之後每日收集成功時發布到 GitHub Pages？'; then
   set_verified_var PUBLISH_ENABLED true
   save_state true
 else
   save_state false
-  say 'PUBLISH_ENABLED=false；可重跑接續，沒有發布網站。'
+  say 'PUBLISH_ENABLED=false；可重跑接續，網站尚未啟用發布。'
 fi
 # Bash 3.2 empty arrays differ under nounset; library remains untouched.
 set +u

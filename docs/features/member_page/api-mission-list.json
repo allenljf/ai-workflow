@@ -1,0 +1,40 @@
+{
+  "apis": [
+    {
+      "name": "未登入任務列表",
+      "method": "GET",
+      "path": "v2/mission/list/un_login",
+      "query": {
+        "country_code": "string, 選填, 國家代碼 e.g. TW"
+      },
+      "response_data": "Array<MissionItem>"
+    },
+    {
+      "name": "已登入任務列表",
+      "method": "GET",
+      "path": "v2/mission/list/status",
+      "query": {
+        "statuses[]": "array of string, 選填, e.g. NEW, PROG, COMPLETE, DONE"
+      },
+      "response_data": "Array<MissionItem>"
+    }
+  ],
+  "MissionItem": {
+    "mission_id": "int",
+    "mission_category": "string, LOY|LIM",
+    "mission_icon": { "active": "string", "inactive": "string" },
+    "mission_banner": { "mobile": "string" },
+    "mission_link": "string",
+    "mission_name": "string",
+    "mission_desc": "string",
+    "action_btn_text": "string",
+    "mission_detail": "[{ title, list-type, contents }]",
+    "end_time": "string",
+    "rewards": [{ "type": "string, POINT|EXP|COUPON", "value": "int" }],
+    "mission_record_id": "int",
+    "mission_status": "string, NEW|PROG|COMPLETE|DONE|INVALID",
+    "done_time": "string",
+    "complete_deadline": "string",
+    "progress_bar": { "type": "string", "target": "int", "current": "number" }
+  }
+}

@@ -1,0 +1,18 @@
+agentic-workflow-research/
+├── README.md                        # 索引，含每份調研對應手冊的哪一章
+├── agentic-workflow-handbook.md     # 主文件，85 KB
+└── research/                        # 12 份原始調研，已改成看得懂的檔名
+    ├── 01-loop-engineering-閉環工程.md
+    ├── 02-android-verification-驗證工具鏈.md
+    ├── 03-claude-code-harness-primitives.md
+    ├── 04-android-architecture-官方架構.md
+    ├── 05-tdd-vs-fast-routing.md
+    ├── 06-spec-driven-dev-tools.md
+    ├── 07-packaging-distribution-打包發佈.md
+    ├── 08-codebase-search-知識庫.md
+    ├── 09-practitioner-workflows-方法論.md
+    ├── 10-graph-orchestration.md
+    ├── 11-eval-telemetry-儀表與刪除.md
+    └── 12-parallel-agents-gradle-底層實測.md
+
+

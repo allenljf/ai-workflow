@@ -1,0 +1,1979 @@
+# 開發準則的唯一真相源。md 是這份的人類可讀渲染。
+# 修改規則時必須同步更新 owner md，並跑 python3 scripts/check-dev-guide.py 驗證。
+#
+# level:   MUST / MUST_NOT / SHOULD / SHOULD_NOT / MAY   （錯得多嚴重）
+# enforce: new-only / on-touch / new-only+on-touch / migrate / exempt / dormant  （什麼時候要修）
+# check:   lint:<id> / detekt:<rule> / deps-graph / ci:<name> / manual
+
+- id: layer-upward-import
+  level: MUST_NOT
+  enforce: new-only+on-touch
+  owner: 01-architecture.md
+  check: lint:layer-upward-import
+  source: 官方 architecture-recommendations（layer-dependency-direction）
+- id: datasource-in-ui
+  level: MUST_NOT
+  enforce: new-only
+  owner: 01-architecture.md
+  check: lint:datasource-in-ui
+  source: 官方 architecture-recommendations（no-datasource-in-ui-layer / repository-even-single-source）
+  ledger: 90-migration-ledger.md#m-22
+- id: ui-calls-repository
+  level: MUST_NOT
+  enforce: new-only
+  owner: 01-architecture.md
+  check: lint:ui-calls-repository
+  source: 官方 architecture-recommendations（udf-state-down-event-up）
+  ledger: 90-migration-ledger.md#m-01
+- id: duplicate-source-of-truth
+  level: MUST_NOT
+  enforce: new-only
+  owner: 01-architecture.md
+  check: manual
+  source: 官方 architecture-recommendations（single-source-of-truth）
+  ledger: 90-migration-ledger.md#m-01
+- id: cross-layer-callback
+  level: MUST_NOT
+  enforce: new-only
+  owner: 01-architecture.md
+  check: manual
+  source: 官方 architecture-recommendations（cross-layer-suspend-and-flow）
+- id: global-state-holder
+  level: MUST_NOT
+  enforce: new-only+on-touch
+  owner: 01-architecture.md
+  check: lint:global-state-holder
+  source: 官方 architecture general best practices（no-data-in-app-components）
+  ledger: 90-migration-ledger.md#m-21
+- id: event-bus-for-state
+  level: MUST_NOT
+  enforce: new-only
+  owner: 01-architecture.md
+  check: manual
+  source: 官方 architecture anti-pattern（EventBus / RxBus）
+- id: layer-package-mismatch
+  level: MUST
+  enforce: new-only
+  owner: 01-architecture.md
+  check: manual
+  source: 官方 architecture-intro + 專案決策 D-12
+- id: unjustified-new-module
+  level: SHOULD
+  enforce: new-only
+  owner: 02-modularization.md
+  check: manual
+  source: 官方 modularization/patterns（module-granularity-threshold）
+- id: nonstandard-module-path
+  level: MUST
+  enforce: new-only
+  owner: 02-modularization.md
+  check: manual
+  source: 官方 modularization + nowinandroid settings.gradle.kts
+- id: new-code-in-app-module
+  level: SHOULD_NOT
+  enforce: new-only
+  owner: 02-modularization.md
+  check: manual
+  source: 官方 modularization（class-placement-one-feature-or-core）
+  ledger: 90-migration-ledger.md#m-23
+- id: no-feature-to-feature-dep
+  level: MUST_NOT
+  enforce: new-only
+  owner: 02-modularization.md
+  check: deps-graph
+  source: 官方 modularization/patterns；紅線 C4
+  ledger: 90-migration-ledger.md#m-24
+- id: module-dep-wrong-direction
+  level: MUST_NOT
+  enforce: new-only
+  owner: 02-modularization.md
+  check: deps-graph
+  source: 官方 modularization/patterns（core-must-not-depend-on-feature）
+  ledger: 90-migration-ledger.md#m-24
+- id: no-compile-only-project
+  level: MUST_NOT
+  enforce: new-only
+  owner: 02-modularization.md
+  check: deps-graph
+  source: 專案決策 D-17 + nowinandroid 依賴宣告慣例
+  ledger: 90-migration-ledger.md#m-23
+- id: api-project-without-reason
+  level: SHOULD
+  enforce: new-only
+  owner: 02-modularization.md
+  check: deps-graph
+  source: 官方 modularization（prefer-implementation-over-api）
+- id: implicit-transitive-dep
+  level: MUST_NOT
+  enforce: new-only+on-touch
+  owner: 02-modularization.md
+  check: deps-graph
+  source: 官方 modularization/patterns + Gradle 依賴宣告慣例
+  ledger: 90-migration-ledger.md#m-24
+- id: catch-all-module
+  level: SHOULD_NOT
+  enforce: new-only
+  owner: 02-modularization.md
+  check: manual
+  source: 官方 modularization（no-catch-all-common-module）
+- id: android-plugin-for-pure-kotlin
+  level: MUST
+  enforce: new-only
+  owner: 02-modularization.md
+  check: manual
+  source: 官方 modularization（prefer-jvm-library-module）
+- id: module-missing-convention-plugin
+  level: MUST
+  enforce: new-only
+  owner: 02-modularization.md
+  check: manual
+  source: 官方 optimize-your-build + nowinandroid build-logic
+  ledger: 90-migration-ledger.md#m-25
+- id: version-catalog-single-source
+  level: MUST
+  enforce: new-only+on-touch
+  owner: 02-modularization.md
+  check: manual
+  source: 官方 version catalog；衝突裁決 D-16
+  ledger: 90-migration-ledger.md#m-25
+- id: kapt-in-new-module
+  level: MUST_NOT
+  enforce: new-only
+  owner: 02-modularization.md
+  check: manual
+  source: 官方 migrate-to-ksp
+  ledger: 90-migration-ledger.md#m-25
+- id: flat-dir-repository
+  level: MUST_NOT
+  enforce: new-only
+  owner: 02-modularization.md
+  check: manual
+  source: Gradle 官方（flatDir 不建議使用）
+- id: implicit-cross-module-r
+  level: SHOULD
+  enforce: new-only
+  owner: 02-modularization.md
+  check: manual
+  source: 官方 modularization（no-cross-module-r-reference）
+- id: gradle-legacy-build-flags
+  level: MUST
+  enforce: migrate
+  owner: 02-modularization.md
+  check: manual
+  source: 官方 optimize-your-build；configuration-cache 降級裁決 D-19
+  ledger: 90-migration-ledger.md#m-25
+- id: manual-impl-instantiation
+  level: MUST_NOT
+  enforce: new-only+on-touch
+  owner: 03-di.md
+  check: lint:manual-impl-instantiation
+  source: 官方 dependency-injection（紅線 C5）
+- id: service-locator-get
+  level: MUST_NOT
+  enforce: new-only+on-touch
+  owner: 03-di.md
+  check: lint:service-locator-get
+  source: 官方 di-overview（Service Locator 三項缺點）
+  ledger: 90-migration-ledger.md#m-26
+- id: inject-outside-whitelist
+  level: MUST_NOT
+  enforce: new-only
+  owner: 03-di.md
+  check: manual
+  source: 官方 di-overview + 專案裁決 D-09
+  ledger: 90-migration-ledger.md#m-26
+- id: koin-dsl-module
+  level: MUST_NOT
+  enforce: new-only
+  owner: 03-di.md
+  check: manual
+  source: Koin Annotations 官方（KOIN_CONFIG_CHECK 只作用於 annotation 路徑）
+  ledger: 90-migration-ledger.md#m-26
+- id: componentscan-too-broad
+  level: MUST
+  enforce: new-only
+  owner: 03-di.md
+  check: manual
+  source: Koin Annotations 官方
+  ledger: 90-migration-ledger.md#m-26
+- id: koin-binds-missing
+  level: MUST
+  enforce: new-only
+  owner: 03-di.md
+  check: manual
+  source: Koin 官方（等價於 Hilt @Binds）
+- id: di-module-in-app
+  level: SHOULD
+  enforce: new-only
+  owner: 03-di.md
+  check: manual
+  source: 官方 multi-module DI 指引 + nowinandroid
+  ledger: 90-migration-ledger.md#m-26
+- id: usecase-as-single
+  level: MUST_NOT
+  enforce: new-only+on-touch
+  owner: 03-di.md
+  check: manual
+  source: 官方 di-scoping + AGENTS.md（UseCase 用 @Factory）
+- id: single-for-stateless
+  level: SHOULD_NOT
+  enforce: new-only
+  owner: 03-di.md
+  check: manual
+  source: 官方 hilt-android（Minimize the use of scoped bindings）
+- id: koin-named-string-literal
+  level: SHOULD_NOT
+  enforce: new-only
+  owner: 03-di.md
+  check: manual
+  source: 業界共識（補償 Koin 缺型別安全 @Qualifier）
+  ledger: 90-migration-ledger.md#m-26
+- id: koin-scope-not-closed
+  level: MUST
+  enforce: new-only
+  owner: 03-di.md
+  check: manual
+  source: Koin 3+ 官方 AndroidScopeComponent
+- id: koin-config-check-off
+  level: MUST_NOT
+  enforce: new-only
+  owner: 03-di.md
+  check: manual
+  source: Koin Annotations 官方
+  ledger: 90-migration-ledger.md#m-26
+- id: koin-module-not-verified
+  level: MUST
+  enforce: new-only
+  owner: 03-di.md
+  check: manual
+  source: Koin 3.3+ 官方 module.verify()
+  ledger: 90-migration-ledger.md#m-26
+- id: hilt-before-prerequisites
+  level: MUST_NOT
+  enforce: new-only
+  owner: 03-di.md
+  check: manual
+  source: 專案裁決 D-01（不採用 Hilt）
+- id: di-container-single-framework
+  level: MUST_NOT
+  enforce: new-only+on-touch
+  owner: 03-di.md
+  check: manual
+  source: 專案裁決 D-01（DI 容器只有 Koin）
+  ledger: 90-migration-ledger.md#m-26
+- id: hilt-module-no-installin
+  level: MUST
+  enforce: exempt
+  owner: 03-di.md
+  check: manual
+  source: 官方 hilt-android
+  reason: 本專案不採用 Hilt（D-01 改版），此規則永久不適用。Koin 的等價要求由 componentscan-too-broad 與 koin-binds-missing 承擔
+- id: hilt-scope-mismatch
+  level: MUST
+  enforce: exempt
+  owner: 03-di.md
+  check: manual
+  source: 官方 hilt-android（component ↔ scope 對應表）
+  reason: 本專案不採用 Hilt（D-01 改版），此規則永久不適用。Koin 的等價要求由 usecase-as-single、single-for-stateless、koin-scope-not-closed 承擔
+- id: android-in-domain
+  level: MUST_NOT
+  enforce: new-only+on-touch
+  owner: 04-domain-layer.md
+  check: lint:android-in-domain
+  source: 官方 domain-layer（紅線 C1 / 裁決 D-10）
+- id: domain-imports-impl
+  level: MUST_NOT
+  enforce: new-only+on-touch
+  owner: 04-domain-layer.md
+  check: lint:domain-imports-impl
+  source: 官方 architecture recommendations（紅線 C2）
+  ledger: 90-migration-ledger.md#m-24
+- id: domain-gradle-data-dep
+  level: MUST_NOT
+  enforce: new-only+on-touch
+  owner: 04-domain-layer.md
+  check: deps-graph
+  source: 官方 architecture recommendations + 專案裁決 D-12
+  ledger: 90-migration-ledger.md#m-24
+- id: usecase-naming
+  level: MUST
+  enforce: new-only
+  owner: 04-domain-layer.md
+  check: manual
+  source: 官方 domain-layer（naming conventions）
+- id: usecase-single-invoke
+  level: SHOULD
+  enforce: new-only
+  owner: 04-domain-layer.md
+  check: manual
+  source: 官方 domain-layer（裁決 D-16 統一強度）
+- id: usecase-passthrough
+  level: MAY
+  enforce: new-only
+  owner: 04-domain-layer.md
+  check: manual
+  source: 官方 domain-layer vs AGENTS.md 食譜（裁決 D-13）
+- id: usecase-mutable-state
+  level: MUST_NOT
+  enforce: new-only
+  owner: 04-domain-layer.md
+  check: manual
+  source: 官方 domain-layer（UseCase 應為無狀態）
+- id: repository-needs-interface
+  level: MUST
+  enforce: new-only
+  owner: 04-domain-layer.md
+  check: manual
+  source: 官方 data-layer + 專案裁決 D-12
+  ledger: 90-migration-ledger.md#m-18
+- id: repository-named-by-screen
+  level: MUST_NOT
+  enforce: new-only
+  owner: 04-domain-layer.md
+  check: manual
+  source: 官方 data-layer（依資料型別而非畫面切分）
+  ledger: 90-migration-ledger.md#m-18
+- id: serialization-in-domain-model
+  level: MUST_NOT
+  enforce: new-only
+  owner: 04-domain-layer.md
+  check: manual
+  source: 官方 data-layer（model per layer）
+- id: dto-in-domain-contract
+  level: MUST_NOT
+  enforce: new-only
+  owner: 04-domain-layer.md
+  check: manual
+  source: 官方 architecture recommendations（紅線 C3 的 domain 版）
+  ledger: 90-migration-ledger.md#m-24
+- id: ui-model-in-domain
+  level: MUST_NOT
+  enforce: new-only
+  owner: 04-domain-layer.md
+  check: manual
+  source: 官方 domain-layer（UI 格式化屬 UI 層）
+- id: apiresult-new-code
+  level: MUST_NOT
+  enforce: new-only
+  owner: 05-data-layer.md
+  check: lint:apiresult-new-code
+  source: 專案決策（91-decisions P-01 由本檔定案）
+  ledger: 90-migration-ledger.md#m-19
+- id: raw-run-catching
+  level: MUST_NOT
+  enforce: new-only+on-touch
+  owner: 05-data-layer.md
+  check: lint:raw-run-catching
+  source: 官方 coroutines-best-practices
+- id: raw-exception-leak
+  level: MUST
+  enforce: new-only+on-touch
+  owner: 05-data-layer.md
+  check: manual
+  source: 官方 data-layer
+- id: loading-in-data-layer
+  level: MUST_NOT
+  enforce: new-only
+  owner: 05-data-layer.md
+  check: manual
+  source: 官方 sample nowinandroid
+  ledger: 90-migration-ledger.md#m-19
+- id: empty-catch
+  level: MUST_NOT
+  enforce: new-only+on-touch
+  owner: 05-data-layer.md
+  check: lint:empty-catch
+  source: 業界共識（紅線 F6）
+- id: print-stacktrace
+  level: MUST_NOT
+  enforce: new-only+on-touch
+  owner: 05-data-layer.md
+  check: lint:print-stacktrace
+  source: 業界共識（紅線 G3）
+- id: dto-in-ui
+  level: MUST_NOT
+  enforce: new-only
+  owner: 05-data-layer.md
+  check: lint:dto-in-ui
+  source: 官方 architecture-recommendations（紅線 C3）
+  ledger: 90-migration-ledger.md#m-17
+- id: dto-as-domain-model
+  level: MUST_NOT
+  enforce: new-only
+  owner: 05-data-layer.md
+  check: manual
+  source: 官方 data-layer
+  ledger: 90-migration-ledger.md#m-17
+- id: manual-mapping-in-ui
+  level: MUST_NOT
+  enforce: new-only
+  owner: 05-data-layer.md
+  check: manual
+  source: 官方 sample nowinandroid
+  ledger: 90-migration-ledger.md#m-17
+- id: uimodel-in-repository
+  level: MUST_NOT
+  enforce: new-only
+  owner: 05-data-layer.md
+  check: manual
+  source: 官方 data-layer
+- id: mutable-model-field
+  level: MUST
+  enforce: new-only
+  owner: 05-data-layer.md
+  check: manual
+  source: 官方 data-layer
+- id: datasource-above-repository
+  level: MUST_NOT
+  enforce: new-only
+  owner: 05-data-layer.md
+  check: manual
+  source: 官方 data-layer
+  ledger: 90-migration-ledger.md#m-18
+- id: repository-per-screen
+  level: MUST_NOT
+  enforce: new-only
+  owner: 05-data-layer.md
+  check: manual
+  source: 官方 data-layer
+- id: datasource-tech-name
+  level: MUST_NOT
+  enforce: new-only
+  owner: 05-data-layer.md
+  check: manual
+  source: 官方 sample nowinandroid
+- id: mutable-cache-in-repository
+  level: MUST_NOT
+  enforce: new-only+on-touch
+  owner: 05-data-layer.md
+  check: manual
+  source: 官方 data-layer
+- id: retrofit-non-suspend
+  level: MUST
+  enforce: new-only
+  owner: 06-network.md
+  check: lint:retrofit-non-suspend
+  source: 官方 sample nowinandroid（紅線 G2）
+  ledger: 90-migration-ledger.md#m-09
+- id: api-no-type-erasure
+  level: MUST_NOT
+  enforce: new-only
+  owner: 06-network.md
+  check: lint:api-no-type-erasure
+  source: 業界共識（型別安全）
+  ledger: 90-migration-ledger.md#m-16
+- id: mixed-response-types
+  level: MUST_NOT
+  enforce: new-only
+  owner: 06-network.md
+  check: manual
+  source: 官方 sample nowinandroid
+- id: unchecked-api-response
+  level: MUST
+  enforce: new-only+on-touch
+  owner: 06-network.md
+  check: manual
+  source: 官方 networking / 業界共識
+- id: raw-gson
+  level: MUST_NOT
+  enforce: new-only+on-touch
+  owner: 06-network.md
+  check: lint:raw-gson
+  source: 專案決策（紅線 G1，pre-push hook）
+- id: ser-kotlinx-for-new-dto
+  level: MUST
+  enforce: new-only
+  owner: 06-network.md
+  check: manual
+  source: 官方 sample nowinandroid（91-decisions D-14）
+  ledger: 90-migration-ledger.md#m-20
+- id: mixed-json-annotations
+  level: MUST_NOT
+  enforce: new-only+on-touch
+  owner: 06-network.md
+  check: lint:mixed-json-annotations
+  source: 官方 kotlinx.serialization（91-decisions D-14）
+  ledger: 90-migration-ledger.md#m-20
+- id: json-instance-per-call
+  level: MUST_NOT
+  enforce: new-only+on-touch
+  owner: 06-network.md
+  check: lint:json-instance-per-call
+  source: 官方 kotlinx.serialization
+  ledger: 90-migration-ledger.md#m-20
+- id: json-unknown-keys
+  level: MUST
+  enforce: new-only
+  owner: 06-network.md
+  check: manual
+  source: 官方 kotlinx.serialization
+- id: json-key-in-property-name
+  level: MUST
+  enforce: new-only
+  owner: 06-network.md
+  check: manual
+  source: 官方 kotlinx.serialization
+- id: dto-missing-defaults
+  level: SHOULD
+  enforce: new-only
+  owner: 06-network.md
+  check: manual
+  source: 業界共識
+- id: okhttp-manual-build
+  level: MUST_NOT
+  enforce: new-only
+  owner: 06-network.md
+  check: lint:okhttp-manual-build
+  source: 官方 dependency-injection
+- id: missing-call-timeout
+  level: MUST
+  enforce: new-only+on-touch
+  owner: 06-network.md
+  check: manual
+  source: 官方 OkHttp 文件
+  ledger: 90-migration-ledger.md#m-21
+- id: interceptor-swallows-exception
+  level: MUST_NOT
+  enforce: new-only+on-touch
+  owner: 06-network.md
+  check: manual
+  source: 官方 OkHttp 文件
+  ledger: 90-migration-ledger.md#m-21
+- id: interceptor-layering
+  level: SHOULD
+  enforce: new-only
+  owner: 06-network.md
+  check: manual
+  source: 官方 OkHttp 文件
+- id: release-http-body-log
+  level: MUST_NOT
+  enforce: new-only+on-touch
+  owner: 06-network.md
+  check: manual
+  source: 業界共識（紅線 G4）
+  ledger: 90-migration-ledger.md#m-21
+- id: retry-non-idempotent
+  level: MUST_NOT
+  enforce: new-only+on-touch
+  owner: 06-network.md
+  check: manual
+  source: 業界共識
+- id: token-refresh-in-interceptor
+  level: SHOULD
+  enforce: new-only
+  owner: 06-network.md
+  check: manual
+  source: 官方 OkHttp Authenticator 文件
+- id: force-http1
+  level: SHOULD_NOT
+  enforce: new-only
+  owner: 06-network.md
+  check: manual
+  source: 官方 OkHttp 文件（圍堵版：禁止新 client 指定 protocols、禁止複製既有兩處；既有兩處在後端 HTTP/2 實測通過前不得移除）
+  ledger: 90-migration-ledger.md#m-21
+- id: dao-blocking-query
+  level: MUST
+  enforce: new-only
+  owner: 07-persistence.md
+  check: manual
+  source: '官方 room（networking-data: room-oneshot-dao-suspend / room-observable-flow-not-suspend）'
+- id: allow-main-thread-queries
+  level: MUST_NOT
+  enforce: new-only
+  owner: 07-persistence.md
+  check: manual
+  source: '官方 room（networking-data: room-no-allow-main-thread-queries）'
+- id: manual-database-builder
+  level: MUST_NOT
+  enforce: new-only
+  owner: 07-persistence.md
+  check: manual
+  source: '官方 room（networking-data: room-database-singleton）'
+  ledger: 90-migration-ledger.md#m-22
+- id: export-schema-off
+  level: MUST
+  enforce: new-only
+  owner: 07-persistence.md
+  check: manual
+  source: '官方 room（networking-data: room-export-schema-committed）'
+  ledger: 90-migration-ledger.md#m-22
+- id: entity-change-no-migration
+  level: MUST
+  enforce: new-only+on-touch
+  owner: 07-persistence.md
+  check: manual
+  source: 官方 room（room-version-bump-with-migration / room-migration-test-required）+ 專案現況（exportSchema=false、無歷史 schema，改既有
+    entity 一律先詢問使用者）
+  ledger: 90-migration-ledger.md#m-22
+- id: destructive-migration
+  level: MUST_NOT
+  enforce: new-only
+  owner: 07-persistence.md
+  check: manual
+  source: '官方 room（networking-data: room-no-destructive-migration-in-release）'
+- id: dao-flow-no-distinct
+  level: SHOULD
+  enforce: new-only
+  owner: 07-persistence.md
+  check: manual
+  source: '官方 room（networking-data: room-distinct-until-changed-on-observable）'
+- id: datastore-duplicate-instance
+  level: MUST
+  enforce: new-only
+  owner: 07-persistence.md
+  check: manual
+  source: '官方 datastore（networking-data: ds-single-instance-per-file）'
+- id: datastore-io-uncaught
+  level: MUST
+  enforce: new-only
+  owner: 07-persistence.md
+  check: manual
+  source: '官方 datastore（networking-data: ds-catch-ioexception-on-write）'
+- id: datastore-sync-read
+  level: MUST_NOT
+  enforce: new-only
+  owner: 07-persistence.md
+  check: manual
+  source: '官方 datastore（networking-data: ds-no-runblocking-read）'
+- id: datastore-json-blob
+  level: MUST_NOT
+  enforce: new-only
+  owner: 07-persistence.md
+  check: manual
+  source: 官方 datastore 決策點（Preferences vs JSON vs Proto）+ 專案現況 DataStoreHelper
+  ledger: 90-migration-ledger.md#m-22
+- id: ds-no-new-sharedpreferences
+  level: MUST_NOT
+  enforce: new-only
+  owner: 07-persistence.md
+  check: manual
+  source: '官方 datastore（networking-data: ds-no-new-sharedpreferences）'
+  ledger: 90-migration-ledger.md#m-22
+- id: datastore-as-database
+  level: SHOULD_NOT
+  enforce: new-only
+  owner: 07-persistence.md
+  check: manual
+  source: '官方 datastore（networking-data: ds-room-for-relational-data）'
+- id: offline-read-hits-network
+  level: MUST
+  enforce: new-only
+  owner: 07-persistence.md
+  check: manual
+  source: '官方 offline-first（domain-data-layer: offline-first-read-from-local-only / repository-single-source-of-truth）'
+- id: offline-write-remote-first
+  level: MUST
+  enforce: new-only
+  owner: 07-persistence.md
+  check: manual
+  source: '官方 offline-first（domain-data-layer: offline-first-write-local-first）'
+- id: sync-full-refetch
+  level: SHOULD
+  enforce: new-only
+  owner: 07-persistence.md
+  check: manual
+  source: '官方 offline-first（domain-data-layer: sync-incremental-with-version）'
+- id: uistate-var-property
+  level: MUST_NOT
+  enforce: new-only
+  owner: 08-ui-state.md
+  check: manual
+  source: 官方 ui-layer（ui-state-immutable / uistate-default-values）
+- id: uistate-naming
+  level: SHOULD
+  enforce: new-only
+  owner: 08-ui-state.md
+  check: manual
+  source: 官方 ui-layer（ui-state-naming）
+- id: scattered-state-streams
+  level: SHOULD_NOT
+  enforce: new-only
+  owner: 08-ui-state.md
+  check: manual
+  source: 官方 ui-layer（ui-state-single-object + 決策點：單一 vs 多 stream）
+  ledger: 90-migration-ledger.md#m-07
+- id: content-state-not-sealed
+  level: SHOULD
+  enforce: new-only
+  owner: 08-ui-state.md
+  check: manual
+  source: 官方 ui-layer 決策點（sealed interface vs boolean flag，採混合做法）
+- id: uistate-resolved-string
+  level: MUST_NOT
+  enforce: new-only
+  owner: 08-ui-state.md
+  check: manual
+  source: 官方 ui-layer（no-android-ui-types-in-uistate + 錯誤訊息決策點）；配合紅線 A2 strings.xml 由 PM 維護
+- id: paging-in-uistate
+  level: MUST_NOT
+  enforce: new-only
+  owner: 08-ui-state.md
+  check: manual
+  source: 官方 ui-layer（paging-data-separate-stream）
+- id: mutable-state-exposed
+  level: MUST_NOT
+  enforce: new-only+on-touch
+  owner: 08-ui-state.md
+  check: lint:mutable-state-exposed
+  source: 官方 ui-layer（expose-read-only-state）；紅線 D1
+  ledger: 90-migration-ledger.md#m-04
+- id: mutable-state-inferred
+  level: MUST_NOT
+  enforce: new-only+on-touch
+  owner: 08-ui-state.md
+  check: lint:mutable-state-inferred
+  source: 官方 ui-layer（expose-read-only-state）；紅線 D1
+  ledger: 90-migration-ledger.md#m-04
+- id: state-read-then-write
+  level: SHOULD
+  enforce: new-only
+  owner: 08-ui-state.md
+  check: manual
+  source: 官方 ui-layer（mutable-state-flow-update）
+- id: async-in-viewmodel-init
+  level: MUST_NOT
+  enforce: new-only
+  owner: 08-ui-state.md
+  check: manual
+  source: 官方 ui-layer（no-async-in-init）
+- id: statein-while-subscribed
+  level: SHOULD
+  enforce: new-only
+  owner: 08-ui-state.md
+  check: manual
+  source: 官方 ui-layer（state-in-while-subscribed）；D-16 統一為 SHOULD。本專案無 WhileUiSubscribed 常數，寫字面 5_000L
+  ledger: 90-migration-ledger.md#m-05
+- id: eager-sharing-started
+  level: SHOULD_NOT
+  enforce: new-only
+  owner: 08-ui-state.md
+  check: manual
+  source: 官方 ui-layer（no-eagerly-sharing）
+- id: saved-state-missing
+  level: SHOULD
+  enforce: new-only
+  owner: 08-ui-state.md
+  check: manual
+  source: 官方 ui-layer（saved-state-handle-restore）
+  ledger: 90-migration-ledger.md#m-07
+- id: one-off-event-as-state
+  level: MUST_NOT
+  enforce: new-only
+  owner: 08-ui-state.md
+  check: manual
+  source: 官方 ui-layer（no-one-off-event-channel）；白名單依 91-decisions.md D-15 裁決
+  ledger: 90-migration-ledger.md#m-05
+- id: event-not-cleared
+  level: MUST
+  enforce: new-only
+  owner: 08-ui-state.md
+  check: manual
+  source: 官方 ui-layer（event-consumed-callback）
+- id: context-in-viewmodel
+  level: MUST_NOT
+  enforce: new-only+on-touch
+  owner: 08-ui-state.md
+  check: lint:context-in-viewmodel
+  source: 官方 ui-layer（no-context-in-viewmodel）；紅線 D2；D-16 統一為 MUST NOT
+  ledger: 90-migration-ledger.md#m-06
+- id: legacy-base-viewmodel
+  level: MUST_NOT
+  enforce: new-only
+  owner: 08-ui-state.md
+  check: manual
+  source: 官方 ui-layer（no-context-in-viewmodel 之 AndroidViewModel 條款）+ 專案現況 BaseViewModel
+  ledger: 90-migration-ledger.md#m-03
+- id: livedata-new-code
+  level: SHOULD_NOT
+  enforce: new-only
+  owner: 08-ui-state.md
+  check: lint:livedata-new-code
+  source: 專案決策（官方方向）；紅線 D3
+  ledger: 90-migration-ledger.md#m-02
+- id: no-new-reductor
+  level: MUST_NOT
+  enforce: new-only
+  owner: 08-ui-state.md
+  check: manual
+  source: 專案決策 D-02；紅線 D4
+  ledger: 90-migration-ledger.md#m-01
+- id: compose-modifier-missing
+  level: MUST
+  enforce: new-only+on-touch
+  owner: 09a-compose-api.md
+  check: lint:compose-modifier-missing
+  source: 官方 Compose API guidelines（Modifier parameter）
+  ledger: 90-migration-ledger.md#m-12
+- id: composable-param-order
+  level: MUST
+  enforce: new-only
+  owner: 09a-compose-api.md
+  check: manual
+  source: 官方 Compose API guidelines（Parameter ordering）
+- id: state-in-composable-param
+  level: MUST_NOT
+  enforce: new-only+on-touch
+  owner: 09a-compose-api.md
+  check: manual
+  source: 官方 state-hoisting（value + onValueChange）
+- id: composed-modifier
+  level: MUST_NOT
+  enforce: new-only
+  owner: 09a-compose-api.md
+  check: manual
+  source: 官方 custom modifiers（Modifier.Node 取代 composed）
+- id: composable-naming
+  level: MUST
+  enforce: new-only
+  owner: 09a-compose-api.md
+  check: manual
+  source: 官方 Compose API guidelines（Naming）
+- id: remember-prefix-missing
+  level: MUST
+  enforce: new-only
+  owner: 09a-compose-api.md
+  check: manual
+  source: 官方 Compose API guidelines（remember prefix）
+- id: no-new-material2
+  level: MUST_NOT
+  enforce: new-only
+  owner: 09a-compose-api.md
+  check: manual
+  source: 官方 Material 3 遷移指南
+  ledger: 90-migration-ledger.md#m-13
+- id: no-new-accompanist
+  level: MUST_NOT
+  enforce: new-only
+  owner: 09a-compose-api.md
+  check: manual
+  source: 官方 Accompanist 廢止公告
+  ledger: 90-migration-ledger.md#m-14
+- id: preview-not-stateless
+  level: MUST
+  enforce: new-only
+  owner: 09a-compose-api.md
+  check: manual
+  source: 官方 Compose preview 文件
+- id: preview-signature
+  level: SHOULD
+  enforce: new-only
+  owner: 09a-compose-api.md
+  check: manual
+  source: 官方 Compose preview 文件
+  ledger: 90-migration-ledger.md#m-12
+- id: new-xml-layout
+  level: MUST_NOT
+  enforce: new-only
+  owner: 09a-compose-api.md
+  check: lint:new-xml-layout
+  source: 專案決策（官方方向）
+  ledger: 90-migration-ledger.md#m-11
+- id: collect-as-state
+  level: MUST_NOT
+  enforce: new-only+on-touch
+  owner: 09b-compose-state.md
+  check: lint:collect-as-state
+  source: 官方 collectAsStateWithLifecycle（D-16 統一後保留此 id）
+  ledger: 90-migration-ledger.md#m-10
+- id: screen-content-split
+  level: SHOULD
+  enforce: new-only
+  owner: 09b-compose-state.md
+  check: manual
+  source: 官方 state-hoisting / nowinandroid（D-16 裁決為 SHOULD）
+- id: viewmodel-in-reusable-composable
+  level: MUST_NOT
+  enforce: new-only+on-touch
+  owner: 09b-compose-state.md
+  check: manual
+  source: 官方 state-holders（D-16 統一後保留此 id）
+- id: duplicated-hoisted-state
+  level: MUST_NOT
+  enforce: new-only
+  owner: 09b-compose-state.md
+  check: manual
+  source: 官方 state-hoisting（lowest common ancestor）
+- id: screen-data-in-remember
+  level: MUST_NOT
+  enforce: new-only
+  owner: 09b-compose-state.md
+  check: manual
+  source: 官方 state-holders（screen UI state 歸 ViewModel）
+- id: ui-state-not-saveable
+  level: SHOULD
+  enforce: new-only
+  owner: 09b-compose-state.md
+  check: manual
+  source: 官方 rememberSaveable 文件
+- id: unremembered-state
+  level: MUST
+  enforce: new-only
+  owner: 09b-compose-state.md
+  check: manual
+  source: 官方 state and Jetpack Compose
+- id: state-mutated-in-place
+  level: MUST_NOT
+  enforce: new-only+on-touch
+  owner: 09b-compose-state.md
+  check: manual
+  source: 官方 state and Jetpack Compose（observable containers）
+- id: derived-state-misuse
+  level: MUST_NOT
+  enforce: new-only+on-touch
+  owner: 09b-compose-state.md
+  check: manual
+  source: 官方 side-effects（derivedStateOf 誤用）
+- id: side-effect-in-composable-body
+  level: MUST_NOT
+  enforce: new-only+on-touch
+  owner: 09b-compose-state.md
+  check: manual
+  source: 官方 thinking in Compose / side-effects
+- id: io-in-composition
+  level: MUST_NOT
+  enforce: new-only+on-touch
+  owner: 09b-compose-state.md
+  check: manual
+  source: 官方 Compose performance bestpractices（紅線 E3）
+- id: effect-key-incomplete
+  level: MUST
+  enforce: new-only
+  owner: 09b-compose-state.md
+  check: manual
+  source: 官方 side-effects（effect keys）
+- id: launched-effect-unit-key
+  level: SHOULD_NOT
+  enforce: new-only
+  owner: 09b-compose-state.md
+  check: manual
+  source: 官方 side-effects（LaunchedEffect(true) 可疑）
+- id: stale-lambda-in-effect
+  level: MUST
+  enforce: new-only
+  owner: 09b-compose-state.md
+  check: manual
+  source: 官方 side-effects（rememberUpdatedState）
+- id: empty-on-dispose
+  level: MUST
+  enforce: new-only
+  owner: 09b-compose-state.md
+  check: manual
+  source: 官方 side-effects（DisposableEffect）
+- id: scope-created-in-composable
+  level: MUST_NOT
+  enforce: new-only
+  owner: 09b-compose-state.md
+  check: manual
+  source: 官方 side-effects（rememberCoroutineScope）
+- id: ui-anim-in-viewmodel
+  level: MUST_NOT
+  enforce: new-only
+  owner: 09b-compose-state.md
+  check: manual
+  source: 官方 Compose animation / state-holders
+- id: lazy-list-no-key
+  level: MUST
+  enforce: new-only+on-touch
+  owner: 10-compose-performance.md
+  check: lint:lazy-list-no-key
+  source: 官方 compose lists（紅線 E4）
+  ledger: 90-migration-ledger.md#m-12
+- id: lazy-list-no-content-type
+  level: SHOULD
+  enforce: new-only
+  owner: 10-compose-performance.md
+  check: manual
+  source: 官方 compose lists
+- id: paging-index-as-key
+  level: MUST
+  enforce: new-only+on-touch
+  owner: 10-compose-performance.md
+  check: manual
+  source: 官方 paging-compose
+  ledger: 90-migration-ledger.md#m-12
+- id: lazy-item-zero-size
+  level: MUST
+  enforce: new-only
+  owner: 10-compose-performance.md
+  check: manual
+  source: 官方 compose performance bestpractices
+- id: nested-same-direction-scroll
+  level: MUST_NOT
+  enforce: new-only
+  owner: 10-compose-performance.md
+  check: manual
+  source: 官方 compose lists
+- id: column-scroll-for-long-list
+  level: SHOULD
+  enforce: new-only
+  owner: 10-compose-performance.md
+  check: manual
+  source: 官方 compose lists
+- id: composable-heavy-work
+  level: MUST_NOT
+  enforce: new-only+on-touch
+  owner: 10-compose-performance.md
+  check: lint:composable-heavy-work
+  source: 官方 compose performance bestpractices（紅線 E3）
+- id: remember-missing-key
+  level: MUST
+  enforce: new-only
+  owner: 10-compose-performance.md
+  check: manual
+  source: 官方 compose state
+- id: animated-modifier-non-lambda
+  level: MUST
+  enforce: new-only+on-touch
+  owner: 10-compose-performance.md
+  check: manual
+  source: 官方 compose phases / performance
+- id: backwards-write
+  level: MUST_NOT
+  enforce: new-only
+  owner: 10-compose-performance.md
+  check: manual
+  source: 官方 compose state / phases
+- id: boxed-primitive-state
+  level: MUST
+  enforce: new-only
+  owner: 10-compose-performance.md
+  check: manual
+  source: 官方 Lint AutoboxingStateCreation
+  ledger: 90-migration-ledger.md#m-12
+- id: mutable-collection-in-state
+  level: MUST_NOT
+  enforce: new-only+on-touch
+  owner: 10-compose-performance.md
+  check: lint:mutable-collection-in-state
+  source: 官方 compose stability（裁決 D-06）
+- id: stability-annotation-lie
+  level: MUST_NOT
+  enforce: new-only
+  owner: 10-compose-performance.md
+  check: manual
+  source: 官方 @Immutable / @Stable 契約
+- id: premature-stability-fix
+  level: MUST_NOT
+  enforce: new-only
+  owner: 10-compose-performance.md
+  check: manual
+  source: 官方 compose stability（裁決 D-06）
+- id: uistate-stability-default
+  level: MUST
+  enforce: new-only
+  owner: 10-compose-performance.md
+  check: manual
+  source: 官方 compose stability（裁決 D-06）；stability config file 屬基建，見 90-migration-ledger.md#m-25
+- id: perf-claim-without-evidence
+  level: SHOULD
+  enforce: new-only
+  owner: 10-compose-performance.md
+  check: manual
+  source: 官方 compose performance（本專案無 compose compiler metrics 管道，效能主張須附量測）
+- id: hardcoded-dispatcher
+  level: MUST_NOT
+  enforce: new-only+on-touch
+  owner: 11-coroutines-flow.md
+  check: lint:hardcoded-dispatcher
+  source: 官方 coroutines-best-practices（紅線 F1，裁決 D-05）；qualifier 暫用字面字串 named("DispatcherIO")，KoinConstant 常數未建立
+  ledger: 90-migration-ledger.md#m-08
+- id: suspend-not-main-safe
+  level: MUST
+  enforce: new-only+on-touch
+  owner: 11-coroutines-flow.md
+  check: lint:suspend-not-main-safe
+  source: 官方 coroutines-best-practices（紅線 F4，裁決 D-05）
+- id: withcontext-at-call-site
+  level: SHOULD_NOT
+  enforce: new-only
+  owner: 11-coroutines-flow.md
+  check: manual
+  source: 官方 coroutines-best-practices
+- id: global-scope
+  level: MUST_NOT
+  enforce: new-only+on-touch
+  owner: 11-coroutines-flow.md
+  check: lint:global-scope
+  source: 官方 coroutines-best-practices（紅線 F2，裁決 D-16）
+  ledger: 90-migration-ledger.md#m-08
+- id: vm-custom-scope
+  level: MUST_NOT
+  enforce: new-only
+  owner: 11-coroutines-flow.md
+  check: manual
+  source: 官方 viewModelScope
+- id: new-scope-in-suspend
+  level: MUST
+  enforce: new-only
+  owner: 11-coroutines-flow.md
+  check: manual
+  source: 官方 structured concurrency
+- id: run-blocking-prod
+  level: MUST_NOT
+  enforce: new-only+on-touch
+  owner: 11-coroutines-flow.md
+  check: lint:run-blocking-prod
+  source: 官方 coroutines-best-practices（紅線 F3）
+  ledger: 90-migration-ledger.md#m-08
+- id: thread-sleep-in-coroutine
+  level: MUST_NOT
+  enforce: new-only
+  owner: 11-coroutines-flow.md
+  check: manual
+  source: 官方 coroutines 基礎
+- id: swallow-cancellation
+  level: MUST_NOT
+  enforce: new-only+on-touch
+  owner: 11-coroutines-flow.md
+  check: lint:swallow-cancellation
+  source: 官方 cancellation-and-exceptions（紅線 F5）
+- id: unhandled-launch-exception
+  level: MUST
+  enforce: new-only
+  owner: 11-coroutines-flow.md
+  check: manual
+  source: 官方 cancellation-and-exceptions
+- id: cpu-loop-no-ensure-active
+  level: MUST
+  enforce: new-only
+  owner: 11-coroutines-flow.md
+  check: manual
+  source: 官方 cancellation in coroutines
+- id: flow-builder-context-switch
+  level: MUST_NOT
+  enforce: new-only
+  owner: 11-coroutines-flow.md
+  check: manual
+  source: 官方 kotlin flow（context preservation / flowOn）
+- id: flow-catch-inside-builder
+  level: MUST_NOT
+  enforce: new-only
+  owner: 11-coroutines-flow.md
+  check: manual
+  source: 官方 kotlin flow（exception transparency）
+- id: suspend-fun-returning-flow
+  level: MUST_NOT
+  enforce: new-only
+  owner: 11-coroutines-flow.md
+  check: manual
+  source: 官方 kotlin flow
+- id: callbackflow-no-awaitclose
+  level: MUST
+  enforce: new-only
+  owner: 11-coroutines-flow.md
+  check: manual
+  source: 官方 callbackFlow / awaitClose
+- id: cold-flow-multi-collector
+  level: SHOULD
+  enforce: new-only
+  owner: 11-coroutines-flow.md
+  check: manual
+  source: 官方 flow shareIn/stateIn + nowinandroid
+- id: new-navigation-mechanism
+  level: MUST_NOT
+  enforce: new-only
+  owner: 12-navigation.md
+  check: manual
+  source: 專案決策（四套機制並存，不再新增）
+- id: krouter-for-internal-nav
+  level: SHOULD_NOT
+  enforce: new-only
+  owner: 12-navigation.md
+  check: manual
+  source: 專案決策（KRouter 保留給外部進入點）
+- id: new-xml-nav-graph
+  level: MUST_NOT
+  enforce: new-only
+  owner: 12-navigation.md
+  check: manual
+  source: 專案決策（紅線 E1 延伸）
+  ledger: 90-migration-ledger.md#m-11
+- id: cross-module-navigation
+  level: MUST
+  enforce: new-only+on-touch
+  owner: 12-navigation.md
+  check: manual
+  source: 官方 modularization patterns；專案 :shared:routing 樣板
+  ledger: 90-migration-ledger.md#m-24
+- id: router-contract-misplaced
+  level: MUST
+  enforce: new-only
+  owner: 12-navigation.md
+  check: manual
+  source: 專案決策（契約散落三處收斂）
+- id: duplicate-router-contract
+  level: MUST_NOT
+  enforce: new-only
+  owner: 12-navigation.md
+  check: manual
+  source: 專案決策（同名 CancelOrderRouter 陷阱）
+- id: router-impl-outside-app
+  level: MUST
+  enforce: new-only
+  owner: 12-navigation.md
+  check: manual
+  source: 專案決策（介面在 routing、實作在 app）
+- id: nav-controller-passed-down
+  level: MUST_NOT
+  enforce: new-only+on-touch
+  owner: 12-navigation.md
+  check: manual
+  source: 官方 navigation-compose（以 lambda 上拋導航事件）
+- id: nav-controller-composition-local
+  level: MUST_NOT
+  enforce: new-only
+  owner: 12-navigation.md
+  check: lint:nav-controller-composition-local
+  source: 官方 navigation-compose（以 lambda 上拋導航事件）
+- id: route-string-literal
+  level: MUST
+  enforce: new-only+on-touch
+  owner: 12-navigation.md
+  check: manual
+  source: 官方 navigation-compose（route 常數化）
+- id: nav-arg-not-id
+  level: MUST_NOT
+  enforce: new-only+on-touch
+  owner: 12-navigation.md
+  check: manual
+  source: 官方 navigation/use-graph/pass-data（只傳最少量資料）
+- id: route-string-convention
+  level: MUST
+  enforce: new-only
+  owner: 12-navigation.md
+  check: manual
+  source: 官方 navigation-compose（route 常數化 + navArgument + SavedStateHandle）；type-safe route 需 2.8+，升版屬紅線 A3
+  ledger: 90-migration-ledger.md#m-25
+- id: conditional-start-destination
+  level: MUST
+  enforce: new-only
+  owner: 12-navigation.md
+  check: manual
+  source: 官方 navigation/principles（固定的起始目的地）
+- id: navigate-back-instead-of-pop
+  level: MUST_NOT
+  enforce: new-only+on-touch
+  owner: 12-navigation.md
+  check: manual
+  source: 官方 navigation/principles（導航狀態以堆疊表示）
+- id: repeated-nav-no-singletop
+  level: MUST
+  enforce: new-only
+  owner: 12-navigation.md
+  check: manual
+  source: 官方 navigation/use-graph/navoptions
+- id: up-back-divergence
+  level: SHOULD_NOT
+  enforce: new-only
+  owner: 12-navigation.md
+  check: manual
+  source: 官方 navigation/principles（Up 與 Back 在 App 內作用相同）
+- id: deeplink-no-synthetic-backstack
+  level: MUST
+  enforce: new-only+on-touch
+  owner: 12-navigation.md
+  check: manual
+  source: 官方 navigation/principles（深層連結模擬手動導覽）
+- id: hardcoded-dimen
+  level: MUST_NOT
+  enforce: new-only+on-touch
+  owner: 13-designsystem.md
+  check: lint:hardcoded-dimen
+  source: 專案決策（紅線 B1／B2）
+  ledger: 90-migration-ledger.md#m-12
+- id: hardcoded-color
+  level: MUST_NOT
+  enforce: new-only+on-touch
+  owner: 13-designsystem.md
+  check: lint:hardcoded-color
+  source: 專案決策（紅線 B1／B2）
+  ledger: 90-migration-ledger.md#m-15
+- id: hardcoded-shape
+  level: MUST_NOT
+  enforce: new-only+on-touch
+  owner: 13-designsystem.md
+  check: lint:hardcoded-shape
+  source: 專案決策（紅線 B1／B2）
+  ledger: 90-migration-ledger.md#m-15
+- id: token-not-found-unasked
+  level: MUST
+  enforce: new-only+on-touch
+  owner: 13-designsystem.md
+  check: manual
+  source: 專案決策（紅線 B3）
+- id: material-theme-token
+  level: MUST_NOT
+  enforce: new-only+on-touch
+  owner: 13-designsystem.md
+  check: lint:material-theme-token
+  source: 專案決策（全庫無 MaterialTheme{} 包裝，colorScheme= 賦值 0 處）
+- id: legacy-color-palette
+  level: SHOULD_NOT
+  enforce: new-only
+  owner: 13-designsystem.md
+  check: manual
+  source: 專案決策（style-dictionary 為唯一色彩來源）
+  ledger: 90-migration-ledger.md#m-15
+- id: xml-hardcoded-dimen
+  level: MUST_NOT
+  enforce: on-touch
+  owner: 13-designsystem.md
+  check: manual
+  source: 專案決策（紅線 B1）
+  ledger: 90-migration-ledger.md#m-11
+- id: adhoc-textstyle
+  level: MUST_NOT
+  enforce: new-only+on-touch
+  owner: 13-designsystem.md
+  check: lint:adhoc-textstyle
+  source: 專案決策（紅線 B1，字型一律走 com.kkday.design.font）
+- id: hardcoded-font-weight
+  level: MUST_NOT
+  enforce: new-only
+  owner: 13-designsystem.md
+  check: manual
+  source: 專案決策（kkFontWeight* 為唯一字重來源）
+- id: styledictionary-edit
+  level: MUST_NOT
+  enforce: new-only+on-touch
+  owner: 13-designsystem.md
+  check: manual
+  source: 專案決策（StyleDictionary.kt / design_tokens.xml 由 style-dictionary 自動產生）
+- id: reinvented-ds-component
+  level: SHOULD_NOT
+  enforce: new-only
+  owner: 13-designsystem.md
+  check: manual
+  source: 專案決策
+  ledger: 90-migration-ledger.md#m-12
+- id: dark-theme-branching
+  level: MUST_NOT
+  enforce: new-only
+  owner: 13-designsystem.md
+  check: manual
+  source: 專案決策（token 為編譯期常數，深色模式尚未定案 P-03）
+  ledger: 90-migration-ledger.md#m-15
+- id: custom-design-theme
+  level: MUST_NOT
+  enforce: new-only
+  owner: 13-designsystem.md
+  check: manual
+  source: 專案決策（專案無 theme 層，見 91-decisions.md P-03）
+  ledger: 90-migration-ledger.md#m-15
+- id: strings-xml-edit
+  level: MUST_NOT
+  enforce: new-only+on-touch
+  owner: 13-designsystem.md
+  check: manual
+  source: 專案決策（紅線 A2，strings.xml 由 PM 維護）
+- id: hardcoded-chinese-string
+  level: MUST_NOT
+  enforce: new-only+on-touch
+  owner: 13-designsystem.md
+  check: lint:hardcoded-chinese-string
+  source: 專案決策（紅線 B4）
+- id: string-concat-for-i18n
+  level: MUST_NOT
+  enforce: new-only
+  owner: 13-designsystem.md
+  check: manual
+  source: 官方 string-resource（format args / plurals）
+- id: localcontext-getstring
+  level: MUST_NOT
+  enforce: new-only
+  owner: 13-designsystem.md
+  check: manual
+  source: 官方 string-resource（Compose 用 stringResource）＋ 專案決策（IResourcesProxy 做 locale 包裝）
+- id: figma-token-deviation
+  level: MUST
+  enforce: new-only
+  owner: 13-designsystem.md
+  check: manual
+  source: 專案決策（紅線 B5）
+- id: test-no-assert
+  level: MUST
+  enforce: new-only+on-touch
+  owner: 14-testing.md
+  check: lint:test-no-assert
+  source: 專案決策（紅線 H1）
+  ledger: 90-migration-ledger.md#m-28
+- id: assert-tautology
+  level: MUST_NOT
+  enforce: new-only+on-touch
+  owner: 14-testing.md
+  check: lint:assert-tautology
+  source: 專案決策（紅線 H1）
+  ledger: 90-migration-ledger.md#m-28
+- id: commented-out-assertion
+  level: MUST_NOT
+  enforce: new-only+on-touch
+  owner: 14-testing.md
+  check: lint:commented-out-assertion
+  source: 專案決策（紅線 H1）
+  ledger: 90-migration-ledger.md#m-28
+- id: ignore-without-ticket
+  level: MUST_NOT
+  enforce: new-only
+  owner: 14-testing.md
+  check: lint:ignore-without-ticket
+  source: 專案決策
+  ledger: 90-migration-ledger.md#m-28
+- id: relaxed-mock-overuse
+  level: SHOULD_NOT
+  enforce: new-only
+  owner: 14-testing.md
+  check: manual
+  source: 官方 testing/fundamentals/test-doubles + 專案決策
+  ledger: 90-migration-ledger.md#m-28
+- id: verify-only-assertion
+  level: SHOULD_NOT
+  enforce: new-only
+  owner: 14-testing.md
+  check: manual
+  source: 官方 testing/fundamentals/test-doubles（mock 驗證互動、fake 驗證行為）
+  ledger: 90-migration-ledger.md#m-28
+- id: prefer-fakes-over-mocks
+  level: SHOULD
+  enforce: new-only
+  owner: 14-testing.md
+  check: manual
+  source: 官方 testing/fundamentals/test-doubles（fake 為首選）／裁決見 91-decisions.md D-16
+  ledger: 90-migration-ledger.md#m-28
+- id: mockito-in-new-test
+  level: MUST_NOT
+  enforce: new-only
+  owner: 14-testing.md
+  check: lint:mockito-in-new-test
+  source: 專案決策（統一 MockK）
+  ledger: 90-migration-ledger.md#m-28
+- id: junit-assert-in-new-test
+  level: SHOULD_NOT
+  enforce: new-only
+  owner: 14-testing.md
+  check: lint:junit-assert-in-new-test
+  source: 專案決策（統一 AssertJ）
+  ledger: 90-migration-ledger.md#m-28
+- id: thread-sleep-test
+  level: MUST_NOT
+  enforce: new-only+on-touch
+  owner: 14-testing.md
+  check: lint:thread-sleep-test
+  source: 官方 kotlin/coroutines/test（紅線 H2）
+- id: runblocking-in-test
+  level: MUST_NOT
+  enforce: new-only
+  owner: 14-testing.md
+  check: lint:runblocking-in-test
+  source: 官方 kotlin/coroutines/test（runTest 虛擬時間）
+  ledger: 90-migration-ledger.md#m-28
+- id: main-dispatcher-not-replaced
+  level: MUST
+  enforce: new-only
+  owner: 14-testing.md
+  check: manual
+  source: 官方 kotlin/coroutines/test（setMain/resetMain、MainDispatcherRule）
+- id: test-dispatcher-not-shared
+  level: MUST
+  enforce: new-only
+  owner: 14-testing.md
+  check: manual
+  source: 官方 kotlin/coroutines/test（單一 TestCoroutineScheduler）
+- id: state-value-without-idle
+  level: MUST
+  enforce: new-only
+  owner: 14-testing.md
+  check: manual
+  source: 官方 kotlin/coroutines/test／裁決見 91-decisions.md D-07
+- id: flow-sequence-without-turbine
+  level: SHOULD
+  enforce: new-only
+  owner: 14-testing.md
+  check: manual
+  source: 裁決見 91-decisions.md D-07（Turbine 未加入依賴，現階段一律手動 collect，禁止 import app.cash.turbine）
+  ledger: 90-migration-ledger.md#m-28
+- id: usecase-repository-untested
+  level: MUST
+  enforce: new-only
+  owner: 14-testing.md
+  check: manual
+  source: 專案決策（紅線 H3、openspec/config.yaml rules.tasks）
+- id: android-framework-in-unit-test
+  level: MUST_NOT
+  enforce: new-only
+  owner: 14-testing.md
+  check: lint:android-framework-in-unit-test
+  source: 官方 testing/fundamentals（無 Robolectric 時 framework 方法未實作）
+  ledger: 90-migration-ledger.md#m-28
+- id: koin-start-in-unit-test
+  level: MUST_NOT
+  enforce: new-only
+  owner: 14-testing.md
+  check: lint:koin-start-in-unit-test
+  source: 官方 training/dependency-injection（建構子注入優於 service locator）
+  ledger: 90-migration-ledger.md#m-26
+- id: screen-acceptance-coverage
+  level: MUST
+  enforce: new-only
+  owner: 14-testing.md
+  check: manual
+  source: 專案決策（官方 compose/testing 的 KKday 對應版：ui-test 依賴未加入，改以 @Preview 四分支 + Maestro flow + ViewModel 單元測試驗收）
+- id: testtag-mismatch-maestro
+  level: MUST
+  enforce: new-only
+  owner: 14-testing.md
+  check: manual
+  source: 專案決策（task-impl skill 既有規則）
+- id: e2e-mock-name-mismatch
+  level: MUST
+  enforce: new-only
+  owner: 14-testing.md
+  check: manual
+  source: 專案決策（mockoon/tests 命名慣例）
+- id: test-name-not-descriptive
+  level: SHOULD
+  enforce: new-only
+  owner: 14-testing.md
+  check: manual
+  source: 專案決策（中文 backtick 命名慣例）
+- id: blocking-io-in-app-oncreate
+  level: MUST_NOT
+  enforce: new-only+on-touch
+  owner: 15-performance.md
+  check: manual
+  source: 官方 app-startup / performance-best-practices
+- id: eager-startup-init
+  level: MUST
+  enforce: new-only
+  owner: 15-performance.md
+  check: manual
+  source: 官方 androidx.startup + app-startup 指南
+  ledger: 90-migration-ledger.md#m-26
+- id: custom-init-contentprovider
+  level: MUST_NOT
+  enforce: new-only
+  owner: 15-performance.md
+  check: manual
+  source: 官方 androidx.startup
+- id: custom-splash-activity
+  level: MUST_NOT
+  enforce: new-only
+  owner: 15-performance.md
+  check: manual
+  source: 官方 core-splashscreen
+- id: heavy-work-in-oncreate
+  level: MUST_NOT
+  enforce: new-only+on-touch
+  owner: 15-performance.md
+  check: manual
+  source: 官方 app-startup 效能建議
+- id: main-thread-blocking-call
+  level: MUST_NOT
+  enforce: new-only+on-touch
+  owner: 15-performance.md
+  check: manual
+  source: 官方 performance / StrictMode 指南
+- id: static-context-reference
+  level: MUST_NOT
+  enforce: new-only+on-touch
+  owner: 15-performance.md
+  check: manual
+  source: 官方 memory-leak 指南
+- id: unbalanced-listener-registration
+  level: MUST
+  enforce: new-only+on-touch
+  owner: 15-performance.md
+  check: manual
+  source: 官方 lifecycle / memory 指南
+- id: allocation-in-hot-path
+  level: MUST_NOT
+  enforce: new-only+on-touch
+  owner: 15-performance.md
+  check: manual
+  source: 官方 rendering performance
+- id: animate-with-layout-params
+  level: MUST_NOT
+  enforce: new-only+on-touch
+  owner: 15-performance.md
+  check: manual
+  source: 官方 rendering / animation performance
+- id: notify-data-set-changed
+  level: MUST_NOT
+  enforce: new-only
+  owner: 15-performance.md
+  check: manual
+  source: 官方 RecyclerView / DiffUtil
+  ledger: 90-migration-ledger.md#m-11
+- id: measure-perf-on-release
+  level: MUST
+  enforce: new-only
+  owner: 15-performance.md
+  check: manual
+  source: 官方 benchmarking + 91-decisions.md#d-16
+- id: baseline-profile-setup
+  level: SHOULD
+  enforce: migrate
+  owner: 15-performance.md
+  check: manual
+  source: 官方 baseline profiles + 91-decisions.md#d-16
+  ledger: 90-migration-ledger.md#m-25
+- id: proguard-non-optimize-file
+  level: MUST
+  enforce: migrate
+  owner: 15-performance.md
+  check: manual
+  source: 官方 R8 / shrink-code
+  ledger: 90-migration-ledger.md#m-25
+- id: shrink-resources-off
+  level: MUST
+  enforce: migrate
+  owner: 15-performance.md
+  check: manual
+  source: 官方 shrink-resources
+  ledger: 90-migration-ledger.md#m-25
+- id: wildcard-keep-rule
+  level: SHOULD_NOT
+  enforce: new-only
+  owner: 15-performance.md
+  check: manual
+  source: 官方 R8 keep rules
+- id: mapping-upload-disabled
+  level: MUST
+  enforce: new-only
+  owner: 15-performance.md
+  check: manual
+  source: 官方 R8 mapping / Crashlytics
+- id: strictmode-in-release
+  level: MUST_NOT
+  enforce: new-only
+  owner: 15-performance.md
+  check: manual
+  source: 官方 StrictMode
+- id: leakcanary-not-debug-only
+  level: MUST_NOT
+  enforce: new-only
+  owner: 15-performance.md
+  check: manual
+  source: 業界共識 / LeakCanary 官方
+- id: legacy-system-bar
+  level: MUST_NOT
+  enforce: new-only+on-touch
+  owner: 15-performance.md
+  check: lint:legacy-system-bar
+  source: 專案決策（紅線 I1）／targetSdk 36 edge-to-edge
+  ledger: 90-migration-ledger.md#m-14
+- id: event-not-registered
+  level: MUST
+  enforce: new-only
+  owner: 16-tracking.md
+  check: manual
+  source: 專案決策（KKEventTracker.filterEvent 查無註冊即靜默不送）
+- id: event-name-from-hint
+  level: MUST_NOT
+  enforce: new-only+on-touch
+  owner: 16-tracking.md
+  check: manual
+  source: 專案決策（KKEventTracker.setName 丟棄 hint，名稱由 Event.getEventName 組成）
+- id: duplicate-event-name
+  level: MUST_NOT
+  enforce: new-only
+  owner: 16-tracking.md
+  check: manual
+  source: 專案決策（filterEvent 只取第一筆；DEBUG 檢查恆關）
+- id: array-property-not-list
+  level: MUST
+  enforce: new-only+on-touch
+  owner: 16-tracking.md
+  check: manual
+  source: 專案決策（ValueType.ARRAY 需 addProperty(prop, List<*>) 多載）
+- id: empty-property-value
+  level: MUST_NOT
+  enforce: new-only+on-touch
+  owner: 16-tracking.md
+  check: manual
+  source: 專案決策（PropertyValue.getValue 對空值回 null，property 被整個丟棄）
+- id: property-not-in-event
+  level: MUST
+  enforce: new-only
+  owner: 16-tracking.md
+  check: manual
+  source: 專案決策（filterProperties 以 Event.properties 為白名單）
+- id: pii-in-tracking-property
+  level: MUST_NOT
+  enforce: new-only+on-touch
+  owner: 16-tracking.md
+  check: manual
+  source: 專案決策（個資保護；log 面向見 18-security.md#pii-in-log）
+- id: custom-event-via-enum
+  level: MUST_NOT
+  enforce: new-only
+  owner: 16-tracking.md
+  check: manual
+  source: 專案決策（自訂事件走 IKKTracker.logRawEvent）
+- id: tracker-builder-no-scope
+  level: MUST_NOT
+  enforce: new-only+on-touch
+  owner: 16-tracking.md
+  check: lint:tracker-builder-no-scope
+  source: 專案決策（KKTracker.kt:49,57,65 無參數多載使用 GlobalScope，紅線 F2）
+- id: tracker-singleton-access
+  level: SHOULD_NOT
+  enforce: new-only
+  owner: 16-tracking.md
+  check: lint:tracker-singleton-access
+  source: 專案決策（Koin 已有 single { KKTrackTool.shared() }）
+- id: tracking-in-reducer
+  level: MUST_NOT
+  enforce: new-only+on-touch
+  owner: 16-tracking.md
+  check: manual
+  source: 專案決策（reducer 必須是純函式，紅線 D4）
+  ledger: 90-migration-ledger.md#m-01
+- id: tracking-blocks-main-flow
+  level: MUST_NOT
+  enforce: new-only+on-touch
+  owner: 16-tracking.md
+  check: manual
+  source: 專案決策（埋點失敗不得影響業務流程）
+- id: duplicate-mixpanel-event
+  level: MUST_NOT
+  enforce: new-only
+  owner: 16-tracking.md
+  check: manual
+  source: 專案決策（KTMTrackerImpl.kt:360-381 isMixpanelAllowed 會補送 Mixpanel）
+- id: impression-on-recomposition
+  level: MUST_NOT
+  enforce: new-only+on-touch
+  owner: 16-tracking.md
+  check: manual
+  source: 官方 Compose side-effects（重組不可當計數訊號）+ androidx.compose.ui.layout.onFirstVisible
+- id: lazy-impression-no-scope-id
+  level: MUST
+  enforce: new-only+on-touch
+  owner: 16-tracking.md
+  check: manual
+  source: 專案決策（Modifier.onFirstVisibleInLazy 解 Lazy 虛擬化重複觸發）
+- id: impression-scope-id-by-index
+  level: MUST_NOT
+  enforce: new-only+on-touch
+  owner: 16-tracking.md
+  check: manual
+  source: 專案決策（LazyFirstVisibleManager 以全域 scopeId 去重）
+- id: impression-snapshotflow-no-distinct
+  level: MUST
+  enforce: new-only
+  owner: 16-tracking.md
+  check: manual
+  source: 官方 Compose side-effects（snapshotFlow + distinctUntilChanged）
+- id: pin-card-out-of-sync
+  level: MUST
+  enforce: new-only+on-touch
+  owner: 16-tracking.md
+  check: manual
+  source: 專案決策（axis/RULES.md AI 自動維護規則）
+- id: pin-naming-invalid
+  level: MUST
+  enforce: new-only
+  owner: 16-tracking.md
+  check: manual
+  source: 專案決策（axis/RULES.md PIN 命名規則）
+- id: pin-for-component
+  level: MUST_NOT
+  enforce: new-only
+  owner: 16-tracking.md
+  check: manual
+  source: 專案決策（axis/RULES.md 判斷該不該建 PIN）
+- id: compose-view-strategy
+  level: MUST
+  enforce: new-only+on-touch
+  owner: 17-interop-views-compose.md
+  check: lint:compose-view-strategy
+  source: 官方 compose interop（ViewCompositionStrategy）
+  ledger: 90-migration-ledger.md#m-12
+- id: fragment-lifecycle-in-compose
+  level: MUST_NOT
+  enforce: new-only+on-touch
+  owner: 17-interop-views-compose.md
+  check: manual
+  source: 官方 fragment view lifecycle + coroutines-flow research
+- id: activity-cast-in-compose
+  level: MUST_NOT
+  enforce: new-only+on-touch
+  owner: 17-interop-views-compose.md
+  check: lint:activity-cast-in-compose
+  source: 官方 androidx.activity.compose.LocalActivity；專案 attachBaseContext locale 包裝
+- id: viewmodel-owner-mismatch
+  level: MUST
+  enforce: new-only
+  owner: 17-interop-views-compose.md
+  check: manual
+  source: 官方 ViewModelStoreOwner scoping
+- id: nested-navhost-viewmodel
+  level: MUST_NOT
+  enforce: new-only
+  owner: 17-interop-views-compose.md
+  check: manual
+  source: 官方 navigation-compose（NavBackStackEntry 為 ViewModelStoreOwner）
+- id: android-view-as-xml-escape
+  level: MUST_NOT
+  enforce: new-only
+  owner: 17-interop-views-compose.md
+  check: manual
+  source: 專案決策（紅線 E1 的規避出口封閉）
+- id: android-view-update-heavy
+  level: MUST_NOT
+  enforce: new-only+on-touch
+  owner: 17-interop-views-compose.md
+  check: manual
+  source: 官方 AndroidView（factory 一次 / update 每次重組）
+- id: android-view-no-release
+  level: MUST
+  enforce: new-only
+  owner: 17-interop-views-compose.md
+  check: manual
+  source: 官方 AndroidView onRelease
+- id: token-via-xml-resource
+  level: SHOULD_NOT
+  enforce: new-only
+  owner: 17-interop-views-compose.md
+  check: lint:token-via-xml-resource
+  source: 專案決策（style-dictionary 雙端同源）
+  ledger: 90-migration-ledger.md#m-15
+- id: new-epoxy-model
+  level: MUST_NOT
+  enforce: new-only
+  owner: 17-interop-views-compose.md
+  check: lint:new-epoxy-model
+  source: 專案決策（91-decisions.md#d-03 判定表）
+  ledger: 90-migration-ledger.md#m-11
+- id: epoxy-compose-ad-hoc
+  level: SHOULD
+  enforce: new-only
+  owner: 17-interop-views-compose.md
+  check: manual
+  source: 專案既有實作 ComposeViewEpoxyModel
+- id: nested-same-axis-scroll
+  level: MUST_NOT
+  enforce: new-only+on-touch
+  owner: 17-interop-views-compose.md
+  check: manual
+  source: 官方 compose lists（巢狀同向捲動量測）
+- id: no-new-rxjava
+  level: MUST_NOT
+  enforce: new-only
+  owner: 17-interop-views-compose.md
+  check: lint:no-new-rxjava
+  source: 官方 architecture-core（跨層只用 suspend / Flow）
+  ledger: 90-migration-ledger.md#m-09
+- id: rx-type-crosses-boundary
+  level: MUST_NOT
+  enforce: new-only+on-touch
+  owner: 17-interop-views-compose.md
+  check: manual
+  source: 官方 architecture-core cross-layer-suspend-and-flow
+  ledger: 90-migration-ledger.md#m-09
+- id: rx-disposable-unmanaged
+  level: MUST
+  enforce: new-only+on-touch
+  owner: 17-interop-views-compose.md
+  check: manual
+  source: 業界共識（RxJava lifecycle disposal）
+  ledger: 90-migration-ledger.md#m-03
+- id: rx-mixed-scope
+  level: MUST_NOT
+  enforce: new-only
+  owner: 17-interop-views-compose.md
+  check: manual
+  source: 業界共識（單一資料流單一取消機制）
+  ledger: 90-migration-ledger.md#m-09
+- id: hardcoded-secret
+  level: MUST_NOT
+  enforce: new-only+on-touch
+  owner: 18-security.md
+  check: manual
+  source: 官方 networking security + 專案決策（AGENTS.md 嚴禁硬編碼敏感資訊）
+  ledger: 90-migration-ledger.md#m-21
+- id: plain-prefs-for-secret
+  level: MUST_NOT
+  enforce: new-only+on-touch
+  owner: 18-security.md
+  check: manual
+  source: 官方 security / 專案既有 SecurePreferences
+- id: token-in-url
+  level: MUST_NOT
+  enforce: new-only+on-touch
+  owner: 18-security.md
+  check: manual
+  source: 業界共識（OWASP MASVS）
+- id: pii-in-log
+  level: MUST_NOT
+  enforce: new-only+on-touch
+  owner: 18-security.md
+  check: manual
+  source: 業界共識（紅線 G4）
+- id: http-log-body-in-release
+  level: MUST
+  enforce: new-only
+  owner: 18-security.md
+  check: manual
+  source: 官方 networking-data / OkHttp HttpLoggingInterceptor
+- id: log-unredacted-auth-header
+  level: MUST
+  enforce: new-only+on-touch
+  owner: 18-security.md
+  check: manual
+  source: 官方 networking-data / OkHttp redactHeader
+- id: runtime-gated-debug-interceptor
+  level: MUST_NOT
+  enforce: migrate
+  owner: 18-security.md
+  check: manual
+  source: 業界共識（sourceSet 隔離優於 runtime flag）
+  ledger: 90-migration-ledger.md#m-21
+- id: cleartext-traffic-enabled
+  level: MUST_NOT
+  enforce: new-only
+  owner: 18-security.md
+  check: manual
+  source: 官方 network security configuration
+- id: webview-untrusted-url
+  level: MUST
+  enforce: new-only+on-touch
+  owner: 18-security.md
+  check: manual
+  source: 官方 WebView security
+- id: webview-mixed-content
+  level: MUST_NOT
+  enforce: new-only
+  owner: 18-security.md
+  check: manual
+  source: 官方 WebView security
+- id: webview-file-access
+  level: MUST_NOT
+  enforce: new-only+on-touch
+  owner: 18-security.md
+  check: manual
+  source: 官方 WebView security
+- id: webview-debug-always-on
+  level: MUST_NOT
+  enforce: new-only+on-touch
+  owner: 18-security.md
+  check: manual
+  source: 官方 WebView security
+- id: payment-secret-logged
+  level: MUST_NOT
+  enforce: new-only+on-touch
+  owner: 18-security.md
+  check: manual
+  source: 業界共識（PCI DSS）／專案決策
+- id: payment-change-no-rollback-note
+  level: MUST
+  enforce: new-only
+  owner: 18-security.md
+  check: manual
+  source: 專案決策（AGENTS.md 敏感路徑更動須附風險與回滾方案）
+- id: sensitive-screen-not-secure
+  level: SHOULD
+  enforce: new-only
+  owner: 18-security.md
+  check: manual
+  source: 業界共識（OWASP MASVS）

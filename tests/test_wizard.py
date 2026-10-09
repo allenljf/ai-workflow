@@ -9,7 +9,7 @@ def fake_gh(tmp_path,authenticated=True):
 printf '%s\\n' "$*" >> "$CALLS"
 case "$1 $2" in
  'auth status') exit '''+('0' if authenticated else '1')+''';;
- 'repo view') if [[ "$3" == 'owner/source' ]]; then printf 'true\\n'; else printf 'false\\n'; fi;;
+ 'repo view') if [[ "$3" == 'owner/source' ]]; then printf 'false\\n'; else exit 1; fi;;
  'secret set') cat > "$SECRET_CAPTURE";;
  'variable set') mkdir -p "$FAKE_VARIABLES"; printf '%s' "$5" > "$FAKE_VARIABLES/$3";;
  'variable get') cat "$FAKE_VARIABLES/$3";;
@@ -30,26 +30,28 @@ def test_check_readonly_and_not_logged_in(tmp_path):
 
 def test_cancel_does_not_enable_publish(tmp_path):
     prepared(tmp_path);env,log,secret=fake_gh(tmp_path)
-    values='\nowner/source\nowner/public\nhttps://owner.github.io/public\n/public/\nn\n'
+    values='\nowner/source\n\nhttps://owner.github.io\n/\nn\n'
     r=subprocess.run(['bash',str(SCRIPT),'--root',str(tmp_path)],input=values,env=env,text=True,capture_output=True)
     assert r.returncode==0,r.stderr
     assert not secret.exists()
     state=json.loads((tmp_path/'.build/setup-state.json').read_text())
     assert state['publish_enabled'] is False
     assert 'PUBLISH_ENABLED --body true' not in log.read_text()
+    assert 'variable set' not in log.read_text()
 
-def test_token_only_stdin_not_resume_or_log(tmp_path):
+def test_public_source_publishes_without_cross_repo_token(tmp_path):
     prepared(tmp_path);env,log,secret=fake_gh(tmp_path)
-    token='synthetic-token-for-test'
-    values='\nowner/source\nowner/public\nhttps://owner.github.io/public\n/public/\ny\n'+token+'\ny\n'
+    values='\nowner/source\n\nhttps://owner.github.io\n/\ny\ny\n'
     r=subprocess.run(['bash',str(SCRIPT),'--root',str(tmp_path)],input=values,env=env,text=True,capture_output=True)
     assert r.returncode==0,r.stderr
-    assert secret.read_text()==token
-    assert token not in r.stdout+r.stderr+log.read_text()+(tmp_path/'.build/setup-state.json').read_text()+(tmp_path/'.build/setup-values.env').read_text()
+    assert not secret.exists()
+    assert 'PUBLISH_ENABLED --body true' in log.read_text()
+    assert 'Build and deployment → Source 選 GitHub Actions' in r.stdout
+    assert not any('secret set' in row for row in log.read_text().splitlines())
 
 def test_custom_domain_root_base_accepted(tmp_path):
     prepared(tmp_path);env,log,secret=fake_gh(tmp_path)
-    values='\nowner/source\nowner/public\nhttps://example.com\n/\nn\n'
+    values='\nowner/source\n\nhttps://example.com\n/\nn\n'
     r=subprocess.run(['bash',str(SCRIPT),'--root',str(tmp_path)],input=values,env=env,text=True,capture_output=True)
     assert r.returncode==0,r.stderr
     assert json.loads((tmp_path/'.build/setup-state.json').read_text())['SITE_BASE']=='/'

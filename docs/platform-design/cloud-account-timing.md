@@ -6,8 +6,8 @@
 
 | 階段 | 要準備 | 儲存位置與責任 |
 | --- | --- | --- |
-| 現在：架構與本機驗收 | owner、私有來源repo／公開輸出repo分離、visibility、排程、publish/AI開關、月額度、rollback | 版本化 config 保存非秘密識別；token不進git |
-| 首次 GitHub 排程／公開部署前 | repo名稱、Pages site URL/base、公開export授權、最小scope與保管人 | `bash scripts/setup/github.sh` 依wizard設定；repo Actions secrets/variables |
+| 現在：架構與本機驗收 | 公開作品集 repo、Pages site URL/base、排程、publish/AI開關、月額度、rollback | 版本化 config 保存非秘密識別；token不進git |
+| 首次 GitHub 排程／公開部署前 | repo名稱、Pages site URL/base、Actions Pages 權限 | `bash scripts/setup/github.sh` 依wizard設定；repo Actions variables |
 | 首次付費雙週整理前 | DeepSeek token、模型、由官方價格填入的輸入/輸出單價、單批/月預算、失敗處理 | `bash scripts/setup/ai.sh`；預設 AI disabled，dry-run 後才啟用；每次不即時呼叫模型 |
 | 首次 Android 真實評測前 | 測試repo、完整SHA、JDK/SDK/Gradle/裝置、命令、核准profile、資源鎖、沙盒帳號 | 私有RunnerBinding與evidence；先有測試環境再跑，正式帳號／簽章不在公開下載包 |
 | 需要 GCP 時 | 執行job超出既有CI限制、長工作需cloud runner、或需服務API；project id、region、service account、預算與owner | 優先短期身分聯盟與最小權限；需求定案後再做專用wizard，不預先建立付費資源 |
@@ -21,7 +21,7 @@
 
 雙週且 AI enabled → 差量批次／硬預算／候選摘要 → 人類review → 核准公開精選。新工作流 → candidate → 固定spec/base的代表與holdout任務 → evaluated → trial → 人類approved。資料來源更新不會自動改公司規範。
 
-公開repo只含核准靜態檔與自有技能包。公司profile、內部案例、原始evidence、inbox、token及正式帳號保持私有。新增雲端服務時，同步設計身分、資料保留、費用、監控與回復；不用為未使用的服務先收集秘密。
+作品集 repo 的所有已提交檔案與歷史均公開；GitHub Pages 網站只包含核准靜態 export 與自有技能包。不要把機密、客戶個資、token或正式帳號資料提交到此 repo。新增雲端服務時，同步設計身分、資料保留、費用、監控與回復；不用為未使用的服務先收集秘密。
 
 ## 本輪未做的外部設定
 

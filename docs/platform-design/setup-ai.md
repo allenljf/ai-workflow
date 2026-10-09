@@ -12,11 +12,11 @@ bash scripts/setup/ai.sh --check
 bash scripts/setup/ai.sh
 ~~~
 
-Wizard沿用 [wizard 技能模板](/Users/allen/.agents/skills/wizard/SKILL.md)，五階段：私有source repo與hidden token → 官方模型/價目查核 → 14天與預算 → 本機dry-run報告 → 啟用未來排程及另一次確認首次付費。只有人類執行wizard會配置GitHub帳戶。未登入／取消／dry-run不呼叫模型。
+Wizard沿用 [wizard 技能模板](/Users/allen/.agents/skills/wizard/SKILL.md)，五階段：公開作品集 repo 與 hidden provider token → 官方模型/價目查核 → 14天與預算 → 本機dry-run報告 → 啟用未來排程及另一次確認首次付費。只有人類執行wizard會配置GitHub帳戶。未登入／取消／dry-run不呼叫模型。
 
 寫入Secret只有 DEEPSEEK_API_KEY（stdin）；非敏感變數 AI_ENABLED、AI_PRICE_POLICY、AI_MAX_BATCH_USD、AI_MAX_MONTHLY_USD。非敏感resume位於忽略的 .build/ai-values.env；token不寫檔、不傳命令參數。重新設定確認後先停用AI，最後才啟用；開始前取消不會撤銷既有設定。需要停用時在GitHub將AI_ENABLED設false。
 
-原始repo必須private；Settings → Actions → General 檢查組織是否允許GitHub Actions建立pull requests。workflow使用Contents write、Pull requests write；collect另需Actions write以dispatch enrich。帳號／組織可能禁止此操作，不能僅憑本機測試宣稱權限成功。
+本作品集 repo 為公開 repo；AI 整理 PR、未核准草稿、已提交的 pipeline state 與 Git 歷史都會公開可讀。不要把機密、客戶資料或個資送入此流程。Settings → Actions → General 檢查是否允許 GitHub Actions 建立 pull requests。workflow使用Contents write、Pull requests write；collect另需Actions write以dispatch enrich。帳號／組織可能禁止此操作，不能僅憑本機測試宣稱權限成功。
 
 ## 到期、預算與價目
 
@@ -30,7 +30,7 @@ Wizard沿用 [wizard 技能模板](/Users/allen/.agents/skills/wizard/SKILL.md)�
 state branch: pipeline-state。
 - snapshot.json：每日蒐集。
 - enrichment-state.json：due、每批預留／usage／狀態、月度台帳。
-- batches/<batch_id>/result.json：私有原結果；hash與台帳同commit保存。
+- batches/<batch_id>/result.json：模型原結果；hash與台帳同commit保存。此作品集 repo 與 pipeline-state branch 公開，原結果可被任何人讀取。
 
 付費前必須在state checkout中先完成CAS push兩個checkpoint（reserved、calling）。本機普通 .build/live 只可dry-run；沒有durable Git checkout會拒絕付費。
 
@@ -38,13 +38,13 @@ timeout、未知usage、process kill的calling/reserved狀態不自動重送。�
 
 現有台帳缺必填欄位、費用不等於已結算批次或遺忘due時會拒絕恢復，不能當成新狀態。
 
-若只缺草稿或PR，用已存結果恢復；不再次呼叫模型。格式／引用驗證失敗保留private payload與sanitized診斷，需人工處理。
+若只缺草稿或PR，用已存結果恢復；不再次呼叫模型。格式／引用驗證失敗保留未核准 payload 與 sanitized 診斷，需人工處理；它們也會留在公開 state branch。
 
 ## 排程與 PR 審閱
 
 每日collect持久化後免費檢查gate，非同步dispatch enrich.yml；子workflow取得同pipeline-state鎖後重新讀state，不在父鎖內等待。
 
-enrich.yml手動執行預設allow_paid=false，只做dry-run；啟用付費需另將allow_paid=true。Secret僅paid job中的provider step可讀，PR checks只用fixtures。
+enrich.yml手動執行預設allow_paid=false，只做dry-run；啟用付費需另將allow_paid=true。Secret僅paid job中的provider step可讀，PR checks只用fixtures。AI review PR 位於公開 repo，草稿與審閱意見可被所有人閱讀。
 [GitHub官方触發規則](https://docs.github.com/en/actions/how-tos/write-workflows/choose-when-workflows-run/trigger-a-workflow)：workflow_dispatch可由GITHUB_TOKEN觸發；該token建立的PR檢查可能需要人類approve workflows to run。
 
 固定digest/<batch_id> branch與單一PR，不覆寫人類修改；closed記rejected、merged記reviewed，兩者都不重新付費。無權建PR時保留result，之後重試PR本身；人工改過的草稿會保留，PR協調不覆寫修改；台帳裡的review_pr_url與PR狀態在review協調步驟更新。

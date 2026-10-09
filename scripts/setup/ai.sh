@@ -211,12 +211,12 @@ verified_var() {
   [[ "$(gh variable get "$1" 2>/dev/null)" == "$2" ]] || { warn '變數未驗證；停止設定。'; exit 1; }
 }
 banner '雙週 AI 整理設定'
-stage '私有來源 repo 與 API token'
+stage '公開作品集 repo 與 API token'
 ask SOURCE_REPO '原始 repo（owner/repo）：'
 [[ "$SOURCE_REPO" =~ ^[a-zA-Z0-9_.-]+/[a-zA-Z0-9_.-]+$ ]] || exit 2
 export GH_REPO="$SOURCE_REPO"
-[[ "$(gh repo view "$SOURCE_REPO" --json isPrivate --jq .isPrivate)" == true ]] || { warn 'review repo 必須私有。'; exit 1; }
-say '本次將先停用 AI、寫入 Secret 與非敏感變數；不推送本機程式。'
+[[ "$(gh repo view "$SOURCE_REPO" --json isPrivate --jq .isPrivate)" == false ]] || { warn '請選擇公開作品集 repo。'; exit 1; }
+say '公開 repo 中的 AI 草稿、審閱 PR、state 與 Git 歷史皆可見。本次先停用 AI，再寫入 Secret 與非敏感變數；不推送本機程式。'
 if ! confirm '允許配置雙週整理？'; then say '已取消，沒有啟用付費。'; exit 0; fi
 verified_var AI_ENABLED false
 write_env SOURCE_REPO "$SOURCE_REPO"

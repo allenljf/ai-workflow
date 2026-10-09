@@ -1,0 +1,3055 @@
+# Android 開發準則 — 機器可讀規則索引（唯一真相源）
+# guides/*.md 是這份的人類可讀版本。改規則要同步兩邊。
+#
+# level:   MUST / MUST_NOT / SHOULD / SHOULD_NOT / MAY      錯得多嚴重
+# enforce: new-only / new-only+on-touch / migrate / exempt   什麼時候要修
+# check:   regex（需 pattern 欄位）/ file（需 file_check）/ manual / detekt:<rule>
+
+- id: ui-accesses-datasource
+  level: MUST_NOT
+  enforce: new-only+on-touch
+  owner: 01-architecture.md
+  check: regex
+  pattern: \bva[lr]\s+\w+\s*:\s*\w*(?:ApiService|ApiClient|RetrofitService|Dao|DataStore|SharedPreferences|Preferences|DataSource|Firebase(?:Firestore|Database|Auth|Storage))\b
+  message: UI 層（含 ViewModel）不得直接持有 DataSource。改注入 Repository 介面；即使該資料只有單一來源，仍要建 Repository。
+  applies_to:
+  - '*ViewModel.kt'
+  - '*Activity.kt'
+  - '*Fragment.kt'
+  - '*Screen.kt'
+  - '*Route.kt'
+  - '*Dialog.kt'
+  - '*BottomSheet.kt'
+  - '*Composable.kt'
+  - '*Content.kt'
+  exclude:
+  - '**/test/**'
+  - '**/androidTest/**'
+  - '**/*Test.kt'
+  - '**/*Tests.kt'
+  source: https://developer.android.com/topic/architecture/recommendations
+- id: composable-calls-data-layer
+  level: MUST_NOT
+  enforce: new-only+on-touch
+  owner: 01-architecture.md
+  check: regex
+  pattern: '@Composable[\s\S]{0,240}?\bfun\s+\w+\s*\([^)]*:\s*\w*(?:Repository|UseCase|Interactor)\b|^[ \t]*(?:private\s+|internal\s+|protected\s+)?va[lr]\s+\w+\s*:\s*\w*(?:Repository|UseCase|Interactor)\s*(?:=|by\s+\w+)'
+  message: Composable / Activity / Fragment 不得注入或呼叫 Repository / UseCase。改注入 ViewModel：狀態下行（collectAsStateWithLifecycle）、事件上行（viewModel.refresh()）。
+  applies_to:
+  - '*Activity.kt'
+  - '*Fragment.kt'
+  - '*Screen.kt'
+  - '*Route.kt'
+  - '*Dialog.kt'
+  - '*BottomSheet.kt'
+  - '*Composable.kt'
+  - '*Content.kt'
+  exclude:
+  - '**/*ViewModel.kt'
+  - '**/test/**'
+  - '**/androidTest/**'
+  - '**/*Test.kt'
+  - '**/*Tests.kt'
+  source: https://developer.android.com/topic/architecture/recommendations
+- id: data-layer-imports-ui-type
+  level: MUST_NOT
+  enforce: new-only+on-touch
+  owner: 01-architecture.md
+  check: regex
+  pattern: ^[ \t]*import\s+(?:androidx\.compose\.|androidx\.lifecycle\.(?:ViewModel|AndroidViewModel|LiveData|MutableLiveData)\b|androidx\.fragment\.|androidx\.activity\.|android\.app\.Activity\b|android\.view\.|android\.widget\.)
+  message: data 層不得 import UI 型別（Compose / ViewModel / Fragment / Activity / View）。狀態留在 feature 的 ViewModel，data 層只回 Flow<DomainModel>。
+  applies_to:
+  - '*core/data/src/*.kt'
+  - '*core/network/src/*.kt'
+  - '*core/database/src/*.kt'
+  - '*core/datastore/src/*.kt'
+  - '*Repository.kt'
+  - '*RepositoryImpl.kt'
+  - '*DataSource.kt'
+  - '*Dao.kt'
+  - '*ApiService.kt'
+  - '*Entity.kt'
+  - '*Dto.kt'
+  exclude:
+  - '**/ui/**'
+  - '**/compose/**'
+  - '**/presentation/**'
+  - '**/test/**'
+  - '**/androidTest/**'
+  - '**/*Test.kt'
+  - '**/*Tests.kt'
+  source: https://developer.android.com/topic/architecture/recommendations
+- id: callback-type-across-layer
+  level: MUST_NOT
+  enforce: new-only
+  owner: 01-architecture.md
+  check: regex
+  pattern: ^[ \t]*(?!.*\bprivate\b)(?:\w+\s+)*fun\s+\w+\s*\([^)]*\)\s*:\s*(?:Call|Single|Observable|Flowable|Completable|Maybe|LiveData|MutableLiveData)\s*<|^[
+    \t]*(?!.*\bprivate\b)(?:\w+\s+)*fun\s+\w+\s*\([^)]*\b(?:callback|listener|onResult|onSuccess|onFailure|onError|onComplete)\s*:\s*(?:\(|[A-Z]\w*(?:Listener|Callback)\b)
+  message: 跨層公開簽章只能是 suspend fun（一次性操作）或 Flow（需被觀察的資料）。改掉 callback / LiveData / RxJava / Call<T>；包裝無法修改的第三方 callback SDK 時，在
+    DataSource 內用 callbackFlow 收斂，callback 不得外流。
+  applies_to:
+  - '*core/data/src/*.kt'
+  - '*core/domain/src/*.kt'
+  - '*Repository.kt'
+  - '*RepositoryImpl.kt'
+  - '*DataSource.kt'
+  - '*UseCase.kt'
+  - '*Dao.kt'
+  exclude:
+  - '**/*ApiService.kt'
+  - '**/*Api.kt'
+  - '**/ui/**'
+  - '**/compose/**'
+  - '**/presentation/**'
+  - '**/test/**'
+  - '**/androidTest/**'
+  - '**/*Test.kt'
+  - '**/*Tests.kt'
+  source: https://developer.android.com/topic/architecture/recommendations
+- id: concrete-impl-dependency
+  level: MUST_NOT
+  enforce: new-only+on-touch
+  owner: 01-architecture.md
+  check: regex
+  pattern: \bva[lr]\s+\w+\s*:\s*(?:\w*(?:RepositoryImpl|UseCaseImpl|DataSourceImpl|ServiceImpl|ManagerImpl)|Default\w*(?:Repository|UseCase|DataSource)|Offline\w*(?:Repository|DataSource))\b
+  message: 建構子只宣告介面（OrderRepository），不得宣告下層具體實作（DefaultOrderRepository / *RepositoryImpl）；實作由 DI 綁定提供。Repository 實作注入自己的 DataSource
+    不受此限。
+  exclude:
+  - '**/di/**'
+  - '**/*Module.kt'
+  - '**/test/**'
+  - '**/androidTest/**'
+  - '**/*Test.kt'
+  - '**/*Tests.kt'
+  source: 官方 sample nowinandroid
+- id: dto-entity-in-ui-layer
+  level: MUST_NOT
+  enforce: new-only+on-touch
+  owner: 01-architecture.md
+  check: manual
+  source: https://developer.android.com/topic/architecture/data-layer
+- id: dto-entity-same-class
+  level: MUST_NOT
+  enforce: new-only+on-touch
+  owner: 01-architecture.md
+  check: regex
+  pattern: '@(?:Entity|PrimaryKey|ColumnInfo)(?:\s*\([^)]*\))?\s*(?:@\w+(?:\([^)]*\))?\s*)*@(?:Serializable|SerialName|SerializedName)\b|@(?:Serializable|SerialName|SerializedName)(?:\s*\([^)]*\))?\s*(?:@\w+(?:\([^)]*\))?\s*)*@(?:Entity|PrimaryKey|ColumnInfo)\b'
+  message: 同一型別不得同時帶序列化註解與持久化註解。拆成 NetworkOrder（@Serializable）與 OrderEntity（@Entity）兩個型別，中間用 asEntity() 轉換，API 欄位改名才不會連動 DB
+    migration。
+  exclude:
+  - '**/test/**'
+  - '**/androidTest/**'
+  - '**/*Test.kt'
+  - '**/*Tests.kt'
+  source: https://developer.android.com/topic/architecture/data-layer/offline-first
+- id: business-logic-in-mapper
+  level: SHOULD_NOT
+  enforce: new-only
+  owner: 01-architecture.md
+  check: manual
+  source: 業界共識
+- id: app-component-as-data-holder
+  level: MUST_NOT
+  enforce: new-only+on-touch
+  owner: 01-architecture.md
+  check: regex
+  pattern: companion\s+object\s*\{[^{}]{0,400}?\bvar\s+\w+\s*[:=]
+  message: 不得用 Activity / Fragment / Service / Application 的 companion 可變欄位保存或傳遞資料（行程被重建後會是 null）。導航只傳 id，目的地自行從 Repository
+    讀取；真正的常數用 const val。
+  applies_to:
+  - '*Activity.kt'
+  - '*Fragment.kt'
+  - '*Service.kt'
+  - '*Application.kt'
+  - '*App.kt'
+  exclude:
+  - '**/test/**'
+  - '**/androidTest/**'
+  - '**/*Test.kt'
+  - '**/*Tests.kt'
+  source: https://developer.android.com/topic/architecture/recommendations
+- id: uncategorized-module-path
+  level: MUST
+  enforce: new-only
+  owner: 02-modularization.md
+  check: regex
+  pattern: ^[ \t]*include\s*\(?\s*(['"])(?!:app\1):[A-Za-z0-9._-]+\1
+  message: 模組路徑要帶類別前綴：include(":feature:search") / include(":core:common")，不要有無前綴的頂層模組（:app 例外）。
+  applies_to:
+  - settings.gradle.kts
+  - '*settings.gradle.kts'
+  - settings.gradle
+  - '*settings.gradle'
+  exclude:
+  - '*build-logic/*'
+  - '*buildSrc/*'
+  source: '官方 sample nowinandroid: https://github.com/android/nowinandroid/blob/main/settings.gradle.kts'
+- id: cross-feature-module-dependency
+  level: MUST_NOT
+  enforce: new-only+on-touch
+  owner: 02-modularization.md
+  check: regex
+  pattern: ^[ \t]*(?:implementation|api|compileOnly|runtimeOnly)\s*\(?\s*project\s*\(\s*(['"]):feature:[A-Za-z0-9._-]+\1\s*\)
+  message: feature 模組不得依賴另一個 feature 模組。跨 feature 跳轉改依賴對方的契約模組（:feature:order:api），共用程式碼下推到 :core:*。
+  applies_to:
+  - '*feature/*/build.gradle.kts'
+  - '*feature/*/build.gradle'
+  source: '官方 sample nowinandroid: https://github.com/android/nowinandroid/blob/main/docs/ModularizationLearningJourney.md'
+- id: cross-feature-class-import
+  level: MUST_NOT
+  enforce: new-only+on-touch
+  owner: 02-modularization.md
+  check: regex
+  pattern: \bIntent\s*\(\s*[\w.()]+\s*,\s*[A-Z]\w*Activity\s*::\s*class\s*\.\s*java
+  message: 不得用 Intent(context, XxxActivity::class.java) 直接跳轉。改走契約模組公開的 route 或介面，例如 navController.navigate(OrderDetailRoute(orderId
+    = id))。
+  applies_to:
+  - '*feature/*/src/*.kt'
+  - '*features/*/src/*.kt'
+  exclude:
+  - '**/*Activity.kt'
+  - '**/test/**'
+  - '**/androidTest/**'
+  - '**/*Test.kt'
+  - '**/*Tests.kt'
+  source: https://developer.android.com/topic/modularization/patterns
+- id: core-depends-on-feature
+  level: MUST_NOT
+  enforce: new-only
+  owner: 02-modularization.md
+  check: regex
+  pattern: project\s*\(\s*(['"]):(?:feature|app)\b[^'"]*\1
+  message: 依賴方向只能 :app → :feature:* → :core:*。core / data / domain 模組要用的型別下推到 :core:model 或 :core:common，不要反向依賴 feature 或
+    app。
+  applies_to:
+  - '*core/*/build.gradle.kts'
+  - '*core/*/build.gradle'
+  - '*data/*/build.gradle.kts'
+  - '*data/*/build.gradle'
+  - '*domain/*/build.gradle.kts'
+  - '*domain/*/build.gradle'
+  exclude:
+  - '*build-logic/*'
+  - '*buildSrc/*'
+  source: '官方 sample nowinandroid: https://github.com/android/nowinandroid/blob/main/docs/ModularizationLearningJourney.md'
+- id: circular-module-dependency
+  level: MUST_NOT
+  enforce: new-only
+  owner: 02-modularization.md
+  check: manual
+  source: https://developer.android.com/topic/modularization/patterns
+- id: impl-module-referenced-outside-app
+  level: MUST
+  enforce: new-only
+  owner: 02-modularization.md
+  check: manual
+  source: https://developer.android.com/topic/modularization/patterns
+- id: api-dependency-without-reason
+  level: SHOULD
+  enforce: new-only+on-touch
+  owner: 02-modularization.md
+  check: regex
+  pattern: ^[ \t]*api\b\s*\(?(?![^\n]*//)\s*(?:project\s*\(|libs\.)
+  message: 模組依賴預設 implementation。確實有型別出現在本模組 public 簽章才用 api，並在同一行加註解說明原因。
+  applies_to:
+  - '*build.gradle.kts'
+  - '*build.gradle'
+  exclude:
+  - '*build-logic/*'
+  - '*buildSrc/*'
+  source: https://developer.android.com/topic/modularization/patterns
+- id: unnecessary-public-declaration
+  level: MUST
+  enforce: new-only
+  owner: 02-modularization.md
+  check: manual
+  source: https://developer.android.com/topic/modularization/patterns
+- id: class-duplicated-across-modules
+  level: MUST
+  enforce: new-only+on-touch
+  owner: 02-modularization.md
+  check: manual
+  source: '官方 sample nowinandroid: https://github.com/android/nowinandroid/blob/main/docs/ModularizationLearningJourney.md'
+- id: catch-all-utility-module
+  level: SHOULD_NOT
+  enforce: new-only
+  owner: 02-modularization.md
+  check: manual
+  source: https://developer.android.com/topic/modularization/patterns
+- id: premature-module-split
+  level: SHOULD
+  enforce: new-only
+  owner: 02-modularization.md
+  check: manual
+  source: https://developer.android.com/topic/modularization
+- id: android-library-for-pure-kotlin
+  level: MUST
+  enforce: new-only
+  owner: 02-modularization.md
+  check: manual
+  source: https://developer.android.com/topic/modularization/patterns
+- id: duplicated-build-config
+  level: MUST
+  enforce: new-only+on-touch
+  owner: 02-modularization.md
+  check: regex
+  pattern: (?<![\w.])(?:compileSdk|minSdk|targetSdk|compileSdkVersion|minSdkVersion|targetSdkVersion|jvmTarget)\s*=|^[ \t]*(?:subprojects|allprojects)\s*\{|^[
+    \t]*compileOptions\s*\{
+  message: 共通建置設定（compileSdk / minSdk / targetSdk / jvmTarget / compileOptions）一律由 build-logic 的 convention plugin 提供，模組只留
+    namespace 與自己的依賴；也不要用 subprojects {} / allprojects {} 統一套設定。
+  applies_to:
+  - '*build.gradle.kts'
+  - '*build.gradle'
+  exclude:
+  - '*build-logic/*'
+  - '*buildSrc/*'
+  source: https://developer.android.com/topic/modularization/patterns
+- id: hardcoded-dependency-coordinate
+  level: MUST
+  enforce: new-only+on-touch
+  owner: 02-modularization.md
+  check: regex
+  pattern: (['"])[a-zA-Z][\w.-]*:[\w.-]+:[^'"\s]*\1
+  message: 依賴座標與版本一律宣告在 gradle/libs.versions.toml，build script 只用 libs.* 引用（implementation(libs.androidx.core.ktx)）；不要硬寫 group:name:version、不要動態版本、不要用
+    buildSrc 的 Kotlin object 管版本。
+  applies_to:
+  - '*build.gradle.kts'
+  - '*build.gradle'
+  - '*settings.gradle.kts'
+  - '*buildSrc/src/*.kt'
+  source: https://developer.android.com/build/migrate-to-catalogs
+- id: kapt-in-new-module
+  level: MUST_NOT
+  enforce: new-only
+  owner: 02-modularization.md
+  check: regex
+  pattern: \bid\s*\(\s*(['"])(?:kotlin-kapt|org\.jetbrains\.kotlin\.kapt)\1|^[ \t]*kapt\s*[\("']|\blibs\.plugins\.kapt\b|\bkotlin\s*\(\s*(['"])kapt\2
+  message: 新模組的註解處理器一律用 KSP：plugins { alias(libs.plugins.ksp) } + ksp(libs.xxx.compiler)。仍不支援 KSP 的處理器要隔離在單獨模組。
+  applies_to:
+  - '*build.gradle.kts'
+  - '*build.gradle'
+  source: https://developer.android.com/build/migrate-to-ksp
+- id: module-namespace-mismatch
+  level: MUST
+  enforce: new-only
+  owner: 02-modularization.md
+  check: manual
+  source: '官方 sample nowinandroid: https://github.com/android/nowinandroid/blob/main/feature/topic/impl/build.gradle.kts'
+- id: shared-fake-in-main-source-set
+  level: MUST
+  enforce: new-only+on-touch
+  owner: 02-modularization.md
+  check: manual
+  source: https://developer.android.com/topic/modularization/patterns
+- id: transitive-r-class-reference
+  level: MUST_NOT
+  enforce: new-only
+  owner: 02-modularization.md
+  check: manual
+  source: https://developer.android.com/build/optimize-your-build
+- id: missing-build-performance-flags
+  level: MUST
+  enforce: migrate
+  owner: 02-modularization.md
+  check: regex
+  pattern: ^[ \t]*android\.enableJetifier\s*=\s*true|^[ \t]*(?:org\.gradle\.(?:parallel|caching|configuration-cache)|android\.nonTransitiveRClass)\s*=\s*false
+  message: 移除 android.enableJetifier=true，並把 org.gradle.parallel / caching / configuration-cache / android.nonTransitiveRClass
+    都設為 true（pattern 只抓得到顯式關閉與 Jetifier；四個 flag 是否齊備仍需人工確認）。
+  applies_to:
+  - gradle.properties
+  - '*gradle.properties'
+  source: https://developer.android.com/build/optimize-your-build
+- id: unverified-module-graph
+  level: SHOULD
+  enforce: migrate
+  owner: 02-modularization.md
+  check: manual
+  source: 業界共識
+- id: manual-dependency-instantiation
+  level: MUST_NOT
+  enforce: new-only+on-touch
+  owner: 03-dependency-injection.md
+  check: manual
+  source: https://developer.android.com/topic/architecture/recommendations
+- id: service-locator-access
+  level: MUST_NOT
+  enforce: new-only+on-touch
+  owner: 03-dependency-injection.md
+  check: regex
+  pattern: (?<![\w.])(?:object|class)[ \t]+\w*(?:ServiceLocator|AppContainer)\b|(?<![\w.])\w*ServiceLocator[ \t]*\.
+  message: 改用建構函式注入取得依賴，綁定寫在 @Module；跨模組共享的能力注入介面，不要用 object 單例持有狀態或在 domain / data 類別反查 DI 容器。
+  exclude:
+  - '**/src/test/**'
+  - '**/src/androidTest/**'
+  - '**/*Test.kt'
+  source: https://developer.android.com/training/dependency-injection
+- id: missing-hilt-android-app
+  level: MUST
+  enforce: migrate
+  owner: 03-dependency-injection.md
+  check: regex
+  pattern: (?<![)\w]\n)^[ \t]*(?:(?:internal|public|final)[ \t]+)*class[ \t]+\w+[ \t]*(?:\([^)]*\))?[ \t]*:[ \t]*(?:[\w.]+[
+    \t]*\([^)]*\)[ \t]*,[ \t]*)*(?:android\.app\.)?Application[ \t]*\(
+  message: 'Application 子類別要標註 @HiltAndroidApp 並在 AndroidManifest 的 android:name 註冊；非 Hilt 專案本條不適用（見 guides/03 第四節），可加 //
+    guide-ignore: missing-hilt-android-app。'
+  exclude:
+  - '**/src/test/**'
+  - '**/src/androidTest/**'
+  - '**/*Test.kt'
+  source: https://developer.android.com/training/dependency-injection/hilt-android
+- id: missing-android-entry-point
+  level: MUST
+  enforce: new-only+on-touch
+  owner: 03-dependency-injection.md
+  check: manual
+  source: https://developer.android.com/training/dependency-injection/hilt-android
+- id: private-inject-field
+  level: MUST_NOT
+  enforce: new-only
+  owner: 03-dependency-injection.md
+  check: regex
+  pattern: '@Inject[ \t\r\n]+(?:@[\w.:]+(?:\([^)]*\))?[ \t\r\n]+)*private[ \t]+(?:lateinit[ \t]+)?va[lr]\b'
+  message: 把 @Inject 欄位的 private 改成 internal 或 public —— Hilt 無法注入 private 欄位（建構函式參數的 private val 不受此限）。
+  source: https://developer.android.com/training/dependency-injection/hilt-android
+- id: module-without-install-in
+  level: MUST
+  enforce: new-only+on-touch
+  owner: 03-dependency-injection.md
+  check: regex
+  pattern: (?<![)\w]\n)^[ \t]*@Module\b(?:[ \t]*\([^)]*\))?[ \t]*(?:\n[ \t]*)?(?:@(?!InstallIn)\w+(?:\([^)]*\))?[ \t]*(?:\n[
+    \t]*)?)*(?:(?:internal|public|abstract|open)[ \t]+)*(?:object|class|interface)[ \t]+\w+(?=[\s\S]{0,4000}?@(?:Provides|Binds|Multibinds)\b)
+  message: 含 @Provides / @Binds 的 @Module 要同時標註 @InstallIn(<Component>::class) 指定安裝位置；dynamic feature 模組改用 @EntryPoint。
+  exclude:
+  - '**/src/test/**'
+  - '**/src/androidTest/**'
+  - '**/*Test.kt'
+  source: https://developer.android.com/training/dependency-injection/hilt-multi-module
+- id: provides-wrapping-constructor
+  level: SHOULD_NOT
+  enforce: new-only
+  owner: 03-dependency-injection.md
+  check: manual
+  source: '官方 sample nowinandroid: https://github.com/android/nowinandroid/blob/main/core/data/src/main/kotlin/com/google/samples/apps/nowinandroid/core/data/di/DataModule.kt'
+- id: wrong-module-container-kind
+  level: MUST
+  enforce: new-only
+  owner: 03-dependency-injection.md
+  check: manual
+  source: https://developer.android.com/training/dependency-injection/hilt-android
+- id: scope-component-mismatch
+  level: MUST
+  enforce: new-only+on-touch
+  owner: 03-dependency-injection.md
+  check: manual
+  source: https://dagger.dev/hilt/components
+- id: unnecessary-scoped-binding
+  level: SHOULD_NOT
+  enforce: new-only
+  owner: 03-dependency-injection.md
+  check: manual
+  source: https://developer.android.com/training/dependency-injection/hilt-android
+- id: over-wide-scope
+  level: SHOULD
+  enforce: new-only
+  owner: 03-dependency-injection.md
+  check: manual
+  source: https://developer.android.com/training/dependency-injection/manual
+- id: manual-viewmodel-factory
+  level: MUST_NOT
+  enforce: new-only
+  owner: 03-dependency-injection.md
+  check: regex
+  pattern: :[ \t]*(?:ViewModelProvider\.(?:Factory|NewInstanceFactory|AndroidViewModelFactory)|AbstractSavedStateViewModelFactory)\b|@ViewModelKey\b
+  message: 改用 @HiltViewModel + @Inject constructor，Compose 端以 hiltViewModel() 取得；導航參數注入 SavedStateHandle 讀取，需要 runtime 參數才用
+    @AssistedInject + @AssistedFactory。
+  exclude:
+  - '**/src/test/**'
+  - '**/src/androidTest/**'
+  - '**/*Test.kt'
+  source: https://developer.android.com/training/dependency-injection/hilt-android
+- id: duplicate-type-without-qualifier
+  level: MUST
+  enforce: new-only+on-touch
+  owner: 03-dependency-injection.md
+  check: manual
+  source: https://developer.android.com/training/dependency-injection/hilt-android
+- id: string-based-qualifier
+  level: MUST_NOT
+  enforce: new-only
+  owner: 03-dependency-injection.md
+  check: regex
+  pattern: '@Named[ \t]*\([ \t]*"'
+  message: 把 @Named("字面字串") 換成自訂 @Qualifier 註解（型別安全，拼錯會編譯失敗）；沿用 @Named 的框架至少改成集中定義的常數。
+  exclude:
+  - '**/src/test/**'
+  - '**/src/androidTest/**'
+  - '**/*Test.kt'
+  source: https://developer.android.com/training/dependency-injection/hilt-android
+- id: custom-context-binding
+  level: MUST_NOT
+  enforce: new-only
+  owner: 03-dependency-injection.md
+  check: regex
+  pattern: '@(?:Provides|Binds)\b[\s\S]{0,200}?\bfun[ \t]+\w+[ \t]*\([^{=]*\)[ \t]*:[ \t]*(?:android\.content\.)?Context\b'
+  message: 刪掉自訂的 Context 綁定，注入處直接用內建 qualifier @ApplicationContext / @ActivityContext。
+  exclude:
+  - '**/src/test/**'
+  - '**/src/androidTest/**'
+  - '**/*Test.kt'
+  source: https://developer.android.com/training/dependency-injection/hilt-android
+- id: dispatcher-binding-without-qualifier
+  level: MUST
+  enforce: new-only+on-touch
+  owner: 03-dependency-injection.md
+  check: manual
+  source: '官方 sample nowinandroid: https://github.com/android/nowinandroid/blob/main/core/common/src/main/kotlin/com/google/samples/apps/nowinandroid/core/common/network/NiaDispatchers.kt'
+- id: di-module-centralized-in-app
+  level: SHOULD_NOT
+  enforce: new-only
+  owner: 03-dependency-injection.md
+  check: manual
+  source: https://developer.android.com/training/dependency-injection/hilt-multi-module
+- id: missing-entry-point-for-unsupported-class
+  level: MUST
+  enforce: new-only
+  owner: 03-dependency-injection.md
+  check: manual
+  source: https://developer.android.com/training/dependency-injection/hilt-android
+- id: di-container-in-unit-test
+  level: SHOULD_NOT
+  enforce: new-only
+  owner: 03-dependency-injection.md
+  check: regex
+  pattern: '@HiltAndroidTest\b|\bHiltAndroidRule[ \t]*\(|\bstartKoin[ \t]*[({]|\bKoinTestRule\b|\bKoinTest\b'
+  message: JVM 單元測試直接呼叫建構函式並傳入 fake，不要啟動 DI container；只有專門驗證 DI 圖完整性的測試例外。
+  applies_to:
+  - '**/src/test/**'
+  source: https://developer.android.com/training/dependency-injection/hilt-testing
+- id: ad-hoc-test-binding-override
+  level: SHOULD
+  enforce: new-only
+  owner: 03-dependency-injection.md
+  check: manual
+  source: https://developer.android.com/training/dependency-injection/hilt-testing
+- id: usecase-wrong-suffix
+  level: MUST
+  enforce: new-only
+  owner: 04-domain-layer.md
+  check: regex
+  pattern: ^[ \t]*(?:(?:internal|public|abstract|open|final)[ \t]+)*class[ \t]+(?:\w*(?:Interactor|Manager|Helper|Service)\w*|(?:Get|Fetch|Load|Observe|Save|Submit|Send|Update|Delete|Remove|Create|Add|Sync|Format|Validate|Calculate|Search|Toggle|Refresh|Cancel)\w*(?<!UseCase))\b
+  message: UseCase 類別改名為 <現在式動詞><名詞>UseCase（如 GetOrderUseCase），不要用 Interactor / Manager / Helper / Service 或無後綴。
+  applies_to:
+  - '**/usecase/**'
+  - '**/usecases/**'
+  - '**/useCase/**'
+  - '**/useCases/**'
+  - '**/interactor/**'
+  - '**/interactors/**'
+  exclude:
+  - '**/src/test/**'
+  - '**/src/androidTest/**'
+  - '**/*Test.kt'
+  source: https://developer.android.com/topic/architecture/domain-layer
+- id: usecase-multiple-public-entrypoints
+  level: MUST
+  enforce: new-only
+  owner: 04-domain-layer.md
+  check: manual
+  source: https://developer.android.com/topic/architecture/domain-layer
+- id: usecase-interface-impl-split
+  level: MUST_NOT
+  enforce: new-only
+  owner: 04-domain-layer.md
+  check: regex
+  pattern: ^[ \t]*(?:(?:internal|public|abstract|sealed|fun)[ \t]+)*(?:interface[ \t]+\w*UseCase\b|class[ \t]+(?:\w*UseCaseImpl|Default\w*UseCase)\b)
+  message: UseCase 收成單一 concrete class，不要拆 interface + Impl；測試時建真實 UseCase 搭 fake repository。真的需要跨模組依賴反轉就別叫 UseCase。
+  exclude:
+  - '**/src/test/**'
+  - '**/src/androidTest/**'
+  - '**/*Test.kt'
+  source: 官方 sample nowinandroid
+- id: passthrough-usecase
+  level: MUST_NOT
+  enforce: new-only
+  owner: 04-domain-layer.md
+  check: manual
+  source: https://developer.android.com/topic/architecture/domain-layer
+- id: stateful-usecase
+  level: MUST_NOT
+  enforce: new-only+on-touch
+  owner: 04-domain-layer.md
+  check: regex
+  pattern: ^[ \t]+(?:private|internal|protected)[ \t]+(?:@\w+(?:\([^)]*\))?[ \t]+)*(?:var[ \t]+\w+|val[ \t]+\w+[ \t]*(?::[
+    \t]*(?:Mutable(?:List|Map|Set|Collection|StateFlow|SharedFlow)|ArrayList|HashMap|HashSet)\b|=[ \t]*(?:Mutable(?:StateFlow|SharedFlow)|mutable(?:ListOf|MapOf|SetOf)|ConcurrentHashMap|ArrayList|HashMap)[
+    \t]*[(<]))
+  message: UseCase 不得持有可變狀態：參數改由 invoke() 傳入，跨呼叫要保存的狀態下推到 data 層，UI 狀態上推到 ViewModel。
+  applies_to:
+  - '**/*UseCase.kt'
+  exclude:
+  - '**/src/test/**'
+  - '**/src/androidTest/**'
+  - '**/*Test.kt'
+  source: https://developer.android.com/topic/architecture/domain-layer
+- id: singleton-scoped-usecase
+  level: MUST_NOT
+  enforce: new-only
+  owner: 04-domain-layer.md
+  check: regex
+  pattern: '@(?:Singleton|Single)\b[\s\S]{0,80}?\bclass[ \t]+\w*UseCase\b'
+  message: 移除 UseCase 上的 singleton scope（@Singleton / @Single），改為每次注入建立新實例；若覺得需要 singleton，通常代表它藏了可變狀態。
+  exclude:
+  - '**/src/test/**'
+  - '**/src/androidTest/**'
+  - '**/*Test.kt'
+  source: https://developer.android.com/topic/architecture/domain-layer
+- id: usecase-depends-on-datasource
+  level: MUST_NOT
+  enforce: new-only
+  owner: 04-domain-layer.md
+  check: regex
+  pattern: (?<![\w.])va[lr][ \t]+\w+[ \t]*:[ \t]*(?:[\w.]*(?:ApiService|ApiClient|Dao|DataSource|DataStore|SharedPreferences|Retrofit|RepositoryImpl)|Default\w*Repository)\b
+  message: UseCase 建構子只收介面／抽象型別：改注入 Repository 介面，不要直接依賴 ApiService / Dao / DataStore / DataSource 或具體實作。
+  applies_to:
+  - '**/*UseCase.kt'
+  exclude:
+  - '**/src/test/**'
+  - '**/src/androidTest/**'
+  - '**/*Test.kt'
+  source: https://developer.android.com/topic/architecture/domain-layer
+- id: android-import-in-domain
+  level: MUST_NOT
+  enforce: new-only+on-touch
+  owner: 04-domain-layer.md
+  check: regex
+  pattern: ^[ \t]*import[ \t]+(?:android\.|androidx\.(?!annotation\b|paging\b))
+  message: domain 層不得依賴 Android framework：在 domain 定義純 Kotlin 介面（如 StringProvider）由外層實作注入；只有 androidx.annotation 與 androidx.paging
+    例外。
+  applies_to:
+  - '**/domain/**'
+  - '**/*UseCase.kt'
+  exclude:
+  - '**/src/test/**'
+  - '**/src/androidTest/**'
+  - '**/*Test.kt'
+  source: https://developer.android.com/topic/architecture/domain-layer
+- id: framework-annotation-on-domain-model
+  level: MUST_NOT
+  enforce: new-only
+  owner: 04-domain-layer.md
+  check: regex
+  pattern: '@(?:Serializable|SerialName|SerializedName|JsonClass|JsonProperty|Json|Entity|PrimaryKey|ColumnInfo|Embedded|ForeignKey)\b'
+  message: 序列化／持久化註解留在 DTO 或 Entity（XxxNetworkModel / XxxEntity），domain model 保持純 Kotlin data class，欄位差異在 data 層 mapping。
+  applies_to:
+  - '**/domain/**'
+  exclude:
+  - '**/src/test/**'
+  - '**/src/androidTest/**'
+  - '**/*Test.kt'
+  source: https://developer.android.com/topic/architecture/data-layer
+- id: presentation-type-in-domain
+  level: MUST_NOT
+  enforce: new-only
+  owner: 04-domain-layer.md
+  check: regex
+  pattern: '@(?:StringRes|DrawableRes|ColorRes|PluralsRes|ColorInt|LayoutRes|RawRes)\b|(?<![\w.])va[lr][ \t]+\w+[ \t]*:[ \t]*(?:[\w.]*(?:UiState|UiModel|ViewState)|Color|Painter|Dp|TextUnit|ImageVector|Drawable|Bitmap)\b|\)[
+    \t]*:[ \t]*[\w.]*(?:UiState|UiModel)\b'
+  message: domain 只放業務語意型別（OrderStatus / Money）；@StringRes、Color、Dp、UiState 等呈現層型別移到 ViewModel 轉換。
+  applies_to:
+  - '**/domain/**'
+  - '**/*UseCase.kt'
+  exclude:
+  - '**/src/test/**'
+  - '**/src/androidTest/**'
+  - '**/*Test.kt'
+  source: https://developer.android.com/topic/architecture/domain-layer
+- id: mutable-domain-model
+  level: MUST
+  enforce: new-only
+  owner: 04-domain-layer.md
+  check: regex
+  pattern: \bdata[ \t]+class[ \t]+\w+[ \t]*(?:<[^>]*>)?[ \t]*\((?:[^()]|\([^()]*\))*?(?<![\w.])(?:var[ \t]+\w+|va[lr][ \t]+\w+[
+    \t]*:[ \t]*(?:Mutable(?:List|Set|Map|Collection)|ArrayList|HashMap|HashSet|Array)[ \t]*<)
+  message: domain model 欄位全部改 val、集合改用 List / Set / Map，需要修改時走 copy()。
+  applies_to:
+  - '**/domain/**'
+  exclude:
+  - '**/src/test/**'
+  - '**/src/androidTest/**'
+  - '**/*Test.kt'
+  source: https://developer.android.com/topic/architecture/data-layer
+- id: business-logic-in-static-util
+  level: SHOULD_NOT
+  enforce: new-only
+  owner: 04-domain-layer.md
+  check: manual
+  source: https://developer.android.com/topic/architecture/domain-layer
+- id: circular-usecase-dependency
+  level: MUST_NOT
+  enforce: new-only
+  owner: 04-domain-layer.md
+  check: manual
+  source: https://developer.android.com/topic/architecture/domain-layer
+- id: repository-named-after-screen
+  level: MUST_NOT
+  enforce: new-only
+  owner: 05-data-layer.md
+  check: regex
+  pattern: ^[ \t]*(?:(?:public|internal|private|abstract|open|sealed|expect|actual)\s+)*(?:class|interface|object)\s+(?:(?:Home|Splash|Onboarding|Landing)\w*Repository|\w+(?:Screen|Page|Fragment|Activity|Dialog|BottomSheet|Tab)\w*Repository)\b
+  message: Repository 依資料型別命名（OrderRepository、UserRepository），不依畫面命名；畫面需要的多來源組合放 UseCase 或 ViewModel。
+  exclude:
+  - '**/test/**'
+  - '**/androidTest/**'
+  - '**/*Test.kt'
+  - '**/*Tests.kt'
+  - '**/*Spec.kt'
+  source: https://developer.android.com/topic/architecture/data-layer
+- id: repository-impl-wrong-name
+  level: MUST
+  enforce: new-only
+  owner: 05-data-layer.md
+  check: regex
+  pattern: ^[ \t]*(?:(?:public|internal|private|abstract|open)\s+)*class\s+\w*Repository(?:Impl|Implementation|IMPL)\b
+  message: 實作改名為描述策略的形式並宣告 internal：`internal class DefaultOrderRepository` / `OfflineFirstOrderRepository`；測試替身用 `Fake<X>Repository`。
+  exclude:
+  - '**/test/**'
+  - '**/androidTest/**'
+  - '**/*Test.kt'
+  - '**/*Tests.kt'
+  - '**/*Spec.kt'
+  source: 官方 sample nowinandroid
+- id: datasource-outside-repository
+  level: MUST_NOT
+  enforce: new-only+on-touch
+  owner: 05-data-layer.md
+  check: regex
+  pattern: (?<![\w.])\w+\s*:\s*\w*(?:ApiService|ApiClient|Dao|RoomDatabase|DataStore|SharedPreferences|RemoteDataSource|LocalDataSource)\b
+  message: ViewModel / UseCase / Composable / Activity / Fragment 不得持有 ApiService、Dao、DataStore、SharedPreferences 或 DataSource，改注入
+    Repository 介面。
+  applies_to:
+  - '**/*ViewModel.kt'
+  - '**/*UseCase.kt'
+  - '**/*Screen.kt'
+  - '**/*Activity.kt'
+  - '**/*Fragment.kt'
+  - '**/*Composable.kt'
+  exclude:
+  - '**/test/**'
+  - '**/androidTest/**'
+  - '**/*Test.kt'
+  - '**/*Tests.kt'
+  - '**/*Spec.kt'
+  - '**/Fake*.kt'
+  source: https://developer.android.com/topic/architecture/data-layer
+- id: datasource-name-leaks-technology
+  level: MUST
+  enforce: new-only
+  owner: 05-data-layer.md
+  check: regex
+  pattern: ^[ \t]*(?:(?:public|internal|private|abstract|open|sealed)\s+)*(?:class|interface|object)\s+\w*(?:Retrofit|OkHttp|Room|SQLite|Sqlite|SharedPreferences|Prefs|DataStore|Firebase|Firestore|Realm|Gson|Moshi|Ktor|Volley|GraphQL|Graphql)\w*(?:DataSource|Source)\b
+  message: DataSource 命名只表達來源方向：`<DataType>RemoteDataSource` / `<DataType>LocalDataSource`，不要把 Retrofit / Room / Firebase
+    等實作技術寫進名稱。
+  exclude:
+  - '**/test/**'
+  - '**/androidTest/**'
+  - '**/*Test.kt'
+  - '**/*Tests.kt'
+  - '**/*Spec.kt'
+  source: https://developer.android.com/topic/architecture/data-layer
+- id: datasource-mixes-sources
+  level: MUST_NOT
+  enforce: new-only
+  owner: 05-data-layer.md
+  check: regex
+  pattern: \bclass\s+\w*(?:DataSource|Source)\b(?:(?!\bclass\b)[^{]){0,400}?(?:\b\w*(?:ApiService|ApiClient|Retrofit)\b(?:(?!\bclass\b)[^{]){0,300}?\b\w*(?:Dao|RoomDatabase|DataStore|SharedPreferences)\b|\b\w*(?:Dao|RoomDatabase|DataStore|SharedPreferences)\b(?:(?!\bclass\b)[^{]){0,300}?\b\w*(?:ApiService|ApiClient|Retrofit)\b)
+  message: 一個 DataSource 只操作一個來源：拆成 `<X>RemoteDataSource` 與 `<X>LocalDataSource`，接合兩者是 Repository 的職責。
+  exclude:
+  - '**/test/**'
+  - '**/androidTest/**'
+  - '**/*Test.kt'
+  - '**/*Tests.kt'
+  - '**/*Spec.kt'
+  source: https://developer.android.com/topic/architecture/data-layer
+- id: read-path-mixes-network-and-local
+  level: MUST
+  enforce: new-only
+  owner: 05-data-layer.md
+  check: manual
+  source: https://developer.android.com/topic/architecture/data-layer/offline-first
+- id: remote-first-write-for-user-content
+  level: MUST
+  enforce: new-only
+  owner: 05-data-layer.md
+  check: manual
+  source: https://developer.android.com/topic/architecture/data-layer/offline-first
+- id: full-overwrite-sync
+  level: SHOULD_NOT
+  enforce: new-only
+  owner: 05-data-layer.md
+  check: manual
+  source: https://developer.android.com/topic/architecture/data-layer/offline-first
+- id: technical-exception-crosses-repository
+  level: MUST
+  enforce: new-only+on-touch
+  owner: 05-data-layer.md
+  check: manual
+  source: https://developer.android.com/topic/architecture/data-layer
+- id: kotlin-result-in-cross-layer-signature
+  level: MUST_NOT
+  enforce: new-only
+  owner: 05-data-layer.md
+  check: regex
+  pattern: :\s*kotlin\.Result\s*<|^(?![^\n]*\bprivate\b)[^\n]*\bfun\s+\w+\s*\([^\n]*\)\s*(?::[^\n=]+)?=\s*runCatching\s*\{
+  message: 跨層簽章不用 kotlin.Result：失敗改拋語意化例外（或專案自訂的 sealed 錯誤型別），三態包裝留給 ViewModel 的 asResult()；runCatching 只能用在同檔案的 private 輔助函式並先
+    rethrow CancellationException。
+  applies_to:
+  - '**/*Repository.kt'
+  - '**/*DataSource.kt'
+  - '**/*UseCase.kt'
+  exclude:
+  - '**/test/**'
+  - '**/androidTest/**'
+  - '**/*Test.kt'
+  - '**/*Tests.kt'
+  - '**/*Spec.kt'
+  - '**/Fake*.kt'
+  source: 業界共識
+- id: ui-state-in-data-signature
+  level: MUST_NOT
+  enforce: new-only
+  owner: 05-data-layer.md
+  check: regex
+  pattern: :\s*\w*Ui(?:State|Model)\b|@StringRes\b|:\s*(?:Color|Painter|ImageVector|Drawable)\b
+  message: data 層簽章只回傳 domain model：UiState / UiModel / @StringRes / Color / Painter 屬 UI 層，Loading 與文案由 ViewModel 與 Composable
+    產生。
+  applies_to:
+  - '**/*Repository.kt'
+  - '**/*DataSource.kt'
+  - '**/data/**/*.kt'
+  exclude:
+  - '**/test/**'
+  - '**/androidTest/**'
+  - '**/*Test.kt'
+  - '**/*Tests.kt'
+  - '**/*Spec.kt'
+  source: https://developer.android.com/topic/architecture/data-layer
+- id: localized-message-in-domain-error
+  level: SHOULD_NOT
+  enforce: new-only
+  owner: 05-data-layer.md
+  check: manual
+  source: 業界共識
+- id: dto-or-entity-outside-data
+  level: MUST_NOT
+  enforce: new-only+on-touch
+  owner: 05-data-layer.md
+  check: regex
+  pattern: ^[ \t]*import\s+[\w.]*\.\w*(?:Dto|DTO|Entity|NetworkModel|ApiModel)\b
+  message: domain / UI 層不得引用網路 DTO 或 DB Entity：在 data 層用 asExternalModel() 轉成 domain model 後再往上傳。
+  applies_to:
+  - '**/*ViewModel.kt'
+  - '**/*UseCase.kt'
+  - '**/*Screen.kt'
+  - '**/*Activity.kt'
+  - '**/*Fragment.kt'
+  - '**/*Composable.kt'
+  - '**/domain/**/*.kt'
+  exclude:
+  - '**/test/**'
+  - '**/androidTest/**'
+  - '**/*Test.kt'
+  - '**/*Tests.kt'
+  - '**/*Spec.kt'
+  - '**/Fake*.kt'
+  source: https://developer.android.com/topic/architecture/data-layer
+- id: mapper-outside-data-layer
+  level: MUST
+  enforce: new-only
+  owner: 05-data-layer.md
+  check: manual
+  source: 官方 sample nowinandroid
+- id: oneshot-wrapped-in-flow
+  level: MUST
+  enforce: new-only
+  owner: 05-data-layer.md
+  check: regex
+  pattern: =\s*flow\s*\{\s*emit\s*\((?:[^{}()]|\([^()]*\))*\)\s*\}
+  message: 只發射一次的資料改用 suspend fun 回傳裸型別；Flow 保留給真正會持續發射的來源（DAO、DataStore、MutableStateFlow），命名以 Stream 結尾。
+  exclude:
+  - '**/test/**'
+  - '**/androidTest/**'
+  - '**/*Test.kt'
+  - '**/*Tests.kt'
+  - '**/*Spec.kt'
+  - '**/Fake*.kt'
+  source: https://developer.android.com/topic/architecture/data-layer
+- id: unsafe-inmemory-cache
+  level: MUST
+  enforce: new-only+on-touch
+  owner: 05-data-layer.md
+  check: manual
+  source: https://developer.android.com/topic/architecture/data-layer
+- id: context-in-repository-signature
+  level: MUST_NOT
+  enforce: new-only
+  owner: 05-data-layer.md
+  check: regex
+  pattern: (?<![\w.])\w+\s*:\s*(?:Context|Activity|Application|Fragment|View|Resources|Intent|Bundle|LifecycleOwner)\b
+  message: Repository / DataSource 簽章不得出現 Android framework 型別：需要 application context 的元件在 DI module 內組好，注入成品（Dao、DataStore、Provider）。
+  applies_to:
+  - '**/*Repository.kt'
+  - '**/*DataSource.kt'
+  exclude:
+  - '**/test/**'
+  - '**/androidTest/**'
+  - '**/*Test.kt'
+  - '**/*Tests.kt'
+  - '**/*Spec.kt'
+  - '**/Fake*.kt'
+  source: https://developer.android.com/topic/architecture/data-layer
+- id: retrofit-non-suspend-endpoint
+  level: MUST
+  enforce: new-only+on-touch
+  owner: 06-network.md
+  check: regex
+  pattern: '@(?:GET|POST|PUT|DELETE|PATCH|HEAD|OPTIONS|HTTP)\s*\((?:[^()]|\([^()]*\))*\)\s*(?:@\w+(?:\((?:[^()]|\([^()]*\))*\))?\s*)*(?:suspend\s+)?fun\s+\w+\s*\((?:[^()]|\([^()]*\))*\)\s*:\s*(?:(?:Call|Observable|Single|Flowable|Maybe)\s*<|Completable\b)'
+  message: endpoint 改成 `suspend fun` 並回傳 DTO 本身；Call / RxJava 型別在 Retrofit 已無必要，非 2xx 交給 HttpException。
+  exclude:
+  - '**/test/**'
+  - '**/androidTest/**'
+  - '**/*Test.kt'
+  - '**/*Tests.kt'
+  - '**/*Spec.kt'
+  - '**/Fake*.kt'
+  source: https://developer.android.com/topic/architecture/data-layer
+- id: mixed-retrofit-response-types
+  level: MUST_NOT
+  enforce: new-only
+  owner: 06-network.md
+  check: manual
+  source: 官方 sample nowinandroid
+- id: public-retrofit-service
+  level: SHOULD_NOT
+  enforce: new-only
+  owner: 06-network.md
+  check: regex
+  pattern: ^(?![^\n]*\b(?:internal|private)\b)[ \t]*(?:public\s+|expect\s+|actual\s+)*interface\s+\w+[^\n{]*\{(?:(?!\binterface\b)[\s\S]){0,800}?@(?:GET|POST|PUT|DELETE|PATCH|HEAD|OPTIONS)\s*\(
+  message: Retrofit interface 宣告為 internal，模組對外只暴露不含 Retrofit / OkHttp 型別的 DataSource 介面。
+  exclude:
+  - '**/test/**'
+  - '**/androidTest/**'
+  - '**/*Test.kt'
+  - '**/*Tests.kt'
+  - '**/*Spec.kt'
+  source: 官方 sample nowinandroid
+- id: retrofit-client-built-in-business-class
+  level: MUST_NOT
+  enforce: new-only+on-touch
+  owner: 06-network.md
+  check: regex
+  pattern: \b(?:OkHttpClient|Retrofit)\s*\.\s*Builder\s*\(|(?<![\w.])OkHttpClient\s*\(\s*\)
+  message: OkHttpClient / Retrofit 只能在 DI module 建立並以 singleton 提供；需要不同 timeout 或 interceptor 的變體用 `base.newBuilder()` 衍生以共用連線池。
+  exclude:
+  - '**/di/**'
+  - '**/*Module.kt'
+  - '**/test/**'
+  - '**/androidTest/**'
+  - '**/*Test.kt'
+  - '**/*Tests.kt'
+  - '**/*Spec.kt'
+  source: 官方 sample nowinandroid
+- id: eager-okhttp-init
+  level: SHOULD
+  enforce: new-only
+  owner: 06-network.md
+  check: manual
+  source: 官方 sample nowinandroid
+- id: okhttp-missing-call-timeout
+  level: MUST
+  enforce: new-only+on-touch
+  owner: 06-network.md
+  check: regex
+  pattern: \bOkHttpClient\s*(?:\.\s*Builder\s*\(\s*\)|\(\s*\))(?:(?!callTimeout)[\s\S]){0,600}?\.\s*build\s*\(\s*\)
+  message: 這個 OkHttpClient 缺 callTimeout（預設 0＝整通呼叫無上限）：補上 connectTimeout / readTimeout / writeTimeout / callTimeout 四項。
+  exclude:
+  - '**/test/**'
+  - '**/androidTest/**'
+  - '**/*Test.kt'
+  - '**/*Tests.kt'
+  - '**/*Spec.kt'
+  source: https://square.github.io/okhttp/5.x/okhttp/okhttp3/-ok-http-client/-builder/call-timeout.html
+- id: unconditional-http-logging-body
+  level: MUST
+  enforce: new-only+on-touch
+  owner: 06-network.md
+  check: manual
+  source: https://github.com/square/okhttp/blob/master/okhttp-logging-interceptor/README.md
+- id: unredacted-auth-header-log
+  level: MUST
+  enforce: new-only+on-touch
+  owner: 06-network.md
+  check: regex
+  pattern: \bHttpLoggingInterceptor\s*\([^)\n]{0,120}\)(?![\s\S]{0,400}?redactHeader)
+  message: 這個 HttpLoggingInterceptor 沒有 redact 認證標頭：`.apply { redactHeader("Authorization"); redactHeader("Cookie") }`，含專案自訂的
+    token header。
+  exclude:
+  - '**/test/**'
+  - '**/androidTest/**'
+  - '**/*Test.kt'
+  - '**/*Tests.kt'
+  - '**/*Spec.kt'
+  source: https://github.com/square/okhttp/blob/master/okhttp-logging-interceptor/README.md
+- id: manual-401-retry-in-interceptor
+  level: MUST_NOT
+  enforce: new-only
+  owner: 06-network.md
+  check: manual
+  source: https://github.com/square/okhttp/blob/master/docs/features/interceptors.md
+- id: header-added-in-network-interceptor
+  level: SHOULD_NOT
+  enforce: new-only
+  owner: 06-network.md
+  check: manual
+  source: https://github.com/square/okhttp/blob/master/docs/features/interceptors.md
+- id: retry-on-non-idempotent-request
+  level: MUST_NOT
+  enforce: new-only
+  owner: 06-network.md
+  check: manual
+  source: 業界共識
+- id: gson-dto-for-new-api
+  level: MUST_NOT
+  enforce: new-only
+  owner: 06-network.md
+  check: regex
+  pattern: '@SerializedName\s*\(|\bGsonConverterFactory\b'
+  message: 新的網路 DTO 改用 kotlinx.serialization：`@Serializable` + `@SerialName("...")`，converter 用官方的 kotlinx-serialization。
+  exclude:
+  - '**/test/**'
+  - '**/androidTest/**'
+  - '**/*Test.kt'
+  - '**/*Tests.kt'
+  - '**/*Spec.kt'
+  source: https://github.com/google/gson/blob/main/README.md
+- id: mixed-json-annotations
+  level: MUST_NOT
+  enforce: migrate
+  owner: 06-network.md
+  check: file
+  file_check: mixed_json_annotations
+  message: '@Serializable 的類別不能用 @SerializedName（kotlinx 完全忽略它，欄位會對不上）：全部改成 @SerialName。'
+  exclude:
+  - '**/test/**'
+  - '**/androidTest/**'
+  - '**/*Test.kt'
+  - '**/*Tests.kt'
+  - '**/*Spec.kt'
+  source: https://kotlinlang.org/docs/serialization.html
+- id: default-json-instance
+  level: MUST
+  enforce: new-only+on-touch
+  owner: 06-network.md
+  check: regex
+  pattern: (?<![\w.])Json\s*\.\s*(?:decodeFromString|encodeToString|parseToJsonElement|decodeFromJsonElement|encodeToJsonElement)\b|\bfun\s+\w+[^\n]*\{[^\n]*(?<![\w.])Json\s*\{|(?<![\w.])Json\s*\{(?:(?!ignoreUnknownKeys)[^{}]){0,300}\}
+  message: 改用 DI 提供的 singleton `Json`（設定 `ignoreUnknownKeys = true`）並注入使用，不要用 Json companion object 或在函式內臨時 `Json { }`。
+  exclude:
+  - '**/test/**'
+  - '**/androidTest/**'
+  - '**/*Test.kt'
+  - '**/*Tests.kt'
+  - '**/*Spec.kt'
+  source: https://kotlinlang.org/docs/serialization-json-configuration.html
+- id: snake-case-kotlin-property
+  level: MUST
+  enforce: new-only
+  owner: 06-network.md
+  check: regex
+  pattern: '^[ \t]*(?:@\w+(?:\([^)\n]*\))?\s+)*(?:private\s+|internal\s+|public\s+|protected\s+)?(?:override\s+)?va[lr]\s+[a-z][a-z0-9]*(?:_[a-z0-9]+)+\s*:'
+  message: Kotlin 屬性用 camelCase，JSON key 用 `@SerialName("order_id")` 對應，不要為了遷就 JSON 把屬性命名成 snake_case。
+  applies_to:
+  - '**/*Dto.kt'
+  - '**/*DTO.kt'
+  - '**/*Request.kt'
+  - '**/*Response.kt'
+  - '**/*Model.kt'
+  - '**/model/**/*.kt'
+  - '**/dto/**/*.kt'
+  - '**/api/**/*.kt'
+  - '**/network/**/*.kt'
+  - '**/networking/**/*.kt'
+  - '**/remote/**/*.kt'
+  exclude:
+  - '**/test/**'
+  - '**/androidTest/**'
+  - '**/*Test.kt'
+  - '**/*Tests.kt'
+  - '**/*Spec.kt'
+  source: https://kotlinlang.org/docs/serialization.html
+- id: dto-required-collection-field
+  level: SHOULD
+  enforce: new-only
+  owner: 06-network.md
+  check: regex
+  pattern: '@Serializable\b(?:(?!\bclass\b)[\s\S]){0,120}?\bclass\s+\w+(?:(?!\bclass\b)[^{]){0,800}?\bva[lr]\s+\w+\s*:\s*(?:List|Set|Map|Collection)\s*<[^>\n]*>\s*[,)]'
+  message: DTO 的集合欄位給預設值（`= emptyList()`），可能不回傳的欄位給 `= null`，避免後端少回一個 key 就整包解析失敗。
+  exclude:
+  - '**/test/**'
+  - '**/androidTest/**'
+  - '**/*Test.kt'
+  - '**/*Tests.kt'
+  - '**/*Spec.kt'
+  source: https://kotlinlang.org/docs/serialization.html
+- id: third-party-kotlinx-converter
+  level: SHOULD_NOT
+  enforce: migrate
+  owner: 06-network.md
+  check: regex
+  pattern: ^[ \t]*import\s+com\.jakewharton\.retrofit2\.converter\.kotlinx\.serialization\b
+  message: 改用官方 converter：`retrofit2.converter.kotlinx.serialization.asConverterFactory`（依賴換成 com.squareup.retrofit2:converter-kotlinx-serialization）。
+  exclude:
+  - '**/test/**'
+  - '**/androidTest/**'
+  - '**/*Test.kt'
+  - '**/*Tests.kt'
+  - '**/*Spec.kt'
+  source: https://github.com/square/retrofit/blob/trunk/retrofit-converters/kotlinx-serialization/README.md
+- id: unchecked-response-body
+  level: MUST
+  enforce: new-only+on-touch
+  owner: 06-network.md
+  check: regex
+  pattern: \.\s*body\s*\(\s*\)\s*!!
+  message: '先檢查 `isSuccessful` 再取 body，空 body 用 `?: error("empty body")` 或拋 HttpException，不要用 `!!`。'
+  exclude:
+  - '**/test/**'
+  - '**/androidTest/**'
+  - '**/*Test.kt'
+  - '**/*Tests.kt'
+  - '**/*Spec.kt'
+  source: https://github.com/square/retrofit/blob/trunk/retrofit/src/main/java/retrofit2/HttpException.java
+- id: adhoc-error-body-parsing
+  level: MUST
+  enforce: new-only+on-touch
+  owner: 06-network.md
+  check: manual
+  source: https://github.com/square/retrofit/blob/trunk/retrofit/src/main/java/retrofit2/HttpException.java
+- id: blocking-dao-function
+  level: MUST
+  enforce: new-only+on-touch
+  owner: 07-persistence.md
+  check: regex
+  pattern: '@(?:Query|Insert|Update|Delete|Upsert)\b(?:\s*\((?:[^()]|\([^()]*\))*\))?\s*(?:@\w+(?:\((?:[^()]|\([^()]*\))*\))?\s*)*fun\s+\w+\s*\((?:[^()]|\([^()]*\))*\)(?!\s*:\s*(?:Flow|PagingSource|LiveData|Observable|Flowable|Single|Maybe|Completable|DataSource)\b)'
+  message: DAO 的寫入與非 Flow 查詢加上 `suspend`（否則會在呼叫端執行緒阻塞）；需要觀察的查詢改回傳 Flow。
+  exclude:
+  - '**/test/**'
+  - '**/androidTest/**'
+  - '**/*Test.kt'
+  - '**/*Tests.kt'
+  - '**/*Spec.kt'
+  source: https://developer.android.com/training/data-storage/room/async-queries
+- id: suspend-on-flow-dao-query
+  level: MUST
+  enforce: new-only
+  owner: 07-persistence.md
+  check: regex
+  pattern: '@(?:Query|Insert|Update|Delete|Upsert)\b(?:\s*\((?:[^()]|\([^()]*\))*\))?\s*(?:@\w+(?:\((?:[^()]|\([^()]*\))*\))?\s*)*suspend\s+fun\s+\w+\s*\((?:[^()]|\([^()]*\))*\)\s*:\s*Flow\s*<'
+  message: 回傳 Flow 的 DAO 查詢移除 `suspend`（Room 產生的 Flow 本身即非阻塞）。
+  exclude:
+  - '**/test/**'
+  - '**/androidTest/**'
+  - '**/*Test.kt'
+  - '**/*Tests.kt'
+  - '**/*Spec.kt'
+  source: https://developer.android.com/training/data-storage/room/async-queries
+- id: allow-main-thread-queries
+  level: MUST_NOT
+  enforce: migrate
+  owner: 07-persistence.md
+  check: regex
+  pattern: \.\s*allowMainThreadQueries\s*\(
+  message: 移除 allowMainThreadQueries()：DAO 全部改成 suspend 或回傳 Flow，測試用 runTest 而非主執行緒查詢。
+  source: https://developer.android.com/training/data-storage/room/async-queries
+- id: multiple-room-database-instances
+  level: MUST
+  enforce: new-only+on-touch
+  owner: 07-persistence.md
+  check: regex
+  pattern: \bRoom\s*\.\s*databaseBuilder\s*\(
+  message: Room.databaseBuilder 只能寫在 DI module 並以 singleton 提供；Repository / Activity 只注入 Dao，多實例會讓觀察型 Flow 收不到別的實例的寫入。
+  exclude:
+  - '**/di/**'
+  - '**/*Module.kt'
+  - '**/test/**'
+  - '**/androidTest/**'
+  - '**/*Test.kt'
+  - '**/*Tests.kt'
+  - '**/*Spec.kt'
+  source: 官方 sample nowinandroid
+- id: schema-change-without-migration
+  level: MUST
+  enforce: new-only+on-touch
+  owner: 07-persistence.md
+  check: manual
+  source: https://developer.android.com/training/data-storage/room/migrating-db-versions
+- id: untested-migration
+  level: MUST
+  enforce: new-only
+  owner: 07-persistence.md
+  check: manual
+  source: https://developer.android.com/training/data-storage/room/migrating-db-versions
+- id: export-schema-disabled
+  level: MUST
+  enforce: new-only
+  owner: 07-persistence.md
+  check: regex
+  pattern: \bexportSchema\s*=\s*false\b
+  message: 改成 `exportSchema = true` 並用 Room Gradle plugin 的 schemaDirectory 輸出 schema JSON、commit 進版控，否則無法寫 migration 測試。
+  exclude:
+  - '**/test/**'
+  - '**/androidTest/**'
+  - '**/*Test.kt'
+  - '**/*Tests.kt'
+  - '**/*Spec.kt'
+  source: https://developer.android.com/training/data-storage/room/migrating-db-versions
+- id: destructive-migration-in-release
+  level: MUST_NOT
+  enforce: migrate
+  owner: 07-persistence.md
+  check: regex
+  pattern: \bfallbackToDestructiveMigration\s*\(
+  message: schema 不符時會清空使用者資料：提供 Migration；確有必要時改用 fallbackToDestructiveMigrationFrom(...) 或 fallbackToDestructiveMigrationOnDowngrade()。
+  exclude:
+  - '**/test/**'
+  - '**/androidTest/**'
+  - '**/*Test.kt'
+  - '**/*Tests.kt'
+  - '**/*Spec.kt'
+  source: https://developer.android.com/training/data-storage/room/migrating-db-versions
+- id: multi-write-without-transaction
+  level: MUST
+  enforce: new-only+on-touch
+  owner: 07-persistence.md
+  check: manual
+  source: https://developer.android.com/training/data-storage/room
+- id: unindexed-filter-column
+  level: SHOULD
+  enforce: new-only
+  owner: 07-persistence.md
+  check: manual
+  source: https://developer.android.com/training/data-storage/room
+- id: room-flow-without-distinct
+  level: SHOULD
+  enforce: new-only
+  owner: 07-persistence.md
+  check: manual
+  source: https://developer.android.com/training/data-storage/room/async-queries
+- id: new-sharedpreferences-usage
+  level: MUST_NOT
+  enforce: new-only
+  owner: 07-persistence.md
+  check: regex
+  pattern: \bgetSharedPreferences\s*\(|\bPreferenceManager\s*\.\s*getDefaultSharedPreferences\s*\(
+  message: 新的偏好設定走 DataStore（`preferencesDataStore` delegate + `dataStore.edit { }`）；既有 SharedPreferences 只讀不擴充。
+  exclude:
+  - '**/test/**'
+  - '**/androidTest/**'
+  - '**/*Test.kt'
+  - '**/*Tests.kt'
+  - '**/*Spec.kt'
+  source: https://developer.android.com/topic/libraries/architecture/datastore
+- id: datastore-instance-per-call
+  level: MUST
+  enforce: new-only+on-touch
+  owner: 07-persistence.md
+  check: regex
+  pattern: (?<![\w])(?:Preference)?DataStoreFactory\s*\.\s*create\s*[({]
+  message: 每個 DataStore 檔名只能有一個實例：改用 top-level `by preferencesDataStore(name = ...)` delegate，或由 DI module 以 singleton 提供。
+  exclude:
+  - '**/di/**'
+  - '**/*Module.kt'
+  - '**/test/**'
+  - '**/androidTest/**'
+  - '**/*Test.kt'
+  - '**/*Tests.kt'
+  - '**/*Spec.kt'
+  source: https://developer.android.com/topic/libraries/architecture/datastore
+- id: unhandled-datastore-io-exception
+  level: MUST
+  enforce: new-only+on-touch
+  owner: 07-persistence.md
+  check: regex
+  pattern: \w*[Dd]ataStore\s*\.\s*data\b(?![\s\S]{0,250}?(?:\.\s*catch\b|\bcatch\s*\())
+  message: DataStore 讀取要接 `.catch { if (it is IOException) emit(emptyPreferences()) else throw it }`，寫入的 edit / updateData
+    用 try/catch 攔 IOException。
+  exclude:
+  - '**/test/**'
+  - '**/androidTest/**'
+  - '**/*Test.kt'
+  - '**/*Tests.kt'
+  - '**/*Spec.kt'
+  source: https://developer.android.com/topic/libraries/architecture/datastore
+- id: runblocking-datastore-read
+  level: MUST_NOT
+  enforce: new-only+on-touch
+  owner: 07-persistence.md
+  check: regex
+  pattern: \brunBlocking\s*[({](?:(?!\bfun\b)[\s\S]){0,200}?\w*[Dd]ataStore\s*\.\s*data\b
+  message: 不要用 runBlocking 同步讀 DataStore：讀取一律暴露為 Flow，需要單次值時在 suspend 函式內 `.first()`。
+  exclude:
+  - '**/test/**'
+  - '**/androidTest/**'
+  - '**/*Test.kt'
+  - '**/*Tests.kt'
+  - '**/*Spec.kt'
+  source: https://developer.android.com/topic/libraries/architecture/datastore
+- id: datastore-for-relational-data
+  level: SHOULD_NOT
+  enforce: new-only
+  owner: 07-persistence.md
+  check: manual
+  source: https://developer.android.com/topic/libraries/architecture/datastore
+- id: datastore-without-corruption-handler
+  level: SHOULD
+  enforce: new-only
+  owner: 07-persistence.md
+  check: regex
+  pattern: (?<![\w])DataStoreFactory\s*\.\s*create\s*\((?![\s\S]{0,300}?corruptionHandler)
+  message: 型別化 DataStore 補上 `corruptionHandler = ReplaceFileCorruptionHandler { <預設值> }`，否則檔案損毀後每次讀取都拋 CorruptionException。
+  exclude:
+  - '**/test/**'
+  - '**/androidTest/**'
+  - '**/*Test.kt'
+  - '**/*Tests.kt'
+  - '**/*Spec.kt'
+  source: https://developer.android.com/topic/libraries/architecture/datastore
+- id: unbounded-local-cache
+  level: MUST
+  enforce: new-only
+  owner: 07-persistence.md
+  check: manual
+  source: 業界共識
+- id: uistate-mutable-field
+  level: MUST_NOT
+  enforce: new-only+on-touch
+  owner: 08-ui-state.md
+  check: regex
+  pattern: data class\s+\w*UiState\s*\((?:[^()]|\([^()]*\))*?(?:\bvar\s+\w+\s*:|:\s*(?:MutableList|MutableSet|MutableMap|MutableCollection|ArrayList|HashMap|HashSet|LinkedHashMap)\s*<)
+  message: UiState 欄位改成全 val，集合型別改用唯讀的 List / Set / Map，並給每個欄位預設值，讓 XxxUiState() 能直接當 initialValue 與 preview 資料。
+  exclude:
+  - '**/test/**'
+  - '**/androidTest/**'
+  - '**/*Test.kt'
+  source: https://developer.android.com/topic/architecture/ui-layer
+- id: exposed-mutable-state
+  level: MUST_NOT
+  enforce: new-only+on-touch
+  owner: 08-ui-state.md
+  check: regex
+  pattern: ^[ \t]*(?!.*\bprivate\b)(?!.*\binternal\b)(?:public[ \t]+)?(?:val|var)[ \t]+(?!_)\w+[ \t]*(?::[ \t]*Mutable(?:StateFlow|SharedFlow|LiveData)[
+    \t]*<|=[ \t]*Mutable(?:StateFlow|SharedFlow|LiveData)[ \t]*\()
+  message: '可變容器改成 private（命名加底線前綴），另外用 val uiState: StateFlow<T> = _uiState.asStateFlow() 對外曝露唯讀型別。'
+  exclude:
+  - '**/test/**'
+  - '**/androidTest/**'
+  - '**/*Test.kt'
+  - '**/*Fake*.kt'
+  source: https://developer.android.com/topic/architecture/ui-layer
+- id: uistate-naming
+  level: SHOULD
+  enforce: new-only
+  owner: 08-ui-state.md
+  check: regex
+  pattern: ^[ \t]*(?:internal\s+|private\s+|public\s+)?(?:data\s+)?class\s+\w+(?:ViewState|ScreenState|UiModel)\b
+  message: 畫面狀態類別改名為 <畫面或元件>UiState（例如 OrderUiState）；plain state holder 承載的 UI logic state 才用不帶 Ui 的 XxxState。
+  exclude:
+  - '**/test/**'
+  - '**/androidTest/**'
+  - '**/*Test.kt'
+  source: 官方 sample nowinandroid
+- id: split-related-state-streams
+  level: SHOULD_NOT
+  enforce: new-only
+  owner: 08-ui-state.md
+  check: manual
+  source: https://developer.android.com/topic/architecture/ui-layer
+- id: ambiguous-status-flags
+  level: SHOULD
+  enforce: new-only
+  owner: 08-ui-state.md
+  check: manual
+  source: https://developer.android.com/topic/architecture/ui-layer/state-production
+- id: pagingdata-in-uistate
+  level: MUST_NOT
+  enforce: new-only+on-touch
+  owner: 08-ui-state.md
+  check: regex
+  pattern: \bva[lr]\s+\w+\s*:\s*PagingData\s*<
+  message: PagingData 不可當狀態欄位；改由 ViewModel 以獨立的 Flow<PagingData<T>> 曝露並加 cachedIn(viewModelScope)。
+  exclude:
+  - '**/test/**'
+  - '**/androidTest/**'
+  - '**/*Test.kt'
+  source: https://developer.android.com/topic/architecture/ui-layer/state-production
+- id: stored-derived-state
+  level: SHOULD_NOT
+  enforce: new-only
+  owner: 08-ui-state.md
+  check: manual
+  source: https://developer.android.com/topic/architecture/ui-layer/state-production
+- id: android-type-in-uistate
+  level: MUST_NOT
+  enforce: new-only+on-touch
+  owner: 08-ui-state.md
+  check: regex
+  pattern: data class\s+\w*UiState\s*\((?:[^()]|\([^()]*\))*?:\s*(?:Context|Activity|View|Fragment|Drawable|Bitmap|Intent|Resources)\b
+  message: UiState 不可帶 Android 型別；文字改用 @StringRes Int（需帶參數時用攜帶參數的 sealed error type），圖片改用 @DrawableRes Int 或 URL 字串，讓 UiState
+    能在純 JVM 測試中建構。
+  exclude:
+  - '**/test/**'
+  - '**/androidTest/**'
+  - '**/*Test.kt'
+  source: https://developer.android.com/topic/architecture/ui-layer
+- id: android-type-in-viewmodel
+  level: MUST_NOT
+  enforce: migrate
+  owner: 08-ui-state.md
+  check: regex
+  pattern: :\s*AndroidViewModel\b|\bgetApplication\s*[<(]|:\s*(?:Context|Application|Resources|Activity|Fragment|NavController)\b
+  message: ViewModel 不可持有 Android 型別；改繼承 ViewModel 並注入 domain 介面（需要字串時把 @StringRes id 放進 UiState，由 UI 層解析）。
+  applies_to:
+  - '**/*ViewModel.kt'
+  - '*ViewModel.kt'
+  exclude:
+  - '**/test/**'
+  - '**/androidTest/**'
+  - '**/*Test.kt'
+  source: https://developer.android.com/topic/architecture/ui-layer/stateholders
+- id: one-off-event-channel
+  level: MUST_NOT
+  enforce: migrate
+  owner: 08-ui-state.md
+  check: regex
+  pattern: (?:=|:)\s*(?:Channel|MutableSharedFlow)\s*[<(]|\bSingleLiveEvent\b|\breceiveAsFlow\s*\(\s*\)
+  message: '一次性事件改 reduce 成 UiState 欄位（例如 val submittedOrderId: String? = null），UI 消費後回呼清為 null；只有白名單兩種情況可例外。'
+  applies_to:
+  - '**/*ViewModel.kt'
+  - '*ViewModel.kt'
+  exclude:
+  - '**/test/**'
+  - '**/androidTest/**'
+  - '**/*Test.kt'
+  source: https://developer.android.com/topic/architecture/ui-layer/events
+- id: event-without-consumed-callback
+  level: MUST
+  enforce: new-only+on-touch
+  owner: 08-ui-state.md
+  check: manual
+  source: https://developer.android.com/topic/architecture/ui-layer/events
+- id: viewmodel-navigates
+  level: MUST_NOT
+  enforce: migrate
+  owner: 08-ui-state.md
+  check: regex
+  pattern: \bNavController\b|\.navigate(?:Up)?\s*\(
+  message: '把導航移出 ViewModel：使用者操作直接造成的導航用 onXxxClick: () -> Unit 上拋給 NavHost，需 business logic 判定的改成 UiState flag 由 UI 消費後回呼清除。'
+  applies_to:
+  - '**/*ViewModel.kt'
+  - '*ViewModel.kt'
+  exclude:
+  - '**/test/**'
+  - '**/androidTest/**'
+  - '**/*Test.kt'
+  source: https://developer.android.com/topic/architecture/ui-layer/events
+- id: non-atomic-state-update
+  level: SHOULD
+  enforce: new-only+on-touch
+  owner: 08-ui-state.md
+  check: regex
+  pattern: \b(\w+)\.value\s*=\s*\1\.value\b
+  message: 讀後寫不是原子操作，改用 _uiState.update { it.copy(...) }，否則同時更新不同欄位的兩個 coroutine 會互相無聲覆蓋。
+  exclude:
+  - '**/test/**'
+  - '**/androidTest/**'
+  - '**/*Test.kt'
+  source: 官方 sample nowinandroid
+- id: eager-ui-state-sharing
+  level: MUST
+  enforce: new-only+on-touch
+  owner: 08-ui-state.md
+  check: regex
+  pattern: SharingStarted\.Eagerly\b|SharingStarted\.WhileSubscribed\s*\(\s*(?:0L?)?\s*\)
+  message: 改用 stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), initialValue)，並把 5_000 抽成專案共用常數（例如 WhileUiSubscribed）。
+  exclude:
+  - '**/test/**'
+  - '**/androidTest/**'
+  - '**/*Test.kt'
+  source: https://developer.android.com/topic/architecture/ui-layer/state-production
+- id: async-work-in-viewmodel-init
+  level: MUST_NOT
+  enforce: new-only+on-touch
+  owner: 08-ui-state.md
+  check: regex
+  pattern: \binit\s*\{[^}]{0,400}?\b\w*[Ss]cope\s*\.\s*(?:launch|async)\s*[({]
+  message: 把 init 內的 coroutine 移除：狀態改用上游 stream 加 map + stateIn 宣告，真的需要命令式載入時提供 idempotent 的 initialize() 由 UI 呼叫一次。
+  applies_to:
+  - '**/*ViewModel.kt'
+  - '*ViewModel.kt'
+  exclude:
+  - '**/test/**'
+  - '**/androidTest/**'
+  - '**/*Test.kt'
+  source: https://developer.android.com/topic/architecture/ui-layer/state-production
+- id: dispatcher-switch-in-viewmodel
+  level: MUST_NOT
+  enforce: new-only+on-touch
+  owner: 08-ui-state.md
+  check: regex
+  pattern: \bwithContext\s*\(\s*(?:Dispatchers\.IO\b|\w*[iI]oDispatcher\b)
+  message: 移除 ViewModel 的 withContext(io)，把切執行緒的責任放回 data / domain 層的 suspend 函式內（ViewModel 只要 viewModelScope.launch { repository.xxx()
+    }）。
+  applies_to:
+  - '**/*ViewModel.kt'
+  - '*ViewModel.kt'
+  exclude:
+  - '**/test/**'
+  - '**/androidTest/**'
+  - '**/*Test.kt'
+  source: https://developer.android.com/topic/architecture/ui-layer
+- id: unsaved-restorable-state
+  level: SHOULD
+  enforce: new-only
+  owner: 08-ui-state.md
+  check: manual
+  source: https://developer.android.com/topic/libraries/architecture/viewmodel/viewmodel-savedstate
+- id: screen-state-outside-viewmodel
+  level: MUST
+  enforce: new-only+on-touch
+  owner: 08-ui-state.md
+  check: manual
+  source: https://developer.android.com/topic/architecture/ui-layer/stateholders
+- id: ui-element-state-in-viewmodel
+  level: SHOULD_NOT
+  enforce: new-only
+  owner: 08-ui-state.md
+  check: manual
+  source: https://developer.android.com/topic/architecture/ui-layer/stateholders
+- id: plain-holder-holds-viewmodel
+  level: MUST_NOT
+  enforce: new-only+on-touch
+  owner: 08-ui-state.md
+  check: regex
+  pattern: ^[ \t]*(?:internal\s+|private\s+|public\s+)?(?:data\s+)?class\s+(?!\w*ViewModel\b)\w*(?:State|Holder)\s*(?:<[^<>]*>\s*)?\((?:[^()]|\([^()]*\))*?:\s*\w*ViewModel\b
+  message: 'plain state holder 不要持有 ViewModel，改成只收值、StateFlow 或函式參考（例如 class OrderListState(val listState: LazyListState,
+    private val onRefresh: () -> Unit)）。'
+  exclude:
+  - '**/test/**'
+  - '**/androidTest/**'
+  - '**/*Test.kt'
+  source: https://developer.android.com/topic/architecture/ui-layer/stateholders
+- id: composable-naming
+  level: MUST
+  enforce: new-only
+  owner: 09-compose-api.md
+  check: regex
+  pattern: '@Composable\s+(?:@\w+(?:\([^()]*\))?\s+)*(?:(?:private|internal|public)\s+)*fun\s+(?:[a-z]\w*\s*\((?:[^()]|\([^()]*\))*\)\s*\{|[A-Z]\w*\s*\((?:[^()]|\([^()]*\))*\)\s*:\s*(?!Unit\b)[\w@])'
+  message: 發出 UI 的 composable 改用 PascalCase 名詞命名且回傳 Unit；有回傳值的 composable 改成 camelCase，不要讓同一個函式既發 UI 又回傳值。
+  exclude:
+  - '**/test/**'
+  - '**/androidTest/**'
+  - '**/*Test.kt'
+  source: https://github.com/androidx/androidx/blob/androidx-main/compose/docs/compose-api-guidelines.md
+- id: remember-factory-naming
+  level: MUST
+  enforce: new-only
+  owner: 09-compose-api.md
+  check: regex
+  pattern: '@Composable\s+(?:@\w+(?:\([^()]*\))?\s+)*(?:(?:private|internal|public)\s+)*fun\s+(?!remember)[a-z]\w*\s*\((?:[^()]|\([^()]*\))*\)\s*:\s*[\w<>?.,
+    ]+(?:=\s*|\{[^{}]{0,300}?\breturn\s+)remember(?:Saveable)?\s*[({]'
+  message: 內部用 remember 並回傳物件的 composable 工廠，函式名前面加 remember 前綴（例如 rememberOrderListState()）。
+  exclude:
+  - '**/test/**'
+  - '**/androidTest/**'
+  - '**/*Test.kt'
+  source: https://github.com/androidx/androidx/blob/androidx-main/compose/docs/compose-api-guidelines.md
+- id: composable-param-order
+  level: MUST
+  enforce: new-only+on-touch
+  owner: 09-compose-api.md
+  check: manual
+  source: https://github.com/androidx/androidx/blob/androidx-main/compose/docs/compose-api-guidelines.md
+- id: missing-modifier-param
+  level: MUST
+  enforce: new-only+on-touch
+  owner: 09-compose-api.md
+  check: manual
+  source: https://developer.android.com/develop/ui/compose/modifiers
+- id: modifier-not-applied-to-root
+  level: MUST
+  enforce: new-only+on-touch
+  owner: 09-compose-api.md
+  check: manual
+  source: https://developer.android.com/develop/ui/compose/modifiers
+- id: state-param-in-composable
+  level: MUST_NOT
+  enforce: new-only+on-touch
+  owner: 09-compose-api.md
+  check: regex
+  pattern: '@Composable\s+(?:@\w+(?:\([^()]*\))?\s+)*(?:(?:private|internal|public)\s+)*fun\s+\w+[^(\n]*\((?:[^()]|\([^()]*\))*?:\s*(?:Mutable)?State(?:Flow)?\s*<'
+  message: 'composable 參數改成「值 + 事件 lambda」（例如 query: String, onQueryChange: (String) -> Unit），不要傳 State / MutableState / StateFlow
+    這類容器進來。'
+  exclude:
+  - '**/test/**'
+  - '**/androidTest/**'
+  - '**/*Test.kt'
+  source: https://developer.android.com/develop/ui/compose/state-hoisting
+- id: viewmodel-param-in-composable
+  level: MUST_NOT
+  enforce: new-only+on-touch
+  owner: 09-compose-api.md
+  check: regex
+  pattern: '@Composable\s+(?:@\w+(?:\([^()]*\))?\s+)*(?:(?:private|internal|public)\s+)*fun\s+\w+[^(\n]*\((?:[^()]|\([^()]*\))*?:\s*\w*ViewModel\b(?!\s*=)'
+  message: '子 composable 只收顯示所需資料與事件 lambda；ViewModel 型別只能出現在畫面最外層 route composable 的預設參數位置（viewModel: XxxViewModel = hiltViewModel()
+    / koinViewModel()）。'
+  exclude:
+  - '**/test/**'
+  - '**/androidTest/**'
+  - '**/*Test.kt'
+  source: https://developer.android.com/topic/architecture/ui-layer/stateholders
+- id: screen-not-split-stateful-stateless
+  level: MUST
+  enforce: new-only
+  owner: 09-compose-api.md
+  check: manual
+  source: https://developer.android.com/develop/ui/compose/state-hoisting
+- id: event-lambda-naming
+  level: SHOULD
+  enforce: new-only
+  owner: 09-compose-api.md
+  check: regex
+  pattern: '@Composable\s+(?:@\w+(?:\([^()]*\))?\s+)*(?:(?:private|internal|public)\s+)*fun\s+\w+[^(\n]*\((?:[^()]|\([^()]*\))*?\b(?!on[A-Z])(?!content\b)\w+\s*:\s*\([^()]*\)\s*->\s*Unit\b'
+  message: 事件參數改名為 on + 動詞 + 目標（例如 onOrderClick、onRetryClick），型別用 lambda 而不是 Listener / Callback 介面。
+  exclude:
+  - '**/test/**'
+  - '**/androidTest/**'
+  - '**/*Test.kt'
+  source: https://developer.android.com/topic/architecture/ui-layer/events
+- id: bloated-composable-param
+  level: SHOULD
+  enforce: new-only
+  owner: 09-compose-api.md
+  check: manual
+  source: https://developer.android.com/develop/ui/compose/architecture
+- id: slot-instead-of-flags
+  level: SHOULD
+  enforce: new-only
+  owner: 09-compose-api.md
+  check: manual
+  source: https://github.com/androidx/androidx/blob/androidx-main/compose/docs/compose-api-guidelines.md
+- id: composable-default-values
+  level: SHOULD
+  enforce: new-only
+  owner: 09-compose-api.md
+  check: manual
+  source: https://github.com/androidx/androidx/blob/androidx-main/compose/docs/compose-api-guidelines.md
+- id: preview-with-viewmodel
+  level: MUST_NOT
+  enforce: new-only+on-touch
+  owner: 09-compose-api.md
+  check: regex
+  pattern: '@Preview\b(?:(?!\bfun\b)[\s\S]){0,200}?\bfun\s+\w+\s*\((?:[^()]|\([^()]*\))*\)\s*\{(?:(?!\n\}|\n@|\bfun\b)[\s\S]){0,400}?(?:\b\w*Route\s*\(|\bhiltViewModel\s*\(|\bkoinViewModel\s*\(|\bgetViewModel\s*\(|\bviewModel\s*\()'
+  message: '@Preview 改預覽 stateless 那層（XxxScreen(uiState = ..., onXxx = {})），預覽資料用假資料常數或 PreviewParameterProvider，不要在預覽裡取 ViewModel。'
+  exclude:
+  - '**/test/**'
+  - '**/androidTest/**'
+  - '**/*Test.kt'
+  source: https://developer.android.com/develop/ui/compose/tooling/previews
+- id: preview-signature
+  level: MUST
+  enforce: new-only
+  owner: 09-compose-api.md
+  check: regex
+  pattern: '@Preview\b(?:\([^()]*\))?(?:\s*@\w+(?:\([^()]*\))?)*\s*(?:(?!(?:private|internal)\b)(?:public\s+)?fun\s+\w+|(?:(?:private|internal|public)\s+)?fun\s+(?![A-Z]\w*Preview\b)\w+)'
+  message: '@Preview 函式改成 private、命名 XxxPreview、無參數（@PreviewParameter 提供的除外），並用專案 theme 包裹內容。'
+  exclude:
+  - '**/test/**'
+  - '**/androidTest/**'
+  - '**/*Test.kt'
+  source: https://developer.android.com/develop/ui/compose/tooling/previews
+- id: duplicated-preview-variants
+  level: SHOULD
+  enforce: new-only
+  owner: 09-compose-api.md
+  check: manual
+  source: https://developer.android.com/develop/ui/compose/tooling/previews
+- id: missing-content-description
+  level: MUST
+  enforce: new-only+on-touch
+  owner: 09-compose-api.md
+  check: regex
+  pattern: contentDescription\s*=\s*"
+  message: contentDescription 改成取自字串資源（stringResource(R.string.xxx)），純裝飾圖示則明確傳 null，不要填字面字串或圖檔名。
+  exclude:
+  - '**/test/**'
+  - '**/androidTest/**'
+  - '**/*Test.kt'
+  source: https://developer.android.com/develop/ui/compose/accessibility
+- id: small-touch-target
+  level: MUST
+  enforce: new-only+on-touch
+  owner: 09-compose-api.md
+  check: manual
+  source: https://developer.android.com/develop/ui/compose/accessibility
+- id: unremembered-mutable-state
+  level: MUST
+  enforce: new-only+on-touch
+  owner: 10-compose-state.md
+  check: regex
+  pattern: '@Composable\s+(?:@\w+(?:\([^()]*\))?\s+)*(?:(?:private|internal|public)\s+)*fun\s+(?:(?!\n[}@]|\bfun\b|\n(?:(?:private|internal|public|abstract|open|sealed|data|enum)\s+)*(?:class|object|interface|val|var)\b)[\s\S]){0,1500}?(?:\bby|=)\s*mutableState(?:Of|ListOf|MapOf)\s*(?:<[^<>]*>\s*)?\('
+  message: 這個 composable 內（含參數預設值）有沒包 remember 的狀態建立，改成 remember { mutableStateOf(...) } 或 rememberSaveable { mutableStateOf(...)
+    }；命中行標在 composable 宣告處，請往下找該次 mutableStateOf。
+  exclude:
+  - '**/test/**'
+  - '**/androidTest/**'
+  - '**/*Test.kt'
+  source: https://developer.android.com/develop/ui/compose/state
+- id: incomplete-keys
+  level: MUST
+  enforce: new-only+on-touch
+  owner: 10-compose-state.md
+  check: manual
+  source: https://developer.android.com/develop/ui/compose/side-effects
+- id: invisible-state-mutation
+  level: MUST_NOT
+  enforce: new-only+on-touch
+  owner: 10-compose-state.md
+  check: regex
+  pattern: \bremember(?:Saveable)?\s*(?:\([^()]*\)\s*)?\{\s*(?:mutable(?:List|Map|Set)Of|ArrayList|HashMap|HashSet)\s*[<(]|\.value\.\w+\s*=[^=]
+  message: 改用 snapshot 容器（mutableStateListOf / mutableStateMapOf），或以 state = state.copy(...) 整份替換；就地修改非 snapshot 物件不會通知重組。
+  exclude:
+  - '**/test/**'
+  - '**/androidTest/**'
+  - '**/*Test.kt'
+  source: https://developer.android.com/develop/ui/compose/state
+- id: collect-without-lifecycle
+  level: MUST
+  enforce: new-only+on-touch
+  owner: 10-compose-state.md
+  check: regex
+  pattern: \bcollectAsState\s*\(
+  message: 改用 collectAsStateWithLifecycle()（androidx.lifecycle:lifecycle-runtime-compose），collectAsState() 在背景仍持續收集。
+  exclude:
+  - '**/test/**'
+  - '**/androidTest/**'
+  - '**/*Test.kt'
+  source: https://developer.android.com/develop/ui/compose/state
+- id: stateful-stateless-not-split
+  level: MUST
+  enforce: new-only
+  owner: 10-compose-state.md
+  check: manual
+  source: 官方 sample nowinandroid
+- id: viewmodel-passed-down
+  level: MUST_NOT
+  enforce: new-only+on-touch
+  owner: 10-compose-state.md
+  check: manual
+  source: https://developer.android.com/topic/architecture/ui-layer/stateholders
+- id: mutable-state-as-parameter
+  level: MUST_NOT
+  enforce: new-only+on-touch
+  owner: 10-compose-state.md
+  check: regex
+  pattern: '@Composable\s+(?:@\w+(?:\([^()]*\))?\s+)*(?:(?:private|internal|public)\s+)*fun\s+\w+[^(\n]*\((?:[^()]|\([^()]*\))*?:\s*MutableState(?:Flow)?\s*<'
+  message: '把狀態提升到呼叫端，參數改成唯讀值加事件 lambda（name: String, onNameChange: (String) -> Unit），不要把 MutableState / MutableStateFlow
+    傳下去。'
+  exclude:
+  - '**/test/**'
+  - '**/androidTest/**'
+  - '**/*Test.kt'
+  source: https://developer.android.com/develop/ui/compose/state-hoisting
+- id: duplicated-state-source
+  level: MUST
+  enforce: new-only+on-touch
+  owner: 10-compose-state.md
+  check: manual
+  source: https://developer.android.com/develop/ui/compose/state-hoisting
+- id: screen-data-in-remember
+  level: MUST_NOT
+  enforce: new-only+on-touch
+  owner: 10-compose-state.md
+  check: manual
+  source: https://developer.android.com/develop/ui/compose/state-hoisting
+- id: unsaved-ui-element-state
+  level: SHOULD
+  enforce: new-only
+  owner: 10-compose-state.md
+  check: manual
+  source: https://developer.android.com/develop/ui/compose/state
+- id: side-effect-in-composition
+  level: MUST_NOT
+  enforce: new-only+on-touch
+  owner: 10-compose-state.md
+  check: manual
+  source: https://developer.android.com/develop/ui/compose/side-effects
+- id: expensive-work-in-composition
+  level: MUST_NOT
+  enforce: new-only+on-touch
+  owner: 10-compose-state.md
+  check: manual
+  source: https://developer.android.com/develop/ui/compose/performance/bestpractices
+- id: composition-order-dependency
+  level: MUST_NOT
+  enforce: new-only+on-touch
+  owner: 10-compose-state.md
+  check: manual
+  source: https://developer.android.com/develop/ui/compose/mental-model
+- id: coroutine-outside-effect-api
+  level: MUST
+  enforce: new-only+on-touch
+  owner: 10-compose-state.md
+  check: regex
+  pattern: \bremember\s*\{\s*CoroutineScope\s*\(|(?:onClick|onValueChange|onCheckedChange|onDismissRequest|onLongClick)\s*=\s*\{(?:[^{}]|\{[^{}]*\}){0,150}?\bGlobalScope\s*\.\s*(?:launch|async)\b
+  message: 事件觸發的協程改用 val scope = rememberCoroutineScope() 後 scope.launch { }；進入組合時要跑的工作改用 LaunchedEffect(key)。
+  exclude:
+  - '**/test/**'
+  - '**/androidTest/**'
+  - '**/*Test.kt'
+  source: https://developer.android.com/develop/ui/compose/side-effects
+- id: unit-key-effect
+  level: SHOULD_NOT
+  enforce: new-only
+  owner: 10-compose-state.md
+  check: regex
+  pattern: \bLaunchedEffect\s*\(\s*(?:Unit|true)\s*\)
+  message: 把 effect 內讀到的變動值列為 key（例如 LaunchedEffect(uiState.nextRoute)）；真的只需跑一次才留 Unit，並註明理由且用 rememberUpdatedState 包住 lambda。
+  exclude:
+  - '**/test/**'
+  - '**/androidTest/**'
+  - '**/*Test.kt'
+  source: https://developer.android.com/develop/ui/compose/side-effects
+- id: unwrapped-lambda-in-long-effect
+  level: MUST
+  enforce: new-only+on-touch
+  owner: 10-compose-state.md
+  check: manual
+  source: https://developer.android.com/develop/ui/compose/side-effects
+- id: missing-ondispose
+  level: MUST
+  enforce: new-only+on-touch
+  owner: 10-compose-state.md
+  check: regex
+  pattern: onDispose\s*\{\s*\}|LaunchedEffect\s*\((?:[^()]|\([^()]*\))*\)\s*\{(?![\s\S]{0,400}?(?:\bremove|\bunregister|\bfinally\b|awaitDispose))(?:[^{}]|\{[^{}]*\}){0,200}?\b(?:addObserver|registerReceiver|addListener|addCallback)\s*\(
+  message: 需要反註冊的資源改用 DisposableEffect(key) 註冊，並在 onDispose 內真的做 remove / unregister（onDispose 不可留空）。
+  exclude:
+  - '**/test/**'
+  - '**/androidTest/**'
+  - '**/*Test.kt'
+  source: https://developer.android.com/develop/ui/compose/side-effects
+- id: misused-derived-state-of
+  level: MUST
+  enforce: new-only+on-touch
+  owner: 10-compose-state.md
+  check: regex
+  pattern: derivedStateOf\s*\{\s*"|@Composable\s+(?:@\w+(?:\([^()]*\))?\s+)*(?:(?:private|internal|public)\s+)*fun\s+(?:(?!\n[}@]|\bfun\b|\n(?:(?:private|internal|public|abstract|open|sealed|data|enum)\s+)*(?:class|object|interface|val|var)\b)[\s\S]){0,1500}?(?:\bby|=)\s*derivedStateOf\s*\{
+  message: derivedStateOf 只用於「來源變更頻率明顯高於結果」的情況且必須包在 remember { } 內；字串拼接、加總、格式化直接算就好。
+  exclude:
+  - '**/test/**'
+  - '**/androidTest/**'
+  - '**/*Test.kt'
+  source: https://developer.android.com/develop/ui/compose/side-effects
+- id: ui-animation-suspend-in-viewmodel
+  level: MUST_NOT
+  enforce: new-only+on-touch
+  owner: 10-compose-state.md
+  check: manual
+  source: https://developer.android.com/develop/ui/compose/state-hoisting
+- id: animated-value-in-composition-modifier
+  level: MUST
+  enforce: new-only+on-touch
+  owner: 11-compose-performance.md
+  check: regex
+  pattern: \.(?:offset|padding|alpha|rotate|scale|background)\s*\(\s*(?:\w+\s*=\s*)?[\w.]*(?:[Aa]nimat|[Ss]croll)\w*\s*[,)]
+  message: 動畫／捲動值傳進 composition 階段讀取的 modifier 會每幀重組；改用 lambda 版：offset { IntOffset(...) }、graphicsLayer { alpha = ... }、drawBehind
+    { drawRect(color) }。
+  exclude:
+  - '**/test/**'
+  - '**/androidTest/**'
+  - '**/*Test.kt'
+  source: https://developer.android.com/develop/ui/compose/phases
+- id: high-frequency-value-as-plain-param
+  level: SHOULD
+  enforce: new-only
+  owner: 11-compose-performance.md
+  check: manual
+  source: https://developer.android.com/develop/ui/compose/performance/bestpractices
+- id: whole-uistate-passed-to-subtrees
+  level: SHOULD
+  enforce: new-only
+  owner: 11-compose-performance.md
+  check: manual
+  source: https://developer.android.com/develop/ui/compose/phases
+- id: backwards-write-in-composition
+  level: MUST_NOT
+  enforce: new-only+on-touch
+  owner: 11-compose-performance.md
+  check: manual
+  source: https://developer.android.com/develop/ui/compose/performance/bestpractices
+- id: state-write-in-layout-callback
+  level: MUST_NOT
+  enforce: new-only+on-touch
+  owner: 11-compose-performance.md
+  check: regex
+  pattern: \.(?:onSizeChanged|onGloballyPositioned|onPlaced)\s*\{\s*(?:\w+\s*->\s*)?[\w.]+\s*=\s*(?!=)
+  message: 在 layout callback 內寫入會被 composition 讀取的 state 是跨階段 backwards write；改用 Column / Row / 自訂 Layout / SubcomposeLayout
+    讓 layout 系統決定位置。若寫入的值只給 layout 或 drawing 階段用，加 // guide-ignore 並說明。
+  exclude:
+  - '**/test/**'
+  - '**/androidTest/**'
+  - '**/*Test.kt'
+  source: https://developer.android.com/develop/ui/compose/phases
+- id: boxed-primitive-state
+  level: MUST
+  enforce: new-only+on-touch
+  owner: 11-compose-performance.md
+  check: regex
+  pattern: \bmutableStateOf\s*(?:<\s*(?:Int|Long|Float|Double)\s*>\s*)?\(\s*-?\d+(?:_\d+)*(?:\.\d+)?[fFlLdD]?\s*\)
+  message: 原始型別 state 會 autoboxing；改用 mutableIntStateOf / mutableLongStateOf / mutableFloatStateOf / mutableDoubleStateOf（可為
+    null 時才留 mutableStateOf<Int?>）。
+  source: https://developer.android.com/develop/ui/compose/performance/bestpractices
+- id: lazy-items-without-key
+  level: MUST
+  enforce: new-only+on-touch
+  owner: 11-compose-performance.md
+  check: regex
+  pattern: \bitems(?:Indexed)?\s*\(\s*(?![^)]*\bkey\s*=)[^)]*\)\s*\{
+  message: lazy layout 的 items() 必須帶 key（Bundle 可存的型別，不可用 index）：items(orders, key = { it.id })；Paging 用 key = orders.itemKey
+    { it.id }。
+  exclude:
+  - '**/test/**'
+  - '**/androidTest/**'
+  - '**/*Test.kt'
+  source: https://developer.android.com/develop/ui/compose/lists
+- id: lazy-items-without-content-type
+  level: SHOULD
+  enforce: new-only
+  owner: 11-compose-performance.md
+  check: manual
+  source: https://developer.android.com/develop/ui/compose/lists
+- id: non-lazy-scrolling-list
+  level: MUST_NOT
+  enforce: new-only+on-touch
+  owner: 11-compose-performance.md
+  check: regex
+  pattern: \bverticalScroll\s*\((?:(?!@Composable|\bfun\s)[\s\S]){0,400}?\bLazy(?:Column|VerticalGrid)\s*[({]
+  message: 把 LazyColumn / LazyVerticalGrid 放進同方向的 verticalScroll 容器會直接 crash；改成單一 LazyColumn，header 與 footer 用 item { } 表達。
+  exclude:
+  - '**/test/**'
+  - '**/androidTest/**'
+  - '**/*Test.kt'
+  source: https://developer.android.com/develop/ui/compose/lists
+- id: zero-size-async-item
+  level: MUST
+  enforce: new-only+on-touch
+  owner: 11-compose-performance.md
+  check: manual
+  source: https://developer.android.com/develop/ui/compose/lists
+- id: false-stability-annotation
+  level: MUST_NOT
+  enforce: new-only+on-touch
+  owner: 11-compose-performance.md
+  check: regex
+  pattern: '@(?:Immutable|Stable)\s+(?:@\w+\s+)*(?:(?:data|value|internal|private|public|sealed|open|abstract|expect|actual)\s+)*class\s+\w+\s*(?:<[^>]*>\s*)?\([^)]{0,400}?(?:\bvar\s+\w+\s*:|:\s*(?:MutableList|MutableMap|MutableSet|ArrayList|HashMap|HashSet|Array)\s*<)'
+  message: '@Immutable / @Stable 是對 Compose 的承諾，型別含 var 欄位或可變集合就違背承諾（結果是畫面不更新）；把欄位改成 val + ImmutableList / PersistentList，或移除註解。'
+  exclude:
+  - '**/test/**'
+  - '**/androidTest/**'
+  - '**/*Test.kt'
+  source: https://developer.android.com/develop/ui/compose/performance/stability/fix
+- id: unannotated-recreated-ui-model
+  level: SHOULD
+  enforce: migrate
+  owner: 11-compose-performance.md
+  check: manual
+  source: https://developer.android.com/develop/ui/compose/performance/stability/strongskipping
+- id: unstable-collection-in-composable-param
+  level: SHOULD
+  enforce: new-only
+  owner: 11-compose-performance.md
+  check: manual
+  source: https://developer.android.com/develop/ui/compose/performance/stability/fix
+- id: unmeasured-stability-fix
+  level: MUST_NOT
+  enforce: new-only
+  owner: 11-compose-performance.md
+  check: manual
+  source: https://developer.android.com/develop/ui/compose/performance/stability/fix
+- id: redundant-lambda-remember
+  level: MAY
+  enforce: new-only
+  owner: 11-compose-performance.md
+  check: regex
+  pattern: \bremember\s*(?:\([^)]*\)\s*)?\{\s*\{
+  message: strong skipping 已自動 memoize 捕獲外部變數的 lambda，remember { { ... } } 是多餘的包裝；直接把 lambda 傳給參數即可。
+  exclude:
+  - '**/test/**'
+  - '**/androidTest/**'
+  - '**/*Test.kt'
+  source: https://developer.android.com/develop/ui/compose/performance/stability/strongskipping
+- id: perf-claim-from-debug-build
+  level: MUST
+  enforce: new-only
+  owner: 11-compose-performance.md
+  check: manual
+  source: https://developer.android.com/develop/ui/compose/performance
+- id: missing-compose-compiler-report-switch
+  level: SHOULD
+  enforce: migrate
+  owner: 11-compose-performance.md
+  check: manual
+  source: 官方 sample nowinandroid ／ https://developer.android.com/develop/ui/compose/compiler
+- id: hardcoded-dispatcher
+  level: MUST_NOT
+  enforce: new-only+on-touch
+  owner: 12-coroutines-flow.md
+  check: regex
+  pattern: \bDispatchers\.(?:IO|Default|Main|Unconfined)\b
+  message: 不得硬寫 Dispatcher（含建構子預設值），一律以 @Dispatcher(...) qualifier 注入 CoroutineDispatcher，否則測試無法換 TestDispatcher。
+  exclude:
+  - '**/di/**'
+  - '**/test/**'
+  - '**/androidTest/**'
+  - '**/*Test.kt'
+  - '**/*Module.kt'
+  - '**/*Dispatcher*.kt'
+  source: https://developer.android.com/kotlin/coroutines/coroutines-best-practices
+- id: blocking-call-in-suspend
+  level: MUST
+  enforce: new-only+on-touch
+  owner: 12-coroutines-flow.md
+  check: manual
+  source: https://developer.android.com/kotlin/coroutines/coroutines-best-practices
+- id: runblocking-in-production
+  level: MUST_NOT
+  enforce: new-only+on-touch
+  owner: 12-coroutines-flow.md
+  check: regex
+  pattern: \brunBlocking\s*[({]
+  message: production 不得用 runBlocking（阻塞執行緒、可能 ANR）；同步讀值改暴露 StateFlow.value，或把呼叫端改成 suspend。測試請用 runTest。
+  exclude:
+  - '**/test/**'
+  - '**/androidTest/**'
+  - '**/*Test.kt'
+  source: https://developer.android.com/kotlin/coroutines/coroutines-best-practices
+- id: global-scope
+  level: MUST_NOT
+  enforce: new-only+on-touch
+  owner: 12-coroutines-flow.md
+  check: regex
+  pattern: \bGlobalScope\b
+  message: GlobalScope 無法取消也無法測試；綁畫面用 viewModelScope，要活過畫面則注入 application scope（SupervisorJob + 注入的 dispatcher）。
+  source: https://developer.android.com/kotlin/coroutines/coroutines-best-practices
+- id: custom-scope-in-viewmodel
+  level: MUST_NOT
+  enforce: new-only+on-touch
+  owner: 12-coroutines-flow.md
+  check: regex
+  pattern: (?<![\w.])CoroutineScope\s*\(
+  message: ViewModel 內自建 CoroutineScope 不會在 onCleared() 取消，coroutine 會隨 ViewModel 一起洩漏；改用 viewModelScope，需要控制執行時機就注入 CoroutineDispatcher。
+  applies_to:
+  - '**/*ViewModel.kt'
+  exclude:
+  - '**/test/**'
+  - '**/androidTest/**'
+  - '**/*Test.kt'
+  source: https://developer.android.com/topic/libraries/architecture/coroutines
+- id: unstructured-scope-in-suspend
+  level: MUST
+  enforce: new-only
+  owner: 12-coroutines-flow.md
+  check: manual
+  source: https://developer.android.com/kotlin/coroutines/coroutines-best-practices
+- id: swallowed-cancellation
+  level: MUST_NOT
+  enforce: new-only+on-touch
+  owner: 12-coroutines-flow.md
+  check: detekt:SuspendFunSwallowedCancellation
+  source: https://developer.android.com/kotlin/coroutines/coroutines-best-practices
+- id: uncaught-exception-in-launch
+  level: MUST
+  enforce: new-only+on-touch
+  owner: 12-coroutines-flow.md
+  check: manual
+  source: https://developer.android.com/kotlin/coroutines/coroutines-best-practices
+- id: uncancellable-cpu-loop
+  level: MUST
+  enforce: new-only
+  owner: 12-coroutines-flow.md
+  check: manual
+  source: https://developer.android.com/kotlin/coroutines/coroutines-best-practices
+- id: suspend-fun-returning-flow
+  level: MUST_NOT
+  enforce: new-only+on-touch
+  owner: 12-coroutines-flow.md
+  check: detekt:SuspendFunWithFlowReturnType
+  source: 業界共識（detekt coroutines>SuspendFunWithFlowReturnType）
+- id: withcontext-in-flow-builder
+  level: MUST_NOT
+  enforce: new-only+on-touch
+  owner: 12-coroutines-flow.md
+  check: manual
+  source: https://developer.android.com/kotlin/flow
+- id: flowon-misplaced
+  level: MUST
+  enforce: new-only
+  owner: 12-coroutines-flow.md
+  check: manual
+  source: https://developer.android.com/kotlin/flow
+- id: try-catch-around-emit
+  level: MUST_NOT
+  enforce: new-only+on-touch
+  owner: 12-coroutines-flow.md
+  check: manual
+  source: https://developer.android.com/kotlin/flow
+- id: callbackflow-without-awaitclose
+  level: MUST
+  enforce: new-only+on-touch
+  owner: 12-coroutines-flow.md
+  check: manual
+  source: https://developer.android.com/kotlin/flow
+- id: manual-collect-into-mutablestateflow
+  level: SHOULD
+  enforce: new-only
+  owner: 12-coroutines-flow.md
+  check: manual
+  source: https://developer.android.com/topic/libraries/architecture/coroutines
+- id: statein-outside-property-initializer
+  level: MUST_NOT
+  enforce: new-only+on-touch
+  owner: 12-coroutines-flow.md
+  check: manual
+  source: 官方 sample nowinandroid
+- id: sharing-started-eagerly
+  level: SHOULD_NOT
+  enforce: new-only
+  owner: 12-coroutines-flow.md
+  check: regex
+  pattern: SharingStarted\.(?:Eagerly|Lazily)\b
+  message: UI 導向的 stateIn / shareIn 用 SharingStarted.WhileSubscribed(5_000)；Eagerly / Lazily 會讓上游永久存活（耗電、佔連線）。上游極昂貴需立即斷開時用
+    WhileSubscribed(0) 並在 PR 說明。
+  exclude:
+  - '**/test/**'
+  - '**/androidTest/**'
+  - '**/*Test.kt'
+  source: https://developer.android.com/topic/libraries/architecture/coroutines
+- id: mutable-collection-in-stateflow
+  level: MUST
+  enforce: new-only+on-touch
+  owner: 12-coroutines-flow.md
+  check: manual
+  source: https://developer.android.com/kotlin/flow/stateflow-and-sharedflow
+- id: dynamic-start-destination
+  level: MUST_NOT
+  enforce: new-only+on-touch
+  owner: 13-navigation.md
+  check: manual
+  source: https://developer.android.com/guide/navigation/principles
+- id: string-route
+  level: MUST_NOT
+  enforce: new-only+on-touch
+  owner: 13-navigation.md
+  check: regex
+  pattern: \b(?:composable|navigation)\s*\(\s*(?:route\s*=\s*)?"|\.navigate\s*\(\s*"
+  message: route 一律用 @Serializable 類別：composable<OrderDetail> { } 註冊、navigate(OrderDetail(id)) 呼叫；字串 route 與 {placeholder}
+    的型別錯誤只會在 runtime 才炸。
+  exclude:
+  - '**/test/**'
+  - '**/androidTest/**'
+  - '**/*Test.kt'
+  source: https://developer.android.com/guide/navigation/design/type-safety
+- id: navcontroller-as-composable-param
+  level: MUST_NOT
+  enforce: new-only+on-touch
+  owner: 13-navigation.md
+  check: regex
+  pattern: '@Composable\s*(?:@\w+(?:\([^)]*\))?\s*)*(?:(?:private|internal|public)\s+)?fun\s+(?!\w*Nav)\w+\s*\([^{}]{0,300}?\b\w+\s*:\s*Nav(?:Host)?Controller\b(?!\s*=)'
+  message: 畫面不得收 NavController（與整張導航圖耦合、無法單獨 preview 或測試）；導航改用 () -> Unit / (Id) -> Unit lambda 上拋，由 NavHost 那一層呼叫 navigate()。
+  exclude:
+  - '**/test/**'
+  - '**/androidTest/**'
+  - '**/*Test.kt'
+  source: https://developer.android.com/guide/navigation/design
+- id: navcontroller-in-viewmodel
+  level: MUST_NOT
+  enforce: new-only+on-touch
+  owner: 13-navigation.md
+  check: regex
+  pattern: \b\w+\s*:\s*(?:Nav(?:Host)?Controller|NavBackStackEntry)\b
+  message: ViewModel 不得持有 NavController / NavBackStackEntry（生命週期長於 composition，會 leak 且無法純 JVM 測試）；ViewModel 只更新狀態，導航由 UI
+    觀察狀態後執行。
+  applies_to:
+  - '**/*ViewModel.kt'
+  exclude:
+  - '**/test/**'
+  - '**/androidTest/**'
+  - '**/*Test.kt'
+  source: https://developer.android.com/topic/architecture/ui-layer/events
+- id: object-as-nav-argument
+  level: MUST_NOT
+  enforce: new-only+on-touch
+  owner: 13-navigation.md
+  check: manual
+  source: https://developer.android.com/guide/navigation/use-graph/pass-data
+- id: string-key-argument-access
+  level: MUST_NOT
+  enforce: new-only+on-touch
+  owner: 13-navigation.md
+  check: regex
+  pattern: '[Ss]avedStateHandle\s*(?:\.get\s*(?:<[^>]*>)?\s*\(|\[)\s*"|\barguments\s*\??\.get\w+\s*\(\s*"'
+  message: 導航參數改用型別安全取法：savedStateHandle.toRoute<OrderDetail>().orderId 或 entry.toRoute<T>()；字串鍵在 route 欄位改名時不會編譯失敗，而是 runtime
+    拿到 null。
+  exclude:
+  - '**/test/**'
+  - '**/androidTest/**'
+  - '**/*Test.kt'
+  source: https://developer.android.com/guide/navigation/design/type-safety
+- id: navigate-in-composition-body
+  level: MUST_NOT
+  enforce: new-only+on-touch
+  owner: 13-navigation.md
+  check: manual
+  source: https://developer.android.com/topic/architecture/ui-layer/events
+- id: unguarded-navigation-callback
+  level: SHOULD
+  enforce: new-only
+  owner: 13-navigation.md
+  check: manual
+  source: https://developer.android.com/topic/architecture/ui-layer/events
+- id: multiple-navhost
+  level: MUST_NOT
+  enforce: new-only
+  owner: 13-navigation.md
+  check: manual
+  source: https://developer.android.com/guide/navigation/design
+- id: oneshot-flow-not-popped
+  level: MUST
+  enforce: new-only+on-touch
+  owner: 13-navigation.md
+  check: manual
+  source: https://developer.android.com/guide/navigation/backstack
+- id: top-level-switch-missing-nav-options
+  level: MUST
+  enforce: new-only+on-touch
+  owner: 13-navigation.md
+  check: manual
+  source: https://developer.android.com/guide/navigation/backstack/multi-back-stacks
+- id: popbackstack-as-up
+  level: MUST
+  enforce: new-only+on-touch
+  owner: 13-navigation.md
+  check: manual
+  source: https://developer.android.com/guide/navigation/backstack
+- id: feature-route-outside-api-module
+  level: MUST
+  enforce: new-only
+  owner: 13-navigation.md
+  check: manual
+  source: https://developer.android.com/topic/modularization/patterns
+- id: hardcoded-cross-feature-destination
+  level: MUST
+  enforce: new-only+on-touch
+  owner: 13-navigation.md
+  check: manual
+  source: https://developer.android.com/guide/navigation/design/nested-graphs
+- id: deeplink-without-synthetic-backstack
+  level: MUST
+  enforce: new-only+on-touch
+  owner: 13-navigation.md
+  check: manual
+  source: https://developer.android.com/guide/navigation/principles
+- id: intra-app-startactivity
+  level: SHOULD_NOT
+  enforce: new-only
+  owner: 13-navigation.md
+  check: manual
+  source: https://developer.android.com/guide/navigation/design
+- id: overridden-onbackpressed
+  level: MUST_NOT
+  enforce: new-only+on-touch
+  owner: 13-navigation.md
+  check: regex
+  pattern: override\s+fun\s+onBackPressed\s*\(
+  message: 不得 override onBackPressed()；攔截返回改用 BackHandler(enabled)（Compose）或 onBackPressedDispatcher.addCallback（Views），並在
+    manifest 設 android:enableOnBackInvokedCallback="true"。
+  exclude:
+  - '**/test/**'
+  - '**/androidTest/**'
+  - '**/*Test.kt'
+  source: https://developer.android.com/guide/navigation
+- id: hardcoded-dimension
+  level: MUST_NOT
+  enforce: new-only+on-touch
+  owner: 14-design-system.md
+  check: regex
+  pattern: (?<![\w.])(?!0\b)\d+(?:\.\d+)?\.(?:dp|sp)\b
+  message: 間距／尺寸／字級不得寫字面值，一律取自 theme 的 spacing / size / typography token（例如 AppTheme.spacing.medium）；找不到對應 token 先問設計，不要自己決定數值。
+  exclude:
+  - '**/test/**'
+  - '**/androidTest/**'
+  - '**/*Test.kt'
+  - '**/designsystem/**'
+  - '**/design-system/**'
+  - '**/theme/**'
+  - '**/*Theme*.kt'
+  - '**/*Token*.kt'
+  - '**/*Preview*.kt'
+  source: https://developer.android.com/develop/ui/compose/designsystems/custom
+- id: hardcoded-color
+  level: MUST_NOT
+  enforce: new-only+on-touch
+  owner: 14-design-system.md
+  check: regex
+  pattern: Color\s*\(\s*0x[0-9A-Fa-f]{6,8}\s*\)|Color\.(?:Red|Blue|Green|Yellow|Magenta|Cyan|White|Black|Gray|LightGray|DarkGray)\b
+  message: 顏色不得寫 Color(0x…) 或內建具名色，一律取自 MaterialTheme.colorScheme 或自訂色彩 token（深淺色才會一起正確）。
+  exclude:
+  - '**/test/**'
+  - '**/androidTest/**'
+  - '**/*Test.kt'
+  - '**/designsystem/**'
+  - '**/design-system/**'
+  - '**/theme/**'
+  - '**/*Theme*.kt'
+  - '**/*Token*.kt'
+  - '**/*Palette*.kt'
+  - '**/*Preview*.kt'
+  source: https://developer.android.com/develop/ui/compose/designsystems/material3
+- id: hardcoded-corner-radius
+  level: MUST_NOT
+  enforce: new-only+on-touch
+  owner: 14-design-system.md
+  check: regex
+  pattern: \b(?:RoundedCornerShape|CutCornerShape)\s*\(\s*(?:\w+\s*=\s*)?\d
+  message: 圓角不得寫字面值，改用 MaterialTheme.shapes 或設計系統的 shape token；整圓用 CircleShape。
+  exclude:
+  - '**/test/**'
+  - '**/androidTest/**'
+  - '**/*Test.kt'
+  - '**/designsystem/**'
+  - '**/design-system/**'
+  - '**/theme/**'
+  - '**/*Theme*.kt'
+  - '**/*Token*.kt'
+  - '**/*Shape*.kt'
+  - '**/*Preview*.kt'
+  source: https://developer.android.com/develop/ui/compose/designsystems/material3
+- id: inline-textstyle
+  level: MUST_NOT
+  enforce: new-only+on-touch
+  owner: 14-design-system.md
+  check: regex
+  pattern: (?<![\w.])TextStyle\s*\(
+  message: 不得就地組裝 TextStyle(...)；從 typography token 出發（MaterialTheme.typography.bodyMedium），只允許以 copy(color = …) / copy(textAlign
+    = …) 微調單一屬性。
+  exclude:
+  - '**/test/**'
+  - '**/androidTest/**'
+  - '**/*Test.kt'
+  - '**/designsystem/**'
+  - '**/design-system/**'
+  - '**/theme/**'
+  - '**/*Theme*.kt'
+  - '**/*Token*.kt'
+  - '**/*Font*.kt'
+  - '**/*Typography*.kt'
+  - '**/*Preview*.kt'
+  source: https://developer.android.com/develop/ui/compose/designsystems/custom
+- id: primitive-token-in-ui
+  level: MUST_NOT
+  enforce: new-only
+  owner: 14-design-system.md
+  check: manual
+  source: 業界共識（Material Design token 分層）
+- id: missing-theme-wrapper
+  level: MUST
+  enforce: new-only
+  owner: 14-design-system.md
+  check: manual
+  source: https://developer.android.com/develop/ui/compose/designsystems/custom
+- id: global-constant-token-object
+  level: MUST_NOT
+  enforce: new-only
+  owner: 14-design-system.md
+  check: manual
+  source: https://developer.android.com/develop/ui/compose/designsystems/custom
+- id: dark-mode-branching-in-ui
+  level: MUST_NOT
+  enforce: new-only+on-touch
+  owner: 14-design-system.md
+  check: manual
+  source: https://developer.android.com/develop/ui/views/theming/darktheme
+- id: dynamic-color-unconditional
+  level: SHOULD
+  enforce: new-only
+  owner: 14-design-system.md
+  check: manual
+  source: https://developer.android.com/develop/ui/compose/designsystems/material3
+- id: hardcoded-user-facing-string
+  level: MUST_NOT
+  enforce: new-only+on-touch
+  owner: 14-design-system.md
+  check: regex
+  pattern: \bText\s*\(\s*(?:text\s*=\s*)?"[^"\n$]*[A-Za-z]{3}|\bcontentDescription\s*=\s*"[^"\n$]*[A-Za-z]{3}
+  message: '使用者可見文案改用 stringResource(R.string.…)；文案 key 尚未產出時，該行必須加 // TODO: replace with stringResource - <說明> 並列入待辦。裝飾性圖示的
+    contentDescription 應為 null。'
+  exclude:
+  - '**/test/**'
+  - '**/androidTest/**'
+  - '**/*Test.kt'
+  - '**/sample/**'
+  - '**/samples/**'
+  - '**/demo/**'
+  - '**/*Demo*.kt'
+  - '**/*Preview*.kt'
+  source: https://developer.android.com/guide/topics/resources/string-resource
+- id: string-concatenation-for-sentence
+  level: MUST_NOT
+  enforce: new-only+on-touch
+  owner: 14-design-system.md
+  check: manual
+  source: https://developer.android.com/guide/topics/resources/localization
+- id: manual-plural-branching
+  level: MUST_NOT
+  enforce: new-only+on-touch
+  owner: 14-design-system.md
+  check: manual
+  source: https://developer.android.com/guide/topics/resources/string-resource
+- id: resolved-string-in-uistate
+  level: SHOULD_NOT
+  enforce: new-only
+  owner: 14-design-system.md
+  check: manual
+  source: 官方 sample nowinandroid
+- id: touch-target-below-48dp
+  level: MUST
+  enforce: new-only+on-touch
+  owner: 14-design-system.md
+  check: manual
+  source: https://developer.android.com/develop/ui/compose/accessibility
+- id: insufficient-color-contrast
+  level: MUST
+  enforce: new-only
+  owner: 14-design-system.md
+  check: manual
+  source: https://developer.android.com/develop/ui/compose/accessibility
+- id: fixed-height-text-container
+  level: SHOULD_NOT
+  enforce: new-only+on-touch
+  owner: 14-design-system.md
+  check: manual
+  source: https://developer.android.com/develop/ui/compose/accessibility/scalable-content
+- id: duplicated-component-outside-design-system
+  level: SHOULD
+  enforce: new-only
+  owner: 14-design-system.md
+  check: manual
+  source: 官方 sample nowinandroid
+- id: design-system-depends-on-feature
+  level: MUST_NOT
+  enforce: new-only
+  owner: 14-design-system.md
+  check: manual
+  source: 官方 sample nowinandroid
+- id: manual-edit-generated-tokens
+  level: MUST_NOT
+  enforce: new-only+on-touch
+  owner: 14-design-system.md
+  check: manual
+  source: 業界共識（token pipeline 產出物不可手改）
+- id: undefined-design-value-silently-implemented
+  level: MUST
+  enforce: new-only+on-touch
+  owner: 14-design-system.md
+  check: manual
+  source: 業界共識
+- id: logic-tested-only-through-ui
+  level: MUST
+  enforce: new-only
+  owner: 15-testing.md
+  check: manual
+  source: https://developer.android.com/training/testing/fundamentals/what-to-test
+- id: test-name-without-condition-expectation
+  level: SHOULD
+  enforce: new-only
+  owner: 15-testing.md
+  check: regex
+  source: https://developer.android.com/training/testing/fundamentals
+  pattern: \bfun\s+(?:test[A-Z]\w*\s*\(|`?[\w\s]*\b(?:given|when|then)_)
+  message: 測試方法名採「主體_條件_預期」三段式 lowerCamelCase＋底線；不要 testXxx，也不要 given/when/then 字樣。
+  applies_to:
+  - '**/test/**/*.kt'
+  - '**/androidTest/**/*.kt'
+  - '**/*Test.kt'
+- id: mock-where-fake-fits
+  level: SHOULD
+  enforce: new-only
+  owner: 15-testing.md
+  check: manual
+  source: https://developer.android.com/training/testing/fundamentals/test-doubles
+- id: duplicated-test-fixture-setup
+  level: SHOULD
+  enforce: new-only
+  owner: 15-testing.md
+  check: manual
+  source: 官方 sample nowinandroid
+- id: relaxed-mock
+  level: MUST_NOT
+  enforce: new-only
+  owner: 15-testing.md
+  check: regex
+  source: https://developer.android.com/training/testing/local-tests
+  pattern: relaxed\s*=\s*true|relaxUnitFun\s*=\s*true|RETURNS_DEEP_STUBS|isReturnDefaultValues\s*=\s*true
+  message: 寬鬆 mock 會讓未 stub 的呼叫靜默回傳預設值，測試不會失敗也沒驗證到。每個被呼叫的方法都要明確 stub，或改用手寫 fake。
+  applies_to:
+  - '**/test/**/*.kt'
+  - '**/androidTest/**/*.kt'
+  - '**/*Test.kt'
+  - '**/build.gradle.kts'
+- id: deprecated-coroutine-test-api
+  level: MUST
+  enforce: new-only+on-touch
+  owner: 15-testing.md
+  check: regex
+  source: https://developer.android.com/kotlin/coroutines/test
+  pattern: \brunBlocking(?:Test)?\s*[({]|\bTestCoroutine(?:Dispatcher|Scope)\s*\(
+  message: 測試 suspend 函式一律用 runTest（虛擬時間）。runBlocking / runBlockingTest / TestCoroutineDispatcher / TestCoroutineScope 都已淘汰。
+  applies_to:
+  - '**/test/**/*.kt'
+  - '**/androidTest/**/*.kt'
+  - '**/*Test.kt'
+- id: setmain-without-reset
+  level: MUST
+  enforce: new-only
+  owner: 15-testing.md
+  check: regex
+  source: https://developer.android.com/kotlin/coroutines/test
+  pattern: '@Before[\s\S]{0,300}?Dispatchers\.setMain'
+  message: 不要在 @Before 手動 setMain（容易漏 resetMain 造成測試互相污染）。用共用的 MainDispatcherRule（TestWatcher）統一設定與還原，且所有 TestDispatcher 共用同一個
+    scheduler。
+  applies_to:
+  - '**/test/**/*.kt'
+  - '**/androidTest/**/*.kt'
+  - '**/*Test.kt'
+- id: endless-flow-collected-in-test-scope
+  level: MUST
+  enforce: new-only
+  owner: 15-testing.md
+  check: manual
+  source: https://developer.android.com/kotlin/flow/test
+- id: statein-asserted-without-collector
+  level: MUST
+  enforce: new-only
+  owner: 15-testing.md
+  check: manual
+  source: https://developer.android.com/kotlin/flow/test
+- id: unasserted-await-item
+  level: MUST
+  enforce: new-only
+  owner: 15-testing.md
+  check: regex
+  source: https://developer.android.com/kotlin/flow/test
+  pattern: ^[ \t]*awaitItem\s*\(\s*\)[ \t]*$|cancelAndIgnoreRemainingEvents\s*\(
+  message: Turbine 的每個 awaitItem() 回傳值都要被斷言；不要只呼叫不比對，也不要用 cancelAndIgnoreRemainingEvents() 蓋掉未驗證的 emission。
+  applies_to:
+  - '**/test/**/*.kt'
+  - '**/androidTest/**/*.kt'
+  - '**/*Test.kt'
+- id: sleep-as-wait-in-ui-test
+  level: MUST_NOT
+  enforce: new-only+on-touch
+  owner: 15-testing.md
+  check: regex
+  source: https://developer.android.com/develop/ui/compose/testing/synchronization
+  pattern: \b(?:Thread|SystemClock)\.sleep\s*\(
+  message: 固定時間等待在快機器上浪費時間、慢機器上直接失敗，且 Compose 測試時鐘不會因 sleep 前進。用條件式等待（waitUntil / waitForIdle / advanceUntilIdle）。
+  applies_to:
+  - '**/test/**/*.kt'
+  - '**/androidTest/**/*.kt'
+  - '**/*Test.kt'
+- id: screenshot-baseline-not-verified
+  level: MUST
+  enforce: new-only
+  owner: 15-testing.md
+  check: manual
+  source: https://developer.android.com/studio/preview/compose-screenshot-testing
+- id: test-without-assertion
+  level: MUST
+  enforce: new-only+on-touch
+  owner: 15-testing.md
+  check: manual
+  source: 業界共識（假綠燈防治）
+- id: interaction-verified-without-behavior
+  level: MUST
+  enforce: new-only+on-touch
+  owner: 15-testing.md
+  check: manual
+  source: 業界共識（假綠燈防治）
+- id: tautological-assertion
+  level: MUST_NOT
+  enforce: new-only+on-touch
+  owner: 15-testing.md
+  check: regex
+  source: 業界共識（假綠燈防治）
+  pattern: assert(?:True|Equals)\s*\(\s*(?:true\s*(?:,\s*true\s*)?|(\w+)\s*,\s*\1\s*)\)|assertFalse\s*\(\s*false\s*\)|assert(?:True|That)\s*\([^)]*\.size\s*>=\s*0
+  message: 恆真斷言等於沒測。期望值要獨立於受測邏輯寫死，不要拿剛 stub 的回傳值或恆成立的條件當斷言。
+  applies_to:
+  - '**/test/**/*.kt'
+  - '**/androidTest/**/*.kt'
+  - '**/*Test.kt'
+- id: swallowed-exception-in-test
+  level: MUST_NOT
+  enforce: new-only+on-touch
+  owner: 15-testing.md
+  check: regex
+  source: 業界共識（假綠燈防治）
+  pattern: catch\s*\([^)]*\)\s*\{\s*\}|\brunCatching\s*\{
+  message: 吞掉例外的測試永遠是綠的。驗證例外用 assertFailsWith<T>，並斷言型別與訊息／欄位。
+  applies_to:
+  - '**/test/**/*.kt'
+  - '**/androidTest/**/*.kt'
+  - '**/*Test.kt'
+- id: unexplained-ignore
+  level: MUST
+  enforce: new-only+on-touch
+  owner: 15-testing.md
+  check: regex
+  source: 業界共識（假綠燈防治）
+  pattern: '@Ignore\s*(?:\(\s*\))?\s*$|@Ignore\s*\(\s*\"(?![^\"]*(?:#\d|[A-Z]{2,}-\d))[^\"]*\"\s*\)'
+  message: '@Ignore 必須附原因與追蹤票號（如 @Ignore("ABC-123 等後端修好")），否則會永久累積沒人處理。'
+  applies_to:
+  - '**/test/**/*.kt'
+  - '**/androidTest/**/*.kt'
+  - '**/*Test.kt'
+- id: assertion-in-unjoined-coroutine
+  level: MUST_NOT
+  enforce: new-only
+  owner: 15-testing.md
+  check: manual
+  source: https://developer.android.com/kotlin/coroutines/test
+- id: coverage-as-quality-gate
+  level: SHOULD_NOT
+  enforce: migrate
+  owner: 15-testing.md
+  check: manual
+  source: 官方 sample nowinandroid
+- id: perf-number-from-non-release-build
+  level: MUST
+  enforce: new-only
+  owner: 16-performance.md
+  check: manual
+  source: https://developer.android.com/topic/performance/benchmarking/macrobenchmark-overview
+- id: optimization-without-measurement
+  level: MUST_NOT
+  enforce: new-only
+  owner: 16-performance.md
+  check: manual
+  source: https://developer.android.com/topic/performance/overview
+- id: blocking-work-in-application-oncreate
+  level: MUST_NOT
+  enforce: new-only+on-touch
+  owner: 16-performance.md
+  check: manual
+  source: https://developer.android.com/topic/performance/vitals/launch-time
+- id: eager-global-singleton-init
+  level: MUST
+  enforce: new-only+on-touch
+  owner: 16-performance.md
+  check: manual
+  source: https://developer.android.com/topic/performance/vitals/launch-time
+- id: sdk-init-via-custom-contentprovider
+  level: MUST_NOT
+  enforce: new-only
+  owner: 16-performance.md
+  check: manual
+  source: https://developer.android.com/topic/libraries/app-startup
+- id: heavy-work-in-first-frame
+  level: MUST_NOT
+  enforce: new-only+on-touch
+  owner: 16-performance.md
+  check: manual
+  source: https://developer.android.com/develop/ui/views/launch/splash-screen
+- id: missing-fully-drawn-report
+  level: SHOULD
+  enforce: migrate
+  owner: 16-performance.md
+  check: manual
+  source: https://developer.android.com/topic/performance/vitals/launch-time#time-full
+- id: missing-strictmode-in-debug
+  level: MUST
+  enforce: new-only+on-touch
+  owner: 16-performance.md
+  check: manual
+  source: https://developer.android.com/reference/android/os/StrictMode ／ 官方 sample nowinandroid
+- id: blocking-api-on-main-thread
+  level: MUST_NOT
+  enforce: new-only+on-touch
+  owner: 16-performance.md
+  check: regex
+  source: https://developer.android.com/topic/performance/vitals/anr
+  pattern: \.edit\s*\(\s*\)[\s\S]{0,300}?\.commit\s*\(\s*\)|\.blockingGet\s*\(|\.blockingFirst\s*\(|\bCountDownLatch\b[\s\S]{0,200}?\.await\s*\(\s*\)
+  message: 主執行緒不得呼叫阻塞式 API。SharedPreferences 用 apply() 或改 DataStore 的 suspend API；Rx 的 blockingGet 改 await；需要等待改用協程。
+  exclude: &id001
+  - '**/test/**'
+  - '**/androidTest/**'
+  - '**/*Test.kt'
+- id: static-context-reference
+  level: MUST_NOT
+  enforce: new-only+on-touch
+  owner: 16-performance.md
+  check: regex
+  source: https://developer.android.com/topic/performance/memory
+  pattern: ^[ \t]*(?:lateinit\s+var|var)\s+\w*(?:context|activity|fragment|view|dialog|adapter)\w*\s*:\s*(?:Context|Activity|FragmentActivity|AppCompatActivity|Fragment|View|Dialog|RecyclerView\.Adapter)\b
+  message: 靜態持有 Context / Activity / View 會洩漏整棵 view tree。改用建構子注入 applicationContext，或把生命週期相關物件交給擁有它的元件持有。
+  exclude: *id001
+- id: unbalanced-listener-registration
+  level: MUST
+  enforce: new-only+on-touch
+  owner: 16-performance.md
+  check: manual
+  source: https://developer.android.com/topic/performance/memory
+- id: allocation-in-frame-hot-path
+  level: MUST_NOT
+  enforce: new-only
+  owner: 16-performance.md
+  check: manual
+  source: https://developer.android.com/topic/performance/vitals/render
+- id: scroll-without-frame-metric
+  level: SHOULD
+  enforce: migrate
+  owner: 16-performance.md
+  check: manual
+  source: https://developer.android.com/topic/performance/vitals/render
+- id: release-without-baseline-profile
+  level: SHOULD
+  enforce: migrate
+  owner: 16-performance.md
+  check: manual
+  source: https://developer.android.com/topic/performance/baselineprofiles/overview
+- id: baseline-profile-minify-mismatch
+  level: MUST
+  enforce: migrate
+  owner: 16-performance.md
+  check: manual
+  source: https://developer.android.com/topic/performance/baselineprofiles/create-baselineprofile
+- id: stale-baseline-profile
+  level: MUST
+  enforce: new-only+on-touch
+  owner: 16-performance.md
+  check: manual
+  source: https://developer.android.com/topic/performance/baselineprofiles/measure-baselineprofile
+- id: release-without-code-shrinking
+  level: MUST
+  enforce: migrate
+  owner: 16-performance.md
+  check: regex
+  source: https://developer.android.com/build/shrink-code
+  pattern: isMinifyEnabled\s*=\s*false|getDefaultProguardFile\s*\(\s*\"proguard-android\.txt\"|^[ \t]*-dont(?:optimize|shrink|obfuscate)\b
+  message: release 必須 isMinifyEnabled = true 且 isShrinkResources = true，並用 proguard-android-optimize.txt；.pro 檔不得出現 -dontoptimize
+    / -dontshrink / -dontobfuscate。
+  applies_to:
+  - '**/build.gradle.kts'
+  - '**/build.gradle'
+  - '**/*.pro'
+- id: mapping-file-not-preserved
+  level: MUST
+  enforce: new-only+on-touch
+  owner: 16-performance.md
+  check: manual
+  source: https://developer.android.com/build/shrink-code#retracing
+- id: raster-asset-for-new-image
+  level: SHOULD
+  enforce: new-only+on-touch
+  owner: 16-performance.md
+  check: manual
+  source: https://developer.android.com/topic/performance/reduce-apk-size
+  downgrade_reason: 圖片格式與路徑無法用原始碼 regex 判定（稽核器只掃原始碼與建置腳本），改由 code review 檢查
+- id: hardcoded-secret
+  level: MUST_NOT
+  enforce: new-only+on-touch
+  owner: 17-security.md
+  check: regex
+  pattern: \bva[lr]\s+(?i:\w*(?:secret|password|passphrase|api_?key|apikey|access_?key|private_?key|auth_?token|access_?token|refresh_?token|signing_?key|encryption_?key)\w*)\s*(?::\s*String\s*)?=\s*"(?=[A-Za-z0-9+/=._\-]{16,}")(?=[^"]*[a-z])(?=[^"]*[A-Z])(?=[^"]*\d)[A-Za-z0-9+/=._\-]+"|"(?:sk|pk|rk)_(?:live|test)_[A-Za-z0-9]{10,}"|"AIza[0-9A-Za-z_\-]{30,}"|"ghp_[A-Za-z0-9]{30,}"|-----BEGIN
+    [A-Z ]*PRIVATE KEY-----
+  message: 金鑰／密鑰不得以字面常數留在程式碼，改由 BuildConfig（gradle property 或 CI secret 注入）或安全儲存取得；已進版控的密鑰必須輪替，不是刪掉就好。
+  exclude:
+  - '**/test/**'
+  - '**/androidTest/**'
+  - '**/*Test.kt'
+  source: https://developer.android.com/privacy-and-security/security-tips
+- id: secret-in-version-control
+  level: MUST_NOT
+  enforce: migrate
+  owner: 17-security.md
+  check: manual
+  source: https://developer.android.com/privacy-and-security/security-tips
+- id: client-side-secret-assumed-safe
+  level: MUST
+  enforce: new-only
+  owner: 17-security.md
+  check: manual
+  source: https://developer.android.com/privacy-and-security/security-tips
+- id: plaintext-credential-storage
+  level: MUST_NOT
+  enforce: new-only+on-touch
+  owner: 17-security.md
+  check: manual
+  source: https://developer.android.com/privacy-and-security/keystore
+- id: deprecated-security-crypto
+  level: SHOULD_NOT
+  enforce: new-only
+  owner: 17-security.md
+  check: manual
+  source: https://developer.android.com/jetpack/androidx/releases/security
+- id: pii-in-log
+  level: MUST_NOT
+  enforce: new-only+on-touch
+  owner: 17-security.md
+  check: regex
+  pattern: (?i)\b(?:Log|Timber)\.[vdiwea]\w*\s*\([^)\n]{0,200}?\$\{?[\w.]*(?:token|password|passwd|email|phone|passport|authorization|cardnumber|card_?no|ssn|id_?number|latitude|longitude)\w*(?!\s*\.(?:isBlank|isEmpty|isNotBlank|isNotEmpty|isNullOrBlank|isNullOrEmpty|length|size|count|hashCode|hashed|orEmpty|mask\w*|take)\b)
+  message: log 不得輸出 PII 或憑證；改輸出遮蔽值或不可逆識別碼（例如 userIdHash=${userId.hashed()}、tokenBlank=${token.isBlank()}）。
+  exclude:
+  - '**/test/**'
+  - '**/androidTest/**'
+  - '**/*Test.kt'
+  source: https://developer.android.com/privacy-and-security/security-tips
+- id: debug-log-in-release
+  level: MUST
+  enforce: new-only
+  owner: 17-security.md
+  check: manual
+  source: https://developer.android.com/privacy-and-security/security-tips
+- id: cleartext-traffic-enabled
+  level: MUST_NOT
+  enforce: new-only
+  owner: 17-security.md
+  check: regex
+  pattern: android:usesCleartextTraffic\s*=\s*"true"
+  message: release 不得允許明文 HTTP；移除該屬性，明文端點只寫在 debug variant 的 manifest 或 network security config 的 <debug-overrides>。
+  applies_to:
+  - '**/AndroidManifest.xml'
+  exclude:
+  - '**/debug/**'
+  - '**/test/**'
+  - '**/androidTest/**'
+  source: https://developer.android.com/privacy-and-security/security-config
+- id: permissive-trust-manager
+  level: MUST_NOT
+  enforce: new-only
+  owner: 17-security.md
+  check: regex
+  pattern: \bhostnameVerifier\s*[({][^}\n]{0,80}->\s*true|\bHostnameVerifier\s*\{[^}\n]{0,80}->\s*true|override\s+fun\s+check(?:Server|Client)Trusted\s*\([^)]*\)\s*\{\s*\}
+  message: 任何 build type 都不得放行一切憑證（空的 checkServerTrusted、永遠回 true 的 HostnameVerifier）；要信任自簽憑證請用 network security config 的
+    <trust-anchors> 並限定 debug。
+  exclude:
+  - '**/test/**'
+  - '**/androidTest/**'
+  - '**/*Test.kt'
+  source: https://developer.android.com/privacy-and-security/security-ssl
+- id: unmanaged-certificate-pin
+  level: MUST
+  enforce: new-only
+  owner: 17-security.md
+  check: manual
+  source: https://developer.android.com/privacy-and-security/security-config
+- id: webview-javascript-enabled-for-remote-content
+  level: MUST
+  enforce: new-only+on-touch
+  owner: 17-security.md
+  check: manual
+  source: https://developer.android.com/privacy-and-security/security-tips
+- id: webview-javascript-interface-exposed
+  level: MUST_NOT
+  enforce: new-only
+  owner: 17-security.md
+  check: manual
+  source: https://developer.android.com/privacy-and-security/security-tips
+- id: webview-file-access-enabled
+  level: MUST_NOT
+  enforce: new-only+on-touch
+  owner: 17-security.md
+  check: regex
+  pattern: \b(?:allowFileAccess|allowFileAccessFromFileURLs|allowUniversalAccessFromFileURLs|allowContentAccess)\s*=\s*true\b|\bsetAllow(?:FileAccess|FileAccessFromFileURLs|UniversalAccessFromFileURLs|ContentAccess)\s*\(\s*true\s*\)
+  message: WebView 不得開啟檔案／content 存取（file:// 可讀取 app 私有檔案）；要載入本地資源請用 WebViewAssetLoader。
+  exclude:
+  - '**/test/**'
+  - '**/androidTest/**'
+  - '**/*Test.kt'
+  source: https://developer.android.com/privacy-and-security/security-tips
+- id: webview-unvalidated-url
+  level: MUST
+  enforce: new-only+on-touch
+  owner: 17-security.md
+  check: manual
+  source: https://developer.android.com/privacy-and-security/security-tips
+- id: exported-component-unprotected
+  level: MUST
+  enforce: new-only
+  owner: 17-security.md
+  check: manual
+  source: https://developer.android.com/privacy-and-security/security-tips
+- id: unvalidated-external-input
+  level: MUST
+  enforce: new-only+on-touch
+  owner: 17-security.md
+  check: manual
+  source: https://developer.android.com/privacy-and-security/security-tips
+- id: sql-string-concatenation
+  level: MUST_NOT
+  enforce: new-only+on-touch
+  owner: 17-security.md
+  check: regex
+  pattern: (?:@Query|@RawQuery|rawQuery|execSQL|SimpleSQLiteQuery|selection\s*=)\s*\(?\s*"[^"\n]*"\s*\+|(?:@Query|rawQuery|execSQL|SimpleSQLiteQuery)\s*\(\s*"[^"\n]*\$\{?[a-z]\w*
+  message: SQL 與 selection 不得用字串串接或插值變數，一律參數化：Room 用 :param 綁定，SQLite 用 selectionArgs。（表名等編譯期常數用大寫常數插值不在此限。）
+  exclude:
+  - '**/test/**'
+  - '**/androidTest/**'
+  - '**/*Test.kt'
+  source: https://developer.android.com/privacy-and-security/security-tips
+- id: wildcard-keep-rule
+  level: SHOULD_NOT
+  enforce: new-only
+  owner: 17-security.md
+  check: manual
+  source: https://developer.android.com/build/shrink-code
+- id: sensitive-screen-without-flag-secure
+  level: SHOULD
+  enforce: new-only
+  owner: 17-security.md
+  check: manual
+  source: https://developer.android.com/reference/android/view/WindowManager.LayoutParams#FLAG_SECURE
+- id: biometric-success-trusted-without-crypto
+  level: MUST
+  enforce: new-only
+  owner: 17-security.md
+  check: manual
+  source: https://developer.android.com/training/sign-in/biometric-auth
+- id: debuggable-or-backup-enabled-in-release
+  level: MUST_NOT
+  enforce: new-only
+  owner: 17-security.md
+  check: regex
+  pattern: android:debuggable\s*=\s*"true"|android:allowBackup\s*=\s*"true"
+  message: release 不得 debuggable；會存 token 等敏感資料時 allowBackup 必須為 false，或以 dataExtractionRules / fullBackupContent 排除敏感檔案。
+  applies_to:
+  - '**/AndroidManifest.xml'
+  exclude:
+  - '**/debug/**'
+  - '**/test/**'
+  - '**/androidTest/**'
+  source: https://developer.android.com/privacy-and-security/security-tips
+- id: analytics-sdk-called-from-ui
+  level: MUST
+  enforce: new-only
+  owner: 18-analytics.md
+  check: manual
+  source: 官方 sample nowinandroid
+- id: analytics-sdk-type-leaked
+  level: MUST_NOT
+  enforce: new-only
+  owner: 18-analytics.md
+  check: manual
+  source: 官方 sample nowinandroid
+- id: analytics-throws-to-caller
+  level: MUST_NOT
+  enforce: new-only+on-touch
+  owner: 18-analytics.md
+  check: manual
+  source: 業界共識
+- id: analytics-blocks-main-flow
+  level: MUST_NOT
+  enforce: new-only
+  owner: 18-analytics.md
+  check: manual
+  source: 業界共識
+- id: analytics-in-composable-body
+  level: MUST_NOT
+  enforce: new-only+on-touch
+  owner: 18-analytics.md
+  check: regex
+  pattern: '@Composable\s*(?:@\w+(?:\([^)]*\))?\s*)*(?:(?:private|internal|public)\s+)?fun\s+\w+\s*\([^{}]{0,400}?\)\s*(?::\s*Unit\s*)?\{[^{}]{0,600}?\b\w*(?:[Aa]nalytics|[Tt]racker|[Tt]racking)\w*\.(?:log|track|send|report)\w*\s*\('
+  message: composable 主體的埋點會隨每次重組重送；移進事件 lambda（onClick）、LaunchedEffect(業務 key) 或 SideEffect。
+  exclude:
+  - '**/test/**'
+  - '**/androidTest/**'
+  - '**/*Test.kt'
+  source: https://developer.android.com/develop/ui/compose/side-effects
+- id: impression-tracking-with-unit-key
+  level: MUST
+  enforce: new-only+on-touch
+  owner: 18-analytics.md
+  check: manual
+  source: https://developer.android.com/develop/ui/compose/side-effects
+- id: impression-without-dedup-in-lazy-list
+  level: MUST
+  enforce: new-only
+  owner: 18-analytics.md
+  check: manual
+  source: https://developer.android.com/develop/ui/compose/side-effects
+- id: state-derived-tracking-without-snapshotflow
+  level: SHOULD
+  enforce: new-only
+  owner: 18-analytics.md
+  check: manual
+  source: https://developer.android.com/develop/ui/compose/side-effects
+- id: analytics-in-pure-function
+  level: MUST_NOT
+  enforce: new-only
+  owner: 18-analytics.md
+  check: manual
+  source: 業界共識
+- id: event-name-not-snake-case
+  level: MUST
+  enforce: new-only
+  owner: 18-analytics.md
+  check: regex
+  pattern: \b\w*(?:[Aa]nalytics|[Tt]racker|[Tt]racking)\w*\.(?:log|track|send|report)\w*\s*\(\s*"(?![a-z][a-z0-9_]{0,39}"\s*[,)])[^"\n]*"
+  message: 事件名稱一律小寫 snake_case、格式 <物件>_<動作（過去式）>、長度 40 字元內（例如 order_submitted）；平台保留事件名（screen_view）除外。
+  exclude:
+  - '**/test/**'
+  - '**/androidTest/**'
+  - '**/*Test.kt'
+  source: 業界共識
+- id: event-definition-scattered
+  level: MUST
+  enforce: new-only+on-touch
+  owner: 18-analytics.md
+  check: manual
+  source: 官方 sample nowinandroid
+- id: event-param-unbounded-value
+  level: SHOULD_NOT
+  enforce: new-only
+  owner: 18-analytics.md
+  check: manual
+  source: 業界共識
+- id: pii-in-event-param
+  level: MUST_NOT
+  enforce: new-only+on-touch
+  owner: 18-analytics.md
+  check: manual
+  source: https://developer.android.com/privacy-and-security/security-tips
+- id: analytics-without-consent-gate
+  level: MUST
+  enforce: new-only
+  owner: 18-analytics.md
+  check: manual
+  source: 業界共識
+- id: analytics-untested
+  level: SHOULD
+  enforce: new-only
+  owner: 18-analytics.md
+  check: manual
+  source: 官方 sample nowinandroid
+- id: debug-events-sent-to-production-dataset
+  level: SHOULD
+  enforce: new-only
+  owner: 18-analytics.md
+  check: manual
+  source: 業界共識

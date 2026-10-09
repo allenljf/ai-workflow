@@ -1,6 +1,6 @@
 # AI Workflow Radar
 
-每天收集 AI 開發與 Android 工程的原始更新，去重後生成靜態網站。每日不呼叫模型；AI 雙週整理可產生私有審閱草稿，預設停用；已提供版本化 Android 技能包與評測契約，仍為候選版本，Android 實測待接。
+每天收集 AI 開發與 Android 工程的原始更新，去重後生成靜態網站。每日不呼叫模型；AI 雙週整理可產生未核准審閱草稿，預設停用；本 repo 是公開作品集，因此程式碼、Git 歷史及已提交草稿都會公開可見。已提供版本化 Android 技能包與評測契約，仍為候選版本，Android 實測待接。
 
 ## 本機啟動
 
@@ -48,18 +48,18 @@ bash scripts/setup/github.sh --check
 bash scripts/setup/github.sh
 ```
 
-公開發布預設停用。原始repo應保留私有；獨立匯出repo只包含靜態輸出，沒有原始docs/history。此階段沒有自動push、部署或使用付費AI。
+公開發布預設停用。公開作品集原始 repo 同時承載網站；GitHub Actions 只部署核准 export 產生的靜態輸出，不把原始 `docs/`、`content/private/` 或 pipeline state 複製到網站。repo 本身與 Git 歷史仍對所有人可見。Wizard 不會推送本機分支；設定完成後才由你推送並啟用部署。
 
 ## 雙週 AI 整理
 
-設定與恢復見 [AI設定指南](docs/platform-design/setup-ai.md)。先用 enrich --dry-run 看gate與預算；真實付費需要 --allow-paid、AI_ENABLED=true及durable Git checkpoint。
+設定與恢復見 [AI設定指南](docs/platform-design/setup-ai.md)。先用 enrich --dry-run 看gate與預算；真實付費需要 --allow-paid、AI_ENABLED=true及durable Git checkpoint。公開 repo 中的 AI 草稿 PR、原始結果與 state branch 都可被閱讀。
 
 ## 内容與來源
 
 - `config/sources.yaml`：10個已查核GitHub release來源；也支持RSS/Atom、選配YouTube uploads metadata。
 - `content/inbox/links.json`：手動加入HTTPS連結，只進待審核收件匣，不自動抓陌生網站。
 - `content/public/`：frontmatter同時標 `visibility: public` 和 `review_state: approved` 才匯出；禁止symlink、raw HTML及指向非核准檔案的本機連結。附件只接受 workflow catalog 明列且通過來源／授權／hash驗證的生成ZIP，不匯出任意檔案。
-- `content/private/`、`docs/`：不供公開網站讀取。
+- `content/private/`、`docs/`：不供公開網站讀取；由於作品集 repo 公開，已提交在這些路徑的內容仍可從 GitHub repo 瀏覽。
 - `pipeline-state`：遠端專用branch存snapshot；本機snapshot位於忽略的`.build/`。不要以artifact/cache替代它。
 
 資料包含原始發布、最後成功抓取、最近嘗試等不同時間；來源失敗不清空舊資料。GitHub release來源不涵蓋作者所有文章或產品功能，來源廣度需之後持續擴充。
@@ -72,7 +72,7 @@ bash scripts/setup/github.sh
 
 [雲端帳號時序](docs/platform-design/cloud-account-timing.md) · [評測 runbook](docs/platform-design/evaluation-runbook.md) · [上游與再散布政策](docs/platform-design/upstream-policy.md)
 
-網站 `/workflows/` 提供0.1.0文件包、0.2.0技能包及SHA-256。私有公司profile只在原始repo，未提供公開下載；真實Android報告與採納決策待接，fixture不會升級candidate。
+網站 `/workflows/` 提供0.1.0文件包、0.2.0技能包及SHA-256。公司profile不提供公開下載；真實Android報告與採納決策待接，fixture不會升級candidate。
 
 ## AI 應用工程師 / FDE
 

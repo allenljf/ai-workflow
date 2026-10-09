@@ -72,9 +72,9 @@ flowchart TD
 
 ## 4. 公開與私有的界線
 
-此 repo 有訂單、支付、會員等業務文件。第一版應保留原始 repo 私有，另用只含核准內容的 public export repo 發布網站；或先全部採私有網站並加真正的登入授權。
+**2026-10-09 決策更新：** 使用者確認本 repo 作為公開作品集，已提交的程式、文件與 Git 歷史均可公開；GitHub Pages 由同 repo workflow 部署。網站仍只呈現核准 export。不得將 token、客戶個資或正式帳號資料提交至公開 repo。以下 source/export 分離流程屬早期方案，已由這項決策取代。
 
-**網站建置沒有顯示某個檔案，不等於 Git repo 的檔案或歷史不公開。** 不能直接把整個 `docs/` 複製到網站或公開 repo。
+**網站建置沒有顯示某個檔案，不等於 Git repo 的檔案或歷史不公開。** `docs/` 不直接複製到網站；但已提交的 `docs/` 會在公開 repo 中可見。
 
 採明確 export allowlist：只有 `visibility: public` 且已核准的內容與套件可匯出。新資料預設 private／draft。公司的案例要另寫可公開版本，移除客戶、流程細節、內部 API、金額與敏感紀錄。
 
@@ -260,8 +260,8 @@ Wizard 只引導你必須親自完成的帳號登入、權限與憑證設定；�
 
 | 階段 | 人類操作 | 程式可做的部分 | 值／目的地 | 完成條件 |
 |---|---|---|---|---|
-| 1 範圍 | 選公開通用內容或內部站 | 顯示 export 預覽與敏感路徑清單 | visibility、export repo → 設定檔 | 不公開整個 docs |
-| 2 GitHub | 登入、選 repo／方案 | 檢查 repo、default branch、權限與必要檔案 | source/export repo → 設定檔 | 已有初始 commit 與 workflows |
+| 1 範圍 | 公開作品集；網站只呈現核准 export | 顯示 export manifest 預覽 | 公開來源 repo、site URL/base → 本機設定 | 不把 token 等憑證提交至 Git |
+| 2 GitHub | 登入並檢查公開 repo | 檢查 repo、default branch、Pages 權限與必要檔案 | 同一 repo 的 Pages 設定 | 已有初始 commit 與 workflows |
 | 3 網站發布 | 必要的 Pages／hosting 啟用 | 檢查建置與發布設定 | site URL、deployment target | 預覽可讀、存取權正確 |
 | 4 來源 | 選頻道與來源 | 驗證 feeds、測一次 API | sources.yaml、channel IDs | 至少一個來源成功，錯誤可呈現 |
 | 5 AI 預算 | 選模型、14 天週期、金額；是否啟用 | dry-run 批次與費用估算 | AI_ENABLED、interval、budgets、model | 預設不付費；顯示預算設定 |
@@ -311,6 +311,6 @@ MVP 刻意不包含任意影片逐字稿、Threads 全網搜尋、每日模型�
 
 ## 14. 接下來的具體選擇
 
-建議採方案 A，先保留來源 repo 私有、將核准內容匯出到公開網站。先做無模型 MVP 和一套 Android 工作流基線，再加雙週 DeepSeek 整理。GCP／DB／Threads adapters 都延後至需求成立。
+原先建議的 source/export 分離已由 2026-10-09 的公開作品集決策取代。先做無模型 MVP 和一套 Android 工作流基線，再加雙週 DeepSeek 整理。GCP／DB／Threads adapters 都延後至需求成立。
 
-實作前需要確定：網站公開範圍、source/export repo 分工、部署方案，以及 AI 每批／每月預算。未確定的部分已用上述保守假設完成設計，不會在未確認時發布公司資料或開通付費呼叫。
+公開作品集與同 repo Pages 已確認；AI 每批／每月預算仍依獨立付費 wizard 設定。已提交檔案及 AI 審閱 PR 在公開 repo 中均可被閱讀。
