@@ -195,6 +195,12 @@
       "started_at": "2026-10-10T07:45:54.887929+00:00",
       "status": "succeeded",
       "credits": 1
+    },
+    {
+      "month": "2026-10",
+      "query": "latest foundation model releases official announcements API capabilities benchmarks pricing DeepSeek OpenAI Anthropic Gemini",
+      "started_at": "2026-10-10T07:45:54.887929+00:00",
+      "status": "calling"
     }
   ]
 }
