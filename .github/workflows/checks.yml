@@ -30,6 +30,9 @@ jobs:
       - run: npm --prefix site exec -- playwright install --with-deps chromium
       - run: npm --prefix site run build
       - run: npm --prefix site run test:smoke
+      - run: python scripts/build-site.py --export .build/smoke-export --site site
+        env:
+          SITE_BASE: /ai-workflow/
       - run: npm --prefix site run build
         env:
           SITE_BASE: /ai-workflow/

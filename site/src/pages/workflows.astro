@@ -12,7 +12,7 @@ const labels:Record<string,string>={discovered:'發現 / 尚待評估',candidate
     <p class="eyebrow">VERSIONED PRACTICE</p><h1>工作流與下載</h1>
     <p>固定版本，加入 Android 與 FDE 技能及驗收契約。先收集真實證據，再決定採用。</p>
     <a class="button" href={href('guides/android/getting-started/')}>開始使用指南</a>
-    <a class="text-link" href={href('downloads/android/getting-started.md')} download>下載安裝指南 MD ↓</a>
+    <a class="text-link" href={href('guides/android/getting-started/')}>閱讀安裝指南</a>
     <p>公開文件已核准不代表公司已採納。目前尚無 Android 實測成功案例。</p>
   </section>
   <section class="workflow-grid" aria-label="工作流版本">
@@ -25,11 +25,11 @@ const labels:Record<string,string>={discovered:'發現 / 尚待評估',candidate
       {w.adoption_state==='deprecated'&&<p class="deprecation-note">替代版本 {w.replacement_version} · 停用理由：{w.deprecation_reason}。歷史包保留，不建議新任務採用。</p>}
       <a class="text-link" href={`${w.upstream_url}/tree/${w.upstream_ref}`} target="_blank" rel="noopener noreferrer">查看固定上游 ↗</a>
       <p class="checksum">上游 ref <code>{w.upstream_ref}</code><br/>ZIP SHA-256 <code>{w.sha256}</code></p>
-      <a class="button" href={href('downloads/'+w.download_path)} download>{w.domain==='fde'?'下載 FDE ZIP':'下載 ZIP'} {w.version}</a>
+      <a class="button" href={href('guides/bundles/'+w.download_path.split('/').at(-1)?.replace(/\.zip$/,'').replace(/\./g,''))}>查看套件內容 {w.id} {w.version} ↗</a> <a class="text-link" href={href('downloads/'+w.download_path)} download>下載原始 ZIP {w.version} ↓</a>
       <details class="bundle-files"><summary>包內檔案與追溯資料</summary><ul>{w.included_files.map(f=><li><code>{f}</code></li>)}</ul><p>ZIP 內 manifest 保留建立時狀態，頁面目錄反映最新採納決策。</p></details>
     </article>)}
     {workflows.length===0&&<p class="empty">尚無可公開下載的核准技能包。</p>}
   </section>
-  <section class="principles"><h2>任務何時可以交接？</h2><TaskFlow/><p>最多兩個實作者；依賴先驗收與整合，共用資源另保留鎖。預算耗盡保存 checkpoint 並標記 blocked。</p><a class="text-link" href={href('guides/android/task-flow/')}>完整流程與 Mermaid 原碼 ↗</a><a class="text-link" href={href('downloads/android/task-flow.md')} download>下載流程 MD ↓</a></section>
+  <section class="principles"><h2>任務何時可以交接？</h2><TaskFlow/><p>最多兩個實作者；依賴先驗收與整合，共用資源另保留鎖。預算耗盡保存 checkpoint 並標記 blocked。</p><a class="text-link" href={href('guides/android/task-flow/')}>完整流程與 Mermaid 原碼 ↗</a><a class="text-link" href={href('guides/android/task-flow/')}>閱讀流程 MD ↗</a></section>
   <section class="download-card"><h2>證據與持續更新</h2><p>每兩週新資訊形成候選。代表與 holdout 任務的真實執行、試用及人類決策，才會更新公司規範。Synthetic fixture 只驗證工具契約。</p><a class="text-link" href={href('guides/workflows/')}>版本採納指南 ↗</a><a class="text-link" href={href('guides/cases/evidence-levels/')}>案例證據等級 ↗</a></section>
 </Layout>

@@ -13,11 +13,12 @@ test('public guide and candidate workflow downloads',async({page})=>{
  await page.goto('workflows/');
  await expect(page.getByRole('heading',{name:'superpowers-android-adapter · 0.2.0',exact:true})).toBeVisible();
  await expect(page.getByText('候選 / 尚無 Android 實測',{exact:true})).toHaveCount(2);
- const download=page.getByRole('link',{name:'下載 ZIP 0.2.0',exact:true});
+ const androidCard=page.locator('.workflow-card').filter({has:page.getByRole('heading',{name:'superpowers-android-adapter · 0.2.0',exact:true})});
+ const download=androidCard.getByRole('link',{name:'下載原始 ZIP 0.2.0 ↓',exact:true});
  const response=await page.request.get((await download.getAttribute('href'))!);
  expect(response.ok()).toBe(true);
  expect((await response.body()).subarray(0,2).toString()).toBe('PK');
- await page.getByRole('link',{name:'開始使用指南',exact:true}).click();
+ await page.getByRole('link',{name:'閱讀安裝指南',exact:true}).click();
  await expect(page.getByRole('heading',{name:'Android 工作流開始使用',exact:true})).toBeVisible();
 });
 test('mobile layout has no horizontal overflow',async({page})=>{
@@ -46,11 +47,20 @@ test('FDE roadmap and verified downloads',async({page})=>{
  await expect(page.locator('.fde-skill')).toHaveCount(12);
  await expect(page.getByText('前置：模型、工具與 context',{exact:true}).first()).toBeVisible();
  await expect(page.getByText('已停用 / 請用修正版 0.3.0',{exact:true})).toBeVisible();
- const corrected=page.getByRole('link',{name:'下載 FDE 技能 ZIP 0.3.0',exact:true});
- expect((await page.request.get((await corrected.getAttribute('href'))!)).ok()).toBe(true);
- const md=page.getByRole('link',{name:'下載學習路線 MD',exact:true});
+ const corrected=page.getByRole('link',{name:'查看套件內容 fde-solution-adapter 0.3.0 ↗',exact:true});
+ await corrected.click();
+ await expect(page.getByRole('heading',{name:/fde-solution-adapter · 0\.3\.0 套件內容/})).toBeVisible();
+ await expect(page.getByRole('link',{name:'下載原始 ZIP'})).toBeVisible();
+ const pythonFile=page.getByRole('main').getByRole('link',{name:'bundles/fde/labs-0.3/fde_lab/__init__.py',exact:true});
+ await expect(pythonFile).toBeVisible();
+ await pythonFile.click();
+ await expect(page).toHaveURL(/files\/bundles\/fde\/labs-03\/fde_lab\/__init__\/?$/);
+ await expect(page.getByRole('main').getByRole('heading',{name:'bundles/fde/labs-0.3/fde_lab/__init__.py',exact:true})).toBeVisible();
+ await page.goto('fde/');
+ const md=page.getByRole('link',{name:'閱讀學習路線 MD ↗',exact:true});
  expect((await page.request.get((await md.getAttribute('href'))!)).ok()).toBe(true);
- const zip=page.getByRole('link',{name:'下載 FDE 技能 ZIP 0.1.0',exact:true});
+ await page.goto('fde/');
+ const zip=page.getByRole('link',{name:'下載原始 ZIP 0.1.0 ↓',exact:true});
  const response=await page.request.get((await zip.getAttribute('href'))!);
  expect(response.ok()).toBe(true);expect((await response.body()).subarray(0,2).toString()).toBe('PK');
  await page.getByRole('link',{name:'閱讀 RAG 指南',exact:true}).click();
@@ -75,9 +85,12 @@ test('FDE mobile and update evidence states',async({page})=>{
 test('knowledge landscape and downloadable research index',async({page})=>{
  await page.goto('knowledge/');
  await expect(page.getByRole('heading',{name:'工作流知識總覽',exact:true})).toBeVisible();
- const download=page.getByRole('link',{name:'下載 Markdown ↗',exact:true});
+ await page.getByRole('link',{name:'閱讀 Markdown ↗',exact:true}).click();
+ await expect(page.getByRole('heading',{name:/AI 軟體開發工作流知識總覽/}).first()).toBeVisible();
+ const download=page.getByRole('link',{name:'下載本文 Markdown',exact:true});
  const md=await page.request.get((await download.getAttribute('href'))!);
  expect(md.ok()).toBe(true);expect(await md.text()).toContain('Task graph');
+ await page.goto('knowledge/');
  await page.getByRole('link',{name:'閱讀目前知識總覽',exact:true}).click();
  await expect(page.getByRole('heading',{name:/AI 軟體開發工作流知識總覽/}).first()).toBeVisible();
  const index=await page.request.get('downloads/knowledge/index.md');expect(index.ok()).toBe(true);
@@ -99,4 +112,21 @@ test('operations guide and latest list pagination',async({page})=>{
  await page.getByRole('link',{name:'網站排程與更新說明 ↗',exact:true}).click();
  await expect(page.getByRole('heading',{name:'網站自動排程、頁面用途與更新時機',exact:true})).toBeVisible();
  await expect(page.getByText('每週一 09:17：collect.yml',{exact:true})).toBeVisible();
+});
+test('downloaded Markdown and skill bundles have standalone site readers',async({page})=>{
+ await page.goto('workflows/');
+ const guide=page.getByRole('link',{name:'閱讀安裝指南',exact:true});
+ await expect(guide).toHaveAttribute('href',/guides\/android\/getting-started/);
+ await guide.click();
+ await expect(page.getByRole('heading',{name:'Android 工作流開始使用',exact:true})).toBeVisible();
+ await expect(page.getByRole('link',{name:'下載本文 Markdown',exact:true})).toBeVisible();
+ await page.goto('workflows/');
+ await page.getByRole('link',{name:'查看套件內容 superpowers-android-adapter 0.2.0 ↗',exact:true}).click();
+ await expect(page).toHaveURL(/guides\/bundles\/superpowers-android-adapter-020/);
+ await expect(page.getByRole('heading',{name:/superpowers-android-adapter · 0\.2\.0 套件內容/})).toBeVisible();
+ await expect(page.getByRole('main').getByRole('link',{name:'bundles/android-task/README-0.2.md',exact:true})).toBeVisible();
+ await expect(page.getByRole('main').getByRole('link',{name:'skills/android-task/SKILL.md',exact:true})).toBeVisible();
+ await expect(page.getByRole('main').getByRole('link',{name:'下載原始 ZIP',exact:true})).toBeVisible();
+ await page.getByRole('main').getByRole('link',{name:'bundles/android-task/README-0.2.md',exact:true}).click();
+ await expect(page.getByRole('heading',{name:'Android task adapter bundle',exact:true})).toBeVisible();
 });

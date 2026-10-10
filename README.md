@@ -2,6 +2,24 @@
 
 每週收集 AI 開發與 Android 工程的原始更新，去重後生成靜態網站。每週不呼叫模型；AI 雙週整理可產生未核准審閱草稿，預設停用；本 repo 是公開作品集，因此程式碼、Git 歷史及已提交草稿都會公開可見。已提供版本化 Android 技能包與評測契約，仍為候選版本，Android 實測待接。
 
+公開網站：[https://allenljf.github.io/ai-workflow/](https://allenljf.github.io/ai-workflow/)
+
+## 網站頁面截圖
+
+以下截圖涵蓋網站主要頁面與代表性指南；點擊圖片可開啟對應的公開頁面。
+
+| 最新知識 | 來源狀態 | 工作流知識總覽 |
+|---|---|---|
+| [<img src="docs/site-screenshots/home.png" alt="最新知識首頁" width="360">](https://allenljf.github.io/ai-workflow/) | [<img src="docs/site-screenshots/sources.png" alt="來源狀態頁" width="360">](https://allenljf.github.io/ai-workflow/sources/) | [<img src="docs/site-screenshots/knowledge.png" alt="工作流知識總覽頁" width="360">](https://allenljf.github.io/ai-workflow/knowledge/) |
+| 雙週精選 | 工作流與下載 | AI 應用工程師 |
+| [<img src="docs/site-screenshots/digests.png" alt="雙週精選頁" width="360">](https://allenljf.github.io/ai-workflow/digests/) | [<img src="docs/site-screenshots/workflows.png" alt="工作流下載頁" width="360">](https://allenljf.github.io/ai-workflow/workflows/) | [<img src="docs/site-screenshots/fde.png" alt="AI 應用工程師技能樹頁" width="360">](https://allenljf.github.io/ai-workflow/fde/) |
+| FDE 最新變化 | 使用指南 | 網站排程說明 |
+| [<img src="docs/site-screenshots/fde-updates.png" alt="FDE 最新變化頁" width="360">](https://allenljf.github.io/ai-workflow/fde/updates/) | [<img src="docs/site-screenshots/guides.png" alt="使用指南索引" width="360">](https://allenljf.github.io/ai-workflow/guides/) | [<img src="docs/site-screenshots/operations.png" alt="排程與更新說明頁" width="360">](https://allenljf.github.io/ai-workflow/guides/site/operations/) |
+| 工作流知識總覽全文 | Android 開始使用 | FDE 學習路線 |
+| [<img src="docs/site-screenshots/knowledge-landscape.png" alt="工作流知識總覽全文" width="360">](https://allenljf.github.io/ai-workflow/guides/knowledge/landscape/) | [<img src="docs/site-screenshots/android-getting-started.png" alt="Android 工作流開始使用" width="360">](https://allenljf.github.io/ai-workflow/guides/android/getting-started/) | [<img src="docs/site-screenshots/fde-roadmap.png" alt="FDE 學習路線" width="360">](https://allenljf.github.io/ai-workflow/guides/fde/roadmap/) |
+| RAG 指南 | Android 套件內容預覽 |  |
+| [<img src="docs/site-screenshots/fde-rag.png" alt="RAG 指南" width="360">](https://allenljf.github.io/ai-workflow/guides/fde/rag/) | [<img src="docs/site-screenshots/android-bundle.png" alt="Android 技能套件內容預覽" width="360">](https://allenljf.github.io/ai-workflow/guides/bundles/superpowers-android-adapter-020/) |  |
+
 ## 網站排程與各頁用途
 
 完整表格與操作說明見 [網站自動排程、頁面用途與更新時機](content/public/site/operations.md)，部署後也可從網站頁尾與知識總覽進入。每週收集、每日免費到期檢查、雙週搜尋／整理、審閱後發布；網站顯示近90天，運作資料保留180天並按月封存，保護待審與未決證據。
