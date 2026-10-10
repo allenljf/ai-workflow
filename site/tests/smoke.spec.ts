@@ -130,3 +130,14 @@ test('downloaded Markdown and skill bundles have standalone site readers',async(
  await page.getByRole('main').getByRole('link',{name:'bundles/android-task/README-0.2.md',exact:true}).click();
  await expect(page.getByRole('heading',{name:'Android task adapter bundle',exact:true})).toBeVisible();
 });
+test('custom pages and guides use the same dark teal theme',async({page})=>{
+ await page.emulateMedia({colorScheme:'light'});
+ await page.goto('./');
+ const app=await page.evaluate(()=>({background:getComputedStyle(document.body).backgroundColor,paper:getComputedStyle(document.documentElement).getPropertyValue('--paper').trim()}));
+ expect(app.background).toBe('rgb(11, 21, 24)');
+ expect(app.paper).toBe('#0b1518');
+ await page.goto('guides/site/operations/');
+ await expect(page.locator('html')).toHaveAttribute('data-theme','dark');
+ const docs=await page.evaluate(()=>getComputedStyle(document.body).backgroundColor);
+ expect(docs).toBe('rgb(11, 21, 24)');
+});
