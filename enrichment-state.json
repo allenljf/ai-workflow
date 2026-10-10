@@ -39,7 +39,7 @@
         "c6850da96f3957d416429c02e4b2ba213fc260d1d0ffd0fbcead0eb614f9082d",
         "d77d841874d577252ea6f04fb1c85db43d4ddc6267027055c050c0e2becdbc2d"
       ],
-      "status": "reserved",
+      "status": "calling",
       "reserved_usd": "0.3217728",
       "actual_usd": null,
       "result_hash": null,
