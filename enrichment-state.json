@@ -1,7 +1,561 @@
 {
   "schema_version": 1,
   "next_ai_due_at": null,
-  "batches": {},
+  "batches": {
+    "45ff8462f532515182607ea40866490491c6ef1d01cc85bcebd8d071ec646fe4": {
+      "id": "45ff8462f532515182607ea40866490491c6ef1d01cc85bcebd8d071ec646fe4",
+      "input_hash": "45ff8462f532515182607ea40866490491c6ef1d01cc85bcebd8d071ec646fe4",
+      "event_ids": [
+        "004ad8bcfd0cef7f29cdacc6dbdbd1f7da4e224ff6a3f53eae6b853758f73b68",
+        "00cfe146bd66aa766f1273c9c77dc0d6222e0b27309e37a8148b235d03f2f2d5",
+        "01d8eb3e7e3654286905e44da9c9ec6c8000d241c55dea49e982c0d15c370581",
+        "021d4d83fbf0239bb940e8d8974efcfd0de99e9a81abf0d962fcc2474c50c041",
+        "0456c81e40a0ba912a9dddf15b498fe9a859b33f06d9807a5522fc94ed2b7b0c",
+        "06c406854cfe2cd2a4558b87aaa240db60e55a4fa30824e6525025e2194ead25",
+        "070796c14c62bbd48025facc464e0b72b11e06e726d8523b8988e6d8252466a4",
+        "0c11db27469ec0806d0b8dd57c070b6855d02d6710b640e6bd13bcbd785bd161",
+        "0c17128ced592b5b5b50592bdb4bdc62df032918159c7880d48712c764fe3f43",
+        "0fabec639d9c79b509e1543a4f3a4558910a822c301f4d5631f4d328107da42d",
+        "1011229f1793b7347f8b058306dab6706d5e1d829e2ba1a260bfdf89e7b5616f",
+        "1322ad99059db79e7ed3461addb9a947163896941c021369136141df0b0b25d2",
+        "1345e67a46964c0b7be270c74ef8af945ea19429674bf9696d92f32b0cca14a9",
+        "144dda7929275efc0a5bbe9ab40c98eb77a358556e94a14c3ee22ff2e2d0f22f",
+        "1813e9fee70a627b64f83d03cdd7bcf3346351cd26ef5736f90be4889625bb31",
+        "1922d22c531f1ad6100f23cab70fd881601aa0beae0dab3d5388ab52d4fbc14e",
+        "1f588fbb1381eddfe67ead83d6fd5c0e5f2b7f765e34d789d069d0e0e6e9b14d",
+        "243c47080e2355da38f1e74f21b2e215e99a59c48dd32cff4fe343b705f0105f",
+        "2b2f67e1bdda989cc80a9b93c723fa88d3114f3ed1775b95b0f70e92b6f9499f",
+        "2bee4410907d98c3ab6854f60464af4fd46e9f581ebaee1256078db5fb5249db",
+        "2eeca9f0784759000420978c8cc045dffcf5767de74799a4c3236fe81b60911c",
+        "412556a0aa7ca1ac39fe9e770f6064ebbb8ea32573971bd8af8af04bc5178faf",
+        "45df81a41bb0c6a48b9cb65008d977b74fa5673a67eddcbe69ba956949e3b2a9",
+        "4b1aa7778da01244645d22f96dbf7721910f58f1e1baa36c6dff94c0571412e6",
+        "500f0ed956c9c09ef089dafeb06c26fabd5055b67e5faa34abd6fd0ee42de421",
+        "587aa1242fcb75ae137061230949d03b3034a617288191389fd95f5f6629aa3b",
+        "658af337cab545c6db2490191bf8ad6d8a040208a690379cf1a25781a1e9342d",
+        "7579e5c50d5f998956bddb2926117b9cc105f88c078c351e08588dfa607ed17e",
+        "8d018148a9efad0ca0c1f2d8a89f04177ccfd13bec05af548dcb646cd40720f6",
+        "c06b8a300e70abc59e8882584bcb5696d233a316c9a8dd8d8fed8f00b4da02cd",
+        "c6850da96f3957d416429c02e4b2ba213fc260d1d0ffd0fbcead0eb614f9082d",
+        "d77d841874d577252ea6f04fb1c85db43d4ddc6267027055c050c0e2becdbc2d"
+      ],
+      "status": "reserved",
+      "reserved_usd": "0.3217728",
+      "actual_usd": null,
+      "result_hash": null,
+      "review_pr_url": null,
+      "reservation_month": "2026-10",
+      "charged_month": null,
+      "result": null,
+      "request": {
+        "batch_id": "45ff8462f532515182607ea40866490491c6ef1d01cc85bcebd8d071ec646fe4",
+        "model": "deepseek-flash",
+        "prompt_version": "enrichment-v1",
+        "schema_version": "enrichment-result-v1",
+        "event_inputs": [
+          {
+            "event_id": "01d8eb3e7e3654286905e44da9c9ec6c8000d241c55dea49e982c0d15c370581",
+            "source_id": "f85a215baee3e24d438d51f5936cc98f3d4968591964d2e153cf400c750ed04d",
+            "feed_source_id": "github-spec-kit",
+            "content_hash": "509f0d66267d3879eca175f9d67b11debe37377f089878a8bccc2b84da285e7d",
+            "title": "Spec Kit - 1.0.4",
+            "excerpt": "## Install ```bash uv tool install specify-cli --from git+https://github.com/github/spec-kit.git@v1.0.4 specify init my-project ``` ## What's Changed - chore: bump version to 1.0.4 - fix(scripts): stop wrap composition looping on a token in core content (#4396) - [extension] Update Charter extension to v0.6.1 (#4409) - fix(workflows): keep non-ASCII text readable in written overlay files (#4148) - fix(workflows): report overlay operation keys in declaration order (#4146) - fix: skip corrupted state.json in list_runs() instead of aborting (#3904) - fix(rovodev): guard non-string prompt names wh",
+            "url": "https://github.com/github/spec-kit/releases/tag/v1.0.4",
+            "kind": "text"
+          },
+          {
+            "event_id": "00cfe146bd66aa766f1273c9c77dc0d6222e0b27309e37a8148b235d03f2f2d5",
+            "source_id": "524cbf3dd2c5886cb1a8df1ee0366150fd4f7db61cc95b5c517065d4c8b15686",
+            "feed_source_id": "spring-projects-spring-ai",
+            "content_hash": "cf1ccd3ef73a4c91ff8435676cdd0a1b8910f27b918e027e0f3215c79bb111b4",
+            "title": "Spring AI 2.0.0-RC1",
+            "excerpt": "## :star: New Features - Add turn-boundary snapping to MessageWindowChatMemory eviction [#6312](https://github.com/spring-projects/spring-ai/pull/6312) - Finish to remove default values from models [#6311](https://github.com/spring-projects/spring-ai/pull/6311) - Move advisors to their proper modules [#6309](https://github.com/spring-projects/spring-ai/pull/6309) - Remove SpringBeanToolCallbackResolver and toolNames() API [#6301](https://github.com/spring-projects/spring-ai/pull/6301) - Streamline OpenAiChatModel implementations [#6295](https://github.com/spring-projects/spring-ai/pull/6295) -",
+            "url": "https://github.com/spring-projects/spring-ai/releases/tag/v2.0.0-RC1",
+            "kind": "text"
+          },
+          {
+            "event_id": "1813e9fee70a627b64f83d03cdd7bcf3346351cd26ef5736f90be4889625bb31",
+            "source_id": "a9ea1702358ef319b3a6876e27304521c74aab65f50b144d68fac7f7daa889c6",
+            "feed_source_id": "anthropics-claude-code",
+            "content_hash": "700e173f77e13a9d46655dc0e18a7ca513c72e1a98f026f3d4e5ec0ead478a88",
+            "title": "v2.1.291",
+            "excerpt": "## What's changed - Fixed a regression in 2.1.290 where cloud sessions could drop answers to permission prompts - Fixed a regression in 2.1.288 where the last messages of a session could be lost when quitting",
+            "url": "https://github.com/anthropics/claude-code/releases/tag/v2.1.291",
+            "kind": "text"
+          },
+          {
+            "event_id": "021d4d83fbf0239bb940e8d8974efcfd0de99e9a81abf0d962fcc2474c50c041",
+            "source_id": "8f20aad283aea493d29028922c17c8085266d8d36e213aa76f65dc0a6e28a1c3",
+            "feed_source_id": "temporalio-sdk-python",
+            "content_hash": "136fbb5ca31b7bc5397ea1dda3374a05958060d8f1e7b4a14863cb0d63c9e0a4",
+            "title": "1.21.1",
+            "excerpt": "[PyPI](https://pypi.org/project/temporalio/) ## Bug Fixes * Dynamic handlers now support `typing.Sequence` and `collections.abc.Sequence` for their third argument. * Add compatibility with OpenAI Agents SDK 0.6.4. ## Specific Changes 2025-12-19 - 772050e - Add backward compatibility for dynamic handler signatures (#1258) 2025-12-19 - f0bd341 - OpenAI - Fix generics is instance (#1261)",
+            "url": "https://github.com/temporalio/sdk-python/releases/tag/1.21.1",
+            "kind": "text"
+          },
+          {
+            "event_id": "1f588fbb1381eddfe67ead83d6fd5c0e5f2b7f765e34d789d069d0e0e6e9b14d",
+            "source_id": "c650567c5a57adca2ccfb3c96927b381ca47fe349ff73d3a99420fde3fd36b73",
+            "feed_source_id": "anthropics-claude-code",
+            "content_hash": "7e8f16d0405bc09db62a82d4677cd48d7798c5788db6356793abf7cb85f50f05",
+            "title": "v2.1.292",
+            "excerpt": "## What's changed - Added `--marketplace ` to `claude plugin install`: adds the marketplace if needed, under the same policy checks as `claude plugin marketplace add`, then installs the plugin from it - Added an `effort` parameter to the Agent tool, so Claude runs a sub-agent at the effort level you ask for - Added `CLAUDE_CODE_OVERLOADED_RETRY_BASE_DELAY_MS` environment variable to set a longer base delay for the backoff when retrying an overloaded (529) request - Added `prompt.autocomplete`, an event a mod hooks to add its own rows to the prompt box's autocomplete list - Added prompt caching",
+            "url": "https://github.com/anthropics/claude-code/releases/tag/v2.1.292",
+            "kind": "text"
+          },
+          {
+            "event_id": "06c406854cfe2cd2a4558b87aaa240db60e55a4fa30824e6525025e2194ead25",
+            "source_id": "4bc22f66e19ae18a7567bc549f2550d0ab33b35f2f8a63dfc6d1362394a60c7d",
+            "feed_source_id": "pydantic-pydantic-ai",
+            "content_hash": "f9dcb5c70cf625282b1df81ecf58200751f4752323247381c24ad81f4611ae54",
+            "title": "v2.51.0 (2026-09-25)",
+            "excerpt": "## What's Changed ### ⚠️ Compatibility Notes * Match dated `gemini-3.8-live` ids, reject `google_affective_dialog` on Gemini 3.1 Flash Live and 3.8 Live at connect, and raise `RealtimeError` for Gemini Live close codes by @DouweM in https://github.com/pydantic/pydantic-ai/pull/8761 * Raise a `UserError` for a realtime `tool_choice` that forces a tool call on OpenAI, Azure OpenAI, and xAI by @DouweM in https://github.com/pydantic/pydantic-ai/pull/8755 ### 🚀 Features * Add OpenAI GPT-Live support with `OpenAILiveModel` by @DouweM in https://github.com/pydantic/pydantic-ai/pull/8390 * Expose `con",
+            "url": "https://github.com/pydantic/pydantic-ai/releases/tag/v2.51.0",
+            "kind": "text"
+          },
+          {
+            "event_id": "2b2f67e1bdda989cc80a9b93c723fa88d3114f3ed1775b95b0f70e92b6f9499f",
+            "source_id": "2102b33c08f6fc51fbe161795a56da9094bdc16c6cd31c5ac0d7907e07e3a953",
+            "feed_source_id": "anthropics-claude-code",
+            "content_hash": "48155021638b8546a9f4be8b6f22ee89c24f923f6b8af7e7b01d608df0cd1a6f",
+            "title": "v2.1.294",
+            "excerpt": "## What's changed - Fixed `prompt` and `agent` hooks written as instructions (such as \"Block commands that...\") allowing what they should block - Improved how `prompt` hooks on Stop and SubagentStop written as instructions (such as \"Carry on if the build is broken\") are judged, so Claude is less likely to stop early",
+            "url": "https://github.com/anthropics/claude-code/releases/tag/v2.1.294",
+            "kind": "text"
+          },
+          {
+            "event_id": "0c11db27469ec0806d0b8dd57c070b6855d02d6710b640e6bd13bcbd785bd161",
+            "source_id": "8f91807956a465bbd697caa32a244b972dbfe05b3275de80732a388684e5ef4a",
+            "feed_source_id": "qdrant-qdrant",
+            "content_hash": "0990409256e008e6f270dcd0aa0a18005c59f8d43ff67a4d5529f90c967894f0",
+            "title": "v1.19.1",
+            "excerpt": "# Change log ## Improvements * https://github.com/qdrant/qdrant/pull/10342, https://github.com/qdrant/qdrant/pull/10420 - Speed up and saturate memory bandwidth in quantized scoring with prefetching * https://github.com/qdrant/qdrant/pull/10391, https://github.com/qdrant/qdrant/pull/10392, https://github.com/qdrant/qdrant/pull/10362, https://github.com/qdrant/qdrant/pull/10437, https://github.com/qdrant/qdrant/pull/10439, https://github.com/qdrant/qdrant/pull/10381 - Rework and batch 4-bit TurboQuant SIMD implementation for better performance * https://github.com/qdrant/qdrant/pull/10441 - Lim",
+            "url": "https://github.com/qdrant/qdrant/releases/tag/v1.19.1",
+            "kind": "text"
+          },
+          {
+            "event_id": "2eeca9f0784759000420978c8cc045dffcf5767de74799a4c3236fe81b60911c",
+            "source_id": "98e93e4c376a21f61a9e901cdc768c582403fb55d98dd38a1671110f541f069a",
+            "feed_source_id": "github-spec-kit",
+            "content_hash": "dcd7e69fdacc6352cd2450d9729a22701011b9dc7246d66d4bbe3b141014825b",
+            "title": "Spec Kit - 1.0.10",
+            "excerpt": "## Install ```bash uv tool install specify-cli --from git+https://github.com/github/spec-kit.git@v1.0.10 specify init my-project ``` ## Upcoming Deprecation The core /speckit.taskstoissues command is planned to move out of Spec Kit core in a future release as GitHub-specific issue tracking transitions to a bundled github extension. The command remains supported for now. ## What's Changed - chore: bump version to 1.0.10 - fix(workflows): stop list-literal-then-index expressions silently corrupting (#4572) - chore: refactor self command domain (#4685) - fix(integrations): stop frontmatter inject",
+            "url": "https://github.com/github/spec-kit/releases/tag/v1.0.10",
+            "kind": "text"
+          },
+          {
+            "event_id": "0c17128ced592b5b5b50592bdb4bdc62df032918159c7880d48712c764fe3f43",
+            "source_id": "b830cf451b230129c9b45a01d9d0a495fb1b8b11672e979d4fd143c9535636c5",
+            "feed_source_id": "temporalio-sdk-python",
+            "content_hash": "89ce648148f8487cb698fb865b8967e9e5a3f6af82a149a01b56e953536b2715",
+            "title": "1.27.0",
+            "excerpt": "## 💥 External Storage Reference Format Change (Experimental) External storage reference event history format has been incompatibly changed from prerelease. New storage references are emitted in the new format starting with release. Support for the ability to retrieve references in the old format has been preserved. The prerelease format is deprecated and will be removed in a future release. ## Workflow Streams This release adds [Workflow Streams](https://github.com/temporalio/sdk-python/tree/main/temporalio/contrib/workflow_streams), a public preview contrib library that gives a workflow a dur",
+            "url": "https://github.com/temporalio/sdk-python/releases/tag/1.27.0",
+            "kind": "text"
+          },
+          {
+            "event_id": "412556a0aa7ca1ac39fe9e770f6064ebbb8ea32573971bd8af8af04bc5178faf",
+            "source_id": "4fbb03959d79e5e8eda2f368ce5e96d5bf5a35400fcfc7e79096e0ed1cb1fd7b",
+            "feed_source_id": "github-spec-kit",
+            "content_hash": "00bb4e1da92f2f36d286f6e6557141fd29f2eb7d11dff81f4988b043d5e49b2f",
+            "title": "Spec Kit - 1.0.2",
+            "excerpt": "## Install ```bash uv tool install specify-cli --from git+https://github.com/github/spec-kit.git@v1.0.2 specify init my-project ``` ## What's Changed - chore: bump version to 1.0.2 - [extension] Add Jira Mirror extension to community catalog (#4376) - [extension] Add AgentDocx SpecKit V2 extension to community catalog (#4369) - fix(bundler): reject non-string catalog entry tag members (#4318) - fix(auth): reject malformed URL ports before credential matching (#4362) - fix: decode feature.json as UTF-8 in Windows PowerShell (#4359) - fix(events): stop falling back to a fake \"pwsh\" argv when no ",
+            "url": "https://github.com/github/spec-kit/releases/tag/v1.0.2",
+            "kind": "text"
+          },
+          {
+            "event_id": "0fabec639d9c79b509e1543a4f3a4558910a822c301f4d5631f4d328107da42d",
+            "source_id": "005500aa404023b486e5b1667f30030b9a7034355f63c604e365bd7f3b6d9512",
+            "feed_source_id": "pydantic-pydantic-ai",
+            "content_hash": "8f62a4ce1a66ae14b8013d06305158497f8403ebf816fa342b4b50887c8ae94f",
+            "title": "v2.48.0 (2026-09-22)",
+            "excerpt": "## What's Changed ### 🚀 Features * Support `genai-prices` 0.1.7 and new OpenAI audio models by @adtyavrdhn in https://github.com/pydantic/pydantic-ai/pull/8617 * Add OpenAI `gpt-6-sol` and `gpt-6-luna` model support by @DouweM in https://github.com/pydantic/pydantic-ai/pull/8635 * Add Claude Opus 5.5 (`claude-opus-5-5`) support by @DouweM in https://github.com/pydantic/pydantic-ai/pull/8637 ### 🐛 Bug Fixes * Preserve `UIMessage.id` across Vercel AI `load_messages` and `dump_messages` by @adtyavrdhn in https://github.com/pydantic/pydantic-ai/pull/8623 * Preserve AG-UI `Message.id` across `AGUIA",
+            "url": "https://github.com/pydantic/pydantic-ai/releases/tag/v2.48.0",
+            "kind": "text"
+          },
+          {
+            "event_id": "45df81a41bb0c6a48b9cb65008d977b74fa5673a67eddcbe69ba956949e3b2a9",
+            "source_id": "12164ed49416993ac969eb03ac07013c31b55fc1bcc0f73a3f61ad66885bb0b6",
+            "feed_source_id": "github-spec-kit",
+            "content_hash": "01dbe6cc06542dab63070c685bd91dbdb14b2d7dfe3d6b8f22f922bc9cea9989",
+            "title": "Spec Kit - 1.0.0",
+            "excerpt": "## Install ```bash uv tool install specify-cli --from git+https://github.com/github/spec-kit.git@v1.0.0 specify init my-project ``` ## The promise a 1.0.0 used to make — and why it stopped mattering > For decades a version number was load-bearing. The `1` in the major slot was insurance, and what it insured against was **the cost of change**. A breaking change meant a human opening every call site by hand, working through a migration guide line by line, praying the tests caught what the eyes missed. That was expensive, so semver turned the cost into a signal: a bumped major meant *budget a bad",
+            "url": "https://github.com/github/spec-kit/releases/tag/v1.0.0",
+            "kind": "text"
+          },
+          {
+            "event_id": "1011229f1793b7347f8b058306dab6706d5e1d829e2ba1a260bfdf89e7b5616f",
+            "source_id": "fcbe659ea0df675b5d0e3d9959318d2e0458ace88adc62555544721ae61f74dc",
+            "feed_source_id": "huggingface-trl",
+            "content_hash": "a9444daf6d435372026cee539e1c8ebd3be7e20927aff8d2ca1a02b7b9732373",
+            "title": "v1.13.0",
+            "excerpt": "## Features ### Training beyond 1M tokens A new [long-context guide](https://huggingface.co/docs/trl/long_context_training) plus a runnable example that trains a book-length sequence per step on a single 8×H100 node. Measured: **Qwen3-8B at 1,048,576 tokens, 380 s/step, 56.2 GB per GPU** (bf16, `per_device_train_batch_size=1`, `loss_type=\"chunked_nll\"`). Runs end to end and saves. The guide documents the levers in the order you hit them (`chunked_nll`, gradient-checkpointing `offload`, YaRN RoPE) and the constraints (full attention only, no packing). Needs `transformers >= 5.16` for checkpoint",
+            "url": "https://github.com/huggingface/trl/releases/tag/v1.13.0",
+            "kind": "text"
+          },
+          {
+            "event_id": "4b1aa7778da01244645d22f96dbf7721910f58f1e1baa36c6dff94c0571412e6",
+            "source_id": "35313a0bdefabb63bc97dd3782c0ce4e3b70c566c4e980860b46c8ad8da46cec",
+            "feed_source_id": "github-spec-kit",
+            "content_hash": "43b4ffa1ba2efc90d18ac67ff8ade993357fc9c9cc5d332515661450b6698989",
+            "title": "Spec Kit - 1.0.9",
+            "excerpt": "## Install ```bash uv tool install specify-cli --from git+https://github.com/github/spec-kit.git@v1.0.9 specify init my-project ``` ## Upcoming Deprecation The core /speckit.taskstoissues command is planned to move out of Spec Kit core in a future release as GitHub-specific issue tracking transitions to a bundled github extension. The command remains supported for now. ## What's Changed - chore: bump version to 1.0.9 - fix(integrations): dispatch Amp via execute mode (#4581) - feat(bundles): first-party bugfix and assess bundles with bundled workflows (#4504) - fix(workflows): reject a non-int",
+            "url": "https://github.com/github/spec-kit/releases/tag/v1.0.9",
+            "kind": "text"
+          },
+          {
+            "event_id": "1322ad99059db79e7ed3461addb9a947163896941c021369136141df0b0b25d2",
+            "source_id": "4fa5be14a29deca1ad7b205d772f5baa769372a2080cb1a9142ffd17be09ac75",
+            "feed_source_id": "ollama-ollama",
+            "content_hash": "e27903289e2fc7130922116eea76d8514ad746fc8f55976af686d423021e77c8",
+            "title": "v0.34.3",
+            "excerpt": "## What's Changed `GET /api/show` now advertises each model's thinking controls and default: Available in the CLI with: ``` ollama show gemma4 ``` ``` thinking levels false, true default true ``` Available in the API with: ```sh curl http://localhost:11434/api/show -d '{\"model\": \"glm-5.3-flash:cloud\"}' ``` ```json { \"thinking\": { \"values\": [\"low\", \"high\", \"max\"], \"default\": \"max\" } } ``` Also available on ollama.com directly for cloud models. * **Nemotron H** vision models are now supported on Apple Silicon with MLX * Ollama's macOS app will now no longer reopen windows you've closed when acti",
+            "url": "https://github.com/ollama/ollama/releases/tag/v0.34.3",
+            "kind": "text"
+          },
+          {
+            "event_id": "500f0ed956c9c09ef089dafeb06c26fabd5055b67e5faa34abd6fd0ee42de421",
+            "source_id": "56dbaaedd86a374b6ee24e1bd43b2f3bc3bf3d9aea4c4340d29d963dd01fd312",
+            "feed_source_id": "anthropics-claude-code",
+            "content_hash": "7452561520643c5074e7da593833a98299671ef1e023c514bf2d283b77b4beff",
+            "title": "v2.1.282",
+            "excerpt": "## What's changed - Added a `maxProseWidth` setting that caps the width of Claude's prose in wide terminals while tables and code blocks keep the full width - Added a startup notice, and `/status` and `claude doctor` entries, listing telemetry variables in a project's settings files that were ignored or that turned telemetry off - Added the `allowClaudeInChromeWithManagedMcp` managed setting to let `claude --chrome` run alongside an exclusive `managed-mcp.json`; the error shown when Chrome is blocked now names it - Added `store.readiness_grace_seconds` to the Claude apps gateway so `/readyz` c",
+            "url": "https://github.com/anthropics/claude-code/releases/tag/v2.1.282",
+            "kind": "text"
+          },
+          {
+            "event_id": "1345e67a46964c0b7be270c74ef8af945ea19429674bf9696d92f32b0cca14a9",
+            "source_id": "e94ea2a35ebfc542f553c3eca8e292cc9eb140a6283dcc7ea49c6e1b5b8dea5a",
+            "feed_source_id": "ollama-ollama",
+            "content_hash": "de7d3d2ddc0eb75718f5b9b91b2785d3ff31ef00d48a890751df5ed3d130c41c",
+            "title": "v0.35.0",
+            "excerpt": "## Decision models Ollama now supports decision models through `/v1/systemone`, based on [TypeSafe’s Jev API](https://typesafe.ai). Decision models return choices, probabilities, and scores instead of text. Use them for tasks such as ticket triage, model routing, and content classification. Available models: - [**Nimble**](https://ollama.com/library/nimble) from Bespoke Labs - [**Tev1**](https://ollama.com/library/tev1) from Together AI ```sh ollama pull nimble ``` Send context and one or more questions: ```sh curl http://localhost:11434/v1/systemone \\ -H 'Content-Type: application/json' \\ -d ",
+            "url": "https://github.com/ollama/ollama/releases/tag/v0.35.0",
+            "kind": "text"
+          },
+          {
+            "event_id": "587aa1242fcb75ae137061230949d03b3034a617288191389fd95f5f6629aa3b",
+            "source_id": "a8cf61e0efd77ab752795e4d01d219d1348d6152913b3bcb802cc59436dfa878",
+            "feed_source_id": "github-spec-kit",
+            "content_hash": "2e3fdaf89742e68b13828cfebcbc1d0431aabd4c2cb0843044c7e878521ba4aa",
+            "title": "Spec Kit - 1.1.1",
+            "excerpt": "## Install ```bash uv tool install specify-cli --from git+https://github.com/github/spec-kit.git@v1.1.1 specify init my-project ``` ## What's Changed - chore: bump version to 1.1.1 - Update SpecAssay bundle to v0.5.6 (#4855) - Update SpecAssay Check extension to v0.5.6 (#4853) - chore(triage): prioritize preset submissions (#4848) - Automatically prioritize extension submissions (#4845) - fix(bundles): install pinned catalog releases via exact-release selection (#4753) - feat(integrations): expose versioned catalog metadata (#4841) - fix(workflows): init step must not replace init's own error ",
+            "url": "https://github.com/github/spec-kit/releases/tag/v1.1.1",
+            "kind": "text"
+          },
+          {
+            "event_id": "144dda7929275efc0a5bbe9ab40c98eb77a358556e94a14c3ee22ff2e2d0f22f",
+            "source_id": "a4c7e2b3ce21d059402f4d2e3b28903d8ab7ef4d201ef812b77c96ace337c89e",
+            "feed_source_id": "qdrant-qdrant",
+            "content_hash": "1556deb20c3598da623b5a43ad24cc30c60df64257db9ecfeb5b6325bb041149",
+            "title": "v1.15.1",
+            "excerpt": "# Changelog ## Improvements * https://github.com/qdrant/qdrant/pull/6931 - gRPC HealthCheck method now works without authentication, making it consistent with REST methods. * https://github.com/qdrant/qdrant/pull/6923 - Use populate storage components with `MADV_SEQUENTIAL` for better IO performance on indexing ## Bug Fixes * https://github.com/qdrant/qdrant/pull/6932 - Fix point shard routing broken in 1.15 (**Points created in 1.15.0 in multi-shard collections might not behave properly on updates!**) * https://github.com/qdrant/qdrant/pull/6903 - Fix compile error in MUSL builds * https://gi",
+            "url": "https://github.com/qdrant/qdrant/releases/tag/v1.15.1",
+            "kind": "text"
+          },
+          {
+            "event_id": "c6850da96f3957d416429c02e4b2ba213fc260d1d0ffd0fbcead0eb614f9082d",
+            "source_id": "dae04a70a4f1258ee93a9703ead5268139a2b3d57fabb02f76ba1083446a4a66",
+            "feed_source_id": "knowledge-discovery",
+            "content_hash": "ae542f163e7fb4b2254fc812893678b74f239fba6995b7025f674aa39e7cc165",
+            "title": "Agentic Development Workflow: Spec to Verified Build | SPD Technology",
+            "excerpt": "You saved From Product Idea to Verified Build: Agentic Development Workflow Updated: Time: 15 mins Views: 3 Serhii Leleko Serhii Leleko ML & AI Engineer at SPD Technology Kateryna Kikidzhan Kateryna Kikidzhan Digital Content Writer at SPD Technology 1. SPD Technology 2. Explore SPD Technology Blog 3. Artificial Intelligence 4. From Product Idea to Verified Build: Agentic Development Workflow Quick answer An agentic development workflow is a process split into stages, where an AI agent decides its own next steps from what it observes, while a fixed and repeatable structure wraps that reasoning and keeps the overall process predictable. Five stages carry it. An idea becomes a written spec, and the agent runs it inside a governed harness built from shared rules and Agent Skills. Verification goes to someone other than whoever built the thing, shipping carries evidence, and production feeds back into the spec that follows. Without that structure, output quality varies with whoever prompted the agent. When a single engineer spends months driving real productivity through a coding agent, teammates naturally start borrowing pieces of the configuration. This organic adoption eventually creates a push for unified standards across the team. Searching for an agentic development workflow, however, usually yields two distinct paradigms. On one side lies the detailed documentation of a solo developer’s local environment. On the other, platform vendors outline six architectural pillars that require a dedicated internal engineering team to build and maintain. Neither model fits a mid-sized product group of twelve engineers. Team size is only part of the divide. DORA’s 2025 State of AI-assisted software development report shows that arti",
+            "url": "https://spd.tech/artificial-intelligence/agentic-development-workflow",
+            "kind": "text",
+            "evidence_level": "retrieved_text_unreviewed",
+            "published_at": null,
+            "fetched_at": "2026-10-10T07:45:54.887929+00:00",
+            "source_date_kind": "search_estimate"
+          },
+          {
+            "event_id": "1922d22c531f1ad6100f23cab70fd881601aa0beae0dab3d5388ab52d4fbc14e",
+            "source_id": "e3f31452e1d9e662a4c01c9ed4a00a0333d0154e2a433b3cf0e6a5a049e3b553",
+            "feed_source_id": "knowledge-discovery",
+            "content_hash": "072fe6dc7e3e98f278455ca72ed12b1bd3f1641b469a772e890a8e3d508fc029",
+            "title": "Agentic SDLC: Modernize Software Development with AI | Exadel",
+            "excerpt": "Exadel AI Logo Browse by Approach. Modernize Legacy Systems Modernize Your Legacy Systems Without Disrupting BusinessAutomate Core Processes Automate What Matters—Scale Without DisruptionAdopt AI Responsibly & Effectively AI Value-Driven Adoption for Reliability and GrowthOptimize Customer Experiences Optimize Operations. Improve Every ExperienceAccelerate Product Delivery Deliver Products at the Speed of OpportunityMonetize & Govern Data Efficiently Turn Data into Value—Securely and Strategically Close-up portrait of a man wearing round glasses with a greenish light effect partially obscuring the left side of his face. Contact Us Browse by Approach. AI-Enabled Product Engineering AI-Native Product Engineering. Built for Scale, Speed, and TrustDigital Experiences Creating Digital Experiences that Scale—Fast, Flexible, and AdaptableAI Engineering We Build AI Systems Engineered for Scale, Production, and Real-World Performance.Program Delivery & Modernization Leadership Deliver Complex Programs With Confidence—and Modernize Without Disruption.Data Engineering & Analytics Building Data Infrastructure That's Scalable, Trustworthy, and Ready for AI.AI Maturity & Readiness Assessment Understand How Prepared Your Organization Is to Deliver Real Business Value With AI. Close-up portrait of a man wearing round glasses with a greenish light effect partially obscuring the left side of his face. Contact Us Industries. Browse by Approach. Software & Technology Engineering Growth Through Smarter SoftwareRetail & CPG Engineering Intelligent CommerceFinancial Services Transforming Financial Services with AI That Earns TrustCommunication & Media Smarter Media. Connected Experiences. Global Scale.Healthcare & Pharma Powering the Digital E",
+            "url": "https://exadel.com/agentic-sdlc-how-to-modernize-your-software-development-lifecycle-with-autonomous-ai-agents",
+            "kind": "text",
+            "evidence_level": "retrieved_text_unreviewed",
+            "published_at": null,
+            "fetched_at": "2026-10-10T07:45:54.887929+00:00",
+            "source_date_kind": "search_estimate"
+          },
+          {
+            "event_id": "0456c81e40a0ba912a9dddf15b498fe9a859b33f06d9807a5522fc94ed2b7b0c",
+            "source_id": "64d5b8c0989188882e687da71ad6883fb9a3b1a906e2ef65ef859549623539ea",
+            "feed_source_id": "knowledge-discovery",
+            "content_hash": "22b9484ceb00cb9e108e4f395c53cfd83b505e445fc45d13f33f077fd7c33e62",
+            "title": "Agentic Software Development: How AI Agents Change the SDLC!",
+            "excerpt": "A winning team 250+ partnerships for progress. Cross-Industry Success 150+ diversified solutions Agile working models Customer-focused and results-driven Globally Certified 50+ Achievements in excellence International Footprint A global brand for a global world Connect with us Get No-Cost Quote and Expert Consultation live-whatsapp-chatbot Chat Now AIAISoftware DevelopmentSoftware Development Agentic Software Development: How AI Agents Are Changing the Software Development Lifecycle Published: Oct 08, 2026 Updated: Oct 08, 2026 Read Time: 24 mins Author: Tarun Bansal Agentic AI Development Workspace What Is Agentic Software Development? AI-Assisted vs AI-Native Development Why Is Software Development Becoming Agentic? AI Coding Agents Are Moving Beyond Autocomplete Coding Is Becoming Faster Than Verification Software Teams Need More Context, Not Just More AI AI Is Moving From Assistant to Collaborator Agentic Software Development Lifecycle: What Changes at Each Stage? 1. Planning and Discovery 2. Requirements Engineering 3. Architecture and System Design 4. Coding and Implementation 5. Testing and Quality Assurance 6. Code Review 7. Security and Compliance 8. CI/CD and Deployment 9. Monitoring and Maintenance 10. Continuous Improvement Traditional SDLC vs AI-Native SDLC What Are the Benefits of Agentic Software Development? Challenges and Risks of Agentic Software Development What Is the Role of Developers in Agentic Software Development? How Businesses Can Adopt an Agentic Software Development Approach A Three-Question Readiness Test How to Measure the Success of Agentic Software Development What Does the Future of Agentic Software Development Look Like? Key Takeaways Frequently Asked Questions Ask an engineering manage",
+            "url": "https://www.elsner.com/agentic-software-development-guide",
+            "kind": "text",
+            "evidence_level": "retrieved_text_unreviewed",
+            "published_at": null,
+            "fetched_at": "2026-10-10T07:45:54.887929+00:00",
+            "source_date_kind": "search_estimate"
+          },
+          {
+            "event_id": "2bee4410907d98c3ab6854f60464af4fd46e9f581ebaee1256078db5fb5249db",
+            "source_id": "05962cada500839e348f0d6542f5d2875ac6e8a1040040e400d4eafd9c562c66",
+            "feed_source_id": "knowledge-discovery",
+            "content_hash": "a67a2bc8df1a1786849120a36062886c5bab5e0f61c05749c4ab02a34360ed3c",
+            "title": "A Ex-Google Engineer's Agentic Engineering Workflow",
+            "excerpt": "A Ex-Google Engineer's Agentic Engineering Workflow Channel: Maddy Zhang 92.4K subscribers 595 likes Description 27,877 views Posted: 2026-09-20 Try Granola for free: As a senior software engineer (prev. at Google) I have spent the last few years working extensively with AI and software engineering. In this video, I break down my entire agentic AI workflow from setting up agents with the right context and memory, to planning, parallel agents, autonomous loops, graph-based workflows and reviewing AI-generated code safely Here’s what I cover 👇 ✅ How I set up memory files and skills so agents understand my codebase and conventions ✅ Why you should plan before letting an agent write code ✅ How I use plan mode to catch expensive mistakes before implementation ✅ How meeting context and requirements can flow directly into coding workflows ✅ How I use terminal-based workflows, agent harnesses, and Git worktrees ✅ How to run multiple AI agents in parallel with isolated contexts ✅ Loop engineering: designing agents that can write, test, fix, and repeat on their own ✅ Graph engineering: combining multiple agent loops for research, implementation, and review ✅ How to move from manually prompting agents to building more autonomous workflows ✅ How I decide how deeply to review AI-generated code based on risk ✅ When a quick diff review is enough and when I manually inspect every line ✅ Why testing, staging, screenshots, and real-world validation still matter with AI-generated code Timestamps 0:00 Intro 1:21 Setting up your agent 2:57 Planning before building 4:08 Granola sponsor 5:26 Agentic workflow architecture 6:44 Loop engineering 7:22 Graph engineering 7:39 Reviewing AI-generated code 9:02 Final Thoughts 👋 about me I’m Maddy, a se",
+            "url": "https://www.youtube.com/watch?v=tSF6eZW8ZMU",
+            "kind": "text",
+            "evidence_level": "retrieved_text_unreviewed",
+            "published_at": null,
+            "fetched_at": "2026-10-10T07:45:54.887929+00:00",
+            "source_date_kind": "search_estimate"
+          },
+          {
+            "event_id": "8d018148a9efad0ca0c1f2d8a89f04177ccfd13bec05af548dcb646cd40720f6",
+            "source_id": "5565f2d1becef33ab7e4dfb1c52f5705048d9f446378c1602a2aca9f422ddefd",
+            "feed_source_id": "knowledge-discovery",
+            "content_hash": "37622ab4105e7b9308ee2d3ebfb69bd05e7c2b2f1bfb04dd52c9a87020991eea",
+            "title": "Your Guide to Making Agentic Software Development Safe",
+            "excerpt": "White header logo Colored header logo Services + Technology Consulting + Custom AI Solutions + Data Engineering + Software Engineering Expertise + Big Data + Data Science + IoT Solutions + Custom ML Solutions AI Chatbot Development Services ChatGPT Development Services Large Language Model Development RAG Development Services Menu banner The Economics of LLM Adoption: What Executives Should Know Before Investing Download now Industries + Insurance + Manufacturing + Digital Marketing + Agriculture + eMobility Solutions EV Software Development Smart Grid Software OCPP/OCPI Development Renewable Energy Menu banner eMobility Regulations: What EV Leaders Need to Know Download now Success Stories Insights + Blog + White Papers + Glossary Company + Company Overview + Careers + Events Contact us Intelliarts Logo Contact us Services + Technology Consulting + Custom AI Solutions + Data Engineering + Software Engineering Expertise + Big Data + Data Science + IoT Solutions + Custom ML Solutions AI Chatbot Development Services ChatGPT Development Services Large Language Model Development RAG Development Services Industries + Insurance + Manufacturing + Digital Marketing + Agriculture + eMobility Solutions EV Software Development Smart Grid Software OCPP/OCPI Development Renewable Energy Success Stories Insights + Blog + White Papers + Glossary Company + Company Overview + Careers + Events Contact us Engineering Maturity Meets Agentic Software Development: Practices That Make AI Coding Safe Oleksandr Stefanovskyi Oleksandr Stefanovskyi 11 September 2026 20 min read IntelliartsBlogAIEngineering Maturity Meets Agentic Software Development: Practices That Make AI Coding Safe Share article 84% of developers now use or plan to use AI tools",
+            "url": "https://intelliarts.com/blog/engineering-practices-agentic-software-development",
+            "kind": "text",
+            "evidence_level": "retrieved_text_unreviewed",
+            "published_at": null,
+            "fetched_at": "2026-10-10T07:45:54.887929+00:00",
+            "source_date_kind": "search_estimate"
+          },
+          {
+            "event_id": "243c47080e2355da38f1e74f21b2e215e99a59c48dd32cff4fe343b705f0105f",
+            "source_id": "5cc997b8045342f0ef44558fedc51bb0863a0bd93f8587724ba2dee5318edd30",
+            "feed_source_id": "knowledge-discovery",
+            "content_hash": "30949ab877819f9d094b147cbec1cc01989b595be28e088ec07d2c3340ef8a66",
+            "title": "RRSI: Regularized Recursive Self-Improvement of Agent Harnesses",
+            "excerpt": "Report GitHub Issue Content selection saved. Describe the issue below: arXiv logo \\ This work was done while Peng was a Student Researcher at Google Cloud AI Research. RRSI: Regularized Recursive Self-Improvement of Agent Harnesses !(2609.24972v1/assets/logo_Google_FullColor.png) !(2609.24972v1/assets/logo_Google_FullColor.png) !(2609.24972v1/assets/logo_Google_FullColor.png) !(2609.24972v1/assets/logo_Google_FullColor.png) !(2609.24972v1/assets/logo_Google_FullColor.png) !(2609.24972v1/figures/stanford.png) !(2609.24972v1/figures/washu.png) !(2609.24972v1/assets/logo_Google_FullColor.png) !(2609.24972v1/assets/logo_Google_FullColor.png) !(2609.24972v1/assets/logo_Google_FullColor.png) !(2609.24972v1/unc_logo.png) !(2609.24972v1/assets/logo_Google_FullColor.png) !(2609.24972v1/assets/logo_Google_FullColor.png) !(2609.24972v1/assets/logo_Google_FullColor.png) Abstract An LLM agent’s capability is largely magnified by its harness, namely the prompts, control flow, tooling, memory, and context management surrounding the frozen backbone model. Recent methods increasingly automate this process by iteratively proposing and selecting component-wise edits of an agent harness, practically establishing a form of recursive self-improvement (RSI) at the agent-system level. However, such recursive evolution may overfit by memorizing the training tasks, showing large in-distribution gains that shrink or even vanish on out-of-distribution benchmarks. We introduce Regularized Recursive Self-Improvement of Agent Harnesses (RRSI), which incorporates the principles of regularizations into harness self-improvement by constraining the evolution candidate proposal and selection. The proposer operates with a temporally annealed budget, limitin",
+            "url": "https://arxiv.org/html/2609.24972v1",
+            "kind": "text",
+            "evidence_level": "retrieved_text_unreviewed",
+            "published_at": null,
+            "fetched_at": "2026-10-10T07:45:54.887929+00:00",
+            "source_date_kind": "search_estimate"
+          },
+          {
+            "event_id": "658af337cab545c6db2490191bf8ad6d8a040208a690379cf1a25781a1e9342d",
+            "source_id": "d9a3f02b7613209de570a6904ee76537b734c37164461177ab17eb9d035b45e4",
+            "feed_source_id": "knowledge-discovery",
+            "content_hash": "e7db86fb38bd415c4bd4f0b823153b6c532956256df5f7da63496581258dc03a",
+            "title": "Context Engineering Inside the Harness: 4 Mechanisms That Beat Context Overflow and Goal Loss on Long-Horizon Tasks - MarkTechPost",
+            "excerpt": "Discord Linkedin Reddit X Home Open Source/Weights AI Agents Tutorials Voice AI Robotics Newsletter Partner with Us LogoNewsHub LogoNewsHub Premium Content Read our exclusive articles Instagram X Home Open Source/Weights AI Agents Tutorials Voice AI Robotics Newsletter Partner with Us LogoMARKTECHPOST Home Open Source/Weights AI Agents Tutorials Voice AI Robotics Newsletter Partner with Us Home Editors Pick Agentic AI Context Engineering Inside the Harness: 4 Mechanisms That Beat Context Overflow and... Editors Pick Agentic AI AI Agents Artificial Intelligence AI Infrastructure Technology AI Shorts Applications Harness Language Model Machine Learning Staff Context Engineering Inside the Harness: 4 Mechanisms That Beat Context Overflow and Goal Loss on Long-Horizon Tasks By Asif Razzaq Add as a preferredsource on Google An agent, in its simplest form, is an LLM calling tools in a loop. That loop works for short jobs. Give it a task that runs for an hour and 200 tool calls, and it breaks in 2 predictable ways. The AWS Samples design guide for autonomous cloud coding agents names them directly: shallow agents suffer from context overflow, get distracted (goal loss), and do not maintain state over long periods. The layer that fixes this is not the model. It is the harness, which AWS describes as managing everything but the model. This article opens up that layer. Compaction, memory strategy, context budgeting, and todo-state are the machinery that turns a shallow loop into a deep agent. We look at how LangChain Deep Agents, Claude Code, Manus, OpenAI Codex, and Amazon Bedrock AgentCore implement each one, with the actual thresholds they ship. Why a bigger window does not fix it The obvious fix is a larger context window. The",
+            "url": "https://www.marktechpost.com/2026/09/12/context-engineering-inside-the-harness-4-mechanisms-that-beat-context-overflow-and-goal-loss-on-long-horizon-tasks",
+            "kind": "text",
+            "evidence_level": "retrieved_text_unreviewed",
+            "published_at": null,
+            "fetched_at": "2026-10-10T07:45:54.887929+00:00",
+            "source_date_kind": "search_estimate"
+          },
+          {
+            "event_id": "7579e5c50d5f998956bddb2926117b9cc105f88c078c351e08588dfa607ed17e",
+            "source_id": "059b807c7cb9ba1b5438178c45287ea5693bac6c0be59bf6365a01184263a93b",
+            "feed_source_id": "knowledge-discovery",
+            "content_hash": "058fa8bb270fdade7bd6a6cd26688109404d982044289ac2d13b8a5b825d6b2d",
+            "title": "Building the Harness Around Claude Code - Just Understanding Data",
+            "excerpt": "James Phoenix Building the Harness Around Claude Code James Phoenix James Phoenix James Phoenix James Phoenix > Claude Code is a harness around an LLM. Your job is to build a harness around Claude Code. Author: James Phoenix | Date: November 2025 The Mental Model Treat this as a signal processing problem. The LLM is a noisy channel. Each layer of harness: Increases signal-to-noise ratio Constrains the solution space Provides feedback loops for self-correction The Three Layers ┌─────────────────────────────────────────────────────────────┐ │ Meta Engineering │ │ - Claude Agent Scripts for specific workflows │ │ - Tests for tests │ │ - Tests for telemetry │ │ - Bespoke infrastructure that speeds up features/tests │ │ - Agent Swarm Tactics │ │ ┌─────────────────────────────────────────────────────┐ │ │ │ Cultural - Repository Engineering │ │ │ │ - Metrics/logs/traces (OTEL + Jaeger) │ │ │ │ - Testing infrastructure │ │ │ │ - Prod/Dev parity: Dockerised setup │ │ │ │ - Code/package structure (DDD) │ │ │ │ ┌─────────────────────────────────────────────┐ │ │ │ │ │ Coding Agent (Claude Code) │ │ │ │ │ │ ┌────────────┬─────┬──────────────┐ │ │ │ │ │ │ │claude.md │ LLM │ claude hooks │ │ │ │ │ │ │ │setup │ │ │ │ │ │ │ │ │ └────────────┴─────┴──────────────┘ │ │ │ │ │ └─────────────────────────────────────────────┘ │ │ │ └─────────────────────────────────────────────────────┘ │ └─────────────────────────────────────────────────────────────┘ Layer 1: Coding Agent (Claude Code) The innermost layer. Claude Code is already a harness around the raw LLM. | Component | Purpose | --- | | claude.md setup | Onboard the agent with WHAT/WHY/HOW | | LLM | The raw model (noisy channel) | | claude hooks | Pre/post processing, linting, formatting",
+            "url": "https://understandingdata.com/posts/building-the-harness",
+            "kind": "text",
+            "evidence_level": "retrieved_text_unreviewed",
+            "published_at": null,
+            "fetched_at": "2026-10-10T07:45:54.887929+00:00",
+            "source_date_kind": "search_estimate"
+          },
+          {
+            "event_id": "c06b8a300e70abc59e8882584bcb5696d233a316c9a8dd8d8fed8f00b4da02cd",
+            "source_id": "4ca8b332442b5b1f7e891fc2e9bca2333c870982748c8f7053951d70916eab50",
+            "feed_source_id": "knowledge-discovery",
+            "content_hash": "3f722e83a7a3a8cefb5e96d2716901d872d26f78747a11706a7c14eaa8f14398",
+            "title": "SuperQode: A Jev Engineering–Aligned Coding Agent",
+            "excerpt": "Sitemap Open in app Sign up Sign in Get app Write Search Sign up Sign in Image 1: Unknown user Superagentic AI · Follow publication 1. Why Jev sits beside the coding model 2. From the notes to the implementation 3. A small decision, with local protections around it 4. Inspect it in the TUI 5. Try the example 6. Watch Demo 7. WorkOrders, recovery, Pi Durable, and Monty 8. What is in place, and what we still need to measure Image 2: Superagentic AI Full Stack Agentic AI Company focuses on building agent dev tools for production-worthy Agentic AI systems. Based in the UK 🇬🇧 and USA Follow publication SuperQode: A Jev Engineering–Aligned Coding Agent Image 3: Shashi Jagtap Shashi Jagtap Follow 8 min read · 2 days ago Listen Share Press enter or click to view image in full size Image 4 Since we published SuperQode 2.5, the work on the terminal has been about making the harness usable as a daily coding surface: connect a provider or an agent, stay in the TUI, and see what the run is doing. While that was landing, the Jev engineering guide for coding agents was published. We read it as a description of how a coding harness should handle context, evidence, tools, and execution, not as a single feature to copy. Other coding-agent harnesses have been taking similar ideas one at a time. One product adds model routing. Another adds tool routing. A third adds a narrower context trim. We decided SuperQode should line up with the guide as a whole. This work does not implement every point in that document. It implements the points we could put into the coding workflow with a typed decision, a retained artifact, and a view the developer can inspect. Automatic model, provider, and reasoning-effort switching stay outside this scope. The de",
+            "url": "https://medium.com/superagentic-ai/superqode-a-jev-engineering-aligned-coding-agent-3b5fc9efe019",
+            "kind": "text",
+            "evidence_level": "retrieved_text_unreviewed",
+            "published_at": null,
+            "fetched_at": "2026-10-10T07:45:54.887929+00:00",
+            "source_date_kind": "search_estimate"
+          },
+          {
+            "event_id": "d77d841874d577252ea6f04fb1c85db43d4ddc6267027055c050c0e2becdbc2d",
+            "source_id": "8340e6bd0d53db85ee174022221111527e8f5b7ed87d8a0c8652b3285c10c860",
+            "feed_source_id": "knowledge-discovery",
+            "content_hash": "a478cc41b460ba7e74fabc622e9666f8d72b9b77c77d8631dac6116205863a56",
+            "title": "Overview | Harness AI 3.0 | Harness",
+            "excerpt": "LogoLogo ⌘Ctrlk Sign UpGet a DemoContact Us For the complete documentation index, see llms.txt. This page is also available as Markdown. Overview Bring AI automation directly into your pipelines with Harness Agents - governed by RBAC, OPA policies, audit logs, and GitX versioning. Harness Agents let you bring powerful AI automation directly into your pipelines - without losing control, security, or governance. Using your own models (OpenAI, Anthropic, Gemini) or Harness AI, agents analyze, fix, refactor, and optimize code and configs within the same guardrails you already trust for CI/CD. Each agent is a reusable template governed by RBAC, OPA policies, audit logs, and GitX versioning. 13+ Agents Available Pre-built catalog spanning code quality, security, and productivity OpenAI, Anthropic, Gemini, MCP RBAC, OPA, Audit Logs GitHub, GitLab, Bitbucket, Harness Code How Agents Work Agents follow a consistent execution flow from trigger to pull request. Every agent adheres to this lifecycle regardless of its specific task. 1. Trigger: An agent is triggered from the Harness UI, API, or automatically in response to events (e.g., CI failure, new PR). 2. Clone: The agent clones the target repository using configured SCM credentials. 3. Analyze: AI analyzes the codebase, logs, or PR diff to understand context. 4. Execute: The coding agent performs the task — writing code, generating tests, or creating fixes. 5. Review: Changes are pushed to a new branch and a pull request is created for human review. 6. No Auto-Merge: All agent-generated changes require human approval before merging. PR-BASED WORKFLOW Agents follow a strict PR-based workflow. No changes are ever auto-merged - every modification goes through your team's standard ",
+            "url": "https://developer.harness.io/harness-ai/3.0/new-to-harness-ai/getting-started",
+            "kind": "text",
+            "evidence_level": "retrieved_text_unreviewed",
+            "published_at": null,
+            "fetched_at": "2026-10-10T07:45:54.887929+00:00",
+            "source_date_kind": "search_estimate"
+          },
+          {
+            "event_id": "070796c14c62bbd48025facc464e0b72b11e06e726d8523b8988e6d8252466a4",
+            "source_id": "c1fdae8bead59e6bf0e8e6b2b19a28c5d04766b432909e53a408036a5377a9e5",
+            "feed_source_id": "knowledge-discovery",
+            "content_hash": "abdff31b1ec13973f8385bb479b4db5a15f2baafeeebf84741a992b4e0e277b6",
+            "title": "AI Coding Agents: The Future of Software Engineering | CapeStart",
+            "excerpt": "Skip to content CapeStart Talk to Our Experts Our offerings AI Consulting ServicesAI Strategy and Forward-Deployed Engineering Support AI Integration ServicesMachine Learning and AI Built Into Production Systems AI Adoption ServicesAI Adoption, Enablement, Governance, and Trust AI Packaged SolutionsLaunchAi, InsightBots, and Packaged AI Accelerators AI Data ServicesData Annotation, Medical Image Annotation, and AI-Ready Data Digital Engineering ServicesApplications, Data Engineering, Cloud, DevOps, and Support Our Service Forward-Deployed AI Engineering Embedded AI engineers who help move high-value AI use cases from prototype to production inside your systems. Explore FDE Industries we serve Pharma & Life SciencesEvidence synthesis, HEOR, regulatory & pharmacovigilance ManufacturingReliability, quality, warranty & operational AI MedTechCampaign intelligence, data management & automation PE / PortCosAI diligence & value creation across portfolios HUMAN-IN-CHARGE DELIVERY Industry AI with Expert Oversight AI, data, and engineering work supported by people who understand the workflow, quality needs, and business context. Talk to Our AI Experts Learn BlogPerspectives on AI, data, and digital engineering White PapersIn-depth thinking on AI, data, and enterprise technology Case StudiesReal client outcomes and delivery examples Scientific ResearchPeer-reviewed work from our teams NewsCompany announcements, awards, and media updates WebinarsLive and on-demand expert sessions FEATURED RESOURCE Go Deeper With Our White Papers Explore longer-form thinking on AI, data, and digital engineering, written for teams planning real technology decisions. View White Papers Company About UsWho we are & how we work CareersBuild your Career at CapeStart EventsWhere to meet the CapeStart team Contact UsTalk to our Experts today CAPESTART AT A GLANCE 600+ Experts. 100+ Clients. A global team supporting AI, data, and digital engineering programs across industries. View Company Profile AI Engineering Anish Kumar A October 7, 2026 Stop Writing Code, Start Directing AI: The Future of Software Engineering Stop Writing Code, Start Directing AI: The Future of Software Engineering AI Coding Agents A few years ago, the exciting part of AI in my work was watching it finish my lines of code. That already feels dated. For much of my work in 2026, I do not write the code at all. We direct AI Coding Agents that write it, then check what comes back. The interesting part is not the speed. It is that the hard part of the job has moved. Anthropic’s 2026 Agentic Coding Trends Report describes the same shift and puts a useful limit on it. Engineers report using AI in roughly 60 percent of their work, yet say they can fully delegate only 0 to 20 percent of tasks. That gap is the whole story: constant use, limited handover, and human judgment at every boundary. Here is where things stand. The Shift from Autocomplete To Agent Teams For years the headline feature was the inline suggestion. Useful, but bounded. Today that is the floor, not the ceiling. The tools worth discussing take a goal, break it into steps, edit many files, run the tests, read the errors, and try again. The comparison below reflects my own use and the consensus among developers I work with. It is not benchmark data, so treat it as a starting point, not a ranking. | Tool | Strongest at | Where it struggles | Workflow | --- --- | | Cursor | Fast completion and flow on small to medium tasks | Large, cross-cutting ref",
+            "url": "https://capestart.com/resources/blog/future-of-software-engineering",
+            "kind": "text",
+            "evidence_level": "retrieved_text_unreviewed",
+            "published_at": null,
+            "fetched_at": "2026-10-10T07:45:54.887929+00:00",
+            "source_date_kind": "search_estimate"
+          },
+          {
+            "event_id": "004ad8bcfd0cef7f29cdacc6dbdbd1f7da4e224ff6a3f53eae6b853758f73b68",
+            "source_id": "1cb0d6bc5f60c0fd851131ba738d0a6abffbc04e06d1ddfb6d8fdc6c1b8aae99",
+            "feed_source_id": "knowledge-discovery",
+            "content_hash": "dda61cf8f85f1c3d5ff061f2edd88625df13ae7e12a30efc7187345cc241a48b",
+            "title": "GitHub - bradAGI/awesome-cli-coding-agents: Curated directory of terminal-native AI coding agents and the harnesses that orchestrate them. Covers open-source tools (Pi, OpenCode, Aider, Goose), platform agents (Claude Code, Codex, Gemini CLI), parallel runners, autonomous loops, and agent infrastruc",
+            "excerpt": "Skip to content Navigation Menu Sign in Appearance settings Sign in Sign up Appearance settings You signed in with another tab or window. Reload to refresh your session. You signed out in another tab or window. Reload to refresh your session. You switched accounts on another tab or window. Reload to refresh your session. Dismiss alert {{ message }} bradAGI / awesome-cli-coding-agents Public Notifications You must be signed in to change notification settings Fork 389 Star 1.3k BranchesTags Open more actions menu Latest commit History 142 Commits 142 Commits Folders and files | Name | Name | Last commit message | Last commit date | --- --- | | .github/workflows | .github/workflows | | | | | scripts | | | | | README.md | | | | | banner.png | | | | | Repository files navigation Awesome CLI Coding Agents Awesome CLI Coding Agents Awesome Stars PRs Welcome License A curated list of 130+ CLI coding agents — AI-powered tools that live in your terminal, read/edit repos, and run commands — plus the harnesses that orchestrate, sandbox, or extend them. > Last updated: 2026-09-28 What is a CLI coding agent? A CLI coding agent is an AI-powered tool that runs in your terminal and can autonomously read, write, and execute code in your repository. Unlike chat-based assistants, these agents have direct access to your filesystem, shell, and dev tools — they can edit files, run tests, commit changes, and iterate on errors. Think of them as AI pair programmers that live where you already work: the command line. Contents Terminal-native coding agents + Open Source + OpenClaw ecosystem + Closed Source Harnesses & orchestration + Session managers & parallel runners + Orchestrators & autonomous loops + Agent infrastructure Contributing Terminal-native coding agents Open Source Forkable, extensible, and community-driven. Sorted by GitHub stars. Provider tags [Company] indicate the backing organization. Hermes Agent ⭐ 250k — Nous Research's self-improving CLI agent with persistent memory, automated skill creation, sandboxed code execution via Unix socket RPC, and multi-platform reach (Telegram/Slack/Discord/WhatsApp); supports 300+ models across multiple providers. OpenCode ⭐ 211k — Terminal-native coding agent with 75+ provider support, LSP integration, and privacy-first design (formerly opencode-ai; now at opencode.ai). Claw Code ⭐ 195k — Clean-room Python/Rust rewrite of Claude Code architecture using oh-my-codex; fastest repo in GitHub history to 100K stars. Born from the March 2026 Claude Code source leak. MIT. Codex CLI ⭐ 127k [OpenAI] — OpenAI's local coding agent for reading/editing/running code, with an interactive TUI and tool execution. Apache-2.0. Pi ⭐ 110k — Minimal, adaptable terminal coding harness from the pi-mono toolkit; unified LLM API, TUI, skills, and MCP support. Gemini CLI ⭐ 107k [Google] — Google's terminal agent powered by Gemini, with tools for repo work and research. Apache-2.0. OpenHands ⭐ 89.4k — Open-source agentic developer environment (formerly OpenDevin) with CLI and web entrypoints; also has a lightweight CLI-only package. Oh My OpenAgent ⭐ 69.6k — Multi-harness agent OS layered over OpenCode, Codex, and Pi; Team Mode runs several models on one job, with a hash-anchored tool harness and heavy context tuning. npm oh-my-opencode; the Codex-only variant installs via npx lazycodex-ai install. Source-available (SUL-1.0, not OSI). Cline CLI ⭐ 69.5k — Model-agnostic autonomous agent for planning, file edits, command execution, and brows",
+            "url": "https://github.com/bradagi/awesome-cli-coding-agents",
+            "kind": "text",
+            "evidence_level": "retrieved_text_unreviewed",
+            "published_at": null,
+            "fetched_at": "2026-10-10T07:45:54.887929+00:00",
+            "source_date_kind": "search_estimate"
+          }
+        ],
+        "max_output_tokens": 6000,
+        "policy": {
+          "model": "deepseek-flash",
+          "input_usd_per_million": "0.30",
+          "output_usd_per_million": "1.20",
+          "checked_at": "2026-10-09T15:38:44.492171+00:00",
+          "expires_at": null,
+          "max_output_tokens": 6000,
+          "caps_verified": true,
+          "input_token_ceiling": 1048576,
+          "policy_version": "deepseek-nonthinking-2026-10-08"
+        },
+        "input_upper_bound": 1048576,
+        "topic_map": {
+          "00cfe146bd66aa766f1273c9c77dc0d6222e0b27309e37a8148b235d03f2f2d5": [
+            "fde"
+          ],
+          "01d8eb3e7e3654286905e44da9c9ec6c8000d241c55dea49e982c0d15c370581": [
+            "workflow"
+          ],
+          "021d4d83fbf0239bb940e8d8974efcfd0de99e9a81abf0d962fcc2474c50c041": [
+            "fde"
+          ],
+          "06c406854cfe2cd2a4558b87aaa240db60e55a4fa30824e6525025e2194ead25": [
+            "fde"
+          ],
+          "0c11db27469ec0806d0b8dd57c070b6855d02d6710b640e6bd13bcbd785bd161": [
+            "fde"
+          ],
+          "0c17128ced592b5b5b50592bdb4bdc62df032918159c7880d48712c764fe3f43": [
+            "fde"
+          ],
+          "0fabec639d9c79b509e1543a4f3a4558910a822c301f4d5631f4d328107da42d": [
+            "fde"
+          ],
+          "1011229f1793b7347f8b058306dab6706d5e1d829e2ba1a260bfdf89e7b5616f": [
+            "fde"
+          ],
+          "1322ad99059db79e7ed3461addb9a947163896941c021369136141df0b0b25d2": [
+            "fde"
+          ],
+          "1345e67a46964c0b7be270c74ef8af945ea19429674bf9696d92f32b0cca14a9": [
+            "fde"
+          ],
+          "144dda7929275efc0a5bbe9ab40c98eb77a358556e94a14c3ee22ff2e2d0f22f": [
+            "fde"
+          ],
+          "1813e9fee70a627b64f83d03cdd7bcf3346351cd26ef5736f90be4889625bb31": [
+            "workflow"
+          ],
+          "1f588fbb1381eddfe67ead83d6fd5c0e5f2b7f765e34d789d069d0e0e6e9b14d": [
+            "workflow"
+          ],
+          "2b2f67e1bdda989cc80a9b93c723fa88d3114f3ed1775b95b0f70e92b6f9499f": [
+            "workflow"
+          ],
+          "2eeca9f0784759000420978c8cc045dffcf5767de74799a4c3236fe81b60911c": [
+            "workflow"
+          ],
+          "412556a0aa7ca1ac39fe9e770f6064ebbb8ea32573971bd8af8af04bc5178faf": [
+            "workflow"
+          ],
+          "45df81a41bb0c6a48b9cb65008d977b74fa5673a67eddcbe69ba956949e3b2a9": [
+            "workflow"
+          ],
+          "4b1aa7778da01244645d22f96dbf7721910f58f1e1baa36c6dff94c0571412e6": [
+            "workflow"
+          ],
+          "500f0ed956c9c09ef089dafeb06c26fabd5055b67e5faa34abd6fd0ee42de421": [
+            "workflow"
+          ],
+          "587aa1242fcb75ae137061230949d03b3034a617288191389fd95f5f6629aa3b": [
+            "workflow"
+          ],
+          "c6850da96f3957d416429c02e4b2ba213fc260d1d0ffd0fbcead0eb614f9082d": [
+            "workflow"
+          ],
+          "1922d22c531f1ad6100f23cab70fd881601aa0beae0dab3d5388ab52d4fbc14e": [
+            "workflow"
+          ],
+          "0456c81e40a0ba912a9dddf15b498fe9a859b33f06d9807a5522fc94ed2b7b0c": [
+            "workflow"
+          ],
+          "2bee4410907d98c3ab6854f60464af4fd46e9f581ebaee1256078db5fb5249db": [
+            "workflow"
+          ],
+          "8d018148a9efad0ca0c1f2d8a89f04177ccfd13bec05af548dcb646cd40720f6": [
+            "workflow"
+          ],
+          "243c47080e2355da38f1e74f21b2e215e99a59c48dd32cff4fe343b705f0105f": [
+            "workflow"
+          ],
+          "658af337cab545c6db2490191bf8ad6d8a040208a690379cf1a25781a1e9342d": [
+            "workflow"
+          ],
+          "7579e5c50d5f998956bddb2926117b9cc105f88c078c351e08588dfa607ed17e": [
+            "workflow"
+          ],
+          "c06b8a300e70abc59e8882584bcb5696d233a316c9a8dd8d8fed8f00b4da02cd": [
+            "workflow"
+          ],
+          "d77d841874d577252ea6f04fb1c85db43d4ddc6267027055c050c0e2becdbc2d": [
+            "workflow"
+          ],
+          "070796c14c62bbd48025facc464e0b72b11e06e726d8523b8988e6d8252466a4": [
+            "workflow"
+          ],
+          "004ad8bcfd0cef7f29cdacc6dbdbd1f7da4e224ff6a3f53eae6b853758f73b68": [
+            "workflow"
+          ]
+        },
+        "knowledge": {
+          "baseline": "---\ntitle: AI 軟體開發工作流知識總覽\nvisibility: public\nreview_state: approved\nkind: landscape\nchecked_at: '2026-10-08'\nreviewed_at: '2026-10-09T00:00:00+08:00'\n---\n\n> 此版沿用 2026-10-08 調研快照，尚未經新的雙週搜尋全面重新查核。新觀念的發現日、原始發布日與採用證據分開記錄。\n\n# AI 軟體開發工作流：2026-10-08 最新調研與知識更新指南\n\n> 查核日期：2026-10-08（Asia/Taipei）。範圍：AI 輔助軟體工程，涵蓋個人開發、既有專案、團隊流程與自建 agent 系統。\n> 方法：以作者維護的 repository、release notes、官方文件、第一方工程文章與原始調查為依據。搜尋結果與社群討論只用來找線索。\n> 「好用」的評估與導入順序是本文建議，未在你的程式專案中實測。動態文件代表查核日看到的內容，不保證每個帳號、版本與平台都有相同功能。\n\n## 1. 先看結論：值得學的是什麼\n\n我的建議是：**先建立可驗證的小任務迴圈，再選一套主要流程，按需要增加規格、隔離與編排。** 不必把 Superpowers、Matt Pocock skills、OpenSpec、BMAD 全部疊起來。\n\n最值得掌握的五件事：\n\n1. **Verification / backpressure**：讓 agent 可以自己跑出有意義的對錯訊號。\n2. **Spec 與任務切片**：清楚的行為、邊界、非目標、驗收條件，比一次寫滿整個系統實作細節有用。\n3. **Context engineering**：把必要資訊送到正確的任務；不用把所有歷史、規則與 skills 永遠塞進上下文。\n4. **Harness engineering**：設計工具、執行環境、權限、持久狀態與回饋機制。\n5. **Evals 與流程刪減**：用代表性任務比較流程；模型或工具更新後，重新確認舊規則是否還有價值。\n\n這是跨來源綜合判斷：Anthropic 把可自行驗證列為開發實務首項，HumanLayer 強調 research–plan–implement，OpenAI 的近期指引則要求減少膨脹且衝突的 skills。不是某一家工具專屬的工作法。[Claude Code best practices](https://code.claude.com/docs/en/best-practices)、[HumanLayer ACE](https://www.humanlayer.dev/blog/advanced-context-engineering)、[OpenAI：重新思考 skills](https://developers.openai.com/blog/rethinking-skills-and-prompts-for-gpt-6-astra)\n\n### 「業界常用」的證據界線\n\nStack Overflow 在 **2026-10-06** 公布的調查指出：66% 受訪者使用 coding assistants／coding agents，26.2% 使用 automated agent workflows。這些是受訪者自陳的工具類別使用率，不是 Superpowers、OpenSpec 或 Ralph 的市佔率，也不是隨機抽樣全體工程師的結果。[原始發布說明](https://stackoverflow.co/company/press/archive/stack-overflow-annual-developer-survey-ai-trust-conditional/)\n\nCursor 公布 Faire 的採用案例：團隊每週執行超過 2,000 次自動化 agent runs，包含 CI 修復、問題分類與 code review 路由。這是具名的廠商案例，能證明此模式有人實際部署，不能推廣成所有團隊都有相同效益。[Faire 案例](https://cursor.com/blog/faire)\n\n對本文提到的社群流程，**本次未找到足以比較其業界普及率的獨立統計**。因此不提供虛構的「業界前十名」排行榜；GitHub stars、作者名氣與社群轉貼只代表關注程度。\n\n## 2. 先分清概念：這些東西不是同一層\n\n| 概念 | 它回答的問題 | 典型產物 | 常見誤解 |\n|---|---|---|---|\n| SDD：Spec-driven development | 我們到底要做出什麼，怎樣算完成？ | spec、acceptance criteria、change proposal | spec 越長就越好；有文件就等於有驗證 |\n| Harness | 模型能看到、操作與恢復什麼？ | tools、sandbox、hooks、context loading、state | 只是一份 system prompt；或必須自己造框架 |\n| Loop | 如何根據失敗訊號重試並停止？ | implement → check → diagnose → repair | 無限重跑就一定收斂 |\n| Task graph | 工作之間有哪些依賴，哪些可並行？ | DAG、blocked_by、ready frontier | 一定要導入 LangGraph 才能有 graph |\n| Execution graph | 程式如何控制分支、暫停、恢復？ | state machine、nodes／edges、checkpoints | 多 agent 的角色圖就是可靠的執行系統 |\n| Knowledge／code graph | 程式符號與領域知識如何關聯？ | symbol／call／dependency graph、architecture map | agent 生成的架構圖就是最新真相 |\n| Skill | 如何重用特定任務的知識與步驟？ | SKILL.md 與 scripts／references | Markdown 指令等於不可繞過的限制 |\n| MCP | 如何接到外部工具或資料？ | server、tools、resources | MCP 自己就是完整開發方法論 |\n| Plugin | 如何包裝與分發能力？ | skills、hooks、agents、MCP、mods 套件 | 安裝越多就越可靠 |\n| Claude Code Mod | 如何在 Claude Code 內部改變事件與 UI？ | JS／TS event handlers | mods 只是另一種 skill，或等同 permission modes |\n| Eval | 流程／skill 在哪些任務上真的改善？ | 任務集、trace、grader、比較結果 | 測過一次成功就能證明穩定性 |\n\n上述是本文整理的分類，不是統一產業標準。Anthropic 區分固定控制流的 workflows 與由模型決定流程的 agents；LangChain 明確把 Deep Agents 定位為 harness、LangGraph 為 orchestration runtime。[Anthropic 模式定義](https://www.anthropic.com/engineering/building-effective-agents)、[LangGraph 官方定位](https://docs.langchain.com/oss/python/langgraph/overview)\n\n```mermaid\nflowchart TD\n  A[需求與參考資料] --> B[Spec 與可驗收的小任務]\n  B --> C[Task graph 決定可執行任務]\n  C --> D[Agent 在 harness 提供的環境中實作]\n  D --> E[測試、build、靜態分析與實際操作]\n  E -->|失敗且仍有預算| D\n  E -->|通過| F[獨立審查與整合驗證]\n  F -->|有缺漏| D\n  F -->|接受| G[更新規格、決策與經驗]\n  H[Eval 比較成本、品質與失敗] -.-> B\n  H -.-> D\n  H -.-> E\n```\n\n## 3. 工作流選擇表\n\n「適用」與「限制」是根據設計做出的評估；證據欄只表示可查核程度，不表示使用率排名。\n\n| 選項 | 主要價值 | 適合先試的情境 | 主要成本／限制 | 證據與定位 |\n|---|---|---|---|---|\n| 官方原生 agent + 驗證 | 最少額外設定，探索、計畫、實作、檢查 | 小修正、日常功能、熟悉專案 | 仍需提供可跑的檢查與環境 | 官方實務；可作基準組 |\n| Superpowers | 設計、計畫、TDD、委派與審查的流程紀律 | 功能有多步驟、容易提早宣稱完成 | 小任務可能多跑不必要流程 | 作者維護的 skills 套件 |\n| Matt Pocock skills | 規格討論、垂直切片、任務圖與 reviewer | 希望保留工程判斷且挑選 skills 使用 | 作者流程會變；需適配工具與 issue 系統 | 作者方法；非產業標準 |\n| OpenSpec | 既有專案的 change proposal 與規格變更生命週期 | 多人協作、規格要跟程式一起審查 | 文件漂移；不自動證明程式正確 | 開源 spec 工具 |\n| GitHub Spec Kit | 規格到計畫、tasks、implementation 的完整路徑 | 新功能、團隊需共同文件與流程 | 產物較多；小修改可能過重 | GitHub 維護的工具 |\n| BMAD | 需求、架構與實作的較完整方法集合 | 尚未釐清產品與多個角色的責任 | 選擇與流程學習成本較高 | 開源方法套件 |\n| Every Compound Engineering | 把完成工作的經驗回寫到下一輪 | 長期產品、重複踩相同坑的團隊 | 知識庫要清理；別累積互相衝突的規則 | 作者團隊維護的流程 |\n| HumanLayer RPI／ACE | 研究與計畫先於實作，控制上下文 | 大型既有 codebase、跨模組問題 | 人類必須審查研究與計畫的假設 | 第一方方法與案例 |\n| Ralph 類迴圈 | 用自動檢查與持久狀態推進多輪工作 | 有明確完成訊號的批次修改與修復 | verifier 缺口、卡住、預算失控 | 作者提出的 loop 模式 |\n| Claude subagents／agent teams | 分開 context、平行調查與審查 | 可獨立探索、跨模組但檔案可隔離 | 協作成本；teams 仍標示 experimental | 官方原生能力 |\n| Cursor Automations／cloud agents、Copilot GitHub 工作流 | 事件觸發任務並產生可 review 的變更 | CI、issue、PR 周邊重複工作 | 環境、權限、資源與接入成本 | 官方產品＋具名採用案例 |\n| LangGraph／Deep Agents | 可編程的持久狀態與 agent runtime | 自建可恢復、多分支的 agent 服務 | 自己維護狀態、故障與執行語義 | 官方 SDK／runtime |\n| Tessl | skills、loops 與 agent enablement 的工具方向 | 想探索 skills 評估、團隊導入 | 功能與定位需逐項查核，不沿用早期宣傳 | 商業工具；列為探索項 |\n| Claude Code Mods | 深入事件與 UI 客製化 | 上下文儀表板、可互動的工具審查介面 | 高權限；API 與平台相容性需追蹤 | 2026-10 新發布能力 |\n\n表內一手來源：[Superpowers](https://github.com/obra/superpowers)、[Matt Pocock](https://github.com/mattpocock/skills)、[OpenSpec](https://github.com/Fission-AI/OpenSpec)、[Spec Kit](https://github.com/github/spec-kit)、[BMAD](https://github.com/bmad-code-org/BMAD-METHOD)、[Compound Engineering](https://github.com/EveryInc/compound-engineering-plugin)、[HumanLayer](https://www.humanlayer.dev/blog/advanced-context-engineering)、[Ralph](https://ghuntley.com/ralph/)、[Agent teams](https://code.claude.com/docs/en/agent-teams)、[Cursor Automations](https://cursor.com/docs/cloud-agent/automations)、[Copilot on GitHub](https://docs.github.com/en/copilot/concepts/copilot-surfaces/copilot-on-github)、[Deep Agents](https://docs.langchain.com/oss/python/deepagents/overview)、[Tessl](https://tessl.io/)、[Mods](https://code.claude.com/docs/en/plugins/mods/overview)。\n\n## 4. Superpowers、Matt Pocock 與 SDD 應該怎麼理解\n\n### 4.1 版本快照：發布版與 main 要分開\n\n下表日期使用台灣時間；原始 UTC 發布日期一併保留。版本來自本次讀取的 GitHub latest release，不代表你的 marketplace 已安裝相同版本。\n\n| 專案 | 查到的發布版 | 台灣發布日（UTC 原始日） | 重點 |\n|---|---|---|---|\n| Superpowers | v6.4.2 | 09-26（09-25） | plan 減少預寫 implementation；保留 inline／subagent 執行選擇 |\n| Matt Pocock skills | v1.3.1 | 10-04（10-04） | 正式納入 implement-spec、retro 等流程 |\n| Spec Kit | v1.1.2 | 10-08（10-07） | 不只早期單一路徑；含 converge 與其他入口 |\n| OpenSpec | v1.14.1 | 10-06（10-06） | OPSX artifacts／change lifecycle；Stores beta |\n| BMAD | v6.12.1 | 10-05（10-04） | 已發布 v6 與 main 上 v7／Toolsmith Unreleased 要區分 |\n\n可回查的固定 release：[Superpowers v6.4.2](https://github.com/obra/superpowers/releases/tag/v6.4.2)、[Matt v1.3.1](https://github.com/mattpocock/skills/releases/tag/v1.3.1)、[Spec Kit v1.1.2](https://github.com/github/spec-kit/releases/tag/v1.1.2)、[OpenSpec v1.14.1](https://github.com/Fission-AI/OpenSpec/releases/tag/v1.14.1)、[BMAD v6.12.1](https://github.com/bmad-code-org/BMAD-METHOD/releases/tag/v6.12.1)。\n\n### 4.2 Superpowers：想讓 agent 自動遵循工程紀律\n\nSuperpowers 是一組完整的 skills 工作法：需求與設計、計畫、隔離工作、實作、TDD、review 與收尾。作者把它定位成 agent 預設會遵循的方法。適合希望減少「直接開寫、漏驗證、提早宣稱完成」的人。[作者 README](https://github.com/obra/superpowers)\n\nv6.4.2 的計畫強調介面 signature、assertions、spec values 與必要的演算法意圖，而不是把完整程式先寫進 plan；先前版本也重新提供 Native inline execution，並非所有任務都必須逐項開 subagent。查核時 README 的部分舊措辭與 release notes 不一致，因此以指定 tag 的 skill 為準。[Release notes](https://github.com/obra/superpowers/blob/main/RELEASE-NOTES.md)、[v6.4.2 planning skill](https://github.com/obra/superpowers/blob/v6.4.2/skills/writing-plans/SKILL.md)\n\n**縮寫提醒：SDD 也可能指 Subagent-driven development。** Superpowers 這個 skill 指每個任務用新的 implementer context、逐任務檢查規格與程式品質，再做整體 review；與 Spec-driven development 是不同概念，可以搭配。本文其他章節單寫 SDD 時指「規格驅動」。[Subagent-driven development](https://github.com/obra/superpowers/blob/v6.4.2/skills/subagent-driven-development/SKILL.md)\n\n我的建議：先看流程負擔是否值得；小修正不需要長篇需求拷問。inline 成本較低，逐任務 subagent 可隔離上下文但增加派工與 review 成本，應依任務比較。\n\n### 4.3 Matt Pocock：規格、垂直切片與 task graph\n\n這不是一個單一 SDD 引擎，而是作者整理的可組合 skills。當前可參考的流程是：\n\n```text\ngrill-with-docs → to-spec → to-tickets\n  → implement（逐票）或 implement-spec（整體協調）\n  → code-review → retro\n```\n\n`to-tickets` 切的是可以展示的垂直 tracer bullet，而非先完成所有資料層再做畫面；票附 blocking edges 並讓新 context 能理解。小改動可省略票層。[to-tickets](https://github.com/mattpocock/skills/blob/main/docs/engineering/to-tickets.md)\n\n`implement-spec` 以 task graph 讀取相依性，平行執行 blockers 已整合的 ready frontier，implementers 各用 worktree，最後合到 integration branch。它需要能在背景執行 subagents 的 harness 與已設定的 tracker；不強制 GitHub 或一定開 PR。[implement-spec](https://github.com/mattpocock/skills/blob/main/docs/engineering/implement-spec.md)\n\n文件也明列限制：worktrees 延後而不消除共享檔案碰撞；tracker 的 blocked 狀態可能落後實際整合；整體 review／fix 若無停止條件會拖很久。這表示任務圖、整合進度與驗證要一起設計，不能只喊「開多個 agents」。[官方已知問題](https://github.com/mattpocock/skills/blob/main/docs/engineering/implement-spec.md)\n\n`retro` 把回顧重點放在 agent 的環境與 checks；近期也把領域文件命名從 CONTEXT 改成 GLOSSARY，並刪除專用 resolving-merge-conflicts skill。這些都是舊版使用者值得核對的 migration，而不是模型變了就繼續累加規則。[Changelog](https://github.com/mattpocock/skills/blob/main/CHANGELOG.md)\n\n若想要真正 AFK 的 deterministic orchestration，作者另有 TypeScript 的 [Sandcastle](https://github.com/mattpocock/sandcastle)。它與在同一 agent session 中派工的 implement-spec 不同；此處列為延伸探索，不宣稱比原生工具更成熟或更快。\n\n### 4.4 規格工具：依規格生命週期選擇\n\n- **Spec Kit**：當前 README 包含 `specify → plan → tasks → implement → converge`，並有 bug fixing／idea assessment 入口。既有專案指引建議先做 bounded change，不先替全部舊程式補巨型規格。[README](https://github.com/github/spec-kit)、[Brownfield guide](https://github.github.io/spec-kit/guides/existing-projects.html)\n- **OpenSpec**：以 `explore → propose → apply → archive` 管理 change 與 artifacts，把完成的規格變更納入主 specs；跨 repository 的 Stores 仍 beta。規格驗證不能代替實際行為驗證。[README](https://github.com/Fission-AI/OpenSpec)、[v1.14.1](https://github.com/Fission-AI/OpenSpec/releases/tag/v1.14.1)\n- **BMAD**：涵蓋產品、架構與實作的較完整方法；先確認 stable v6 的流程，不把 main 上的 v7／Toolsmith Unreleased 當成已正式發布。[Releases](https://github.com/bmad-code-org/BMAD-METHOD/releases)、[Unreleased changelog](https://github.com/bmad-code-org/BMAD-METHOD/blob/main/CHANGELOG.md)\n- **Tessl**：當前定位包含 skills、loops、factory 與 agent enablement。不能拿 2025 的 Framework closed-beta 狀態概括現在；功能與可用性要逐項查，效益數字也需看方法。[當前首頁](https://tessl.io/)、[2025 歷史公告](https://tessl.io/blog/tessl-launches-spec-driven-framework-and-registry)\n\n**怎麼搭配**：Spec 工具管理「需求與變更的來源」，implementation skills 管理「如何做」，harness 提供「做與驗證的環境」。共同指向同一份 spec 與完成標準，避免多份互相衝突的真相。\n\n我的選擇建議：既有專案常有規格變更可先看 OpenSpec；想要模板與完整路徑可看 Spec Kit；產品需求與架構還未定可探索 BMAD。這是適用判斷，沒有證明某一套在所有情境都更好。\n\n\n## 5. Harness、loop、graph：怎樣才是工程方法\n\n### 5.1 Harness：工具環境比口頭要求重要\n\n一個實用的 coding harness 需要讓 agent 知道如何啟動專案、執行檢查、讀取失敗、保存進度與恢復。Anthropic 的長任務研究使用 initializer、feature list、progress file 與 git history；這是可參考的實驗設計，不是所有專案都要複製的固定格式。[2025-11-26 長任務研究](https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents)\n\n**本文建議的最小組合**：精簡專案指引、必要 tools、確定可用的 build／test、範圍可審查的變更、預算與終止條件。只有反覆出現的問題才轉成 skill 或 hook。不要先寫巨大規則集，卻讓 agent 無法啟動測試。\n\n近期重要修正：Anthropic 在 2026-07-24 報告，對新一代模型縮減超過 80% system prompt，未在其 coding evals 上測得下降；OpenAI 2026-09-11 也指出冗長、重複、觸發條件過廣的 skills 會干擾選擇與執行。**這支持定期重測並刪減規則，不能解讀成所有限制都可以刪除。** [Anthropic context 更新](https://claude.dev/blog/the-new-rules-of-context-engineering-for-claude-5-generation-models/)、[OpenAI skills 更新](https://developers.openai.com/blog/rethinking-skills-and-prompts-for-gpt-6-astra)\n\n### 5.2 Loop：驗證器與停止條件決定品質\n\nRalph 的核心是反覆執行任務，並用 build、tests、typechecker 等 backpressure 拒絕錯誤產物。作者也談到規格錯誤會造成反覆做錯；迴圈無法修正未被識別的錯誤需求。[Ralph 原文](https://ghuntley.com/ralph/)\n\n建議把每輪狀態記成：選定任務、變更摘要、實際檢查結果、剩餘失敗、下一步。增加以下停止條件：驗收通過；超過時間／費用／輪數；連續數輪沒有新進展；需要產品決策或外部資源。這些門檻要由實際任務決定。\n\n對 correctness，優先使用可重現的程式檢查；對設計與可用性，再加入 rubric、畫面操作與 reviewer。Anthropic 2026-03-24 的實驗將生成者與評估者分開，也坦承獨立評估者仍可能過於寬鬆；不能把第二個 LLM 當成絕對真相。[Generator–evaluator harness](https://www.anthropic.com/engineering/harness-design-long-running-apps)\n\nOpenAI 的 repair-loop 範例同樣把產出、驗證、修復分開，適合拿來理解 CI 失敗修復與文件範例維護，而不是無限重試。[Iterative repair loops](https://developers.openai.com/cookbook/examples/codex/build_iterative_repair_loops_with_codex)\n\n### 5.3 Graph：至少要分三種\n\n- **任務相依圖**：例如 API contract 確定後，client 與 server 可並行，最後跑整合測試。用 issue dependencies 或簡單檔案即可，不必先寫 orchestration framework。\n- **執行控制圖**：對固定分支、人工批准、故障恢復與跨長時間狀態，才考慮 LangGraph。官方提供 checkpoints 與 stores；前者保存單一 thread 狀態，後者保存跨 thread 的資料。[LangGraph persistence](https://docs.langchain.com/oss/python/langgraph/persistence)\n- **知識／程式圖**：用 symbols、呼叫與依賴關係回答改動影響哪些位置。Google Code Wiki 是自動生成文件與架構圖的例子；仍要回到實際 source 確認。[Google Code Wiki](https://developers.googleblog.com/en/introducing-code-wiki-accelerating-your-code-understanding/)\n\n**建議升級順序**：搜尋與 LSP／符號定位 → 小範圍影響分析 → 實際遇到跨模組依賴問題後再加圖。這是成本判斷，不是任何官方強制規則。\n\n### 5.4 自建 agent 系統：Deep Agents 與 LangGraph\n\nLangGraph 是底層 orchestration runtime；Deep Agents 把 filesystem、subagents、context management 等 harness 能力放在其上。它們主要幫你「建造 agent 系統」，與「在編輯器裡選一套開發流程」是不同工作。[官方架構定位](https://docs.langchain.com/oss/python/langgraph/overview)\n\n值得注意的近期改動：Deep Agents **v0.7（官方文章日期 2026-07-29）** 刪除基礎 system prompt、縮短工具描述，將 todo planning 改為 opt-in，報告 base input tokens 下降 65%。這是特定 eval 與預設輸入的比較，不是所有任務總帳單下降 65%；也不是查核日最新版本的宣稱。[v0.7 發布與實驗界線](https://www.langchain.com/blog/deep-agents-v0-7)\n\n## 6. Anthropic Mods：這次最需要補上的新知\n\n### 6.1 已確認是正式的 Mods\n\n官方追蹤 issue 在 2026-09-03 提出 function hooks，9 月 9 日說明對外名稱是 Claude Mods，**10 月 1 日更新宣布上線**；同日官方教程發布。不是把 modes 寫錯，也不是一般的 slash-command 套件。[官方進度](https://github.com/anthropics/claude-code/issues/91870)、[2026-10-01 教程](https://claude.dev/blog/getting-started-with-claude-code-mods/)\n\nMod 是使用 JS／TS event handlers 的 plugin，可觀察、改寫或接管 Claude Code 事件，並繪製 UI。官方概覽列出的 CLI 門檻是 **v2.1.287+**，Desktop 內含版本為 **v2.1.286+**；這是最低支援版本，不是最新版。[Mods overview](https://code.claude.com/docs/en/plugins/mods/overview)\n\n### 6.2 跟現有客製化方式如何選\n\n| 需求 | 優先考慮 | 理由 |\n|---|---|---|\n| 重用某種研究、review 或實作方法 | Skill | 儲存模型讀取的任務指引 |\n| 執行現有 script、記錄事件或做檢查 | Settings hook | 事件觸發外部處理 |\n| 連接 issue tracker、資料庫或外部服務 | MCP／適合的 CLI | 提供 agent 可以呼叫的工具 |\n| 統一安裝與分發上述元件 | Plugin | 管理套件與來源 |\n| 改寫內部事件、加入互動 pane／band | Mod | 需要 Claude Code 內部事件與介面能力 |\n| 決定工具動作是否自動接受 | Permission mode／policy | 管理執行權限；與 mods 是不同軸 |\n\n此表為官方能力分類的精簡轉述。[官方比較](https://code.claude.com/docs/en/plugins/mods/overview#compare-mods-settings-hooks-skills-and-mcp-servers)\n\n官方教程的三個示例值得先讀原始碼：**Token Weather**（context 儀表）、**Blast Radius**（命令影響提示）、**Replay Theater**（回放修改）。它們是教學示例，不是已證明廣泛採用的標準工作流。[官方教程與示例](https://claude.dev/blog/getting-started-with-claude-code-mods/)\n\n### 6.3 技術與導入界線\n\n典型 mod 含 `.claude-plugin/plugin.json`、`hooks/hooks.json` 與 JS／TS hooks module；可用 `--plugin-dir` 在一個 session 載入。官方 create 教程提供建立與 reload／validate 流程。[Create a mod](https://code.claude.com/docs/en/plugins/mods/create)\n\nAPI 會隨版本變化，載入時生成的 `.claude-plugin/types/` 是該 build 的權威型別；handler 透過 `next` 形成 middleware chain。[官方實作說明](https://claude.dev/blog/getting-started-with-claude-code-mods/)、[Mods reference](https://code.claude.com/docs/en/plugins/mods/reference)\n\n**Mod 是高權限程式碼。** 官方明列它可接觸檔案、程序、網路、環境變數與 session，也可能介入 approval；mod 本身不是 Bash sandbox 內的受限腳本。`claude plugin validate` 可列出 hooks／calls，但不能視為完整安全稽核。這是評估 mod 是否適合安裝的實際條件。[官方信任與權限說明](https://code.claude.com/docs/en/plugins/mods/overview#decide-whether-to-trust-a-mod)\n\nHooks 與 UI 支援也要分開：CLI／Desktop 可呈現介面；VS Code chat panel、headless 與 SDK 的 UI 能力不同。不要只因某 mod 在 terminal 有截圖就假設各平台等價。[Where mods run](https://code.claude.com/docs/en/plugins/mods/overview#where-mods-run)\n\n**給你的建議**：先用現有 skills、測試與 hooks 解決流程問題；只有缺少可互動的觀測或控制介面時才探索 mods。先從觀察型儀表做實驗，保留版本與來源，等有明確收益再改寫工具動作。\n\n## 7. 最近值得一起追蹤的方向\n\n### 7.1 多 agent：隔離與整合比數量重要\n\n官方 Claude agent teams 在查核日仍標示 **experimental、預設關閉**；teammates 各有 context 並可通訊。官方指出它有顯著 token 與協作成本，適用平行探索與可以獨立負責的部分；同檔案、強依賴或順序工作不一定受益。[Agent teams](https://code.claude.com/docs/en/agent-teams)\n\n本文建議：先用一個 focused subagent 做調查或獨立 review，再擴成多個 implementers。若並行寫程式，明確定義檔案 ownership、shared contract、worktree、ports 與整合檢查。Worktree 只隔離 checkout，不會自動隔離資料庫、模擬器、build cache 或其他共享資源。\n\n### 7.2 Cloud／ambient agents：讓事件啟動可 review 的任務\n\nCursor Automations 提供 schedule／event triggers；GitHub Copilot 可以從 GitHub 的需求與 repository 流程委派 coding work。適合先試 CI 失敗診斷、問題分類、文件修復與受限的維護任務。[Cursor docs](https://cursor.com/docs/cloud-agent/automations)、[Copilot docs](https://docs.github.com/en/copilot/concepts/copilot-surfaces/copilot-on-github)\n\n**2026-10-06** 的 Claude cloud-session field guide 說明每個 task 有獨立機器、repository 與 branch，讓長任務不依賴本機持續開著。它仍需要正確的 setup 和可執行驗證，不是把需求丟上雲端就能得到可靠 PR。[最新 cloud 實務](https://claude.dev/blog/claude-code-in-the-cloud/)\n\n若你是在「開發自己的 agent 服務」，Claude Managed Agents 是代管 loop、tool execution 與環境的另一選項；不要和 Claude Code cloud sessions 混為一談。[Managed Agents overview](https://platform.claude.com/docs/en/managed-agents/overview)\n\n### 7.3 Compound engineering：把經驗變成下次可讀的資產\n\nEvery 的維護中套件把 brainstorm、plan、work、simplify、review、compound 串成核心流程；學習回寫是與一般「完成後結束」流程不同的價值。[Compound Engineering README](https://github.com/EveryInc/compound-engineering-plugin)\n\n值得採用的部分是：把具體問題、原因、修復與驗證方式記下來，下一個相關任務才載入。不要把每個偶發錯誤都變成永久的全域禁令。這是本文建議的知識維護方式。\n\n### 7.4 Evals：現在應該評估 workflow 本身\n\nOpenAI 提供 skill eval 方法：capture trace／artifacts，同時檢查結果、流程與效率。Anthropic 在 **2026-09-28** 提供 `/claude-api build-eval` 與 `/claude-api hillclimb` 的指引，要求代表性任務及 held-out cases，避免只改善看過的例子。指令屬於該 skill，實際可用性需確認你的安裝。[OpenAI skill evals](https://developers.openai.com/blog/eval-skills)、[Anthropic eval 與 hillclimbing](https://claude.dev/blog/automating-eval-design-and-hillclimbing/)\n\n生產力數字也需要小心解讀。METR 的 2026-02-24 更新指出後續研究受參與者選擇與多 agent 的時間衡量影響，無法可靠估計當時效益。不要拿舊「AI 讓工程師變慢」結果或新的自陳倍數當成所有專案的定律。[METR 原始更新](https://metr.org/blog/2026-02-24-uplift-update/)\n\n## 8. 以你目前的知識庫，怎麼導入比較實用\n\n你已經有 2026-08 的 harness／loop／graph 手冊與研究素材。這次新增的是日期快照；沒有把舊內容整批重寫。以下是本文建議，實際是否採用請用你自己的任務驗證。\n\n### 推薦的起始組合\n\n**日常預設：原生 coding agent + 簡短專案指引 + 可執行驗證。**\n\n**主要流程：選 Superpowers 或 Matt Pocock skills 作為一個骨架。** 需要多人共同維護規格時，再把 OpenSpec 或 Spec Kit 用作規格生命週期；不同套件不能同時各自決定需求、任務狀態與完成標準。\n\n**記憶：借用 Compound Engineering 的回寫方式。** 專案規則、決策、解法各自存放，按需要載入並定期清理。\n\n**長任務：加 bounded loop 與 progress artifacts。** 多人並行與自建執行圖等實際需要出現後，再加 task graph／LangGraph。Mods 放在需要深入客製化 Claude Code 時探索。\n\n| 任務 | 建議流程 | 需要看到的證據 |\n|---|---|---|\n| 小 bug／單點修改 | 重現 → 修改 → 針對性回歸 | 修改前失敗與修改後通過的行為 |\n| 中型功能 | 需求釐清 → 薄 spec → 垂直切片 → 實作／驗證 → review | 驗收案例、錯誤路徑與整合結果 |\n| 大型既有系統改動 | research → reviewed plan → contract／task graph → 分片實作 | 影響範圍、相依性與跨模組驗證 |\n| 批次 migration | 試跑樣本 → 分批 loop → checkpoints → 最終整合 | 批次進度、殘留差異、可恢復點 |\n| CI 周邊自動化 | event → 診斷 → 受限修復 → PR → CI／review | 任務來源、可 review 的 diff、未解問題 |\n| 自建 agent 產品 | 狀態／恢復需求 → harness／graph → traces → eval | interruption recovery、持久狀態與效益比較 |\n\n對 Android，驗證需依變更選擇 compilation、unit tests、lint、instrumented tests 與裝置操作；不要每個小改都跑最重流程。並行任務也要處理 emulator、Gradle 與 ports 的共享狀態。這些是你的既有 Android 手冊可以繼續深化的部分，本文沒有重新查核 Android 工具版本。\n\n### 建議兩週實驗，不用一次換掉全部流程\n\n- **第一階段**：選 6–10 個真實且可重現的任務，涵蓋 bug、功能、重構與測試缺口；記錄原生 agent 的結果。\n- **第二階段**：只增加一套主要流程，以同樣 snapshot 與驗收要求比較；必要時重跑，避免一次運氣好就下結論。\n- **第三階段**：只補上持續發生的問題，例如規格不清、context 混亂、未驗證或整合失敗；一次改一個因素。\n\n比較：需求完成度、獨立檢查、回歸缺陷、人工介入次數、review 分鐘、總 elapsed time、token／費用、改動範圍與返工。模型、版本、effort、工具權限與測試環境也要記錄。以「可接受變更的總成本」判斷，不以 agent 產出的行數或角色數判斷。\n\n## 9. 跟既有 2026-08 手冊相比，應重新查核的項目\n\n| 舊認知／資料 | 本次查核帶來的修正 | 建議 |\n|---|---|---|\n| Claude 客製化主要是 skills／hooks／MCP | 10 月正式加入 Mods 的內部事件與 UI 介面 | 加入概念；實際安裝前查版本與信任範圍 |\n| Superpowers 只看 README 的計畫格式 | v6.4.2 的 planning 內容與舊措辭有差異 | 優先看 versioned skill 與 release notes |\n| Matt Pocock 只按一串舊 slash commands 執行 | 維護中 skills 已包含 task graph 與整合流程 | 以當前 SKILL.md 為準，不硬抄舊影片 |\n| Deep Agents 預設一定有 todo planning | v0.7 開始改成 opt-in | 自建服務升級時查 default behavior |\n| 規則越多、步驟越固定越可靠 | 近期官方資料開始強調減少衝突與舊 scaffolding | 用 eval 檢驗哪些規則值得保留 |\n| 把知識 graph 與流程 graph 放一起理解 | 任務、執行、程式知識是不同需求 | 分別定義更新責任與驗證方式 |\n| 引用 2025 的採用率／效益作現在結論 | 10 月已有 2026 調查；效益研究也有方法變動 | 保留年份、分母與研究限制 |\n\n這是局部更新清單，不表示舊手冊的所有其他說法已重新驗證。特別是固定百分比、套件數量、架構演變與效益數字，都應回到當前原始來源確認。\n\n## 10. 未來怎麼搜尋：可重複的知識更新流程\n\n### 10.1 四步驟：發現 → 查核 → 試用 → 保留／刪除\n\n1. **發現**：官方 changelog、作者 repo releases／commits、工程文章；社群只負責指出新名稱。\n2. **查核**：找完整原文，核對日期、版本、功能狀態、平台；對宣傳效益找方法與限制。\n3. **試用**：用一個可重現的真實任務，比較原生基準與新流程。避免同時換模型、工具與流程。\n4. **記錄決策**：採用、試驗中、追蹤或淘汰。每則記錄附來源、適用條件與下次查核日期。\n\n官方文件也可能沒有更新日期，README 也可能慢於 release notes；查核優先順序建議是：**指定版本的實作／skill → 對應 release notes → 最新官方文件 → 作者文章 → 社群解讀**。不同來源衝突時，保留衝突並在本機確認行為。\n\n### 10.2 搜尋詞：先搜工程問題，再搜熱門名字\n\n下列日期只是以這次調研為例；下次改為你的上次查核日期。搜尋引擎的日期與 `after:` 是篩選線索，仍要打開頁面確認。\n\n```text\n# 大方向與實際工程方法\n\"agentic coding\" \"workflow\" after:2026-09-01\n\"harness engineering\" \"evals\" after:2026-09-01\n\"coding agent\" \"context engineering\" \"failure\"\n\"spec-driven development\" \"brownfield\" \"limitations\"\n\"coding agent\" \"backpressure\" \"verification\"\n\"agent workflow\" \"durable execution\" \"checkpoint\"\n\n# 指定官方／作者來源\nsite:code.claude.com/docs/en \"mods\"\nsite:claude.dev/blog \"mods\" after:2026-09-01\nsite:claude.dev/blog \"cloud\" after:2026-09-01\nsite:anthropic.com/engineering \"harness\"\nsite:developers.openai.com \"skills\" \"evals\"\nsite:developers.openai.com \"context\" after:2026-09-01\nsite:cursor.com/changelog \"automations\"\nsite:docs.github.com \"copilot\" \"agent\"\nsite:github.com/obra/superpowers \"release\"\nsite:github.com/mattpocock/skills \"implement-spec\"\nsite:github.com/Fission-AI/OpenSpec \"release\"\nsite:github.com/github/spec-kit \"release\"\nsite:docs.langchain.com \"deepagents\" \"changelog\"\n\n# 找失敗、成本與可重現證據\n\"<工具名稱>\" \"breaking changes\"\n\"<工具名稱>\" \"migration\" \"limitations\"\n\"<工具名稱>\" \"benchmark\" \"methodology\"\n\"<工具名稱>\" \"context\" \"token\" \"cost\"\n\"<工具名稱>\" \"worktree\" \"conflict\"\n\"<工具名稱>\" \"false positive\" \"review\"\n```\n\n每個候選工具至少回答：解決什麼痛點？跟原生 agent 的差異？需要什麼環境？失敗如何恢復？效益怎麼量測？移除是否容易？找不到答案先放追蹤，不急著導入。\n\n### 10.3 固定追蹤的少量來源\n\n| 來源 | 追蹤內容 | 建議頻率 |\n|---|---|---|\n| [Claude Code changelog](https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md)／[文件索引](https://code.claude.com/docs/llms.txt) | 功能、預設行為、版本與平台差異 | 每週 |\n| [claude.dev Blog](https://claude.dev/blog/)／[Anthropic Engineering](https://www.anthropic.com/engineering) | 新模式、harness、eval 與限制 | 每週掃描 |\n| [OpenAI Developers](https://developers.openai.com/) | Codex／skills／loop／context 的官方更新 | 每週掃描 |\n| [Superpowers releases](https://github.com/obra/superpowers/releases) | skill 行為與版本差異 | 每週／升級前 |\n| [Matt Pocock skills commits](https://github.com/mattpocock/skills/commits/main/) | 命令、任務圖與作者流程演變 | 每週／升級前 |\n| [OpenSpec releases](https://github.com/Fission-AI/OpenSpec/releases)／[Spec Kit releases](https://github.com/github/spec-kit/releases) | spec 生命週期與 migration | 每月／升級前 |\n| [Compound Engineering](https://github.com/EveryInc/compound-engineering-plugin)／[HumanLayer Blog](https://www.humanlayer.com/blog) | 經驗回寫、context 與實際工作流 | 每月 |\n| [Cursor changelog](https://cursor.com/changelog)／[GitHub changelog](https://github.blog/changelog/) | cloud／PR／event automation | 每週掃描 |\n| [LangChain Blog](https://www.langchain.com/blog)／[Deep Agents repo](https://github.com/langchain-ai/deepagents) | 自建 harness／runtime 的預設變化 | 使用時每週；其餘每月 |\n| [Stack Overflow survey](https://survey.stackoverflow.co/)／[METR research](https://metr.org/research/) | 採用與生產力的原始證據 | 季度／新報告發布 |\n\n可以用 GitHub Watch 的 custom notifications 只訂閱 releases；有 Atom feed 的 repository 可追蹤 `releases.atom` 或 `commits/main.atom`。沒有穩定 feed 的來源，用固定清單巡查或頁面差異工具。這裡只提供方法，本次沒有建立訂閱或定期自動化。\n\n### 10.4 維持低負擔的節奏\n\n- **每週 20–30 分鐘**：掃 changelog 與作者 repo，挑 3–5 個真正改變能力或預設行為的項目。\n- **每月 60–90 分鐘**：選一個痛點試新方法，整理差異；刪掉失效規則與重複 skills。\n- **模型／工具大更新後**：先跑小型回歸任務，再決定流程是否要調整。\n- **每季**：回看採用調查、研究與具名案例；將沒有使用價值的追蹤來源移出固定清單。\n\n這些時間是建議的預算，不是研究推算的最佳頻率。\n\n### 10.5 知識紀錄模板\n\n```markdown\n## <日期>：<工具／方法更新>\n- 查核日期與來源：\n- 發布日期／版本／commit：\n- 狀態：stable / preview / experimental / 未確認\n- 類型：spec / harness / loop / task graph / knowledge / eval\n- 真正改變了什麼：\n- 跟目前工作流的差異：\n- 適用情境與不適用情境：\n- 採用證據：官方能力 / 作者案例 / 廠商客戶案例 / 獨立研究\n- 本地實驗：任務、snapshot、模型、環境與驗收\n- 結果：成功率、人工時間、費用、缺陷、限制\n- 決策：採用 / 試驗 / 追蹤 / 淘汰\n- 下次查核日期：\n```\n\n### 10.6 可直接交給 AI 的下次更新提示\n\n```text\n請上網更新我對 AI 軟體開發工作流的認識，跟這份 Markdown 比較差異。\n查核基準使用今天日期；重點看上次查核日之後的新資料。\n\n先讀我指定的舊報告，然後搜尋官方文件、作者 repo、release notes 和原始研究。\n涵蓋 Superpowers、Matt Pocock skills、SDD 工具、Claude Code mods/hooks/skills、\nCodex、context engineering、bounded loops、task/execution/knowledge graphs、\ncloud/event-driven agents 與 workflow evals。\n\n重要主張必須打開原文查核並附 URL。\n每項列出發布日期、版本或 commit、查核日期、功能狀態、適用情境與限制。\n把官方可用、作者經驗、廠商案例、獨立採用／效益證據分開。\n找不到目前普及率就直接說沒有證據；不要用 stars 推算市佔。\n文件與實作衝突時，保留衝突，優先查指定版本的 source/skill/release。\n\n輸出：\n1. 與舊報告相比最重要的變化與過時說法；\n2. 對我目前流程值得採用、試驗、追蹤、刪除的項目；\n3. 一個最小可重現的驗證實驗；\n4. 更新後 Markdown 與待查問題。\n不要自動安裝工具、改全域設定、建立排程或啟用外部自動化。\n```\n\n## 11. 資料限制與延伸閱讀\n\n本次是有範圍的網路研究，沒有逐一安裝框架或測試 mods，也沒有證明任何套件在你的專案一定更快。大部分工作流套件只有作者文件與案例，因此推薦是按用途與維護成本做的判斷。\n\n「最新」是截至 2026-10-08 可讀取的一手來源快照；無法保證搜尋完整收錄所有剛發布的內容。文中日期有區分查核、發布與版本門檻；沒有查到穩定版本的工具，不強填最新版。\n\n- [本次 Superpowers／Matt Pocock／SDD 一手研究筆記](https://github.com/allenljf/ai-workflow/blob/main/docs/agentic-workflow-research/research/2026-10-08-workflow-source-notes.md)\n- [既有 Agentic 開發工作流手冊](https://github.com/allenljf/ai-workflow/blob/main/docs/agentic-workflow-research/agentic-workflow-handbook.md)\n- [既有調研索引](index.md)\n\n**最有價值的更新方式，是讓知識追蹤與真實任務相連：每次只引入能解決一個已觀察問題的方法，保留能量測的改善。**\n",
+          "sha256": "9aee29fec647bdced954d372985b8ef3f594eb582e480f4c1d5d0c985a5582a5",
+          "section_headings": [
+            "## 1. 先看結論：值得學的是什麼",
+            "## 2. 先分清概念：這些東西不是同一層",
+            "## 3. 工作流選擇表",
+            "## 4. Superpowers、Matt Pocock 與 SDD 應該怎麼理解",
+            "## 5. Harness、loop、graph：怎樣才是工程方法",
+            "## 6. Anthropic Mods：這次最需要補上的新知",
+            "## 7. 最近值得一起追蹤的方向",
+            "## 8. 以你目前的知識庫，怎麼導入比較實用",
+            "## 9. 跟既有 2026-08 手冊相比，應重新查核的項目",
+            "## 10. 未來怎麼搜尋：可重複的知識更新流程",
+            "## 11. 資料限制與延伸閱讀"
+          ]
+        }
+      },
+      "completed_at": null,
+      "diagnostic": null,
+      "usage": null
+    }
+  },
   "monthly_ledger": {},
   "max_batch_usd": "0.50",
   "max_monthly_usd": "2",
