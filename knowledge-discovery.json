@@ -1,0 +1,15 @@
+{
+  "cycle": {
+    "config_hash": "ef20c054643f2b2cc0fab282224e632c7246a4d16b4ae34c94d7d0a81e3c379e",
+    "done": [],
+    "candidates": {}
+  },
+  "attempts": [
+    {
+      "month": "2026-10",
+      "query": "agentic software development new workflow tools verification context engineering",
+      "started_at": "2026-10-10T07:45:54.887929+00:00",
+      "status": "calling"
+    }
+  ]
+}

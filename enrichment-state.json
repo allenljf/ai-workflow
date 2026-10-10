@@ -1,0 +1,9 @@
+{
+  "schema_version": 1,
+  "next_ai_due_at": null,
+  "batches": {},
+  "monthly_ledger": {},
+  "max_batch_usd": "0.50",
+  "max_monthly_usd": "2",
+  "interval_days": 14
+}
