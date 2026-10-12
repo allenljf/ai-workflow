@@ -1,0 +1,182 @@
+{
+  "schema_version": 1,
+  "events": {
+    "df1379a46a3f6168ad1fdab52a223f42d62db35206a5a38717a337be35179d8b": {
+      "id": "df1379a46a3f6168ad1fdab52a223f42d62db35206a5a38717a337be35179d8b",
+      "entity": "Fission-AI/OpenSpec",
+      "version": "v1.2.0",
+      "item_revision_ids": [
+        "150b89cbb2ff009e691c3af3e8407ebdf4a2a5bb37ecac62b04bc6efd680afac"
+      ],
+      "status": "unreviewed",
+      "dedup_reason": "repo_version"
+    },
+    "c1d4245ce3095e9d1b9f3e567df92c14b5870d53878acbf7cf6ab715a7864903": {
+      "id": "c1d4245ce3095e9d1b9f3e567df92c14b5870d53878acbf7cf6ab715a7864903",
+      "entity": "bmad-code-org/BMAD-METHOD",
+      "version": "v6.0.3",
+      "item_revision_ids": [
+        "c8057f25d553c7a1a5078332db39ded7dbe5c98f4299055190bc0322b9421386"
+      ],
+      "status": "unreviewed",
+      "dedup_reason": "repo_version"
+    },
+    "d49b8fe9be5c053ed07e92134cbb62af9ce4220aa9b3f546d48fd764c504594d": {
+      "id": "d49b8fe9be5c053ed07e92134cbb62af9ce4220aa9b3f546d48fd764c504594d",
+      "entity": "bmad-code-org/BMAD-METHOD",
+      "version": "v6.0.2",
+      "item_revision_ids": [
+        "5cf80942cf0c7648c457af12d57418aa619ee28a64e5d51fad15d52aac79186a"
+      ],
+      "status": "unreviewed",
+      "dedup_reason": "repo_version"
+    },
+    "68803714381d3d7d9f4ad81a1a4f93325871bd008e1907732dbe930a66ba9bf5": {
+      "id": "68803714381d3d7d9f4ad81a1a4f93325871bd008e1907732dbe930a66ba9bf5",
+      "entity": "mobile-dev-inc/maestro",
+      "version": "cli-2.2.0",
+      "item_revision_ids": [
+        "70f41c2f1c07b4dcc02977ea38e92c424a1cf16d9593195008956e239232207e"
+      ],
+      "status": "unreviewed",
+      "dedup_reason": "repo_version"
+    },
+    "a6207062265d062783198f4f6b00b30c54974a8228dca67a156b5f7049a76130": {
+      "id": "a6207062265d062783198f4f6b00b30c54974a8228dca67a156b5f7049a76130",
+      "entity": "temporalio/sdk-python",
+      "version": "1.23.0",
+      "item_revision_ids": [
+        "cddb5e7a062e17f0efcac2bf4c33c2a22f2a9625557316723fb5a7074a56e238"
+      ],
+      "status": "unreviewed",
+      "dedup_reason": "repo_version"
+    },
+    "346ab1884329c6109af2c075609b71de18679a7b9a0c087b6d4a23b21f082f61": {
+      "id": "346ab1884329c6109af2c075609b71de18679a7b9a0c087b6d4a23b21f082f61",
+      "entity": "temporalio/sdk-python",
+      "version": "1.22.0",
+      "item_revision_ids": [
+        "6b76f96977fa7fa9386909cfbf451fa205b25a4db87a17e81ac4e94dcc89b1af"
+      ],
+      "status": "unreviewed",
+      "dedup_reason": "repo_version"
+    },
+    "fc74f6f2da2f4dbbd57d9a5e09e2ef8844c5266510837fe9e3aec5aebb79ae62": {
+      "id": "fc74f6f2da2f4dbbd57d9a5e09e2ef8844c5266510837fe9e3aec5aebb79ae62",
+      "entity": "qdrant/qdrant",
+      "version": "v1.17.0",
+      "item_revision_ids": [
+        "352dd7f02c527cc1bfc951dace35e0db1205ca8455aeb04f1ee8224ebc1c4da8"
+      ],
+      "status": "unreviewed",
+      "dedup_reason": "repo_version"
+    }
+  },
+  "revisions": {
+    "150b89cbb2ff009e691c3af3e8407ebdf4a2a5bb37ecac62b04bc6efd680afac": {
+      "id": "150b89cbb2ff009e691c3af3e8407ebdf4a2a5bb37ecac62b04bc6efd680afac",
+      "source_id": "fission-ai-openspec",
+      "external_id": "289640314",
+      "canonical_url": "https://github.com/Fission-AI/OpenSpec/releases/tag/v1.2.0",
+      "title": "v1.2.0 - Profiles, Pi & Kiro Support",
+      "published_at": "2026-02-23T23:43:56Z",
+      "updated_at": "2026-02-23T23:46:10Z",
+      "fetched_at": "2026-10-09T05:45:25.579334+00:00",
+      "content_hash": "788a70285f258d2ecda274b7c4da2806db34e9341250b48d91ed897ec07a609b",
+      "excerpt": "## What's New in v1.2.0 Control what gets installed with profiles, create complete change proposals in one step, and use OpenSpec with two new coding agents. ### New - **Profiles** — Choose between `core` (4 essential workflows) and `custom` (pick any subset) to control which skills get installed. Manage with `openspec config profile`. - **Propose workflow** — Create a complete change proposal with design, specs, and tasks from a single request — no need to run `new` then `ff` separately. - **Pi support** — Pi (pi.dev) coding agent is now a supported tool with prompt and skill generation. - **",
+      "access_scope": "public",
+      "entity": "Fission-AI/OpenSpec",
+      "version": "v1.2.0"
+    },
+    "c8057f25d553c7a1a5078332db39ded7dbe5c98f4299055190bc0322b9421386": {
+      "id": "c8057f25d553c7a1a5078332db39ded7dbe5c98f4299055190bc0322b9421386",
+      "source_id": "bmad-code-org-bmad-method",
+      "external_id": "289633246",
+      "canonical_url": "https://github.com/bmad-code-org/BMAD-METHOD/releases/tag/v6.0.3",
+      "title": "v6.0.3",
+      "published_at": "2026-02-23T23:12:35Z",
+      "updated_at": "2026-02-26T03:39:27Z",
+      "fetched_at": "2026-10-12T07:20:47.404752+00:00",
+      "content_hash": "6d1e6fc1504f03a8de3010a47f61a028fcf0d601b3bceb444c1bfb0cf86e998e",
+      "excerpt": "## 🎁 Features * Add bmad-os-root-cause-analysis skill for analyzing bug-fix commits and producing structured root cause analysis reports with pyramid communication format (#1741) ## 🐛 Bug Fixes * Fix installer to refuse installation when ancestor directory has BMAD commands, preventing duplicate command autocompletion in nested directories (#1735) * Fix OpenCode integration by replacing unsupported `name` frontmatter with `mode: all` and update directory names to plural form (#1764) * Fix CSV manifest pipeline double-escaping of quotes that was corrupting output files; switch Gemini templates ",
+      "access_scope": "public",
+      "entity": "bmad-code-org/BMAD-METHOD",
+      "version": "v6.0.3"
+    },
+    "5cf80942cf0c7648c457af12d57418aa619ee28a64e5d51fad15d52aac79186a": {
+      "id": "5cf80942cf0c7648c457af12d57418aa619ee28a64e5d51fad15d52aac79186a",
+      "source_id": "bmad-code-org-bmad-method",
+      "external_id": "289226569",
+      "canonical_url": "https://github.com/bmad-code-org/BMAD-METHOD/releases/tag/v6.0.2",
+      "title": "v6.0.2",
+      "published_at": "2026-02-23T01:50:29Z",
+      "updated_at": "2026-02-23T01:50:40Z",
+      "fetched_at": "2026-10-09T05:45:25.579334+00:00",
+      "content_hash": "da266fb23e4bef5fc55bbb7c9056b009b81d6bf873726bb1a05a3cca2a54e3b5",
+      "excerpt": "## 🎁 Features * Add CodeBuddy platform support with installer configuration (#1483) * Add LLM audit prompt for file reference conventions - new audit tool using parallel subagents (#1720) * Migrate Codex installer from `.codex/prompts` to `.agents/skills` format to align with Codex CLI changes (#1729) * Convert review-pr and audit-file-refs tools to proper bmad-os skills with slash commands `/bmad-os-review-pr` and `/bmad-os-audit-file-refs` (#1732) ## 🐛 Bug Fixes * Fix 24 broken step references in create-architecture workflow after directory rename (#1734) * Fix step file path references in c",
+      "access_scope": "public",
+      "entity": "bmad-code-org/BMAD-METHOD",
+      "version": "v6.0.2"
+    },
+    "70f41c2f1c07b4dcc02977ea38e92c424a1cf16d9593195008956e239232207e": {
+      "id": "70f41c2f1c07b4dcc02977ea38e92c424a1cf16d9593195008956e239232207e",
+      "source_id": "mobile-dev-inc-maestro",
+      "external_id": "288697670",
+      "canonical_url": "https://github.com/mobile-dev-inc/Maestro/releases/tag/cli-2.2.0",
+      "title": "CLI 2.2.0",
+      "published_at": "2026-02-20T12:19:55Z",
+      "updated_at": "2026-02-20T12:20:04Z",
+      "fetched_at": "2026-10-12T07:20:47.404752+00:00",
+      "content_hash": "3e7d253ab7a3c7c6a8cd3f56e2e9ee44d2b3d1e48a8b2680edab31704e14ddcd",
+      "excerpt": "[See changelog in the CHANGELOG.md file][link] [link]: https://github.com/mobile-dev-inc/maestro/blob/main/CHANGELOG.md#220",
+      "access_scope": "public",
+      "entity": "mobile-dev-inc/maestro",
+      "version": "cli-2.2.0"
+    },
+    "cddb5e7a062e17f0efcac2bf4c33c2a22f2a9625557316723fb5a7074a56e238": {
+      "id": "cddb5e7a062e17f0efcac2bf4c33c2a22f2a9625557316723fb5a7074a56e238",
+      "source_id": "temporalio-sdk-python",
+      "external_id": "287387562",
+      "canonical_url": "https://github.com/temporalio/sdk-python/releases/tag/1.23.0",
+      "title": "1.23.0",
+      "published_at": "2026-02-18T17:52:47Z",
+      "updated_at": "2026-02-20T16:26:08Z",
+      "fetched_at": "2026-10-09T05:45:25.579334+00:00",
+      "content_hash": "42a2a485ac5a125be166447ab724edccb57494de42b2f4d10b6b0cff8507d234",
+      "excerpt": "## :boom: Breaking Changes ### 💥 Experimental standalone activity support in https://github.com/temporalio/sdk-python/pull/1307 - `activity.Info` modified to make `workflow_id`, `workflow_namespace`, `workflow_run_id`, and `workflow_type` optional - 💥 SLIGHT BREAKING CHANGE for those manually expecting non-None fields or manually creating the info for tests - `converter.BaseWorkflowSerializationContext` intermediate base class removed - 💥 SLIGHT BREAKING CHANGE for those that may have counted on this newly created class, though most should use specific types - Updated `converter.ActivitySerial",
+      "access_scope": "public",
+      "entity": "temporalio/sdk-python",
+      "version": "1.23.0"
+    },
+    "6b76f96977fa7fa9386909cfbf451fa205b25a4db87a17e81ac4e94dcc89b1af": {
+      "id": "6b76f96977fa7fa9386909cfbf451fa205b25a4db87a17e81ac4e94dcc89b1af",
+      "source_id": "temporalio-sdk-python",
+      "external_id": "282688398",
+      "canonical_url": "https://github.com/temporalio/sdk-python/releases/tag/1.22.0",
+      "title": "1.22.0",
+      "published_at": "2026-02-03T21:01:43Z",
+      "updated_at": "2026-02-03T21:01:43Z",
+      "fetched_at": "2026-10-09T05:45:25.579334+00:00",
+      "content_hash": "80288e4d1727bde31c81e3bbf5c6923c57d1bf06baf66d77870e87f9f10b7907",
+      "excerpt": "## Highlights * Deployment-based Worker Versioning APIs are in General Availability. * Environment Configuration is in General Availability. ## What's Changed * Adds basedpyright support to `poe lint` by @tconley1428 in https://github.com/temporalio/sdk-python/pull/1240 * Remove stdlib_module_names test that is no longer relevant by @VegetarianOrc in https://github.com/temporalio/sdk-python/pull/1259 * Update sdk-core to incorporate 1.60.0 api release by @jmaeagle99 in https://github.com/temporalio/sdk-python/pull/1271 * Add is_replaying_history_events to allow logging in queries and validator",
+      "access_scope": "public",
+      "entity": "temporalio/sdk-python",
+      "version": "1.22.0"
+    },
+    "352dd7f02c527cc1bfc951dace35e0db1205ca8455aeb04f1ee8224ebc1c4da8": {
+      "id": "352dd7f02c527cc1bfc951dace35e0db1205ca8455aeb04f1ee8224ebc1c4da8",
+      "source_id": "qdrant-qdrant",
+      "external_id": "288185454",
+      "canonical_url": "https://github.com/qdrant/qdrant/releases/tag/v1.17.0",
+      "title": "v1.17.0",
+      "published_at": "2026-02-20T11:11:50Z",
+      "updated_at": "2026-02-20T12:26:53Z",
+      "fetched_at": "2026-10-12T07:20:47.404752+00:00",
+      "content_hash": "85e40c7137b75234e92ff5fd5cde19a75dfd929a1695923b88e16779bbc9d18f",
+      "excerpt": "# Change log ## Features 🏋️ * [milestone#38](https://github.com/qdrant/qdrant/milestone/38?closed=1) - Relevance Feedback ([docs](https://qdrant.tech/documentation/concepts/search-relevance/#relevance-feedback)) * [milestone#44](https://github.com/qdrant/qdrant/milestone/44?closed=1) - API for detailed report on optimization progress and stages ([docs](https://qdrant.tech/documentation/concepts/optimizer/#optimization-monitoring)) * [milestone#40](https://github.com/qdrant/qdrant/milestone/40?closed=1) - API for aggregated telemetry of the whole cluster ([docs](https://qdrant.tech/documentatio",
+      "access_scope": "public",
+      "entity": "qdrant/qdrant",
+      "version": "v1.17.0"
+    }
+  }
+}

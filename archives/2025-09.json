@@ -1,0 +1,32 @@
+{
+  "schema_version": 1,
+  "events": {
+    "3bdb2f92f34db5c51425b885d224fa364494cb2e9d9ac2dfeeb3e891f2bc76f9": {
+      "id": "3bdb2f92f34db5c51425b885d224fa364494cb2e9d9ac2dfeeb3e891f2bc76f9",
+      "entity": "qdrant/qdrant",
+      "version": "v1.15.5",
+      "item_revision_ids": [
+        "d0653528b380f9ca590c308b2aea4b6f3589cb7de3405dcfce9d2ba16936c443"
+      ],
+      "status": "unreviewed",
+      "dedup_reason": "repo_version"
+    }
+  },
+  "revisions": {
+    "d0653528b380f9ca590c308b2aea4b6f3589cb7de3405dcfce9d2ba16936c443": {
+      "id": "d0653528b380f9ca590c308b2aea4b6f3589cb7de3405dcfce9d2ba16936c443",
+      "source_id": "qdrant-qdrant",
+      "external_id": "251054892",
+      "canonical_url": "https://github.com/qdrant/qdrant/releases/tag/v1.15.5",
+      "title": "v1.15.5",
+      "published_at": "2025-09-30T12:23:50Z",
+      "updated_at": "2025-09-30T13:07:26Z",
+      "fetched_at": "2026-10-12T07:20:47.404752+00:00",
+      "content_hash": "67ba1348ccf5297d9aa052e12d66301adde85ccf0d534af76ae53d41cef8cf61",
+      "excerpt": "# Change log ## Improvements - https://github.com/qdrant/qdrant/pull/7157 - Acknowledge update/delete by filter operations on flush, preventing very slow restart - https://github.com/qdrant/qdrant/pull/7217, https://github.com/qdrant/qdrant/pull/7218, https://github.com/qdrant/qdrant/pull/7219, https://github.com/qdrant/qdrant/pull/7220, https://github.com/qdrant/qdrant/pull/7221 - Add API validation to min_should, filters, point update batch and others - https://github.com/qdrant/qdrant/pull/7235 - Add timeout parameter to remove peer operation - https://github.com/qdrant/qdrant/pull/7320 - D",
+      "access_scope": "public",
+      "entity": "qdrant/qdrant",
+      "version": "v1.15.5"
+    }
+  }
+}

@@ -1,0 +1,57 @@
+{
+  "schema_version": 1,
+  "events": {
+    "b12ad77540c6e56c5db082deedba7c6ed8f59fc1a445b8232075d0d8dcdf29ae": {
+      "id": "b12ad77540c6e56c5db082deedba7c6ed8f59fc1a445b8232075d0d8dcdf29ae",
+      "entity": "Fission-AI/OpenSpec",
+      "version": "v1.1.1",
+      "item_revision_ids": [
+        "24d1c775a2759fe84b5ac6933402259993dbb402c51968e00ba23c297c1051a8"
+      ],
+      "status": "unreviewed",
+      "dedup_reason": "repo_version"
+    },
+    "7dc4d933ebe715cda5fe45ee9a935e3e45d83f286b2fa6455851526a54195cd7": {
+      "id": "7dc4d933ebe715cda5fe45ee9a935e3e45d83f286b2fa6455851526a54195cd7",
+      "entity": "mobile-dev-inc/maestro",
+      "version": "cli-2.1.0",
+      "item_revision_ids": [
+        "f3fdcabe283656b8635933df6acab9444445a24247d6c5cca81338bc4595338b"
+      ],
+      "status": "unreviewed",
+      "dedup_reason": "repo_version"
+    }
+  },
+  "revisions": {
+    "24d1c775a2759fe84b5ac6933402259993dbb402c51968e00ba23c297c1051a8": {
+      "id": "24d1c775a2759fe84b5ac6933402259993dbb402c51968e00ba23c297c1051a8",
+      "source_id": "fission-ai-openspec",
+      "external_id": "281709714",
+      "canonical_url": "https://github.com/Fission-AI/OpenSpec/releases/tag/v1.1.1",
+      "title": "v1.1.1 - OpenCode Command Fix",
+      "published_at": "2026-01-30T22:56:30Z",
+      "updated_at": "2026-01-30T23:13:03Z",
+      "fetched_at": "2026-10-09T05:45:25.579334+00:00",
+      "content_hash": "75679a404ecedb432547e19d5ab91a65652fa1655c974b771cda9274af7fd68e",
+      "excerpt": "## What's New in v1.1.1 A quick patch to fix OpenCode command references. ### Fixed - **OpenCode command references** - Generated files now use the correct `/opsx-` hyphen format instead of `/opsx:` colon format, so commands work properly in OpenCode --- ## New Contributors * @webrgp made their first contribution in https://github.com/Fission-AI/OpenSpec/pull/626 **Full Changelog**: https://github.com/Fission-AI/OpenSpec/compare/v1.1.0...v1.1.1",
+      "access_scope": "public",
+      "entity": "Fission-AI/OpenSpec",
+      "version": "v1.1.1"
+    },
+    "f3fdcabe283656b8635933df6acab9444445a24247d6c5cca81338bc4595338b": {
+      "id": "f3fdcabe283656b8635933df6acab9444445a24247d6c5cca81338bc4595338b",
+      "source_id": "mobile-dev-inc-maestro",
+      "external_id": "275977568",
+      "canonical_url": "https://github.com/mobile-dev-inc/Maestro/releases/tag/cli-2.1.0",
+      "title": "CLI 2.1.0",
+      "published_at": "2026-01-12T11:25:13Z",
+      "updated_at": "2026-01-12T11:25:20Z",
+      "fetched_at": "2026-10-12T07:20:47.404752+00:00",
+      "content_hash": "4c5482b47be4d70407b608d10f0bfb98c2254d668f266b1b90a3b987e4a44de0",
+      "excerpt": "[See changelog in the CHANGELOG.md file][link] [link]: https://github.com/mobile-dev-inc/maestro/blob/main/CHANGELOG.md#210",
+      "access_scope": "public",
+      "entity": "mobile-dev-inc/maestro",
+      "version": "cli-2.1.0"
+    }
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "schema_version": 1,
+  "events": {
+    "e4076075382d0a8eff432b702c584e1b4d3dabba0b73c2a965921b7cb2cf70dd": {
+      "id": "e4076075382d0a8eff432b702c584e1b4d3dabba0b73c2a965921b7cb2cf70dd",
+      "entity": "android/nowinandroid",
+      "version": "0.0.5",
+      "item_revision_ids": [
+        "17accfceae6ad766bcd51d596850037dcea1485862ff9210e0ec93ca5310d544"
+      ],
+      "status": "unreviewed",
+      "dedup_reason": "repo_version"
+    }
+  },
+  "revisions": {
+    "17accfceae6ad766bcd51d596850037dcea1485862ff9210e0ec93ca5310d544": {
+      "id": "17accfceae6ad766bcd51d596850037dcea1485862ff9210e0ec93ca5310d544",
+      "source_id": "android-nowinandroid",
+      "external_id": "101609243",
+      "canonical_url": "https://github.com/android/nowinandroid/releases/tag/0.0.5",
+      "title": "Play release 0.0.5",
+      "published_at": "2023-05-02T16:34:58Z",
+      "updated_at": "2023-05-02T16:34:58Z",
+      "fetched_at": "2026-10-09T05:45:25.579334+00:00",
+      "content_hash": "42866aa515397c4f94ed91d8f5158b870cec8aa8f04cfca1d29ce189a0a4f68d",
+      "excerpt": "The defining feature of this release was the connection with a live backend which serves news, topics and other data to the app.",
+      "access_scope": "public",
+      "entity": "android/nowinandroid",
+      "version": "0.0.5"
+    }
+  }
+}

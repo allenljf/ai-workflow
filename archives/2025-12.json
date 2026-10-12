@@ -1,0 +1,57 @@
+{
+  "schema_version": 1,
+  "events": {
+    "9e6c82e97d9bd526a5984532ec765a9e54606f8a94996578983e2e33401f7820": {
+      "id": "9e6c82e97d9bd526a5984532ec765a9e54606f8a94996578983e2e33401f7820",
+      "entity": "qdrant/qdrant",
+      "version": "v1.16.3",
+      "item_revision_ids": [
+        "421bb848c4b6858fed30efcc74c427694c495e0250f2942b1e2483383cc42760"
+      ],
+      "status": "unreviewed",
+      "dedup_reason": "repo_version"
+    },
+    "18bb007e8f89ed85bc9e81768a340af3a0c9dfd7dff3d8805d94879d56b9d0f8": {
+      "id": "18bb007e8f89ed85bc9e81768a340af3a0c9dfd7dff3d8805d94879d56b9d0f8",
+      "entity": "qdrant/qdrant",
+      "version": "v1.16.2",
+      "item_revision_ids": [
+        "710c71ddf4acfe405c5421d909309b2c6071adec7a42981cdb2b5eaa6d6f16f0"
+      ],
+      "status": "unreviewed",
+      "dedup_reason": "repo_version"
+    }
+  },
+  "revisions": {
+    "421bb848c4b6858fed30efcc74c427694c495e0250f2942b1e2483383cc42760": {
+      "id": "421bb848c4b6858fed30efcc74c427694c495e0250f2942b1e2483383cc42760",
+      "source_id": "qdrant-qdrant",
+      "external_id": "271738581",
+      "canonical_url": "https://github.com/qdrant/qdrant/releases/tag/v1.16.3",
+      "title": "v1.16.3",
+      "published_at": "2025-12-19T17:45:42Z",
+      "updated_at": "2025-12-19T19:02:48Z",
+      "fetched_at": "2026-10-12T07:20:47.404752+00:00",
+      "content_hash": "7116fd10b2fa6ba954cd862234eb29ce663fa63ca90508540252ab44f42681b6",
+      "excerpt": "# Change log ## Improvements - https://github.com/qdrant/qdrant/pull/7755, https://github.com/qdrant/qdrant/pull/7588 - Respect search and point retrieve timeout when trying to access segments - https://github.com/qdrant/qdrant/pull/7685 - Respect telemetry timeout when fetching shard statistics - https://github.com/qdrant/qdrant/pull/7715 - Log snapshot download duration and speed ## Bug fixes - https://github.com/qdrant/qdrant/pull/7787, https://github.com/qdrant/qdrant/pull/7791 - Fix WAL delta transfer corrupting replica after a previous full transfer was aborted - https://github.com/qdran",
+      "access_scope": "public",
+      "entity": "qdrant/qdrant",
+      "version": "v1.16.3"
+    },
+    "710c71ddf4acfe405c5421d909309b2c6071adec7a42981cdb2b5eaa6d6f16f0": {
+      "id": "710c71ddf4acfe405c5421d909309b2c6071adec7a42981cdb2b5eaa6d6f16f0",
+      "source_id": "qdrant-qdrant",
+      "external_id": "267040500",
+      "canonical_url": "https://github.com/qdrant/qdrant/releases/tag/v1.16.2",
+      "title": "v1.16.2",
+      "published_at": "2025-12-04T11:03:49Z",
+      "updated_at": "2025-12-04T12:23:07Z",
+      "fetched_at": "2026-10-12T07:20:47.404752+00:00",
+      "content_hash": "63b5a8b7d82541f572a84481768e5fcf86ab3edf2075f0c474fc4e9764954bff",
+      "excerpt": "# Change log ## Improvements - https://github.com/qdrant/qdrant/pull/7607 - Improve request timeout handling for telemetry and metrics - https://github.com/qdrant/qdrant/pull/7623 - Add user agent to HTTP requests sent by Qdrant server ## Bug fixes - https://github.com/qdrant/qdrant/pull/7674 - Fix critical WAL bug that could break consensus or cause data corruption on restart - https://github.com/qdrant/qdrant/pull/7684 - Fix consensus crash when applying consensus snapshot with non-replicated collection - https://github.com/qdrant/qdrant/pull/7620 - Fix panic during search on segments with e",
+      "access_scope": "public",
+      "entity": "qdrant/qdrant",
+      "version": "v1.16.2"
+    }
+  }
+}

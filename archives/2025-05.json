@@ -1,0 +1,32 @@
+{
+  "schema_version": 1,
+  "events": {
+    "1d45c58dbc5b71c0d6fafe821277e27101fd9f5aa451140276392379df6ab1ef": {
+      "id": "1d45c58dbc5b71c0d6fafe821277e27101fd9f5aa451140276392379df6ab1ef",
+      "entity": "qdrant/qdrant",
+      "version": "v1.14.1",
+      "item_revision_ids": [
+        "ed555266881aede2d7bd0bf48530d675083fdc07a03d524510169e6156c8700b"
+      ],
+      "status": "unreviewed",
+      "dedup_reason": "repo_version"
+    }
+  },
+  "revisions": {
+    "ed555266881aede2d7bd0bf48530d675083fdc07a03d524510169e6156c8700b": {
+      "id": "ed555266881aede2d7bd0bf48530d675083fdc07a03d524510169e6156c8700b",
+      "source_id": "qdrant-qdrant",
+      "external_id": "220602952",
+      "canonical_url": "https://github.com/qdrant/qdrant/releases/tag/v1.14.1",
+      "title": "v1.14.1",
+      "published_at": "2025-05-23T13:09:01Z",
+      "updated_at": "2025-05-23T13:47:18Z",
+      "fetched_at": "2026-10-12T07:20:47.404752+00:00",
+      "content_hash": "249b05121c6aa5992d28a7373c1eda1bfacdab3aad66835bf4e6503c91c3aa37",
+      "excerpt": "# Change log ## Improvements * https://github.com/qdrant/qdrant/pull/6458 - Speed up WAL-delta shard transfer significantly via batching and more careful synchronization * https://github.com/qdrant/qdrant/pull/6462 - Improve GPU indexing speed for payload-related HNSW links, reuse GPU resources * https://github.com/qdrant/qdrant/pull/6444, https://github.com/qdrant/qdrant/pull/6495, https://github.com/qdrant/qdrant/pull/6503, https://github.com/qdrant/qdrant/pull/6587 - Greatly improve payload index load time by replacing RocksDB with mmaps as persistence layer * https://github.com/qdrant/qdra",
+      "access_scope": "public",
+      "entity": "qdrant/qdrant",
+      "version": "v1.14.1"
+    }
+  }
+}

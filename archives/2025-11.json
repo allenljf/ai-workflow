@@ -1,0 +1,107 @@
+{
+  "schema_version": 1,
+  "events": {
+    "6b4cf081a3bc7a09e25bad4e49c9fe1f353953ff75377586c2734aced172444e": {
+      "id": "6b4cf081a3bc7a09e25bad4e49c9fe1f353953ff75377586c2734aced172444e",
+      "entity": "mobile-dev-inc/maestro",
+      "version": "cli-2.0.10",
+      "item_revision_ids": [
+        "125dd59fa69625017a4659aad29ba7ddf96b0d461a34f330f09a212c00373b0a"
+      ],
+      "status": "unreviewed",
+      "dedup_reason": "repo_version"
+    },
+    "b35879b67c88be800ed3e5efdb44bb868e234f796c25454d4afedfb9201f2293": {
+      "id": "b35879b67c88be800ed3e5efdb44bb868e234f796c25454d4afedfb9201f2293",
+      "entity": "mobile-dev-inc/maestro",
+      "version": "cli-2.0.9",
+      "item_revision_ids": [
+        "7b910ea802b0a4f7503ea68323bfc9bc201f47f8589e7f7c1aeff60556ae858f"
+      ],
+      "status": "unreviewed",
+      "dedup_reason": "repo_version"
+    },
+    "f2c345a89fb1c3092c9e48ba03ecde88d9796789d3a9cbfc43e7259c8a721c6f": {
+      "id": "f2c345a89fb1c3092c9e48ba03ecde88d9796789d3a9cbfc43e7259c8a721c6f",
+      "entity": "qdrant/qdrant",
+      "version": "v1.16.1",
+      "item_revision_ids": [
+        "a814d9e98cfa435d6531e785b1e8b8e5a818b08f7ff2e147e8c9434a96e175a2"
+      ],
+      "status": "unreviewed",
+      "dedup_reason": "repo_version"
+    },
+    "35a2c107f324252c0e40065e3bef2fdc923a842f8d695684d2c7e7d4ff103146": {
+      "id": "35a2c107f324252c0e40065e3bef2fdc923a842f8d695684d2c7e7d4ff103146",
+      "entity": "qdrant/qdrant",
+      "version": "v1.16.0",
+      "item_revision_ids": [
+        "e88c03a280c815d68f98fd75a691a55bd18d7ddadcb85fa5fd22b194b8d5c2fe"
+      ],
+      "status": "unreviewed",
+      "dedup_reason": "repo_version"
+    }
+  },
+  "revisions": {
+    "125dd59fa69625017a4659aad29ba7ddf96b0d461a34f330f09a212c00373b0a": {
+      "id": "125dd59fa69625017a4659aad29ba7ddf96b0d461a34f330f09a212c00373b0a",
+      "source_id": "mobile-dev-inc-maestro",
+      "external_id": "262005262",
+      "canonical_url": "https://github.com/mobile-dev-inc/Maestro/releases/tag/cli-2.0.10",
+      "title": "CLI 2.0.10",
+      "published_at": "2025-11-13T07:02:07Z",
+      "updated_at": "2025-11-13T07:02:15Z",
+      "fetched_at": "2026-10-12T07:20:47.404752+00:00",
+      "content_hash": "47e315045b6e9f079e836bfeed79ce500675108ca74893138c07bbbe4730ce41",
+      "excerpt": "[See changelog in the CHANGELOG.md file][link] [link]: https://github.com/mobile-dev-inc/maestro/blob/main/CHANGELOG.md#2010",
+      "access_scope": "public",
+      "entity": "mobile-dev-inc/maestro",
+      "version": "cli-2.0.10"
+    },
+    "7b910ea802b0a4f7503ea68323bfc9bc201f47f8589e7f7c1aeff60556ae858f": {
+      "id": "7b910ea802b0a4f7503ea68323bfc9bc201f47f8589e7f7c1aeff60556ae858f",
+      "source_id": "mobile-dev-inc-maestro",
+      "external_id": "259542355",
+      "canonical_url": "https://github.com/mobile-dev-inc/Maestro/releases/tag/cli-2.0.9",
+      "title": "CLI 2.0.9",
+      "published_at": "2025-11-04T12:03:00Z",
+      "updated_at": "2025-11-04T12:03:08Z",
+      "fetched_at": "2026-10-12T07:20:47.404752+00:00",
+      "content_hash": "b0568f4aa52d35e9460d3e6980dd3d4fab98fa3ecad37cde6c6b06a1ce1f7a9e",
+      "excerpt": "[See changelog in the CHANGELOG.md file][link] [link]: https://github.com/mobile-dev-inc/maestro/blob/main/CHANGELOG.md#209",
+      "access_scope": "public",
+      "entity": "mobile-dev-inc/maestro",
+      "version": "cli-2.0.9"
+    },
+    "a814d9e98cfa435d6531e785b1e8b8e5a818b08f7ff2e147e8c9434a96e175a2": {
+      "id": "a814d9e98cfa435d6531e785b1e8b8e5a818b08f7ff2e147e8c9434a96e175a2",
+      "source_id": "qdrant-qdrant",
+      "external_id": "265143628",
+      "canonical_url": "https://github.com/qdrant/qdrant/releases/tag/v1.16.1",
+      "title": "v1.16.1",
+      "published_at": "2025-11-25T17:16:19Z",
+      "updated_at": "2025-11-25T18:17:13Z",
+      "fetched_at": "2026-10-12T07:20:47.404752+00:00",
+      "content_hash": "5997cd29935a587b0680a6004f225b8cfd82c93bcfa10bb47fc82d0356851069",
+      "excerpt": "# Change log ## Improvements - https://github.com/qdrant/qdrant/pull/7514, https://github.com/qdrant/qdrant/pull/7572 - Make batch queries up to 3 times faster on full scans by reading each point only once - https://github.com/qdrant/qdrant/pull/7551 - Actively migrate vector, payload and payload index storage from RocksDB into Gridstore on startup for better and more predictable performance - https://github.com/qdrant/qdrant/pull/7579 - Add 60s internal timeout for telemetry/metrics endpoints to prevent long hanging tasks - https://github.com/qdrant/qdrant/pull/7557 - Add validation to restar",
+      "access_scope": "public",
+      "entity": "qdrant/qdrant",
+      "version": "v1.16.1"
+    },
+    "e88c03a280c815d68f98fd75a691a55bd18d7ddadcb85fa5fd22b194b8d5c2fe": {
+      "id": "e88c03a280c815d68f98fd75a691a55bd18d7ddadcb85fa5fd22b194b8d5c2fe",
+      "source_id": "qdrant-qdrant",
+      "external_id": "262925253",
+      "canonical_url": "https://github.com/qdrant/qdrant/releases/tag/v1.16.0",
+      "title": "v1.16.0",
+      "published_at": "2025-11-17T14:32:11Z",
+      "updated_at": "2025-11-17T15:29:44Z",
+      "fetched_at": "2026-10-12T07:20:47.404752+00:00",
+      "content_hash": "5c278873e056b9c46b066991fdad18528a7ac8e00a339a98aa292dba8a69989f",
+      "excerpt": "# Change log ## Features 🌰 - https://github.com/qdrant/qdrant/milestone/33?closed=1 - Inline Storage: Add option to inline vectors in HNSW graph for efficient IO usage ([docs](https://qdrant.tech/documentation/guides/optimize/#inline-storage-in-hnsw-index)) - https://github.com/qdrant/qdrant/milestone/37?closed=1 - Tenant promotion mechanism for tiered multitenancy: ([docs](https://qdrant.tech/documentation/guides/multitenancy/#tiered-multitenancy)) - Add `ReplicatePoints` action to promote payload based tenant into dedicated shard key ([docs](https://qdrant.tech/documentation/guides/multitena",
+      "access_scope": "public",
+      "entity": "qdrant/qdrant",
+      "version": "v1.16.0"
+    }
+  }
+}

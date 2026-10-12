@@ -1,0 +1,132 @@
+{
+  "schema_version": 1,
+  "events": {
+    "e9910820528861379f6624eafcf9a0893aaf1c695f28f5536f36576ede923445": {
+      "id": "e9910820528861379f6624eafcf9a0893aaf1c695f28f5536f36576ede923445",
+      "entity": "bmad-code-org/BMAD-METHOD",
+      "version": "v6.3.0",
+      "item_revision_ids": [
+        "fb5246f4e5c96e7f0b958105344a917a2fa6fc7b6abc51675f94d113f1fd078d"
+      ],
+      "status": "unreviewed",
+      "dedup_reason": "repo_version"
+    },
+    "2859e5649b426f3639f0f448f2f8cc48e6363f48b09b66c3de0f249a0afa4028": {
+      "id": "2859e5649b426f3639f0f448f2f8cc48e6363f48b09b66c3de0f249a0afa4028",
+      "entity": "mobile-dev-inc/maestro",
+      "version": "cli-2.4.0",
+      "item_revision_ids": [
+        "2232e978f9f10a494dfc1166f66d18d5effdc8db9711f77911bb782f16e6fe72"
+      ],
+      "status": "unreviewed",
+      "dedup_reason": "repo_version"
+    },
+    "b94b6e2a392f3d0171aefeaa690b4265db1950160d2242384ff0c8cfd49adcce": {
+      "id": "b94b6e2a392f3d0171aefeaa690b4265db1950160d2242384ff0c8cfd49adcce",
+      "entity": "mobile-dev-inc/maestro",
+      "version": "cli-2.3.1-dev.3",
+      "item_revision_ids": [
+        "69def3b64749672e661070c81cfcd2e00fd5fc86dff05323d67dbeca1c6d8524"
+      ],
+      "status": "unreviewed",
+      "dedup_reason": "repo_version"
+    },
+    "240787e201de3d014bd0e812f3f7edccfce017a0f7416acafae0e0dbdfed8cf6": {
+      "id": "240787e201de3d014bd0e812f3f7edccfce017a0f7416acafae0e0dbdfed8cf6",
+      "entity": "temporalio/sdk-python",
+      "version": "1.25.0",
+      "item_revision_ids": [
+        "dc4ddd73e6532f47968b183382a6c0d75c2a0a0b1b5b1556ee2c7ecb00f6c118"
+      ],
+      "status": "unreviewed",
+      "dedup_reason": "repo_version"
+    },
+    "68e9c60e77582b6de3c9095926a9c77d9ff511fd04856fecaf34d568912bc8d0": {
+      "id": "68e9c60e77582b6de3c9095926a9c77d9ff511fd04856fecaf34d568912bc8d0",
+      "entity": "vllm-project/vllm",
+      "version": "v0.19.0",
+      "item_revision_ids": [
+        "447031401fdf51064873c8497e11eab8ddc9e325522c3f7a74cca61db33ff75d"
+      ],
+      "status": "unreviewed",
+      "dedup_reason": "repo_version"
+    }
+  },
+  "revisions": {
+    "fb5246f4e5c96e7f0b958105344a917a2fa6fc7b6abc51675f94d113f1fd078d": {
+      "id": "fb5246f4e5c96e7f0b958105344a917a2fa6fc7b6abc51675f94d113f1fd078d",
+      "source_id": "bmad-code-org-bmad-method",
+      "external_id": "307342690",
+      "canonical_url": "https://github.com/bmad-code-org/BMAD-METHOD/releases/tag/v6.3.0",
+      "title": "v6.3.0",
+      "published_at": "2026-04-10T01:01:14Z",
+      "updated_at": "2026-04-10T01:01:14Z",
+      "fetched_at": "2026-10-12T07:20:47.404752+00:00",
+      "content_hash": "6b933c1d8b09a3f07d42f4f526d0fdb0e643f7c232f57dda27c2c0acc687d8a7",
+      "excerpt": "### 💥 Breaking Changes * Remove custom content installation feature; use marketplace-based plugin installation instead (#2227) * Remove bmad-init skill; all agents and skills now load config directly from `{project-root}/_bmad/bmm/config.yaml` (#2159) * Remove spec-wip.md singleton; quick-dev now writes directly to `spec-{slug}.md` with status field, enabling parallel sessions (#2214) * Consolidate three agent personas into Developer agent (Amelia): remove Barry quick-flow-solo-dev (#2177), Quinn QA agent (#2179), and Bob Scrum Master agent (#2186) ### 🎁 Features * Universal source support for",
+      "access_scope": "public",
+      "entity": "bmad-code-org/BMAD-METHOD",
+      "version": "v6.3.0"
+    },
+    "2232e978f9f10a494dfc1166f66d18d5effdc8db9711f77911bb782f16e6fe72": {
+      "id": "2232e978f9f10a494dfc1166f66d18d5effdc8db9711f77911bb782f16e6fe72",
+      "source_id": "mobile-dev-inc-maestro",
+      "external_id": "304886028",
+      "canonical_url": "https://github.com/mobile-dev-inc/Maestro/releases/tag/cli-2.4.0",
+      "title": "CLI 2.4.0",
+      "published_at": "2026-04-02T22:29:36Z",
+      "updated_at": "2026-04-02T22:29:42Z",
+      "fetched_at": "2026-10-12T07:20:47.404752+00:00",
+      "content_hash": "2fb42968691c471e3c0b956e380e35a4cccb62810206898dbb299896d5ebb8ed",
+      "excerpt": "[See changelog in the CHANGELOG.md file][link] [link]: https://github.com/mobile-dev-inc/maestro/blob/main/CHANGELOG.md#240",
+      "access_scope": "public",
+      "entity": "mobile-dev-inc/maestro",
+      "version": "cli-2.4.0"
+    },
+    "69def3b64749672e661070c81cfcd2e00fd5fc86dff05323d67dbeca1c6d8524": {
+      "id": "69def3b64749672e661070c81cfcd2e00fd5fc86dff05323d67dbeca1c6d8524",
+      "source_id": "mobile-dev-inc-maestro",
+      "external_id": "304107679",
+      "canonical_url": "https://github.com/mobile-dev-inc/Maestro/releases/tag/cli-2.3.1-dev.3",
+      "title": "CLI 2.3.1 Preview 3",
+      "published_at": "2026-04-01T09:53:40Z",
+      "updated_at": "2026-04-01T09:53:40Z",
+      "fetched_at": "2026-10-12T07:20:47.404752+00:00",
+      "content_hash": "a90882ea21e0f3c85df0d707b7a39395b02f7837bdb382adf4934aaee5459ec8",
+      "excerpt": "Fixes iOS interactions with the passcode screen",
+      "access_scope": "public",
+      "entity": "mobile-dev-inc/maestro",
+      "version": "cli-2.3.1-dev.3"
+    },
+    "dc4ddd73e6532f47968b183382a6c0d75c2a0a0b1b5b1556ee2c7ecb00f6c118": {
+      "id": "dc4ddd73e6532f47968b183382a6c0d75c2a0a0b1b5b1556ee2c7ecb00f6c118",
+      "source_id": "temporalio-sdk-python",
+      "external_id": "306670562",
+      "canonical_url": "https://github.com/temporalio/sdk-python/releases/tag/1.25.0",
+      "title": "1.25.0",
+      "published_at": "2026-04-08T18:55:51Z",
+      "updated_at": "2026-04-09T18:03:11Z",
+      "fetched_at": "2026-10-09T05:45:25.579334+00:00",
+      "content_hash": "f59be1116e00bcbfb1c7ff38c7f7ea2b357807b36330cc9177646ffc65792186",
+      "excerpt": "## Pre-release Features ### Serverless Lambda Workers This release introduces a [package](https://github.com/temporalio/sdk-python/tree/main/temporalio/contrib/aws/lambda_worker) which can be used together with upcoming changes to the Temporal server & cloud which allow you to run your worker in an AWS Lambda function which the server will invoke as-needed to process Workflow, Activity, and Nexus tasks - allowing you to do away with some of the operational burden of running a fleet of workers. Additional documentation on how to use this feature will be linked here when available. ### External ",
+      "access_scope": "public",
+      "entity": "temporalio/sdk-python",
+      "version": "1.25.0"
+    },
+    "447031401fdf51064873c8497e11eab8ddc9e325522c3f7a74cca61db33ff75d": {
+      "id": "447031401fdf51064873c8497e11eab8ddc9e325522c3f7a74cca61db33ff75d",
+      "source_id": "vllm-project-vllm",
+      "external_id": "304922777",
+      "canonical_url": "https://github.com/vllm-project/vllm/releases/tag/v0.19.0",
+      "title": "v0.19.0",
+      "published_at": "2026-04-03T02:19:12Z",
+      "updated_at": "2026-04-04T20:16:12Z",
+      "fetched_at": "2026-10-12T07:20:47.404752+00:00",
+      "content_hash": "b9b26fcbc00a8fe8dff06e5634c49665fe339ed38255046abe1045d10b6b61b6",
+      "excerpt": "# vLLM v0.19.0 ## Highlights This release features 448 commits from 197 contributors (54 new)! * **Gemma 4 support**: Full Google Gemma 4 architecture support including MoE, multimodal, reasoning, and tool-use capabilities (#38826, #38847). Requires `transformers>=5.5.0`. We recommend using pre-built docker image `vllm/vllm-openai:gemma4` for out of box usage. * **Zero-bubble async scheduling + speculative decoding**: Async scheduling now supports speculative decoding with zero-bubble overlap, significantly improving throughput (#32951). * **Model Runner V2 maturation**: MRV2 gains piecewise C",
+      "access_scope": "public",
+      "entity": "vllm-project/vllm",
+      "version": "v0.19.0"
+    }
+  }
+}

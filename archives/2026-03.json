@@ -1,0 +1,457 @@
+{
+  "schema_version": 1,
+  "events": {
+    "67382a2949066be4c8aa7343438939e93d3c81f66d866acfa2ec234eccb35448": {
+      "id": "67382a2949066be4c8aa7343438939e93d3c81f66d866acfa2ec234eccb35448",
+      "entity": "obra/superpowers",
+      "version": "v5.0.7",
+      "item_revision_ids": [
+        "ef8efefcd367428cf03510d915e5dadb59641bcdb859c735a4fe260c194f296a"
+      ],
+      "status": "unreviewed",
+      "dedup_reason": "repo_version"
+    },
+    "6ca8491bbea3c87feca055b06a083b30ca2ffb002a374707f09b5bf708836ed8": {
+      "id": "6ca8491bbea3c87feca055b06a083b30ca2ffb002a374707f09b5bf708836ed8",
+      "entity": "obra/superpowers",
+      "version": "v5.0.6",
+      "item_revision_ids": [
+        "cde02a5b431685b4e7339fb7be72cdbb7ce80b2d5a0037a6b59dc097acb185e1"
+      ],
+      "status": "unreviewed",
+      "dedup_reason": "repo_version"
+    },
+    "199f595ba1b7e5365c90586caa386cfe8a4a5a5ae72fb45260d2c41971c4fb70": {
+      "id": "199f595ba1b7e5365c90586caa386cfe8a4a5a5ae72fb45260d2c41971c4fb70",
+      "entity": "obra/superpowers",
+      "version": "v5.0.5",
+      "item_revision_ids": [
+        "e1a07446806420de0eca74358787de3ece9e2cf5245e96d1f1a938669c94ec4c"
+      ],
+      "status": "unreviewed",
+      "dedup_reason": "repo_version"
+    },
+    "6b670a7faca07dbc6d4706ba9a878ebcc6fa3c19abd8a4806a629aa04db49880": {
+      "id": "6b670a7faca07dbc6d4706ba9a878ebcc6fa3c19abd8a4806a629aa04db49880",
+      "entity": "obra/superpowers",
+      "version": "v5.0.4",
+      "item_revision_ids": [
+        "47c4e60c26ac4bd9d7acc5ea91587ec669b25718b3e996f57355768dc86b5a58"
+      ],
+      "status": "unreviewed",
+      "dedup_reason": "repo_version"
+    },
+    "8900f1d7fad9689bbd1abc81bbe91f8b0a98e60a9fa4de05060fc639823cf73c": {
+      "id": "8900f1d7fad9689bbd1abc81bbe91f8b0a98e60a9fa4de05060fc639823cf73c",
+      "entity": "bmad-code-org/BMAD-METHOD",
+      "version": "v6.2.2",
+      "item_revision_ids": [
+        "68d4b628499f45d5ae125df524476cf789f7abe226a28190a461ae1f09738105"
+      ],
+      "status": "unreviewed",
+      "dedup_reason": "repo_version"
+    },
+    "3015f127d04130dcec894577cd0d1373c29bd9752875a6599def2a56c12b8f33": {
+      "id": "3015f127d04130dcec894577cd0d1373c29bd9752875a6599def2a56c12b8f33",
+      "entity": "bmad-code-org/BMAD-METHOD",
+      "version": "v6.2.1",
+      "item_revision_ids": [
+        "879b4343b357d9625ca1eabf15f52aa7d0a465f3951520500bfde81e0f1a08da"
+      ],
+      "status": "unreviewed",
+      "dedup_reason": "repo_version"
+    },
+    "2347fa0ebe4280f594eea0309809a73eda520481914513c419977ff1d6d4d7b7": {
+      "id": "2347fa0ebe4280f594eea0309809a73eda520481914513c419977ff1d6d4d7b7",
+      "entity": "bmad-code-org/BMAD-METHOD",
+      "version": "v6.2.0",
+      "item_revision_ids": [
+        "28798df9d12ad3512d4a0ec32fad6b50abdbc9bc9d568c56f3b38b42a8a8d69b"
+      ],
+      "status": "unreviewed",
+      "dedup_reason": "repo_version"
+    },
+    "51caf796671fd246551a81966d38b537ef77861894ffb843dbacb4ac120c3c8b": {
+      "id": "51caf796671fd246551a81966d38b537ef77861894ffb843dbacb4ac120c3c8b",
+      "entity": "bmad-code-org/BMAD-METHOD",
+      "version": "v6.1.0",
+      "item_revision_ids": [
+        "ec6a2b7fb7465ae2291b71b71aa218b208a0c4e9bb62f425fec98afb3258cf0c"
+      ],
+      "status": "unreviewed",
+      "dedup_reason": "repo_version"
+    },
+    "c0647222d3e971ad7da8dea3d967104b9cff9a087be27e41505fbde64533dd87": {
+      "id": "c0647222d3e971ad7da8dea3d967104b9cff9a087be27e41505fbde64533dd87",
+      "entity": "bmad-code-org/BMAD-METHOD",
+      "version": "v6.0.4",
+      "item_revision_ids": [
+        "6a34c86e4502ca15234d370f53e5c685f2d8c343c2f864d5be2fc55475795983"
+      ],
+      "status": "unreviewed",
+      "dedup_reason": "repo_version"
+    },
+    "6cf45a1275fcc1bbcfbeb232a51eac3bb839baad4b7024e8048ac3fbacee60f3": {
+      "id": "6cf45a1275fcc1bbcfbeb232a51eac3bb839baad4b7024e8048ac3fbacee60f3",
+      "entity": "mobile-dev-inc/maestro",
+      "version": "cli-2.3.1-dev.2",
+      "item_revision_ids": [
+        "0f636eda3f7115dca135adc55cd51ca5bd9a6967a9ec3e35a532813f67a8eb66"
+      ],
+      "status": "unreviewed",
+      "dedup_reason": "repo_version"
+    },
+    "36a9b9b2bcbd721958a11d1fb0054b18b7c6232dbf4eeea3f0b7bce96de7916b": {
+      "id": "36a9b9b2bcbd721958a11d1fb0054b18b7c6232dbf4eeea3f0b7bce96de7916b",
+      "entity": "mobile-dev-inc/maestro",
+      "version": "cli-2.3.1-dev.1",
+      "item_revision_ids": [
+        "eb2b1e1b4a5920ff5fad55656d0b78b7aab2f3535d506324e657dbe6603a626c"
+      ],
+      "status": "unreviewed",
+      "dedup_reason": "repo_version"
+    },
+    "cd343b36fa7f3978983b066f2f190a6b12e0ace4131b68d64372b4621ef683c3": {
+      "id": "cd343b36fa7f3978983b066f2f190a6b12e0ace4131b68d64372b4621ef683c3",
+      "entity": "mobile-dev-inc/maestro",
+      "version": "cli-2.3.0",
+      "item_revision_ids": [
+        "a67121d762586c6793b06a6389265d102b44725340872fe46ea391454afc154f"
+      ],
+      "status": "unreviewed",
+      "dedup_reason": "repo_version"
+    },
+    "25d90152550cd7048e851fd274f5737f7cbdb47f0edf0730d87f9022c8da7088": {
+      "id": "25d90152550cd7048e851fd274f5737f7cbdb47f0edf0730d87f9022c8da7088",
+      "entity": "spring-projects/spring-ai",
+      "version": "v2.0.0-M4",
+      "item_revision_ids": [
+        "ef04a270678ec8478045e3f28d3176bc257641c50fcd4ee266b88755b841838b"
+      ],
+      "status": "unreviewed",
+      "dedup_reason": "repo_version"
+    },
+    "335bf9029f4baa89d70af3f50da43dc015774d2012365a93c39c660e703d05c9": {
+      "id": "335bf9029f4baa89d70af3f50da43dc015774d2012365a93c39c660e703d05c9",
+      "entity": "spring-projects/spring-ai",
+      "version": "v1.1.4",
+      "item_revision_ids": [
+        "b419cc04a57e0e7d8db284bc71c2507b15360300b516d971281f11648a99152d"
+      ],
+      "status": "unreviewed",
+      "dedup_reason": "repo_version"
+    },
+    "3ce9a981af3e29a07ab694589ffb6ac016fffce7ea07a4a62cefb811d823140b": {
+      "id": "3ce9a981af3e29a07ab694589ffb6ac016fffce7ea07a4a62cefb811d823140b",
+      "entity": "spring-projects/spring-ai",
+      "version": "v1.0.5",
+      "item_revision_ids": [
+        "9482c63481e875c5ab8a552714532464dbed9b06a68aef4bcdfd3ed8667508d4"
+      ],
+      "status": "unreviewed",
+      "dedup_reason": "repo_version"
+    },
+    "6c04a95e6960196033a3a1c09299f91768b9006ced88c3e58f6e06de71043403": {
+      "id": "6c04a95e6960196033a3a1c09299f91768b9006ced88c3e58f6e06de71043403",
+      "entity": "temporalio/sdk-python",
+      "version": "1.24.0",
+      "item_revision_ids": [
+        "618934f3752b9e60cb2b201bb3650007294fc26e0fa3979d8342b876e7993234"
+      ],
+      "status": "unreviewed",
+      "dedup_reason": "repo_version"
+    },
+    "dd7bf11d2ca2675d2226c38cc593583945bf5f839d3fa44afb51602a3508884b": {
+      "id": "dd7bf11d2ca2675d2226c38cc593583945bf5f839d3fa44afb51602a3508884b",
+      "entity": "qdrant/qdrant",
+      "version": "v1.17.1",
+      "item_revision_ids": [
+        "35550fe18a37f6754b301b6b6c8225de25b35d03e1259988fab5fdb95918ea7b"
+      ],
+      "status": "unreviewed",
+      "dedup_reason": "repo_version"
+    },
+    "2b74ce2504d05befafc013737d9c708301efac16d71d3cb12f40acffa7ec196e": {
+      "id": "2b74ce2504d05befafc013737d9c708301efac16d71d3cb12f40acffa7ec196e",
+      "entity": "vllm-project/vllm",
+      "version": "v0.18.1",
+      "item_revision_ids": [
+        "b9f50e3fa3530bc90e992376aa527de03dba0ff442ea5830cd2c19c6531d64cc"
+      ],
+      "status": "unreviewed",
+      "dedup_reason": "repo_version"
+    }
+  },
+  "revisions": {
+    "ef8efefcd367428cf03510d915e5dadb59641bcdb859c735a4fe260c194f296a": {
+      "id": "ef8efefcd367428cf03510d915e5dadb59641bcdb859c735a4fe260c194f296a",
+      "source_id": "obra-superpowers",
+      "external_id": "303866697",
+      "canonical_url": "https://github.com/obra/superpowers/releases/tag/v5.0.7",
+      "title": "v5.0.7",
+      "published_at": "2026-03-31T19:25:11Z",
+      "updated_at": "2026-03-31T19:25:11Z",
+      "fetched_at": "2026-10-12T07:20:47.404752+00:00",
+      "content_hash": "3a62ebd7e6dd57d9cbf476300f3933aa655d932c05c227ec17fd62978c7eb22a",
+      "excerpt": "## GitHub Copilot CLI Support - **SessionStart context injection** — Copilot CLI v1.0.11 added support for `additionalContext` in sessionStart hook output. The session-start hook now detects the `COPILOT_CLI` environment variable and emits the SDK-standard `{ \"additionalContext\": \"...\" }` format, giving Copilot CLI users the full superpowers bootstrap at session start. - **Tool mapping** — added `references/copilot-tools.md` with the full Claude Code to Copilot CLI tool equivalence table - **Skill and README updates** — added Copilot CLI to the `using-superpowers` skill's platform instructions",
+      "access_scope": "public",
+      "entity": "obra/superpowers",
+      "version": "v5.0.7"
+    },
+    "cde02a5b431685b4e7339fb7be72cdbb7ce80b2d5a0037a6b59dc097acb185e1": {
+      "id": "cde02a5b431685b4e7339fb7be72cdbb7ce80b2d5a0037a6b59dc097acb185e1",
+      "source_id": "obra-superpowers",
+      "external_id": "301359709",
+      "canonical_url": "https://github.com/obra/superpowers/releases/tag/v5.0.6",
+      "title": "v5.0.6",
+      "published_at": "2026-03-25T18:08:59Z",
+      "updated_at": "2026-03-25T18:08:59Z",
+      "fetched_at": "2026-10-12T07:20:47.404752+00:00",
+      "content_hash": "14ae8595dd034bbc19bc55288969bce03fe4919d2e987df6197f3a9a22dd998a",
+      "excerpt": "### Inline Self-Review Replaces Subagent Review Loops The subagent review loop (dispatching a fresh agent to review plans/specs) doubled execution time (~25 min overhead) without measurably improving plan quality. Regression testing across 5 versions with 5 trials each showed identical quality scores regardless of whether the review loop ran. - **brainstorming** — replaced Spec Review Loop (subagent dispatch + 3-iteration cap) with inline Spec Self-Review checklist: placeholder scan, internal consistency, scope check, ambiguity check - **writing-plans** — replaced Plan Review Loop (subagent di",
+      "access_scope": "public",
+      "entity": "obra/superpowers",
+      "version": "v5.0.6"
+    },
+    "e1a07446806420de0eca74358787de3ece9e2cf5245e96d1f1a938669c94ec4c": {
+      "id": "e1a07446806420de0eca74358787de3ece9e2cf5245e96d1f1a938669c94ec4c",
+      "source_id": "obra-superpowers",
+      "external_id": "298180778",
+      "canonical_url": "https://github.com/obra/superpowers/releases/tag/v5.0.5",
+      "title": "v5.0.5",
+      "published_at": "2026-03-17T22:02:22Z",
+      "updated_at": "2026-03-17T22:02:22Z",
+      "fetched_at": "2026-10-12T07:20:47.404752+00:00",
+      "content_hash": "96e1f4935502d969a5979fb3e3d9ad05177bb6930e4ead1efa772290f45baaaa",
+      "excerpt": "## Bug Fixes - **Brainstorm server ESM fix** — renamed `server.js` → `server.cjs` so the brainstorming server starts correctly on Node.js 22+ where the root `package.json` `\"type\": \"module\"` caused `require()` to fail. (PR #784 by @sarbojitrana, fixes #774, #780, #783) - **Brainstorm owner-PID on Windows** — skip PID lifecycle monitoring on Windows/MSYS2 where the PID namespace is invisible to Node.js, preventing the server from self-terminating after 60 seconds. (#770, docs from PR #768 by @lucasyhzlu-debug) - **stop-server.sh reliability** — verify the server process actually died before rep",
+      "access_scope": "public",
+      "entity": "obra/superpowers",
+      "version": "v5.0.5"
+    },
+    "47c4e60c26ac4bd9d7acc5ea91587ec669b25718b3e996f57355768dc86b5a58": {
+      "id": "47c4e60c26ac4bd9d7acc5ea91587ec669b25718b3e996f57355768dc86b5a58",
+      "source_id": "obra-superpowers",
+      "external_id": "297730884",
+      "canonical_url": "https://github.com/obra/superpowers/releases/tag/v5.0.4",
+      "title": "v5.0.4",
+      "published_at": "2026-03-17T00:56:28Z",
+      "updated_at": "2026-03-17T00:56:28Z",
+      "fetched_at": "2026-10-12T07:20:47.404752+00:00",
+      "content_hash": "74ff5318aa543c6f28664c44a5bb9104c412ec0d0c35d94c06b7b8ee8ee95c9d",
+      "excerpt": "### Review Loop Refinements Dramatically reduces token usage and speeds up spec and plan reviews by eliminating unnecessary review passes and tightening reviewer focus. - **Single whole-plan review** — plan reviewer now reviews the complete plan in one pass instead of chunk-by-chunk. Removed all chunk-related concepts (`## Chunk N:` headings, 1000-line chunk limits, per-chunk dispatch). - **Raised the bar for blocking issues** — both spec and plan reviewer prompts now include a \"Calibration\" section: only flag issues that would cause real problems during implementation. Minor wording, stylisti",
+      "access_scope": "public",
+      "entity": "obra/superpowers",
+      "version": "v5.0.4"
+    },
+    "68d4b628499f45d5ae125df524476cf789f7abe226a28190a461ae1f09738105": {
+      "id": "68d4b628499f45d5ae125df524476cf789f7abe226a28190a461ae1f09738105",
+      "source_id": "bmad-code-org-bmad-method",
+      "external_id": "301601762",
+      "canonical_url": "https://github.com/bmad-code-org/BMAD-METHOD/releases/tag/v6.2.2",
+      "title": "v6.2.2",
+      "published_at": "2026-03-26T02:44:52Z",
+      "updated_at": "2026-03-26T02:44:52Z",
+      "fetched_at": "2026-10-12T07:20:47.404752+00:00",
+      "content_hash": "7fc82e2c8e32cb89a2431e23efa12508204a72e8459933997023cc7e1d0aaa93",
+      "excerpt": "### ♻️ Refactoring * Modernize module-help CSV to 13-column format with `after`/`before` dependency graph replacing sequence numbers (#2120) * Rewrite bmad-help from procedural 8-step execution to outcome-based skill design (~50% shorter) (#2120) ### 🐛 Bug Fixes * Update bmad-builder module-definition path from `src/module.yaml` to `skills/module.yaml` for bmad-builder v1.2.0 compatibility (#2126) * Fix eslint config to ignore gitignored lock files (#2120) ### 📚 Documentation * Close Epic 4.5 explanation gaps in Chinese (zh-CN): normalize command naming to current `bmad-*` convention and add c",
+      "access_scope": "public",
+      "entity": "bmad-code-org/BMAD-METHOD",
+      "version": "v6.2.2"
+    },
+    "879b4343b357d9625ca1eabf15f52aa7d0a465f3951520500bfde81e0f1a08da": {
+      "id": "879b4343b357d9625ca1eabf15f52aa7d0a465f3951520500bfde81e0f1a08da",
+      "source_id": "bmad-code-org-bmad-method",
+      "external_id": "300521372",
+      "canonical_url": "https://github.com/bmad-code-org/BMAD-METHOD/releases/tag/v6.2.1",
+      "title": "v6.2.1",
+      "published_at": "2026-03-24T06:26:14Z",
+      "updated_at": "2026-03-24T06:26:14Z",
+      "fetched_at": "2026-10-12T07:20:47.404752+00:00",
+      "content_hash": "4e4d4ca87b9e4b5d3707ed7bc6bf7393c93bcb98157f76b20c86ea5af0a83c89",
+      "excerpt": "## What's Changed * ci: run quality checks on pushes to main by @alexeyv in https://github.com/bmad-code-org/BMAD-METHOD/pull/2015 * chore(tools): align Augment config with skill-validator by @alexeyv in https://github.com/bmad-code-org/BMAD-METHOD/pull/2016 * add Qoder code agent support by @YeJianXin in https://github.com/bmad-code-org/BMAD-METHOD/pull/2017 * Feat/conformant agent skills by @bmadcode in https://github.com/bmad-code-org/BMAD-METHOD/pull/2021 * feat: add Ona as a supported platform by @meysholdt in https://github.com/bmad-code-org/BMAD-METHOD/pull/1968 * chore(review): replace",
+      "access_scope": "public",
+      "entity": "bmad-code-org/BMAD-METHOD",
+      "version": "v6.2.1"
+    },
+    "28798df9d12ad3512d4a0ec32fad6b50abdbc9bc9d568c56f3b38b42a8a8d69b": {
+      "id": "28798df9d12ad3512d4a0ec32fad6b50abdbc9bc9d568c56f3b38b42a8a8d69b",
+      "source_id": "bmad-code-org-bmad-method",
+      "external_id": "297242677",
+      "canonical_url": "https://github.com/bmad-code-org/BMAD-METHOD/releases/tag/v6.2.0",
+      "title": "v6.2.0",
+      "published_at": "2026-03-15T22:33:32Z",
+      "updated_at": "2026-03-15T22:33:32Z",
+      "fetched_at": "2026-10-12T07:20:47.404752+00:00",
+      "content_hash": "798533bcaa06c3d51819461525d2f3f91f6aa1534e53cb37dc607cf98ff2e264",
+      "excerpt": "## What's Changed * refactor(skills): convert advanced-elicitation.xml to native skill by @alexeyv in https://github.com/bmad-code-org/BMAD-METHOD/pull/1925 * Convert create-story workflow to native skill package by @alexeyv in https://github.com/bmad-code-org/BMAD-METHOD/pull/1939 * chore(bmm): convert quick-dev workflow to native skill by @alexeyv in https://github.com/bmad-code-org/BMAD-METHOD/pull/1948 * refactor(bmm): convert domain research workflow to native skill by @alexeyv in https://github.com/bmad-code-org/BMAD-METHOD/pull/1928 * convert dev-story workflow to native skill package b",
+      "access_scope": "public",
+      "entity": "bmad-code-org/BMAD-METHOD",
+      "version": "v6.2.0"
+    },
+    "ec6a2b7fb7465ae2291b71b71aa218b208a0c4e9bb62f425fec98afb3258cf0c": {
+      "id": "ec6a2b7fb7465ae2291b71b71aa218b208a0c4e9bb62f425fec98afb3258cf0c",
+      "source_id": "bmad-code-org-bmad-method",
+      "external_id": "296510984",
+      "canonical_url": "https://github.com/bmad-code-org/BMAD-METHOD/releases/tag/v6.1.0",
+      "title": "v6.1.0",
+      "published_at": "2026-03-13T04:03:09Z",
+      "updated_at": "2026-03-14T01:46:42Z",
+      "fetched_at": "2026-10-12T07:20:47.404752+00:00",
+      "content_hash": "2e1004f81aa0dd0d488b63c5373971fceb3b7e7079b083610bc50e7461029d97",
+      "excerpt": "🚀 **BMad v6.1.0 RELEASED!** 🎉 The biggest architectural overhaul since v6 — everything is now a skill! 🪥 **WHITEPORT DESIGN STUDIO** - WDS module now enabled in the installer! Full design-to-code pipeline is here. 🎯 **SKILLS-BASED ARCHITECTURE** • Every workflow, agent, and task now installs as a unified skill with SKILL.md entrypoints • All core workflows converted from YAML/XML to clean markdown format • Legacy workflow engine plumbing removed — leaner, faster, simpler • All 15 platforms migrated to native Agent Skills format ⚡ **NEW CAPABILITIES** • Edge Case Hunter runs as a parallel code ",
+      "access_scope": "public",
+      "entity": "bmad-code-org/BMAD-METHOD",
+      "version": "v6.1.0"
+    },
+    "6a34c86e4502ca15234d370f53e5c685f2d8c343c2f864d5be2fc55475795983": {
+      "id": "6a34c86e4502ca15234d370f53e5c685f2d8c343c2f864d5be2fc55475795983",
+      "source_id": "bmad-code-org-bmad-method",
+      "external_id": "291722314",
+      "canonical_url": "https://github.com/bmad-code-org/BMAD-METHOD/releases/tag/v6.0.4",
+      "title": "v6.0.4",
+      "published_at": "2026-03-01T01:22:01Z",
+      "updated_at": "2026-03-01T01:22:01Z",
+      "fetched_at": "2026-10-12T07:20:47.404752+00:00",
+      "content_hash": "3db863590051d4291be5dd81765083134f1cbf6990b038e9649183cd412fb46e",
+      "excerpt": "## [6.0.4] ### 🎁 Features * Add edge case hunter review task - new reusable review task that exhaustively traces branching paths and boundary conditions in code, reporting only unhandled gaps. Method-driven analysis complementary to adversarial review (#1790) ### 🐛 Bug Fixes * Fix brainstorming to not overwrite previous sessions; now prompts to continue existing brainstorming or start a new one when older brainstorming sessions are found * Fix installer templates - replace legacy `@` path prefixes with explicit `{project-root}` syntax for consistency (#1769) * Fix edge case hunter - remove zer",
+      "access_scope": "public",
+      "entity": "bmad-code-org/BMAD-METHOD",
+      "version": "v6.0.4"
+    },
+    "0f636eda3f7115dca135adc55cd51ca5bd9a6967a9ec3e35a532813f67a8eb66": {
+      "id": "0f636eda3f7115dca135adc55cd51ca5bd9a6967a9ec3e35a532813f67a8eb66",
+      "source_id": "mobile-dev-inc-maestro",
+      "external_id": "298907170",
+      "canonical_url": "https://github.com/mobile-dev-inc/Maestro/releases/tag/cli-2.3.1-dev.2",
+      "title": "CLI 2.3.1 preview 2",
+      "published_at": "2026-03-19T11:15:51Z",
+      "updated_at": "2026-03-19T11:15:51Z",
+      "fetched_at": "2026-10-12T07:20:47.404752+00:00",
+      "content_hash": "1a2b228e65c483b2ad7b8888a6de5a872f00fec1b4b61f4b5095fc830e7d17e5",
+      "excerpt": "Fixes access to hierarchy in iframes when testing web flows",
+      "access_scope": "public",
+      "entity": "mobile-dev-inc/maestro",
+      "version": "cli-2.3.1-dev.2"
+    },
+    "eb2b1e1b4a5920ff5fad55656d0b78b7aab2f3535d506324e657dbe6603a626c": {
+      "id": "eb2b1e1b4a5920ff5fad55656d0b78b7aab2f3535d506324e657dbe6603a626c",
+      "source_id": "mobile-dev-inc-maestro",
+      "external_id": "297461860",
+      "canonical_url": "https://github.com/mobile-dev-inc/Maestro/releases/tag/cli-2.3.1-dev.1",
+      "title": "CLI 2.3.1 preview 1",
+      "published_at": "2026-03-16T13:03:11Z",
+      "updated_at": "2026-03-16T13:03:11Z",
+      "fetched_at": "2026-10-12T07:20:47.404752+00:00",
+      "content_hash": "25ae887af00c5f07037f46971537aaf4d0e7f7c945f4bd207d4f13554e520776",
+      "excerpt": "- Fixes premature abort on cloud uploads - Fixes unordered steps in html-detailed report",
+      "access_scope": "public",
+      "entity": "mobile-dev-inc/maestro",
+      "version": "cli-2.3.1-dev.1"
+    },
+    "a67121d762586c6793b06a6389265d102b44725340872fe46ea391454afc154f": {
+      "id": "a67121d762586c6793b06a6389265d102b44725340872fe46ea391454afc154f",
+      "source_id": "mobile-dev-inc-maestro",
+      "external_id": "295103319",
+      "canonical_url": "https://github.com/mobile-dev-inc/Maestro/releases/tag/cli-2.3.0",
+      "title": "CLI 2.3.0",
+      "published_at": "2026-03-10T10:46:23Z",
+      "updated_at": "2026-03-10T10:46:33Z",
+      "fetched_at": "2026-10-12T07:20:47.404752+00:00",
+      "content_hash": "f0e7abb5b9872b35b38b10e394e58fba7e0713cb0583c4ab5f8e1ae8a3018678",
+      "excerpt": "[See changelog in the CHANGELOG.md file][link] [link]: https://github.com/mobile-dev-inc/maestro/blob/main/CHANGELOG.md#230",
+      "access_scope": "public",
+      "entity": "mobile-dev-inc/maestro",
+      "version": "cli-2.3.0"
+    },
+    "ef04a270678ec8478045e3f28d3176bc257641c50fcd4ee266b88755b841838b": {
+      "id": "ef04a270678ec8478045e3f28d3176bc257641c50fcd4ee266b88755b841838b",
+      "source_id": "spring-projects-spring-ai",
+      "external_id": "301883484",
+      "canonical_url": "https://github.com/spring-projects/spring-ai/releases/tag/v2.0.0-M4",
+      "title": "Spring AI 2.0.0-M4",
+      "published_at": "2026-03-26T15:08:24Z",
+      "updated_at": "2026-03-26T15:08:24Z",
+      "fetched_at": "2026-10-09T05:45:25.579334+00:00",
+      "content_hash": "c570d199d1b853e044f7fc34141111540c25271f9a2e9da76fb7111afd0b7d2d",
+      "excerpt": "# Spring AI 2.0.0-M4 Release Notes ## 🎯 Highlights This release includes 2 new features, 10 bug fixes, 13 other improvements. ## ⚠️ Upgrading Notes - If you are using Vertex AI, OCI GenAI, or ZhiPu AI integrations, begin planning migration to alternative model providers such as OpenAI, Azure OpenAI, Anthropic, or other supported providers. These deprecated integrations will be removed in a future major release. [#5676](https://github.com/spring-projects/spring-ai/pull/5676) ## 📢 Noteworthy - The Vertex AI model integration classes have been deprecated and will be removed in a future release. U",
+      "access_scope": "public",
+      "entity": "spring-projects/spring-ai",
+      "version": "v2.0.0-M4"
+    },
+    "b419cc04a57e0e7d8db284bc71c2507b15360300b516d971281f11648a99152d": {
+      "id": "b419cc04a57e0e7d8db284bc71c2507b15360300b516d971281f11648a99152d",
+      "source_id": "spring-projects-spring-ai",
+      "external_id": "301875500",
+      "canonical_url": "https://github.com/spring-projects/spring-ai/releases/tag/v1.1.4",
+      "title": "Spring AI 1.1.4",
+      "published_at": "2026-03-26T13:49:09Z",
+      "updated_at": "2026-03-26T13:49:09Z",
+      "fetched_at": "2026-10-09T05:45:25.579334+00:00",
+      "content_hash": "4b6b7795439ce92c7a2fc67845f4cc0948e53726b37810cbc990187ff84e470d",
+      "excerpt": "# Spring AI 1.1.4 Release Notes ## 🎯 Highlights This release includes 1 new feature, 11 bug fixes, 1 other improvement. ## ⭐ New Features - Added capability to dynamically disable Structured Output Native functionality at runtime, providing more flexibility in configuration and usage scenarios. [45a1607](https://github.com/spring-projects/spring-ai/commit/45a1607f61b7918bafce2a2b488ed26bcde29866) ## 🪲 Bug Fixes - Resolved issues with Oracle and PgVector vector store integration tests to improve test reliability [56fa3ee](https://github.com/spring-projects/spring-ai/commit/56fa3ee3eb16920faa5e3",
+      "access_scope": "public",
+      "entity": "spring-projects/spring-ai",
+      "version": "v1.1.4"
+    },
+    "9482c63481e875c5ab8a552714532464dbed9b06a68aef4bcdfd3ed8667508d4": {
+      "id": "9482c63481e875c5ab8a552714532464dbed9b06a68aef4bcdfd3ed8667508d4",
+      "source_id": "spring-projects-spring-ai",
+      "external_id": "301869431",
+      "canonical_url": "https://github.com/spring-projects/spring-ai/releases/tag/v1.0.5",
+      "title": "Spring AI 1.0.5",
+      "published_at": "2026-03-26T13:38:16Z",
+      "updated_at": "2026-03-26T13:38:39Z",
+      "fetched_at": "2026-10-09T05:45:25.579334+00:00",
+      "content_hash": "161c20d9606211c397c7e27254824d62305efac07d8c1ee81063f5fd44976c63",
+      "excerpt": "# Spring AI 1.0.5 Release Notes ## 🎯 Highlights This release includes 8 bug fixes, 1 other improvement. ## 🪲 Bug Fixes - Resolved an issue where the finishReason was not being properly propagated during streaming operations with AWS Bedrock Converse API [9a56ae0](https://github.com/spring-projects/spring-ai/commit/9a56ae0c5c3445ffaf8d1b0ca993ba6766aa703e) - Corrected integration test failures for Oracle and PostgreSQL vector store implementations [d7a0edd](https://github.com/spring-projects/spring-ai/commit/d7a0eddbe95112dd14ed1bb37f135a60a2b39578) - Resolved integration test issues for Ollama",
+      "access_scope": "public",
+      "entity": "spring-projects/spring-ai",
+      "version": "v1.0.5"
+    },
+    "618934f3752b9e60cb2b201bb3650007294fc26e0fa3979d8342b876e7993234": {
+      "id": "618934f3752b9e60cb2b201bb3650007294fc26e0fa3979d8342b876e7993234",
+      "source_id": "temporalio-sdk-python",
+      "external_id": "298586441",
+      "canonical_url": "https://github.com/temporalio/sdk-python/releases/tag/1.24.0",
+      "title": "1.24.0",
+      "published_at": "2026-03-23T15:37:48Z",
+      "updated_at": "2026-03-23T15:37:48Z",
+      "fetched_at": "2026-10-09T05:45:25.579334+00:00",
+      "content_hash": "36990b7b93048941cd4b5e78761e8c6ddc1dbae40272c9d352f34b18b4458659",
+      "excerpt": "## General Availability - Nexus is now generally available and no longer experimental - OpenAI Agents SDK Integration is now generally available and no longer experimental ## Pre-release - New Integration with the Google ADK for running ADK agents in Temporal Workflows. https://github.com/temporalio/sdk-python/tree/main/temporalio/contrib/google_adk_agents ## Breaking Changes ### :boom: Add OpenTelemetry integration for OpenAI AgentsOpenAI/otel in https://github.com/temporalio/sdk-python/pull/1286 Span/trace id generation changes in this PR, which means that AgentsSDK workflows which run on bo",
+      "access_scope": "public",
+      "entity": "temporalio/sdk-python",
+      "version": "1.24.0"
+    },
+    "35550fe18a37f6754b301b6b6c8225de25b35d03e1259988fab5fdb95918ea7b": {
+      "id": "35550fe18a37f6754b301b6b6c8225de25b35d03e1259988fab5fdb95918ea7b",
+      "source_id": "qdrant-qdrant",
+      "external_id": "302251388",
+      "canonical_url": "https://github.com/qdrant/qdrant/releases/tag/v1.17.1",
+      "title": "v1.17.1",
+      "published_at": "2026-03-27T08:37:25Z",
+      "updated_at": "2026-03-27T11:24:00Z",
+      "fetched_at": "2026-10-12T07:20:47.404752+00:00",
+      "content_hash": "9ef534157c7113a1ee2a423e46c0b9b499ea0b014bafbb494d54d8c96101a880",
+      "excerpt": "# Change log ## Improvements * [milestone#46](https://github.com/qdrant/qdrant/milestone/46?closed=1) - Defer point updates, efficiently apply and optimize points with `prevent_unoptimized=true` * https://github.com/qdrant/qdrant/pull/8188 - Make Gridstore flushes non-blocking to reduce search tail latencies * https://github.com/qdrant/qdrant/pull/8235 - Improve performance of filtered search in case of singular payload value * https://github.com/qdrant/qdrant/pull/8402 - Add request tracing ID into audit log * https://github.com/qdrant/qdrant/pull/8460 - Propagate WAL errors instead of panick",
+      "access_scope": "public",
+      "entity": "qdrant/qdrant",
+      "version": "v1.17.1"
+    },
+    "b9f50e3fa3530bc90e992376aa527de03dba0ff442ea5830cd2c19c6531d64cc": {
+      "id": "b9f50e3fa3530bc90e992376aa527de03dba0ff442ea5830cd2c19c6531d64cc",
+      "source_id": "vllm-project-vllm",
+      "external_id": "303469345",
+      "canonical_url": "https://github.com/vllm-project/vllm/releases/tag/v0.18.1",
+      "title": "v0.18.1",
+      "published_at": "2026-03-31T00:53:26Z",
+      "updated_at": "2026-03-31T05:59:49Z",
+      "fetched_at": "2026-10-12T07:20:47.404752+00:00",
+      "content_hash": "90dccc9366595d1457bca59fba9e25d6c9bdd1f2341cbe54a038776c737c3901",
+      "excerpt": "This is a patch release on top of v0.18.0 to address a few issues: - Change default SM100 MLA prefill backend back to TRT-LLM (#38562) - Fix mock.patch resolution failure for standalone_compile.FakeTensorMode on Python < = 3.10 (#37158) - Disable monolithic TRTLLM MoE for Renormalize routing #37605 - Pre-download missing FlashInfer headers in Docker build #38391 - Fix DeepGemm E8M0 accuracy degradation for Qwen3.5 FP8 on Blackwell (#38083)",
+      "access_scope": "public",
+      "entity": "vllm-project/vllm",
+      "version": "v0.18.1"
+    }
+  }
+}

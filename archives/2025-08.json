@@ -1,0 +1,107 @@
+{
+  "schema_version": 1,
+  "events": {
+    "3adfe6f50f6237c44e4de5f09d6f284277bf2bcaa15089139bf3986ebc56f2b4": {
+      "id": "3adfe6f50f6237c44e4de5f09d6f284277bf2bcaa15089139bf3986ebc56f2b4",
+      "entity": "qdrant/qdrant",
+      "version": "v1.15.4",
+      "item_revision_ids": [
+        "44dee2d62cc1e453a07464b6a1f2a7604fd0204dcbb3b917504d6bb241dacb2c"
+      ],
+      "status": "unreviewed",
+      "dedup_reason": "repo_version"
+    },
+    "4df9480f1abd0abc10b8ef5dc9ce609abdc10b3ab5ebf5898915877e264c368c": {
+      "id": "4df9480f1abd0abc10b8ef5dc9ce609abdc10b3ab5ebf5898915877e264c368c",
+      "entity": "qdrant/qdrant",
+      "version": "v1.15.3",
+      "item_revision_ids": [
+        "15df87c4354de327ce0954d54bd8d4bbd7b99e08f8b9b78551a138f71e40c689"
+      ],
+      "status": "unreviewed",
+      "dedup_reason": "repo_version"
+    },
+    "7aea3e4f411bf0ef7056b56ff0f440663e5f6cc3df920f4e2a10781561d1c28b": {
+      "id": "7aea3e4f411bf0ef7056b56ff0f440663e5f6cc3df920f4e2a10781561d1c28b",
+      "entity": "qdrant/qdrant",
+      "version": "v1.15.2",
+      "item_revision_ids": [
+        "a5779c67390b7d96a8bd379277083589b9d5d68e85aa45bc33232b7164ab4d42"
+      ],
+      "status": "unreviewed",
+      "dedup_reason": "repo_version"
+    },
+    "51f72b7183515164d5dcbbe70e99c4c1ac0250e58de88aa8594070656393d0a1": {
+      "id": "51f72b7183515164d5dcbbe70e99c4c1ac0250e58de88aa8594070656393d0a1",
+      "entity": "qdrant/qdrant",
+      "version": "v1.15.0",
+      "item_revision_ids": [
+        "d73536fdb374be1d341277a30055388921fce3d755ffbcb5e898b12d69cb6ba7"
+      ],
+      "status": "unreviewed",
+      "dedup_reason": "repo_version"
+    }
+  },
+  "revisions": {
+    "44dee2d62cc1e453a07464b6a1f2a7604fd0204dcbb3b917504d6bb241dacb2c": {
+      "id": "44dee2d62cc1e453a07464b6a1f2a7604fd0204dcbb3b917504d6bb241dacb2c",
+      "source_id": "qdrant-qdrant",
+      "external_id": "242824473",
+      "canonical_url": "https://github.com/qdrant/qdrant/releases/tag/v1.15.4",
+      "title": "v1.15.4",
+      "published_at": "2025-08-27T11:24:04Z",
+      "updated_at": "2025-08-27T12:08:40Z",
+      "fetched_at": "2026-10-12T07:20:47.404752+00:00",
+      "content_hash": "36279ff2177adeec8d763351ef2926230f926da9ec21df3d9f4aadf327f133d9",
+      "excerpt": "# Change log ## Improvements - https://github.com/qdrant/qdrant/pull/7005 - Reduce Docker image size by 10-40% - https://github.com/qdrant/qdrant/pull/7073 - Adjust metrics histogram buckets, show empty buckets and remove small ones - https://github.com/qdrant/qdrant/pull/7111 - Include SBOM in Docker image - https://github.com/qdrant/qdrant/pull/7119 - Sign Docker images with cosign - https://github.com/qdrant/qdrant/pull/7110 - Actively migrate away from old shard key format on disk to a more robust format - https://github.com/qdrant/qdrant/pull/7120 - Measure segment size on disk more relia",
+      "access_scope": "public",
+      "entity": "qdrant/qdrant",
+      "version": "v1.15.4"
+    },
+    "15df87c4354de327ce0954d54bd8d4bbd7b99e08f8b9b78551a138f71e40c689": {
+      "id": "15df87c4354de327ce0954d54bd8d4bbd7b99e08f8b9b78551a138f71e40c689",
+      "source_id": "qdrant-qdrant",
+      "external_id": "239986363",
+      "canonical_url": "https://github.com/qdrant/qdrant/releases/tag/v1.15.3",
+      "title": "v1.15.3",
+      "published_at": "2025-08-14T16:30:06Z",
+      "updated_at": "2025-08-15T15:46:45Z",
+      "fetched_at": "2026-10-12T07:20:47.404752+00:00",
+      "content_hash": "e9f5507dc27dec7b9e827842baeba2868ff307786cfcbb7c1223656fd0dacf29",
+      "excerpt": "# Change log ## Improvements - https://github.com/qdrant/qdrant/pull/7002 - Optimize dot product calculation on AVX systems - https://github.com/qdrant/qdrant/pull/7049 - In Nix package, use rustup for Rust version management ## Bug fixes - - Fix local BM25 not working as expected due to default parameter differences",
+      "access_scope": "public",
+      "entity": "qdrant/qdrant",
+      "version": "v1.15.3"
+    },
+    "a5779c67390b7d96a8bd379277083589b9d5d68e85aa45bc33232b7164ab4d42": {
+      "id": "a5779c67390b7d96a8bd379277083589b9d5d68e85aa45bc33232b7164ab4d42",
+      "source_id": "qdrant-qdrant",
+      "external_id": "239071904",
+      "canonical_url": "https://github.com/qdrant/qdrant/releases/tag/v1.15.2",
+      "title": "v1.15.2",
+      "published_at": "2025-08-11T18:04:43Z",
+      "updated_at": "2025-08-11T18:43:52Z",
+      "fetched_at": "2026-10-12T07:20:47.404752+00:00",
+      "content_hash": "f9dd6e6ab10219167db02263141e79afa85de93fe385a8cb808bfbcfcb0523b9",
+      "excerpt": "# Change log ## Improvements - https://github.com/qdrant/qdrant/pull/6891 - Implement BM25 inference in Qdrant locally - https://github.com/qdrant/qdrant/pull/6926 - Improve performance of mutable map index, used for full text, integers and more - https://github.com/qdrant/qdrant/pull/6993 - Make log buffer size adjustable when logging to a file ## Bug fixes - https://github.com/qdrant/qdrant/pull/6954 - Fix consistency problem in null index storage by deferring writes until flush - https://github.com/qdrant/qdrant/pull/6977 - Fix consistency problem in boolean index storage by deferring write",
+      "access_scope": "public",
+      "entity": "qdrant/qdrant",
+      "version": "v1.15.2"
+    },
+    "d73536fdb374be1d341277a30055388921fce3d755ffbcb5e898b12d69cb6ba7": {
+      "id": "d73536fdb374be1d341277a30055388921fce3d755ffbcb5e898b12d69cb6ba7",
+      "source_id": "qdrant-qdrant",
+      "external_id": "233461320",
+      "canonical_url": "https://github.com/qdrant/qdrant/releases/tag/v1.15.0",
+      "title": "v1.15.0",
+      "published_at": "2025-07-18T13:08:28Z",
+      "updated_at": "2025-08-15T09:40:34Z",
+      "fetched_at": "2026-10-12T07:20:47.404752+00:00",
+      "content_hash": "349a2d345989fb5c6df3c40cb347a5a00fa6856f73909dff2cf9ab9d2e6b1ae7",
+      "excerpt": "# Change log ## Features 📜 * [milestone/25](https://github.com/qdrant/qdrant/milestone/25?closed=1) - Phrase Matching in Full-Text index [[Docs](https://qdrant.tech/documentation/concepts/indexing/#phrase-search)] * [milestone/28](https://github.com/qdrant/qdrant/milestone/28?closed=1) - Stop words support in Full-Text index [[Docs](https://qdrant.tech/documentation/concepts/indexing/#stopwords)] * [milestone/29](https://github.com/qdrant/qdrant/milestone/29?closed=1) - New multilingual tokenizer enabled by default [[Docs](https://qdrant.tech/documentation/concepts/indexing/#tokenizers)] * [mi",
+      "access_scope": "public",
+      "entity": "qdrant/qdrant",
+      "version": "v1.15.0"
+    }
+  }
+}

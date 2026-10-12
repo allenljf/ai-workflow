@@ -1,0 +1,57 @@
+{
+  "schema_version": 1,
+  "events": {
+    "f049ad5ef1778e88ddd1710ba99156136b451e1971390e1649e27e44aa0969a2": {
+      "id": "f049ad5ef1778e88ddd1710ba99156136b451e1971390e1649e27e44aa0969a2",
+      "entity": "mobile-dev-inc/maestro",
+      "version": "cli-2.0.8",
+      "item_revision_ids": [
+        "57881f20c5e168d84b99a2ddf291ca21b769062ea1f44405e3fe991c2df7c4a0"
+      ],
+      "status": "unreviewed",
+      "dedup_reason": "repo_version"
+    },
+    "2a531101da24441aff05cfa9d721afd997c9a4ccbb061b625c6078da4d342b52": {
+      "id": "2a531101da24441aff05cfa9d721afd997c9a4ccbb061b625c6078da4d342b52",
+      "entity": "mobile-dev-inc/maestro",
+      "version": "cli-2.0.7",
+      "item_revision_ids": [
+        "0aa08f3823a2f86cfc9caf56c01f21d0b0c9a2a6a8611ba42f293edc8e5737aa"
+      ],
+      "status": "unreviewed",
+      "dedup_reason": "repo_version"
+    }
+  },
+  "revisions": {
+    "57881f20c5e168d84b99a2ddf291ca21b769062ea1f44405e3fe991c2df7c4a0": {
+      "id": "57881f20c5e168d84b99a2ddf291ca21b769062ea1f44405e3fe991c2df7c4a0",
+      "source_id": "mobile-dev-inc-maestro",
+      "external_id": "257790813",
+      "canonical_url": "https://github.com/mobile-dev-inc/Maestro/releases/tag/cli-2.0.8",
+      "title": "CLI 2.0.8",
+      "published_at": "2025-10-28T11:29:58Z",
+      "updated_at": "2025-10-28T11:30:05Z",
+      "fetched_at": "2026-10-12T07:20:47.404752+00:00",
+      "content_hash": "d8d073546f73d92c908dc82d8e6d91511a6283024cc688c5bae297a0853851c0",
+      "excerpt": "[See changelog in the CHANGELOG.md file][link] [link]: https://github.com/mobile-dev-inc/maestro/blob/main/CHANGELOG.md#208",
+      "access_scope": "public",
+      "entity": "mobile-dev-inc/maestro",
+      "version": "cli-2.0.8"
+    },
+    "0aa08f3823a2f86cfc9caf56c01f21d0b0c9a2a6a8611ba42f293edc8e5737aa": {
+      "id": "0aa08f3823a2f86cfc9caf56c01f21d0b0c9a2a6a8611ba42f293edc8e5737aa",
+      "source_id": "mobile-dev-inc-maestro",
+      "external_id": "257768023",
+      "canonical_url": "https://github.com/mobile-dev-inc/Maestro/releases/tag/cli-2.0.7",
+      "title": "CLI 2.0.7",
+      "published_at": "2025-10-28T10:02:36Z",
+      "updated_at": "2025-10-28T10:02:43Z",
+      "fetched_at": "2026-10-12T07:20:47.404752+00:00",
+      "content_hash": "274af24016f4089eff11b4a022501314f4018cc667b51a1686c4ad7e27b49ce1",
+      "excerpt": "[See changelog in the CHANGELOG.md file][link] [link]: https://github.com/mobile-dev-inc/maestro/blob/main/CHANGELOG.md#207",
+      "access_scope": "public",
+      "entity": "mobile-dev-inc/maestro",
+      "version": "cli-2.0.7"
+    }
+  }
+}
