@@ -50,6 +50,56 @@
       ],
       "status": "unreviewed",
       "dedup_reason": "repo_version"
+    },
+    "7708e01c9775f5496a65cd4bc18b88d345965f5f4aae0c3815c92900a42b83b6": {
+      "id": "7708e01c9775f5496a65cd4bc18b88d345965f5f4aae0c3815c92900a42b83b6",
+      "entity": "Fission-AI/OpenSpec",
+      "version": "v1.3.1",
+      "item_revision_ids": [
+        "3f3742ba0eaeed78735bf85a163907f3df7a2000193228a516e6177c41216144"
+      ],
+      "status": "unreviewed",
+      "dedup_reason": "repo_version"
+    },
+    "5b876e4d1c285325a7599bf345e71373472479b143d597bba193835eba4611aa": {
+      "id": "5b876e4d1c285325a7599bf345e71373472479b143d597bba193835eba4611aa",
+      "entity": "Fission-AI/OpenSpec",
+      "version": "v1.3.0",
+      "item_revision_ids": [
+        "484936bfe2f033872b36fecf4d16af8210fc9f0a6edd21216817bfb6d0beba36"
+      ],
+      "status": "unreviewed",
+      "dedup_reason": "repo_version"
+    },
+    "98e72ed2b336387d667b01b3975d326677cd08d5aad51e8815354db1d1c95144": {
+      "id": "98e72ed2b336387d667b01b3975d326677cd08d5aad51e8815354db1d1c95144",
+      "entity": "temporalio/sdk-python",
+      "version": "1.26.0",
+      "item_revision_ids": [
+        "d11856d5aa21b1d216ece42d51115d68c75e3e3f8e9a302ef2dc0329057319e6"
+      ],
+      "status": "unreviewed",
+      "dedup_reason": "repo_version"
+    },
+    "98a2474a797439e63b31d0dca42eecc2bd224d2318bc7caf2dc003ee2d4e5026": {
+      "id": "98a2474a797439e63b31d0dca42eecc2bd224d2318bc7caf2dc003ee2d4e5026",
+      "entity": "vllm-project/vllm",
+      "version": "v0.19.1",
+      "item_revision_ids": [
+        "fc58437b935658f96cbeff269b19e66a16d13e09ef21c1bdda81b373d8bd15f3"
+      ],
+      "status": "unreviewed",
+      "dedup_reason": "repo_version"
+    },
+    "bcaad686da29a8b4539505f9271d409f981dfc9d84f9d839c987c24f199261bc": {
+      "id": "bcaad686da29a8b4539505f9271d409f981dfc9d84f9d839c987c24f199261bc",
+      "entity": "huggingface/trl",
+      "version": "v1.2.0",
+      "item_revision_ids": [
+        "3e55e17585f249ceb27d989ab899add8d34c75498530ca0bbd754032ed4cc8dc"
+      ],
+      "status": "unreviewed",
+      "dedup_reason": "repo_version"
     }
   },
   "revisions": {
@@ -127,6 +177,81 @@
       "access_scope": "public",
       "entity": "vllm-project/vllm",
       "version": "v0.19.0"
+    },
+    "3f3742ba0eaeed78735bf85a163907f3df7a2000193228a516e6177c41216144": {
+      "id": "3f3742ba0eaeed78735bf85a163907f3df7a2000193228a516e6177c41216144",
+      "source_id": "fission-ai-openspec",
+      "external_id": "311838585",
+      "canonical_url": "https://github.com/Fission-AI/OpenSpec/releases/tag/v1.3.1",
+      "title": "v1.3.1 - Path & Telemetry Fixes",
+      "published_at": "2026-04-21T16:18:45Z",
+      "updated_at": "2026-04-21T16:29:00Z",
+      "fetched_at": "2026-10-19T06:12:26.708782+00:00",
+      "content_hash": "4b0e740ed05a972c3b4c3ae9a20a49916e52c23d0833e2ab408228061bc99184",
+      "excerpt": "## What's New in v1.3.1 A batch of path resolution and telemetry reliability fixes for workflow artifacts, validation, and locked-down networks. ### Fixed - **Canonical artifact paths** - Workflow artifact paths now resolve through the native `realpath`, so symlinks and case-insensitive filesystems no longer cause mismatches during apply and archive. - **Glob artifact outputs** - Apply instructions with glob artifact outputs resolve correctly. Literal outputs are enforced as file paths. - **Hidden spec requirements** - Validation now detects requirements nested inside fenced code blocks or oth",
+      "access_scope": "public",
+      "entity": "Fission-AI/OpenSpec",
+      "version": "v1.3.1"
+    },
+    "484936bfe2f033872b36fecf4d16af8210fc9f0a6edd21216817bfb6d0beba36": {
+      "id": "484936bfe2f033872b36fecf4d16af8210fc9f0a6edd21216817bfb6d0beba36",
+      "source_id": "fission-ai-openspec",
+      "external_id": "307876362",
+      "canonical_url": "https://github.com/Fission-AI/OpenSpec/releases/tag/v1.3.0",
+      "title": "v1.3.0 - New Tool Integrations",
+      "published_at": "2026-04-11T15:47:58Z",
+      "updated_at": "2026-04-21T16:29:01Z",
+      "fetched_at": "2026-10-19T06:12:26.708782+00:00",
+      "content_hash": "7630d6b78038cdcc6a915c2fd4f0c143c6bdf94a5acdbb9302b19ff981c3fbf5",
+      "excerpt": "## What's New in v1.3.0 New tool integrations plus targeted fixes for OpenCode, Copilot, and pi.dev. ### New - **Junie support** - Generate tool and command files for JetBrains Junie. - **Lingma IDE support** - Configuration support for Lingma IDE. - **ForgeCode support** - Tool support for ForgeCode. - **IBM Bob support** - Tool support for IBM Bob coding assistant. ### Fixed - **OpenCode directory** - OpenCode adapter now uses `.opencode/commands/` (plural) to match OpenCode's official convention. - **`openspec status` with no changes** - Exits gracefully instead of throwing when no changes ",
+      "access_scope": "public",
+      "entity": "Fission-AI/OpenSpec",
+      "version": "v1.3.0"
+    },
+    "d11856d5aa21b1d216ece42d51115d68c75e3e3f8e9a302ef2dc0329057319e6": {
+      "id": "d11856d5aa21b1d216ece42d51115d68c75e3e3f8e9a302ef2dc0329057319e6",
+      "source_id": "temporalio-sdk-python",
+      "external_id": "309493549",
+      "canonical_url": "https://github.com/temporalio/sdk-python/releases/tag/1.26.0",
+      "title": "1.26.0",
+      "published_at": "2026-04-15T23:47:19Z",
+      "updated_at": "2026-04-15T23:47:19Z",
+      "fetched_at": "2026-10-09T05:45:25.579334+00:00",
+      "content_hash": "759716bfc7787da1f3c495882accf740570dbc1151f8a09874e56e91a0975571",
+      "excerpt": "## OpenAI Agents SDK Sandbox Support This release adds support for the OpenAI Agents SDK's SandboxAgent in Temporal workflows. All sandbox lifecycle and I/O operations (create, exec, read, write, PTY, etc.) are automatically routed through Temporal activities, making them durable and replayable. If an agent fails mid-execution, Temporal ensures it picks up right where it left off in its sandbox. To use it, pass sandbox clients (e.g. DaytonaSandboxClient) to OpenAIAgentsPlugin(sandbox_clients=...). This release also updates compatibility with the latest OpenAI Agents SDK. ## Breaking Changes 20",
+      "access_scope": "public",
+      "entity": "temporalio/sdk-python",
+      "version": "1.26.0"
+    },
+    "fc58437b935658f96cbeff269b19e66a16d13e09ef21c1bdda81b373d8bd15f3": {
+      "id": "fc58437b935658f96cbeff269b19e66a16d13e09ef21c1bdda81b373d8bd15f3",
+      "source_id": "vllm-project-vllm",
+      "external_id": "310648088",
+      "canonical_url": "https://github.com/vllm-project/vllm/releases/tag/v0.19.1",
+      "title": "v0.19.1",
+      "published_at": "2026-04-18T05:44:42Z",
+      "updated_at": "2026-04-21T00:46:27Z",
+      "fetched_at": "2026-10-19T06:12:26.708782+00:00",
+      "content_hash": "95e29de929d62d8245412cc913cfd06d51ba7bb755569d2caf3e20e4237d0df4",
+      "excerpt": "This is a patch release on top of `v0.19.0` with Transformers v5.5.3 upgrade and bug fixes for Gemma4: - Update to transformers v5 (#30566) - [Bugfix] Fix invalid JSON in Gemma 4 streaming tool calls by stripping partial delimiters (#38992) - [Bugfix][Frontend] Fix Gemma4 streaming HTML duplication after tool calls (#38909) - [Bugfix] Fix Gemma4 streaming tool call corruption for split boolean/number values (#39114) - [Tool] adjust_request to reasoning parser, and Gemma4 fixes (#39027) - [Gemma4] Support quantized MoE (#39045) - Add Gemma4 Eagle3 support (#39450) - [Gemma4][Bugfix]: Enable Gem",
+      "access_scope": "public",
+      "entity": "vllm-project/vllm",
+      "version": "v0.19.1"
+    },
+    "3e55e17585f249ceb27d989ab899add8d34c75498530ca0bbd754032ed4cc8dc": {
+      "id": "3e55e17585f249ceb27d989ab899add8d34c75498530ca0bbd754032ed4cc8dc",
+      "source_id": "huggingface-trl",
+      "external_id": "310125617",
+      "canonical_url": "https://github.com/huggingface/trl/releases/tag/v1.2.0",
+      "title": "v1.2.0",
+      "published_at": "2026-04-17T01:13:05Z",
+      "updated_at": "2026-04-17T01:13:05Z",
+      "fetched_at": "2026-10-12T07:20:47.404752+00:00",
+      "content_hash": "5d5769c9f11c1907220fabba9a8383ded2479bb372df727338d21a767a8f6cef",
+      "excerpt": "## Features ### New `SSDTrainer` — Simple Self-Distillation A new experimental `SSDTrainer` implements the method described in [Embarrassingly Simple Self-Distillation Improves Code Generation](https://huggingface.co/papers/2604.01193). SSD samples completions from the model itself at a training-time temperature/truncation setting, then fine-tunes on those raw, unverified samples with standard cross-entropy loss. No reward model, verifier, teacher model, or RL: just prompts and the model. ```python from datasets import Dataset from trl.experimental.ssd import SSDConfig, SSDTrainer dataset = Da",
+      "access_scope": "public",
+      "entity": "huggingface/trl",
+      "version": "v1.2.0"
     }
   }
 }
