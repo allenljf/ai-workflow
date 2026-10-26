@@ -100,6 +100,96 @@
       ],
       "status": "unreviewed",
       "dedup_reason": "repo_version"
+    },
+    "934dfc7e72defb1dcd81096d08980eb0ced842021a7054b3c141d196a8b00d84": {
+      "id": "934dfc7e72defb1dcd81096d08980eb0ced842021a7054b3c141d196a8b00d84",
+      "entity": "bmad-code-org/BMAD-METHOD",
+      "version": "v6.6.0",
+      "item_revision_ids": [
+        "596447a3ef0ce6a3b8f42e2bbdb1af0c9f850c1d9244c33d0a04ebd5c5e341f8"
+      ],
+      "status": "unreviewed",
+      "dedup_reason": "repo_version"
+    },
+    "ebb9b9767b0fc02f770af5bf30dc0b38a4a519dba7535e04c6b9ecc2c0eb8be9": {
+      "id": "ebb9b9767b0fc02f770af5bf30dc0b38a4a519dba7535e04c6b9ecc2c0eb8be9",
+      "entity": "bmad-code-org/BMAD-METHOD",
+      "version": "v6.5.0",
+      "item_revision_ids": [
+        "3fb364dfdcf9aedc9465fa474f3583e5c6c8faffef04db7cbb9f11e35332451d"
+      ],
+      "status": "unreviewed",
+      "dedup_reason": "repo_version"
+    },
+    "fea42fb02da87390e856b78c1790e6681c1ee1a4cadbdb6bb584f06253c4a866": {
+      "id": "fea42fb02da87390e856b78c1790e6681c1ee1a4cadbdb6bb584f06253c4a866",
+      "entity": "bmad-code-org/BMAD-METHOD",
+      "version": "v6.4.0",
+      "item_revision_ids": [
+        "ddbf45e388fdca96a9ecaf1516c2a5fa1ee19af37d251161340143f22323246e"
+      ],
+      "status": "unreviewed",
+      "dedup_reason": "repo_version"
+    },
+    "c9279bb021c3f0a2174f928d863f86fb2ba75da411893f5b930c1e5232247f29": {
+      "id": "c9279bb021c3f0a2174f928d863f86fb2ba75da411893f5b930c1e5232247f29",
+      "entity": "mobile-dev-inc/maestro",
+      "version": "cli-2.5.0",
+      "item_revision_ids": [
+        "e7be82b2005aa12905c73658b74deb3e6cabd32fc3823e6726e8ee88fe525913"
+      ],
+      "status": "unreviewed",
+      "dedup_reason": "repo_version"
+    },
+    "48991caa0f2cc7d2fb1822013d31f7befabea7b9f404af1cbf142fb74a922254": {
+      "id": "48991caa0f2cc7d2fb1822013d31f7befabea7b9f404af1cbf142fb74a922254",
+      "entity": "spring-projects/spring-ai",
+      "version": "v2.0.0-M5",
+      "item_revision_ids": [
+        "c6b02d19619a2eb2437cf9a0c67741a065ce07beec20b048c5ee7d8856d12cb7"
+      ],
+      "status": "unreviewed",
+      "dedup_reason": "repo_version"
+    },
+    "b205e9c5c330c622901ca44f53000bde93af081c55f16a6c0c75d5f5d0044c40": {
+      "id": "b205e9c5c330c622901ca44f53000bde93af081c55f16a6c0c75d5f5d0044c40",
+      "entity": "spring-projects/spring-ai",
+      "version": "v1.1.5",
+      "item_revision_ids": [
+        "a0f08abf0245c7f363805d7b294f401043dd6c544afe714008781c4702fdc27a"
+      ],
+      "status": "unreviewed",
+      "dedup_reason": "repo_version"
+    },
+    "5e2f8aa413e1eddf41928e74db23a4b58135366dc0bbac5b76d50d48046b8ef0": {
+      "id": "5e2f8aa413e1eddf41928e74db23a4b58135366dc0bbac5b76d50d48046b8ef0",
+      "entity": "spring-projects/spring-ai",
+      "version": "v1.0.6",
+      "item_revision_ids": [
+        "1b35008604db430959fba19ed70b75c783f77c64afa27ce65415274a5d693e40"
+      ],
+      "status": "unreviewed",
+      "dedup_reason": "repo_version"
+    },
+    "cc339e95cd2555fd0e7aca5daced870907e7fd94447e96863c85233c87a43489": {
+      "id": "cc339e95cd2555fd0e7aca5daced870907e7fd94447e96863c85233c87a43489",
+      "entity": "vllm-project/vllm",
+      "version": "v0.20.0",
+      "item_revision_ids": [
+        "42342266f9da9eba479413d91d25843031cab27e6cdbcdb1c0dc621970a55e00"
+      ],
+      "status": "unreviewed",
+      "dedup_reason": "repo_version"
+    },
+    "8183cff884bd4762a5367340a59ef87810016eee36b6b98b519aa9c8cc78e756": {
+      "id": "8183cff884bd4762a5367340a59ef87810016eee36b6b98b519aa9c8cc78e756",
+      "entity": "huggingface/trl",
+      "version": "v1.3.0",
+      "item_revision_ids": [
+        "7307452239d740af9217b5708f6269b52126428e1b72041fdac9d766bb69f8b8"
+      ],
+      "status": "unreviewed",
+      "dedup_reason": "repo_version"
     }
   },
   "revisions": {
@@ -252,6 +342,141 @@
       "access_scope": "public",
       "entity": "huggingface/trl",
       "version": "v1.2.0"
+    },
+    "596447a3ef0ce6a3b8f42e2bbdb1af0c9f850c1d9244c33d0a04ebd5c5e341f8": {
+      "id": "596447a3ef0ce6a3b8f42e2bbdb1af0c9f850c1d9244c33d0a04ebd5c5e341f8",
+      "source_id": "bmad-code-org-bmad-method",
+      "external_id": "314992413",
+      "canonical_url": "https://github.com/bmad-code-org/BMAD-METHOD/releases/tag/v6.6.0",
+      "title": "v6.6.0",
+      "published_at": "2026-04-29T03:53:50Z",
+      "updated_at": "2026-04-29T03:53:50Z",
+      "fetched_at": "2026-10-26T06:11:56.753151+00:00",
+      "content_hash": "b4c69adb0807f81d673bf74b74d8c04e4c03f2d6de0b8b0f6867beafbe466ec2",
+      "excerpt": "### 💥 Breaking Changes * `--tools none` is no longer accepted; fresh `--yes` installs now require an explicit `--tools `. Existing-install flows are unchanged. Run `npx bmad-method --list-tools` to see supported IDs (#2346) * `project_name` has moved from `[modules.bmm]` to `[core]` in `config.toml`. Existing installs are auto-migrated on next install/update — no manual action required (#2348) ### 🎁 Features * **Non-interactive config for CI/Docker** — new `--set . = ` (repeatable) and `--list-options [module]` flags allow installer configuration without prompts. Routes values to the correct c",
+      "access_scope": "public",
+      "entity": "bmad-code-org/BMAD-METHOD",
+      "version": "v6.6.0"
+    },
+    "3fb364dfdcf9aedc9465fa474f3583e5c6c8faffef04db7cbb9f11e35332451d": {
+      "id": "3fb364dfdcf9aedc9465fa474f3583e5c6c8faffef04db7cbb9f11e35332451d",
+      "source_id": "bmad-code-org-bmad-method",
+      "external_id": "313680045",
+      "canonical_url": "https://github.com/bmad-code-org/BMAD-METHOD/releases/tag/v6.5.0",
+      "title": "v6.5.0",
+      "published_at": "2026-04-26T02:25:49Z",
+      "updated_at": "2026-04-26T02:25:49Z",
+      "fetched_at": "2026-10-26T06:11:56.753151+00:00",
+      "content_hash": "3d4980466b31b2921a97a6c5a9970cdeef3319275a899a67094d6f4743035d21",
+      "excerpt": "### 🎁 Features * Support for 18 new agent platforms: AdaL, Sourcegraph Amp, IBM Bob, Command Code, Snowflake Cortex Code, Factory Droid, Firebender, Block Goose, Kode, Mistral Vibe, Mux, Neovate, OpenClaw, OpenHands, Pochi, Replit Agent, Warp, Zencoder — bringing total supported platforms to 42 (#2313) * All platforms that support the cross-tool `.agents/skills/` standard now use it (#2313)",
+      "access_scope": "public",
+      "entity": "bmad-code-org/BMAD-METHOD",
+      "version": "v6.5.0"
+    },
+    "ddbf45e388fdca96a9ecaf1516c2a5fa1ee19af37d251161340143f22323246e": {
+      "id": "ddbf45e388fdca96a9ecaf1516c2a5fa1ee19af37d251161340143f22323246e",
+      "source_id": "bmad-code-org-bmad-method",
+      "external_id": "313511828",
+      "canonical_url": "https://github.com/bmad-code-org/BMAD-METHOD/releases/tag/v6.4.0",
+      "title": "v6.4.0",
+      "published_at": "2026-04-25T03:34:19Z",
+      "updated_at": "2026-04-25T03:34:19Z",
+      "fetched_at": "2026-10-26T06:11:56.753151+00:00",
+      "content_hash": "3a9acbe85f047e0e98cf2fcb1a8e92fd796b8619cfe5cd8acb9119a71b6eb8d8",
+      "excerpt": "### ✨ Headline **Full agent and workflow customization across the entire BMad Method.** Every agent and workflow in BMM, Core, CIS, GDS, and TEA can now be customized via TOML overrides in `_bmad/custom/`. Customize agents to apply tooling, version control, or behavior changes across whole groups of workflows. Drop in fine-grained per-workflow overrides where you need them. Built for power users who want BMad to fit their stack without forking. **Stable and bleeding-edge release channels, standardized across all modules.** Pick `stable` or `next` per module, pin specific versions, and switch c",
+      "access_scope": "public",
+      "entity": "bmad-code-org/BMAD-METHOD",
+      "version": "v6.4.0"
+    },
+    "e7be82b2005aa12905c73658b74deb3e6cabd32fc3823e6726e8ee88fe525913": {
+      "id": "e7be82b2005aa12905c73658b74deb3e6cabd32fc3823e6726e8ee88fe525913",
+      "source_id": "mobile-dev-inc-maestro",
+      "external_id": "313911739",
+      "canonical_url": "https://github.com/mobile-dev-inc/Maestro/releases/tag/cli-2.5.0",
+      "title": "CLI 2.5.0",
+      "published_at": "2026-04-27T07:06:27Z",
+      "updated_at": "2026-04-27T07:06:38Z",
+      "fetched_at": "2026-10-26T06:11:56.753151+00:00",
+      "content_hash": "5b207d882a11311f6aa633a6a7ae1163718393018ec8dcdcb2e63b9177439a9f",
+      "excerpt": "[See changelog in the CHANGELOG.md file][link] [link]: https://github.com/mobile-dev-inc/maestro/blob/main/CHANGELOG.md#250",
+      "access_scope": "public",
+      "entity": "mobile-dev-inc/maestro",
+      "version": "cli-2.5.0"
+    },
+    "c6b02d19619a2eb2437cf9a0c67741a065ce07beec20b048c5ee7d8856d12cb7": {
+      "id": "c6b02d19619a2eb2437cf9a0c67741a065ce07beec20b048c5ee7d8856d12cb7",
+      "source_id": "spring-projects-spring-ai",
+      "external_id": "314135712",
+      "canonical_url": "https://github.com/spring-projects/spring-ai/releases/tag/v2.0.0-M5",
+      "title": "Spring AI 2.0.0-M5",
+      "published_at": "2026-04-27T15:43:00Z",
+      "updated_at": "2026-04-27T16:54:57Z",
+      "fetched_at": "2026-10-26T06:11:56.753151+00:00",
+      "content_hash": "f574cab36a6dd3618f6eacfa3897fb1747b3af90cbcf5fb5b85e555843abd19e",
+      "excerpt": "# Spring AI 2.0.0-M5 Release Notes ## 🎯 Highlights This release includes 13 new features, 36 bug fixes, 14 documentation improvements, 41 other improvements. ## ⏪ Breaking Changes - The MCP Java SDK has been upgraded to version 2.0.0-M2. This upgrade includes breaking API changes that require migration. Review the documented breaking changes before upgrading. [#5879](https://github.com/spring-projects/spring-ai/pull/5879) - The `spring-ai-azure-openai` module has been removed from Spring AI. Azure OpenAI functionality is now available through the standard `spring-ai-openai` module, which provi",
+      "access_scope": "public",
+      "entity": "spring-projects/spring-ai",
+      "version": "v2.0.0-M5"
+    },
+    "a0f08abf0245c7f363805d7b294f401043dd6c544afe714008781c4702fdc27a": {
+      "id": "a0f08abf0245c7f363805d7b294f401043dd6c544afe714008781c4702fdc27a",
+      "source_id": "spring-projects-spring-ai",
+      "external_id": "314083859",
+      "canonical_url": "https://github.com/spring-projects/spring-ai/releases/tag/v1.1.5",
+      "title": "Spring AI 1.1.5",
+      "published_at": "2026-04-27T16:04:53Z",
+      "updated_at": "2026-04-27T16:04:53Z",
+      "fetched_at": "2026-10-26T06:11:56.753151+00:00",
+      "content_hash": "1b4fb401c3d5b50262f64ff4281322fda85dd5addf44a2895b38fb43e1d35c46",
+      "excerpt": "# Spring AI 1.1.5 Release Notes ## 🎯 Highlights This release includes 9 bug fixes, 3 documentation improvements, 11 other improvements. ## ⚠️ Upgrading Notes - The Pixtral 12B model has been removed and Pixtral Large is deprecated. Update your model configuration to use the currently recommended Pixtral models to avoid issues in future releases. [447d2a4](https://github.com/spring-projects/spring-ai/commit/447d2a4e177f86b41c82a135136c1a26d4cf650e) ## 📢 Noteworthy - The Pixtral 12B model has been removed and the Pixtral Large model is now deprecated. Integration tests have been updated to use t",
+      "access_scope": "public",
+      "entity": "spring-projects/spring-ai",
+      "version": "v1.1.5"
+    },
+    "1b35008604db430959fba19ed70b75c783f77c64afa27ce65415274a5d693e40": {
+      "id": "1b35008604db430959fba19ed70b75c783f77c64afa27ce65415274a5d693e40",
+      "source_id": "spring-projects-spring-ai",
+      "external_id": "314077466",
+      "canonical_url": "https://github.com/spring-projects/spring-ai/releases/tag/v1.0.6",
+      "title": "Spring AI 1.0.6 - Bug fixes",
+      "published_at": "2026-04-27T16:04:32Z",
+      "updated_at": "2026-04-27T16:04:32Z",
+      "fetched_at": "2026-10-26T06:11:56.753151+00:00",
+      "content_hash": "8b711fb91de76958c377a555d77e8d687549dfafa8c51bc29331f39e19f378c6",
+      "excerpt": "# Spring AI 1.0.6 Release Notes ## 🎯 Highlights This release focuses on stability and security improvements. Key fixes include securing the transformer model cache directory, preventing a potential DoS vulnerability via malformed PDF files, and correcting conversation memory and vector store filter handling. Dependencies are upgraded to Spring Boot 3.5.14. ## 🪲 Bug Fixes - The default cache directory for transformer models is now secured with appropriate permissions to prevent unauthorized access to downloaded model files. [4881e0c](https://github.com/spring-projects/spring-ai/commit/4881e0cba",
+      "access_scope": "public",
+      "entity": "spring-projects/spring-ai",
+      "version": "v1.0.6"
+    },
+    "42342266f9da9eba479413d91d25843031cab27e6cdbcdb1c0dc621970a55e00": {
+      "id": "42342266f9da9eba479413d91d25843031cab27e6cdbcdb1c0dc621970a55e00",
+      "source_id": "vllm-project-vllm",
+      "external_id": "312943348",
+      "canonical_url": "https://github.com/vllm-project/vllm/releases/tag/v0.20.0",
+      "title": "v0.20.0",
+      "published_at": "2026-04-27T21:20:28Z",
+      "updated_at": "2026-04-27T21:20:28Z",
+      "fetched_at": "2026-10-26T06:11:56.753151+00:00",
+      "content_hash": "c03015ff4d8c1e1f9efafe75ec175e77e2fcd122290b55fda7adacb3c16d5776",
+      "excerpt": "# vLLM v0.20.0 ## Highlights This release features 752 commits from 320 contributors (123 new)! * **DeepSeek V4**: Initial DeepSeek V4 support landed (#40860), with DSML token-leakage fix in DSV4/3.2 (#40806), DSA + MTP IMA fix (#40772), and a silu clamp limit on the shared expert (#40950). * **CUDA 13.0 default**: Default CUDA wheel on PyPI and `vllm/vllm-openai:v0.20.0` image switched to CUDA 13.0; architecture lists and build-args cleaned up (#39878), and CUDA bumped to 13.0.2 to match PyTorch 2.11.0 (#40669). As a general rule of thumb, our CUDA version policy follows PyTorch's. We highly ",
+      "access_scope": "public",
+      "entity": "vllm-project/vllm",
+      "version": "v0.20.0"
+    },
+    "7307452239d740af9217b5708f6269b52126428e1b72041fdac9d766bb69f8b8": {
+      "id": "7307452239d740af9217b5708f6269b52126428e1b72041fdac9d766bb69f8b8",
+      "source_id": "huggingface-trl",
+      "external_id": "313773146",
+      "canonical_url": "https://github.com/huggingface/trl/releases/tag/v1.3.0",
+      "title": "v1.3.0",
+      "published_at": "2026-04-26T15:40:07Z",
+      "updated_at": "2026-04-26T15:40:07Z",
+      "fetched_at": "2026-10-19T06:12:26.708782+00:00",
+      "content_hash": "9d53de42a52862333cc749b678fb92f0161e4e0b971d3776157a01bd225bb030",
+      "excerpt": "## Features ### Qwen 3.6 integration TRL v1.3 ships training support for the new **Qwen 3.6** family (`Qwen/Qwen3.6-27B`, `Qwen/Qwen3.6-35B-A3B`). Qwen 3.6 reuses the `Qwen3_5Moe*` architecture but ships a slightly different chat template (adds a `preserve_thinking` flag, tweaks tool-arg stringification), so exact-string template matching needed updates across the stack. What landed: - **Chat templates**: `qwen3_6.jinja` (verbatim from upstream) and `qwen3_6_training.jinja` (prefix-preserving + `{% generation %}` markers for `assistant_only_loss=True`) - **Response schema**: routes to the exis",
+      "access_scope": "public",
+      "entity": "huggingface/trl",
+      "version": "v1.3.0"
     }
   }
 }
