@@ -190,6 +190,16 @@
       ],
       "status": "unreviewed",
       "dedup_reason": "repo_version"
+    },
+    "4e691b82aef6a7e8aa7a4ee44ba129cfaf33f344c4a61396d7fb91d56eff3dc3": {
+      "id": "4e691b82aef6a7e8aa7a4ee44ba129cfaf33f344c4a61396d7fb91d56eff3dc3",
+      "entity": "mobile-dev-inc/maestro",
+      "version": "cli-2.5.1",
+      "item_revision_ids": [
+        "7ad79ed1ba8be4b7b6af167936e8f4a87a4940f60ea80f677c3c8914323234fb"
+      ],
+      "status": "unreviewed",
+      "dedup_reason": "repo_version"
     }
   },
   "revisions": {
@@ -477,6 +487,21 @@
       "access_scope": "public",
       "entity": "huggingface/trl",
       "version": "v1.3.0"
+    },
+    "7ad79ed1ba8be4b7b6af167936e8f4a87a4940f60ea80f677c3c8914323234fb": {
+      "id": "7ad79ed1ba8be4b7b6af167936e8f4a87a4940f60ea80f677c3c8914323234fb",
+      "source_id": "mobile-dev-inc-maestro",
+      "external_id": "315714036",
+      "canonical_url": "https://github.com/mobile-dev-inc/Maestro/releases/tag/cli-2.5.1",
+      "title": "CLI 2.5.1",
+      "published_at": "2026-04-30T10:09:06Z",
+      "updated_at": "2026-04-30T10:09:13Z",
+      "fetched_at": "2026-11-02T07:40:29.193617+00:00",
+      "content_hash": "17386e478e0e1b6e381ea09d5a2af2edfe6eb853f158c37543edae39e15d7012",
+      "excerpt": "[See changelog in the CHANGELOG.md file][link] [link]: https://github.com/mobile-dev-inc/maestro/blob/main/CHANGELOG.md#251",
+      "access_scope": "public",
+      "entity": "mobile-dev-inc/maestro",
+      "version": "cli-2.5.1"
     }
   }
 }

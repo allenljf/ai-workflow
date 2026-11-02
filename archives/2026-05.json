@@ -1,0 +1,57 @@
+{
+  "schema_version": 1,
+  "events": {
+    "9a45173fe12e3489ea1b8adbdadfce4955a68e6a8c0fef684d6b3529f2d0dab4": {
+      "id": "9a45173fe12e3489ea1b8adbdadfce4955a68e6a8c0fef684d6b3529f2d0dab4",
+      "entity": "obra/superpowers",
+      "version": "v5.1.0",
+      "item_revision_ids": [
+        "a7b998b075a9ab7b6883fb819db8cbfa5a591343eb17243bdc44630d609d4c9a"
+      ],
+      "status": "unreviewed",
+      "dedup_reason": "repo_version"
+    },
+    "2ef303b1a02f7cd654edfa6d099f7d841aab58411ea9a6e3c921ed4552073453": {
+      "id": "2ef303b1a02f7cd654edfa6d099f7d841aab58411ea9a6e3c921ed4552073453",
+      "entity": "vllm-project/vllm",
+      "version": "v0.20.1",
+      "item_revision_ids": [
+        "ca6e24265ca677a47beb8a7700ac68e7b7eabc51b4eed156da6dd572fc5a2228"
+      ],
+      "status": "unreviewed",
+      "dedup_reason": "repo_version"
+    }
+  },
+  "revisions": {
+    "a7b998b075a9ab7b6883fb819db8cbfa5a591343eb17243bdc44630d609d4c9a": {
+      "id": "a7b998b075a9ab7b6883fb819db8cbfa5a591343eb17243bdc44630d609d4c9a",
+      "source_id": "obra-superpowers",
+      "external_id": "317488345",
+      "canonical_url": "https://github.com/obra/superpowers/releases/tag/v5.1.0",
+      "title": "v5.1.0",
+      "published_at": "2026-05-04T22:13:34Z",
+      "updated_at": "2026-05-04T22:13:34Z",
+      "fetched_at": "2026-11-02T07:40:29.193617+00:00",
+      "content_hash": "9ac56027548635cd3e08b5dcec760c566fb0cd85f5873e034dd06a888a5ca86e",
+      "excerpt": "### Removals - **Legacy slash commands removed** — `/brainstorm`, `/execute-plan`, and `/write-plan` are gone. They were deprecated stubs that did nothing but tell the user to invoke the corresponding skill. Invoke `superpowers:brainstorming`, `superpowers:executing-plans`, and `superpowers:writing-plans` directly instead. (#1188) - **`superpowers:code-reviewer` named agent removed** — the agent was the plugin's only named agent and was used by exactly two skills, while every other reviewer/implementer subagent in the repo dispatches `general-purpose` with a prompt template alongside its skill",
+      "access_scope": "public",
+      "entity": "obra/superpowers",
+      "version": "v5.1.0"
+    },
+    "ca6e24265ca677a47beb8a7700ac68e7b7eabc51b4eed156da6dd572fc5a2228": {
+      "id": "ca6e24265ca677a47beb8a7700ac68e7b7eabc51b4eed156da6dd572fc5a2228",
+      "source_id": "vllm-project-vllm",
+      "external_id": "316580679",
+      "canonical_url": "https://github.com/vllm-project/vllm/releases/tag/v0.20.1",
+      "title": "v0.20.1",
+      "published_at": "2026-05-04T10:36:26Z",
+      "updated_at": "2026-05-04T10:36:59Z",
+      "fetched_at": "2026-11-02T07:40:29.193617+00:00",
+      "content_hash": "11c282cff6caf2c91153748bf827061112864260eed5c9c066725d659eaf4f2d",
+      "excerpt": "# vLLM v0.20.1 This is a patch release on top of `v0.20.0` primarily focused on **DeepSeek V4 stabilization and performance improvements**, along with several important bug fixes. ### DeepSeek V4 * Base model support (#41006). * Multi-stream pre-attention GEMM (#41061), configurable pre-attn GEMM knob (#41443), and tuned default `VLLM_MULTI_STREAM_GEMM_TOKEN_THRESHOLD` (#41526). * BF16 and MXFP8 all-to-all support for FlashInfer one-sided communication (#40960). * PTX `cvt` instruction for faster FP32->FP4 conversion (#41015). * Integrated tile kernels (`head_compute_mix_kernel`) for optimized",
+      "access_scope": "public",
+      "entity": "vllm-project/vllm",
+      "version": "v0.20.1"
+    }
+  }
+}
