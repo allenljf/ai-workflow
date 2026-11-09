@@ -20,6 +20,66 @@
       ],
       "status": "unreviewed",
       "dedup_reason": "repo_version"
+    },
+    "79756e55da2744a3ca7bb80f54f2ed05980e8c6357a009d66b07d1c33776016c": {
+      "id": "79756e55da2744a3ca7bb80f54f2ed05980e8c6357a009d66b07d1c33776016c",
+      "entity": "spring-projects/spring-ai",
+      "version": "v2.0.0-M6",
+      "item_revision_ids": [
+        "34311e345a04be9ea142d69ef405a3d1939a77e6beb7c893ecbe18f1aca52b2a"
+      ],
+      "status": "unreviewed",
+      "dedup_reason": "repo_version"
+    },
+    "7f3d73805656244e40153de519c6d6bf56146cfaf104dd9471532b2c9d4ac295": {
+      "id": "7f3d73805656244e40153de519c6d6bf56146cfaf104dd9471532b2c9d4ac295",
+      "entity": "spring-projects/spring-ai",
+      "version": "v1.1.6",
+      "item_revision_ids": [
+        "38c865379bd3caac40b03dee13b92f6bf5fe9b4e595da55d503b9a3167f5a5d1"
+      ],
+      "status": "unreviewed",
+      "dedup_reason": "repo_version"
+    },
+    "e2e404c4d6c7dc6b741588733a3913c2b879ea58487256aeac11871f7ae92b39": {
+      "id": "e2e404c4d6c7dc6b741588733a3913c2b879ea58487256aeac11871f7ae92b39",
+      "entity": "spring-projects/spring-ai",
+      "version": "v1.0.7",
+      "item_revision_ids": [
+        "bd3c0307fe7b6fc853e034e34259575aa4babb1e926d3cf5b089b5fa76449bd5"
+      ],
+      "status": "unreviewed",
+      "dedup_reason": "repo_version"
+    },
+    "325c659ff77ecd7006479d61eadb1c1c8ae5f69838f0c9e3f8ef737ec780af62": {
+      "id": "325c659ff77ecd7006479d61eadb1c1c8ae5f69838f0c9e3f8ef737ec780af62",
+      "entity": "qdrant/qdrant",
+      "version": "v1.18.0",
+      "item_revision_ids": [
+        "4736b7c1c133c65990bc1ac1c7cac0c94c1e6531b8d5714c23ae246ee166af5e"
+      ],
+      "status": "unreviewed",
+      "dedup_reason": "repo_version"
+    },
+    "ec58cfca61d15ace111c7ce7ec10cbf567dd1d4687be4b4963c42b345d9b8d9f": {
+      "id": "ec58cfca61d15ace111c7ce7ec10cbf567dd1d4687be4b4963c42b345d9b8d9f",
+      "entity": "vllm-project/vllm",
+      "version": "v0.20.2",
+      "item_revision_ids": [
+        "5d23eeaac863cca4f7c348d65ad0f5fc9ae89adbce7cade380c404e781597f84"
+      ],
+      "status": "unreviewed",
+      "dedup_reason": "repo_version"
+    },
+    "cb62b292b05e3bad0b3f9d5abacdbe0060383cb74ea4a808c2fa9729cd48909b": {
+      "id": "cb62b292b05e3bad0b3f9d5abacdbe0060383cb74ea4a808c2fa9729cd48909b",
+      "entity": "huggingface/trl",
+      "version": "v1.4.0",
+      "item_revision_ids": [
+        "00008462d8ffec61074e77520789d629a6d3efc212e5ed0c4cd63272b5aa50b8"
+      ],
+      "status": "unreviewed",
+      "dedup_reason": "repo_version"
     }
   },
   "revisions": {
@@ -52,6 +112,96 @@
       "access_scope": "public",
       "entity": "vllm-project/vllm",
       "version": "v0.20.1"
+    },
+    "34311e345a04be9ea142d69ef405a3d1939a77e6beb7c893ecbe18f1aca52b2a": {
+      "id": "34311e345a04be9ea142d69ef405a3d1939a77e6beb7c893ecbe18f1aca52b2a",
+      "source_id": "spring-projects-spring-ai",
+      "external_id": "319676272",
+      "canonical_url": "https://github.com/spring-projects/spring-ai/releases/tag/v2.0.0-M6",
+      "title": "Spring AI 2.0.0-M6",
+      "published_at": "2026-05-08T19:05:11Z",
+      "updated_at": "2026-05-08T19:05:11Z",
+      "fetched_at": "2026-11-09T07:57:44.113345+00:00",
+      "content_hash": "221232631341ba1fc7402f457a86728eff0e79740e67ccff0cec715e21bf7b37",
+      "excerpt": "# Spring AI 2.0.0-M6 Release Notes ## 🎯 Highlights This release includes 7 new features, 18 bug fixes, 5 documentation improvements, 30 other improvements. ## ⏪ Breaking Changes - PromptChatMemoryAdvisor has been removed. Chat memory advisors now require an explicit conversation ID to be provided, improving predictability and eliminating ambiguous implicit state management. Applications using PromptChatMemoryAdvisor or relying on implicit conversation IDs must be updated. [c3c7c86](https://github.com/spring-projects/spring-ai/commit/c3c7c86d48e2606c3d04f48ad35e96ffd877b307), [59ab752](https://",
+      "access_scope": "public",
+      "entity": "spring-projects/spring-ai",
+      "version": "v2.0.0-M6"
+    },
+    "38c865379bd3caac40b03dee13b92f6bf5fe9b4e595da55d503b9a3167f5a5d1": {
+      "id": "38c865379bd3caac40b03dee13b92f6bf5fe9b4e595da55d503b9a3167f5a5d1",
+      "source_id": "spring-projects-spring-ai",
+      "external_id": "319662611",
+      "canonical_url": "https://github.com/spring-projects/spring-ai/releases/tag/v1.1.6",
+      "title": "Spring AI 1.1.6",
+      "published_at": "2026-05-08T19:04:54Z",
+      "updated_at": "2026-05-08T19:04:54Z",
+      "fetched_at": "2026-11-09T07:57:44.113345+00:00",
+      "content_hash": "34372c899ac80b0c35edc58b815136872b6065fcb8707cd5c42eeb49a5d18267",
+      "excerpt": "# Spring AI 1.1.6 Release Notes ## 🎯 Highlights This release includes 1 new features, 5 bug fixes, 2 documentation improvements, 5 other improvements. ## ⏪ Breaking Changes - Chat memory advisors now require an explicit conversation ID to be supplied. This is a behavioral change that affects how chat memory is scoped and managed. Applications relying on implicit conversation IDs must be updated to supply an explicit ID. [13cde41](https://github.com/spring-projects/spring-ai/commit/13cde419e30042c663706f130dd65b80d92d4667) ## ⚠️ Upgrading Notes - PromptChatMemoryAdvisor is now deprecated and ch",
+      "access_scope": "public",
+      "entity": "spring-projects/spring-ai",
+      "version": "v1.1.6"
+    },
+    "bd3c0307fe7b6fc853e034e34259575aa4babb1e926d3cf5b089b5fa76449bd5": {
+      "id": "bd3c0307fe7b6fc853e034e34259575aa4babb1e926d3cf5b089b5fa76449bd5",
+      "source_id": "spring-projects-spring-ai",
+      "external_id": "319594207",
+      "canonical_url": "https://github.com/spring-projects/spring-ai/releases/tag/v1.0.7",
+      "title": "Spring AI 1.0.7 - Bug Fixes",
+      "published_at": "2026-05-08T19:04:35Z",
+      "updated_at": "2026-05-08T19:04:35Z",
+      "fetched_at": "2026-11-09T07:57:44.113345+00:00",
+      "content_hash": "462a51a791acfcf63a360678354946ae98b50d7005b09843421d0ea02c8c9519",
+      "excerpt": "# Spring AI 1.0.7 Release Notes ## 🎯 Highlights This release includes 5 bug fixes, 6 other improvements. ## ⏪ Breaking Changes - Chat memory advisors now require an explicit conversation ID to be supplied. Previously, a default or implicit ID may have been used, which could cause incorrect memory scoping across conversations. Callers must now provide a conversation ID explicitly. [be48f06](https://github.com/spring-projects/spring-ai/commit/be48f068ae18d1429bcf711de5280e9d1d28d551) ## ⚠️ Upgrading Notes - If you are using `PromptChatMemoryAdvisor`, migrate to the replacement advisor. All chat ",
+      "access_scope": "public",
+      "entity": "spring-projects/spring-ai",
+      "version": "v1.0.7"
+    },
+    "4736b7c1c133c65990bc1ac1c7cac0c94c1e6531b8d5714c23ae246ee166af5e": {
+      "id": "4736b7c1c133c65990bc1ac1c7cac0c94c1e6531b8d5714c23ae246ee166af5e",
+      "source_id": "qdrant-qdrant",
+      "external_id": "320495669",
+      "canonical_url": "https://github.com/qdrant/qdrant/releases/tag/v1.18.0",
+      "title": "v1.18.0",
+      "published_at": "2026-05-11T15:04:38Z",
+      "updated_at": "2026-05-11T15:54:18Z",
+      "fetched_at": "2026-11-09T07:57:44.113345+00:00",
+      "content_hash": "9c7c2834ffc55d6fe5dee1416bab333a759a6d365d26fa9e9608a4d8b50c5bed",
+      "excerpt": "# Change log ## Features 🏎️ * [milestone!48](https://github.com/qdrant/qdrant/milestone/48) - Add TurboQuant quantization variant, 8x vector compression without the recall tax * https://github.com/qdrant/qdrant/pull/8605 - Add API to create and delete named vectors in existing collection * https://github.com/qdrant/qdrant/pull/8606 - Deep memory reporting, show memory usage breakdown for storage components * https://github.com/qdrant/qdrant/pull/8714 - Add low memory mode, force open everything on disk to minimize out of memory crash on startup * https://github.com/qdrant/qdrant/pull/8715 - Ad",
+      "access_scope": "public",
+      "entity": "qdrant/qdrant",
+      "version": "v1.18.0"
+    },
+    "5d23eeaac863cca4f7c348d65ad0f5fc9ae89adbce7cade380c404e781597f84": {
+      "id": "5d23eeaac863cca4f7c348d65ad0f5fc9ae89adbce7cade380c404e781597f84",
+      "source_id": "vllm-project-vllm",
+      "external_id": "319885695",
+      "canonical_url": "https://github.com/vllm-project/vllm/releases/tag/v0.20.2",
+      "title": "v0.20.2",
+      "published_at": "2026-05-10T07:37:57Z",
+      "updated_at": "2026-05-10T07:39:12Z",
+      "fetched_at": "2026-11-09T07:57:44.113345+00:00",
+      "content_hash": "dc5ad948b5d5f17dd803872d8a7ef92a1117e8726e2145de1ab829db7e23c0b5",
+      "excerpt": "# vLLM v0.20.2 ## Highlights This release features 6 commits from 6 contributors (0 new)! This is a small patch release with bug fixes for DeepSeek V4, gpt-oss, and Qwen3-VL ### Bug Fixes * **DeepSeek V4 sparse attention**: Re-enable the persistent topk path on Hopper and ensure the memset kernel runs at CUDA graph capture time regardless of `max_seq_len`, fixing the MTP=1 hang on DeepSeek V4 (#41665, revert of #41605). * **DeepSeek V4 KV cache**: Fixed a \"failure to allocate KV blocks\" error in the V1 engine KV cache manager (#41282). * **gpt-oss MXFP4 + torch.compile**: Plumbed `hidden_dim_u",
+      "access_scope": "public",
+      "entity": "vllm-project/vllm",
+      "version": "v0.20.2"
+    },
+    "00008462d8ffec61074e77520789d629a6d3efc212e5ed0c4cd63272b5aa50b8": {
+      "id": "00008462d8ffec61074e77520789d629a6d3efc212e5ed0c4cd63272b5aa50b8",
+      "source_id": "huggingface-trl",
+      "external_id": "319788440",
+      "canonical_url": "https://github.com/huggingface/trl/releases/tag/v1.4.0",
+      "title": "v1.4.0",
+      "published_at": "2026-05-09T00:01:36Z",
+      "updated_at": "2026-05-09T00:01:36Z",
+      "fetched_at": "2026-10-19T06:12:26.708782+00:00",
+      "content_hash": "bf854da83ecd32dd9ae84371301fae681a8ea18e2b16d59fcce086ccd025ad06",
+      "excerpt": "## Features ### Chunked cross-entropy loss for SFT (up to –50% VRAM) A new `loss_type=\"chunked_nll\"` option drastically reduces peak activation memory in SFT by avoiding the full `[batch × seq × vocab]` logits tensor. Ignored-label tokens are dropped before the `lm_head` matmul, and the cross-entropy is computed over the remaining tokens in checkpointed chunks (default `chunk_size=256`, the sweet spot consistent across model sizes and sequence lengths). ```python from trl import SFTConfig, SFTTrainer trainer = SFTTrainer( model=\"Qwen/Qwen3-4B\", args=SFTConfig(loss_type=\"chunked_nll\"), train_da",
+      "access_scope": "public",
+      "entity": "huggingface/trl",
+      "version": "v1.4.0"
     }
   }
 }
